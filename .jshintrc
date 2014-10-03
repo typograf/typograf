@@ -1,0 +1,30 @@
+{
+    "browser": true,
+    "jquery": true,
+    "curly": true,
+    "camelcase": true,
+    "eqeqeq": true,
+    "es3": true,
+    "immed": true,
+    "latedef": "nofunc",
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": "vars",
+    "strict": false,
+    "trailing": true,
+    "maxparams": 4,
+    "maxdepth": 4,
+    "maxlen": 120,
+
+    "expr": true,
+    "lastsemic": true,
+    "laxbreak": true,
+    "sub": true,
+
+    "nomen": false,
+    "onevar": false
+}

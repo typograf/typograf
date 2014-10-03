@@ -1,0 +1,118 @@
+﻿html, body
+{
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+}
+
+#container
+{
+    padding: 30px 100px;
+}
+
+.table
+{
+    width: 100%;
+}
+
+.table__left
+{
+    width: 50%;
+    float: left;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+.table__right
+{
+    padding-left: 10px;
+    width: 50%;
+    float: right;
+    box-sizing: border-box;
+}
+
+#text, #result
+{
+    width: 100%;
+    height: 30em;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#result-html
+{
+    margin-top: 0.5em;
+    background: #f0f0f0;
+    display: none;
+    padding: 1em;
+}
+
+#clear
+{
+    margin-left: 2em;
+}
+
+#set-prefs
+{
+    margin-left: 1em;
+}
+
+#prefs
+{
+    margin: 10px;
+    display: none;
+}
+
+#prefs-all
+{
+    position: relative;
+    left: -10px;
+    top: -5px;
+}
+
+.clear
+{
+    clear: both;
+}
+
+#go
+{
+    font-weight: bold;
+}
+
+.nbsp
+{
+    background: green;
+    opacity: 0.4;
+}
+
+#prefs__controls
+{
+    clear: both;
+    margin-top: 2em;
+    padding: 1em;
+    width: auto;
+    background: #f0f0f0;
+}
+
+.prefs__item
+{
+    line-height: 30px;
+    float: left;
+    width: 30%;
+}
+
+#control
+{
+    margin-top: 0.4em;
+    position: relative;
+    width: 99%;
+    height: 2em;
+}
+
+.title
+{
+    font-size: 2.2em;
+}
+
