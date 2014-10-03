@@ -1,0 +1,12 @@
+{
+  "name": "Typograf",
+  "version": "0.2.0",
+  "devDependencies": {
+    "gulp": "~3.8.5",
+    "gulp-concat": "~2.2.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-uglify": "~0.2.1",
+    "jscs": "^1.5.2",
+    "jshint": "^2.5.1"
+  }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="site/common.css" type="text/css" />
+        <script src="typograf.js"></script>
+        <script src="site/common.js"></script>
+        <title>Типограф на JavaScript</title>
+    </head>
+    <body>
+    
+        <div id="container">
+            <h1 class="title">Типограф на JavaScript</h1>
+            
+            <div id="prefs">
+                <input type="checkbox" id="prefs-all" autocomplete="off" />
+                <div id="prefs__items"></div>
+                <div class="clear"></div>
+                <div id="prefs__controls">
+                    <input type="button" id="prefs-save" value="Cохранить" /> <input type="button" id="prefs-cancel" value="Отмена" />
+                </div>
+            </div>
+
+            <div id="edit">
+                <div class="table">
+                    <div class="table__left">
+                        Ввод:<br/>
+                        <textarea id="text" autofocus="on"></textarea>
+                    </div>
+                    <div class="table__right">
+                        Результат:
+                         <input type="radio" id="view-textarea" name="view" checked="checked" autocomplete="off" /> <label for="view-textarea">Исходный код</label>
+                         <input type="radio" id="view-html" name="view" autocomplete="off" /> <label for="view-html">Предпросмотр</label>
+                        <br/>
+                        <textarea id="result" readonly="readonly"></textarea>
+                        <div id="result-html"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div><input type="checkbox" id="auto" checked="checked" autocomplete="off" /> <label for="auto">Типографировать при вводе текста</label></div><br />
+                <div id="control">
+                    <input value="Типографить" type="button" id="go" />
+                    <input value="Настройки" type="button" id="set-prefs" />
+                    <input value="Сбросить" type="button" id="clear" />
+                </div>
+             </div>
+        </div>
+    </body>
+</html>

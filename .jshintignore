@@ -1,0 +1,7 @@
+gulpfile.js
+.*
+tests/**
+examples/**
+sources/js/start.js
+sources/js/end.js
+node_modules/**

@@ -1,0 +1,34 @@
+{
+    "excludeFiles": [
+        ".*",
+        "sources/js/start.js",
+        "sources/js/end.js",
+        "tests",
+        "build",
+        "sources/js/holiday",
+        "node_modules"
+    ],
+    "requireCurlyBraces": ["if", "else", "for", "while", "do"],
+    "requireSpaceAfterKeywords": ["do", "else"],
+    "disallowSpaceAfterKeywords": ["if", "for", "while", "switch"],
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true
+    },
+    "disallowSpacesInsideArrayBrackets": true,
+    "disallowSpacesInsideObjectBrackets": true,
+    "disallowSpaceAfterObjectKeys": true,
+    "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
+    "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+    "disallowSpaceBeforeBinaryOperators": [","],
+    "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "&&", "||"],
+    "requireSpaceAfterBinaryOperators": [",", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "&&", "||"],
+    "disallowKeywords": ["with"],
+    "disallowMultipleLineBreaks": true,
+    "disallowKeywordsOnNewLine": ["else"],
+    "requireLineFeedAtFileEnd": true,
+    "validateJSDoc": {
+        "checkParamNames": true,
+        "checkRedundantParams": true,
+        "requireParamTypes": true
+    }
+}
