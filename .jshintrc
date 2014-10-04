@@ -1,4 +1,5 @@
 {
+    "predef": [ "Typograf" ],
     "browser": true,
     "jquery": true,
     "curly": true,

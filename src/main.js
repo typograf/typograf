@@ -11,7 +11,7 @@ function Typograf(mode) {
     }
      
     this._enabledRules = {};
-    for(var i = 0; i < this._rules.length; i++) {
+    for(i = 0; i < this._rules.length; i++) {
         var rule = this._rules[i];
         this._enabledRules[rule.name] = rule.enabled;
     }
@@ -43,7 +43,7 @@ Typograf._sortRules = function() {
 Typograf.prototype = {
     version: '0.2',
     setting: function(name, value) {
-        if (arguments.length === 1) {
+        if(arguments.length === 1) {
             return this._settings[name];
         } else {
             this._settings[name] = value;
@@ -62,25 +62,25 @@ Typograf.prototype = {
     disable: function(rule) {
         this._enabledRules[rule] = false;
     },
-    execute: function (text) {
-        if (!text) {
+    execute: function(text) {
+        if(!text) {
             return '';
         }
 
         text = this._utfication(text);
 
-        if (typeof this.onBefore === 'function') {
+        if(typeof this.onBefore === 'function') {
             text = this.onBefore(text);
         }
 
-        for (var i = 0; i < this._rules.length; i++) {
+        for(var i = 0; i < this._rules.length; i++) {
             var rule = this._rules[i];
-            if (this.enabled(rule.name)) {
+            if(this.enabled(rule.name)) {
                 text = rule.callback.call(this, text);
             }
         }
         
-        if (typeof this.onAfter === 'function') {
+        if(typeof this.onAfter === 'function') {
             text = this.onAfter(text);
         }
         
@@ -90,9 +90,9 @@ Typograf.prototype = {
     },
     _defaultSettings: {},
     _rules: [],
-    _utfication: function (text) {
+    _utfication: function(text) {
         var e = this.entities;
-        for (var i = 0, len = e.length; i < len; i++) {
+        for(var i = 0, len = e.length; i < len; i++) {
             var item = e[i],
                 re = new RegExp('(' + item[0] + '|' + item[1] + ')', 'g');
                 
@@ -101,8 +101,8 @@ Typograf.prototype = {
 
         return text;
     },
-    _modification: function (text) {
-        if (!this.mode) {
+    _modification: function(text) {
+        if(!this.mode) {
             return text;
         }
 
@@ -110,7 +110,7 @@ Typograf.prototype = {
             re,
             e = this.entities;
             
-        for (var i = 0, len = e.length; i < len; i++) {
+        for(var i = 0, len = e.length; i < len; i++) {
             re = new RegExp(e[i][2], 'g');
             text = text.replace(re, e[i][index]);
         }
