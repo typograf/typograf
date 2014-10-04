@@ -2,14 +2,14 @@
 
 function Typograf(mode) {
     this._mode = (mode < 0 || mode > 2) ? 0 : mode;
-    
+
     this._settings = {};
     for(var i in this._defaultSettings) {
         if(this._defaultSettings.hasOwnProperty(i)) {
             this._settings[i] = this._defaultSettings[i];
         }
     }
-     
+
     this._enabledRules = {};
     for(i = 0; i < this._rules.length; i++) {
         var rule = this._rules[i];
@@ -24,7 +24,7 @@ Typograf.rule = function(name, priority, callback, enabled) {
         callback: callback,
         enabled: enabled === false ? false : true
     });
-    
+
     if(Typograf._needSortRules) {
         this._sortRules();
     }
@@ -79,11 +79,11 @@ Typograf.prototype = {
                 text = rule.callback.call(this, text);
             }
         }
-        
+
         if(typeof this.onAfter === 'function') {
             text = this.onAfter(text);
         }
-        
+
         text = this._modification(text);
 
         return text;
@@ -95,7 +95,7 @@ Typograf.prototype = {
         for(var i = 0, len = e.length; i < len; i++) {
             var item = e[i],
                 re = new RegExp('(' + item[0] + '|' + item[1] + ')', 'g');
-                
+
             text = text.replace(re, item[2]);
         }
 
@@ -109,12 +109,12 @@ Typograf.prototype = {
         var index = this.mode === 2 ? 1 : 0,
             re,
             e = this.entities;
-            
+
         for(var i = 0, len = e.length; i < len; i++) {
             re = new RegExp(e[i][2], 'g');
             text = text.replace(re, e[i][index]);
         }
-
+        
         return text;
     }
 };
