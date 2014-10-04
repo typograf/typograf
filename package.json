@@ -4,6 +4,8 @@
   "devDependencies": {
     "gulp": "~3.8.5",
     "gulp-concat": "~2.2.0",
+    "gulp-jscs": "^1.1.2",
+    "gulp-jshint": "^1.8.5",
     "gulp-rename": "~1.2.0",
     "gulp-uglify": "~0.2.1",
     "jscs": "^1.5.2",

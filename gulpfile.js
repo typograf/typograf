@@ -3,8 +3,10 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
+    jshint = require('gulp-jshint'),
+    jscs = require('gulp-jscs'),
     destDir = './';
-    
+
 var paths = {
     js: [
         'src/main.js',
@@ -27,8 +29,15 @@ gulp.task('minjs', function() {
         .pipe(gulp.dest(destDir));
 });
 
+gulp.task('lint', function() {
+  return gulp.src(paths.js)
+    .pipe(jscs())
+    .pipe(jshint())
+    .pipe(jshint.reporter());
+});
+
 gulp.task('watch', function() {
     gulp.watch('src/**/*', ['js']);
 });
 
-gulp.task('default', ['js', 'minjs', 'watch']);
+gulp.task('default', ['js', 'minjs', 'watch', 'lint']);
