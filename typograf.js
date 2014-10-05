@@ -17,12 +17,12 @@ function Typograf(mode) {
     }
 }
 
-Typograf.rule = function(name, priority, callback, enabled) {
+Typograf.rule = function(name, sortIndex, callback, enabled) {
     Typograf.prototype._rules.push({
         name: name,
-        priority: priority,
+        sortIndex: sortIndex,
         callback: callback,
-        enabled: enabled === false ? false : true
+        enabled: enabled !== false
     });
 
     if(Typograf._needSortRules) {
@@ -36,7 +36,7 @@ Typograf.setting = function(name, defaultValue) {
 
 Typograf._sortRules = function() {
     Typograf.prototype._rules.sort(function(a, b) {
-        return a.priority > b.priority ? 1 : -1;
+        return a.sortIndex > b.sortIndex ? 1 : -1;
     });
 };
 
@@ -102,11 +102,11 @@ Typograf.prototype = {
         return text;
     },
     _modification: function(text) {
-        if(!this.mode) {
+        if(!this._mode) {
             return text;
         }
 
-        var index = this.mode === 2 ? 1 : 0,
+        var index = this._mode === 2 ? 1 : 0,
             re,
             e = this.entities;
 
@@ -483,7 +483,7 @@ Typograf.rule('plus_minus', 1010, function(text) {
 });
 
 Typograf.rule('quot', 700, function(text) {
-                return text; // TODO
+    return text; // TODO
 });
 
 Typograf.setting('quot11', '«');
