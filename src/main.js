@@ -4,17 +4,14 @@ function Typograf(mode) {
     this._mode = (mode < 0 || mode > 2) ? 0 : mode;
 
     this._settings = {};
-    for(var i in this._defaultSettings) {
-        if(this._defaultSettings.hasOwnProperty(i)) {
-            this._settings[i] = this._defaultSettings[i];
-        }
-    }
+    Object.keys(this._defaultSettings).forEach(function(prop) {
+        this._settings[prop] = this._defaultSettings[prop];
+    }, this);
 
     this._enabledRules = {};
-    for(i = 0; i < this._rules.length; i++) {
-        var rule = this._rules[i];
+    this._rules.forEach(function(rule) {
         this._enabledRules[rule.name] = rule.enabled;
-    }
+    }, this);
 }
 
 Typograf.rule = function(name, sortIndex, callback, enabled) {
@@ -30,8 +27,8 @@ Typograf.rule = function(name, sortIndex, callback, enabled) {
     }
 };
 
-Typograf.setting = function(name, defaultValue) {
-    Typograf.prototype._defaultSettings[name] = defaultValue;
+Typograf.defaultSetting = function(name, value) {
+    Typograf.prototype._defaultSettings[name] = value;
 };
 
 Typograf._sortRules = function() {
@@ -41,7 +38,24 @@ Typograf._sortRules = function() {
 };
 
 Typograf.prototype = {
-    version: '0.2',
+    constructor: Typograf,
+    execute: function(text) {
+        if(!text) {
+            return '';
+        }
+
+        text = this._utfication(text);
+
+        this._rules.forEach(function(rule) {
+            if(this.enabled(rule.name)) {
+                text = rule.callback.call(this, text);
+            }
+        }, this);
+
+        text = this._modification(text);
+
+        return text;
+    },
     setting: function(name, value) {
         if(arguments.length === 1) {
             return this._settings[name];
@@ -57,47 +71,31 @@ Typograf.prototype = {
         return !this._enabledRules[rule];
     },
     enable: function(rule) {
-        this._enabledRules[rule] = true;
+        this._enable(rule, true);
+
+        return this;
     },
     disable: function(rule) {
-        this._enabledRules[rule] = false;
+        this._enable(rule, false);
+
+        return this;
     },
-    execute: function(text) {
-        if(!text) {
-            return '';
+    _enable: function(rule, enabled) {
+        if(Array.isArray(rule)) {
+            rule.forEach(function(el) {
+                this._enabledRules[el] = enabled;
+            }, this);
+        } else {
+            this._enabledRules[rule] = enabled;
         }
-
-        text = this._utfication(text);
-
-        if(typeof this.onBefore === 'function') {
-            text = this.onBefore(text);
-        }
-
-        for(var i = 0; i < this._rules.length; i++) {
-            var rule = this._rules[i];
-            if(this.enabled(rule.name)) {
-                text = rule.callback.call(this, text);
-            }
-        }
-
-        if(typeof this.onAfter === 'function') {
-            text = this.onAfter(text);
-        }
-
-        text = this._modification(text);
-
-        return text;
     },
     _defaultSettings: {},
     _rules: [],
     _utfication: function(text) {
-        var e = this.entities;
-        for(var i = 0, len = e.length; i < len; i++) {
-            var item = e[i],
-                re = new RegExp('(' + item[0] + '|' + item[1] + ')', 'g');
-
-            text = text.replace(re, item[2]);
-        }
+        this.entities.forEach(function(entity) {
+            var re = new RegExp('(' + entity[0] + '|' + entity[1] + ')', 'g');
+            text = text.replace(re, entity[2]);
+        }, this);
 
         return text;
     },
@@ -106,15 +104,12 @@ Typograf.prototype = {
             return text;
         }
 
-        var index = this._mode === 2 ? 1 : 0,
-            re,
-            e = this.entities;
+        var index = this._mode === 2 ? 1 : 0;
+        this.entities.forEach(function(entity) {
+            var re = new RegExp(entity[2], 'g');
+            text = text.replace(re, entity[index]);
+        }, this);
 
-        for(var i = 0, len = e.length; i < len; i++) {
-            re = new RegExp(e[i][2], 'g');
-            text = text.replace(re, e[i][index]);
-        }
-        
         return text;
     }
 };

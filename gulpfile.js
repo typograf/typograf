@@ -1,7 +1,5 @@
 var gulp = require('gulp'),
-    path = require('path'),
     concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     jscs = require('gulp-jscs'),

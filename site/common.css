@@ -66,9 +66,7 @@
 
 #prefs-all
 {
-    position: relative;
-    left: -10px;
-    top: -5px;
+    margin-left: 2em;
 }
 
 .clear
