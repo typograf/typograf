@@ -19,11 +19,16 @@ Typograf.rule('izpod', 35, function(text) {
 });
 
 Typograf.rule('koe', 38, function(text) {
-    var re = new RegExp(before + '(К|к)ое ' + after, 'g');
-    text = text.replace(re, '$1$2ое-$3');
+    var re = new RegExp(before + '(К|к)ое\\s([а-я]{3,})' + after, 'g');
+    text = text.replace(re, '$1$2ое-$3$4');
     
-    var re2 = new RegExp(before + '(К|к)ой ' + after, 'g');
-    return text.replace(re2, '$1$2ой-$3');
+    var re2 = new RegExp(before + '(К|к)ой\\s([а-я]{3,})' + after, 'g');
+    return text.replace(re2, '$1$2ой-$3$4');
+});
+
+Typograf.rule('taki', 39, function(text) {
+    var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' + after, 'g');
+    return text.replace(re, '$1-$2$3');
 });
 
 })();
