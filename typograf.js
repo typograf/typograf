@@ -380,7 +380,7 @@ Typograf.rule('c', 1020, function(text) {
 
 // вв.
 Typograf.rule('cc', 1090, function(text) {
-    return text.replace(/^в\. ?в\./g, 'вв.').replace(/ ?в\. ?в\./g, '\u00A0вв.');
+    return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
 });
 
 // Века
@@ -402,7 +402,7 @@ Typograf.rule('fraction', 1120, function(text) {
 
 // Замена 3 точек на троеточие
 Typograf.rule('hellip', 20, function(text) {
-    return text.replace(/(^|[^.])\.{3}([^.]|$)/g, '$1…$2');
+    return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
 });
 
 (function() {
@@ -426,11 +426,16 @@ Typograf.rule('izpod', 35, function(text) {
 });
 
 Typograf.rule('koe', 38, function(text) {
-    var re = new RegExp(before + '(К|к)ое ' + after, 'g');
-    text = text.replace(re, '$1$2ое-$3');
+    var re = new RegExp(before + '(К|к)ое\\s([а-я]{3,})' + after, 'g');
+    text = text.replace(re, '$1$2ое-$3$4');
     
-    var re2 = new RegExp(before + '(К|к)ой ' + after, 'g');
-    return text.replace(re2, '$1$2ой-$3');
+    var re2 = new RegExp(before + '(К|к)ой\\s([а-я]{3,})' + after, 'g');
+    return text.replace(re2, '$1$2ой-$3$4');
+});
+
+Typograf.rule('taki', 39, function(text) {
+    var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' + after, 'g');
+    return text.replace(re, '$1-$2$3');
 });
 
 })();
