@@ -5,4 +5,4 @@ Typograf.rule('space_before_last_word', 620, function(text) {
     return len > 0 ? text.replace(re, '\u00A0$2$3') : text;
 });
 
-Typograf.setting('lengthLastWord', 3);
+Typograf.defaultSetting('lengthLastWord', 3);

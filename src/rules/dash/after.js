@@ -4,5 +4,5 @@ Typograf.rule('dash', 620, function(text) {
     return text.replace(re, '\u00A0—$3').replace(/(X|I|V) ?- ?(X|I|V)/g, '$1—$2');
 });
 
-Typograf.setting('dashInterval', '\u2014');
-Typograf.setting('dash', '\u2014');
+Typograf.defaultSetting('dashInterval', '\u2014');
+Typograf.defaultSetting('dash', '\u2014');

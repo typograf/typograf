@@ -13,11 +13,11 @@
             <h1 class="title">Типограф на JavaScript</h1>
             
             <div id="prefs">
-                <input type="checkbox" id="prefs-all" autocomplete="off" />
                 <div id="prefs__items"></div>
                 <div class="clear"></div>
                 <div id="prefs__controls">
                     <input type="button" id="prefs-save" value="Cохранить" /> <input type="button" id="prefs-cancel" value="Отмена" />
+                    <input type="checkbox" id="prefs-all" autocomplete="off" /> <label for="prefs-all">Выбрать/снять всё</label>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
                 <div class="table">
                     <div class="table__left">
                         Ввод:<br/>
-                        <textarea id="text" autofocus="on"></textarea>
+                        <textarea id="text" autofocus="autofocus"></textarea>
                     </div>
                     <div class="table__right">
                         Результат:

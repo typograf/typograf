@@ -12,6 +12,6 @@ function rule(name, text) {
     return text;
 }
 
-texec = function(text) {
+function texec(text) {
     return typo.execute(text);
-};
+}

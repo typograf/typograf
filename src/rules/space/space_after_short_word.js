@@ -5,4 +5,4 @@ Typograf.rule('space_after_short_word', 590, function(text) {
     return len > 0 ? text.replace(re, '$1\u00A0') : text;
 });
 
-Typograf.setting('lengthShortWord', 2);
+Typograf.defaultSetting('lengthShortWord', 2);
