@@ -51,7 +51,7 @@ tp.enable('space_after_num'); // Включить правило
 
 ## Добавить правило
   ```JavaScript
-Typograf.rule('replace_multi_excl' /* name */, 2000 /* priority */, function(text) {
+Typograf.rule('replace_multi_excl' /* name */, 2000 /* sortIndex */, function(text) {
     return text.replace(/!{3,}/g, '!');
 });
   ```
@@ -59,7 +59,7 @@ Typograf.rule('replace_multi_excl' /* name */, 2000 /* priority */, function(tex
 
 ## Режим работы
   ```JavaScript
-var tp = new Typograf(0); // Режим по умолчанию, HTML-сущности в utf-8
+var tp = new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
 var tp1 = new Typograf(1); // HTML-сущности как имена
 var tp2 = new Typograf(2); // HTML-сущности как цифры
   ```
