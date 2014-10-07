@@ -1,7 +1,7 @@
 /*! Typograf | (c) 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
 
-function Typograf(mode) {
-    this._mode = (mode < 0 || mode > 2) ? 0 : mode;
+function Typograf(prefs) {
+    this._prefs = typeof prefs === 'object' ? prefs : {};
 
     this._settings = {};
     Object.keys(this._defaultSettings).forEach(function(prop) {
@@ -43,6 +43,12 @@ Typograf.prototype = {
         if(!text) {
             return '';
         }
+        
+        var isHTML = text.search(/<|>/) !== -1;
+
+        if(isHTML) {
+            text = this._hideTags(text);
+        }
 
         text = this._utfication(text);
 
@@ -53,6 +59,10 @@ Typograf.prototype = {
         }, this);
 
         text = this._modification(text);
+        
+        if(isHTML) {
+            text = this._showTags(text);
+        }
 
         return text;
     },
@@ -91,6 +101,44 @@ Typograf.prototype = {
     },
     _defaultSettings: {},
     _rules: [],
+    _hideTags: function(text) {
+        this._hiddenTags = {};
+
+        var that = this,
+            re = '',
+            tags = [
+            ['<!--', '-->'],
+            ['<pre[^>]*>', '<\\/pre>'],
+            ['<code[^>]*>', '<\\/code>'],
+            ['<style[^>]*>', '<\\/style>'],
+            ['<script[^>]*>', '<\\/script>'],
+            ['<object>','<\\/object>']
+        ];
+
+        tags.forEach(function(tag) {
+                re += '(' + tag[0] + '(.|\\n)*?' + tag[1] + ')|';
+        }, this);
+
+        var i = 0;
+        text = text.replace(RegExp('(' + re + '<[^>]*[\\s][^>]*>)', "gim"), function(match) {
+            var key = '__typograf' + i + '__';
+            that._hiddenTags[key] = match;
+            i++;
+            
+            return key;
+        });
+
+        return text;
+    },
+    _showTags: function(text) {
+        Object.keys(this._hiddenTags).forEach(function(key) {
+            text = text.replace(new RegExp(key, 'gim'), this._hiddenTags[key]);
+        }, this);
+
+        delete this._hiddenTags;
+
+        return text;
+    },
     _utfication: function(text) {
         this.entities.forEach(function(entity) {
             var re = new RegExp('(' + entity[0] + '|' + entity[1] + ')', 'g');
@@ -100,15 +148,16 @@ Typograf.prototype = {
         return text;
     },
     _modification: function(text) {
-        if(!this._mode) {
-            return text;
+        var mode = this._prefs.mode,
+            index;
+            
+        if(mode === 'name' || mode === 'digit') {
+            index = mode === 'name' ? 0 : 1;
+            this.entities.forEach(function(entity) {
+                var re = new RegExp(entity[2], 'g');
+                text = text.replace(re, entity[index]);
+            }, this);
         }
-
-        var index = this._mode === 2 ? 1 : 0;
-        this.entities.forEach(function(entity) {
-            var re = new RegExp(entity[2], 'g');
-            text = text.replace(re, entity[index]);
-        }, this);
 
         return text;
     }
@@ -441,19 +490,14 @@ Typograf.rule('taki', 39, function(text) {
 })();
 
 // Кв. км м дм см мм
-Typograf.rule('m2', 1030, function(text) {
+Typograf.rule('m', 1030, function(text) {
     var m = '(км|м|дм|см|мм)',
-        re = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g');
+        re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
+        re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
 
-    return text.replace(re, '$1$2\u00A0$3²$4');
-});
-
-// Куб. км м дм см мм
-Typograf.rule('m3', 1040, function(text) {
-    var m = '(км|м|дм|см|мм)',
-        re = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
-        
-    return text.replace(re, '$1$2\u00A0$3³$4');
+    text = text.replace(re2, '$1$2\u00A0$3²$4');
+    
+    return text.replace(re3, '$1$2\u00A0$3³$4');
 });
 
 Typograf.rule('nbr', 710, function(text) {
