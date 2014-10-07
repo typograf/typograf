@@ -59,9 +59,9 @@ Typograf.rule('replace_multi_excl' /* name */, 2000 /* sortIndex */, function(te
 
 ## Режим работы
   ```JavaScript
-var tp = new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
-var tp1 = new Typograf(1); // HTML-сущности как имена
-var tp2 = new Typograf(2); // HTML-сущности как цифры
+new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
+new Typograf({mode: 'name'}); // HTML-сущности как имена
+new Typograf({mode: 'digit'}); // HTML-сущности как цифры
   ```
 
 
