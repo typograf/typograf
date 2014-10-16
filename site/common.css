@@ -1,33 +1,94 @@
 ﻿html, body
 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
     padding: 0;
     margin: 0;
-    font-size: 1em;
     font-family: Arial, sans-serif;
 }
 
-#container
+.container
 {
-    padding: 30px 100px;
+    position: absolute;
+    padding: 15px;
+    left: 0;
+    top: 60px;
+    width: 100%;
+    bottom: 20px;
+    box-sizing: border-box;
+}
+
+.header
+{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background: #00ACC7;
+    border-bottom: 1px solid #008cb7;
+    color: white;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.15);
+}
+
+.header__title
+{
+    padding: 10px 0 13px 20px;
+    margin: 0;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    font-family: Georgia, serif;
+    font-weight: normal;
+    font-size: 30px;
+    font-style: italic;
+}
+
+#edit
+{
+    height: 100%;
+}
+
+#clear-text
+{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 30px;
+    padding: 5px;
+    cursor: pointer;
+    color: gray;
+    
+    display: none;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .table
 {
     width: 100%;
+    height: 100%;
+}
+
+.table__left,
+.table__right
+{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .table__left
 {
-    width: 50%;
     float: left;
     padding-right: 10px;
-    box-sizing: border-box;
 }
 
 .table__right
 {
     padding-left: 10px;
-    width: 50%;
     float: right;
     box-sizing: border-box;
 }
@@ -35,7 +96,7 @@
 #text, #result
 {
     width: 100%;
-    height: 30em;
+    height: 100%;
     box-sizing: border-box;
     margin: 0;
 }
@@ -48,14 +109,11 @@
     padding: 1em;
 }
 
-#clear
-{
-    margin-left: 2em;
-}
-
 #set-prefs
 {
-    margin-left: 1em;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #prefs
@@ -74,18 +132,33 @@
     clear: both;
 }
 
-#go
-{
-    font-weight: bold;
-}
-
 .nbsp
 {
     background: green;
     opacity: 0.4;
 }
 
-#prefs__controls
+.prefs__title
+{
+    font-size: 1.6em;
+    color: #679;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.5em;
+    font-family: Georgia, serif;
+    font-style: italic;
+}
+
+.prefs__clear
+{
+    height: 1em;
+    border-bottom: 1px solid #eaeaea;
+    clear: both;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.prefs__controls
 {
     clear: both;
     margin-top: 2em;
@@ -98,19 +171,7 @@
 {
     line-height: 30px;
     float: left;
-    width: 30%;
+    width: 40%;
+    padding-left: 1em;
+    padding-right: 2em;
 }
-
-#control
-{
-    margin-top: 0.4em;
-    position: relative;
-    width: 99%;
-    height: 2em;
-}
-
-.title
-{
-    font-size: 2.2em;
-}
-

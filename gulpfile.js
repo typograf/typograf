@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 var paths = {
     js: [
         'src/main.js',
-        'src/entity.js',
+        'src/entities.js',
         'src/rules/**/*.js',
         'src/end.js'
     ]

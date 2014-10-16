@@ -51,7 +51,7 @@ Typograf.prototype = {
 
         this._rules.forEach(function(rule) {
             if(this.enabled(rule.name)) {
-                text = rule.callback.call(this, text);
+                text = rule.func.call(this, text);
             }
         }, this);
 

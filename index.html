@@ -8,14 +8,16 @@
         <title>Типограф на JavaScript</title>
     </head>
     <body>
-    
-        <div id="container">
-            <h1 class="title">Типограф на JavaScript</h1>
-            
+        <header class="header">
+            <h1 class="header__title">Типограф на JavaScript</h1>
+            <input value="Настройки" type="button" id="set-prefs" />
+        </header>
+        <div class="container">
             <div id="prefs">
+                <div class="prefs__title">Настройки</div>
                 <div id="prefs__items"></div>
                 <div class="clear"></div>
-                <div id="prefs__controls">
+                <div class="prefs__controls">
                     <input type="button" id="prefs-save" value="Cохранить" /> <input type="button" id="prefs-cancel" value="Отмена" />
                     <input type="checkbox" id="prefs-all" autocomplete="off" /> <label for="prefs-all">Выбрать/снять всё</label>
                 </div>
@@ -24,7 +26,8 @@
             <div id="edit">
                 <div class="table">
                     <div class="table__left">
-                        Ввод:<br/>
+                        <div id="clear-text">&times;</div>
+                        Текст:<br/>
                         <textarea id="text" autofocus="autofocus"></textarea>
                     </div>
                     <div class="table__right">
@@ -35,13 +38,6 @@
                         <textarea id="result" readonly="readonly"></textarea>
                         <div id="result-html"></div>
                     </div>
-                </div>
-                <div class="clear"></div>
-                <div><input type="checkbox" id="auto" checked="checked" autocomplete="off" /> <label for="auto">Типографировать при вводе текста</label></div><br />
-                <div id="control">
-                    <input value="Типографить" type="button" id="go" />
-                    <input value="Настройки" type="button" id="set-prefs" />
-                    <input value="Сбросить" type="button" id="clear" />
                 </div>
              </div>
         </div>
