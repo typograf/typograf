@@ -32,7 +32,7 @@
 
 ## Использование
   ```HTML
-<script src="typograf.js"></script>
+<script src="typograf.min.js"></script>
 <script>
     var tp = new Typograf();
     alert(tp.execute('     Мир - мой мир!      '));
@@ -59,9 +59,14 @@ Typograf.rule('replace_multi_excl' /* name */, 2000 /* sortIndex */, function(te
 
 ## Режим работы
   ```JavaScript
-new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
-new Typograf({mode: 'name'}); // HTML-сущности как имена
-new Typograf({mode: 'digit'}); // HTML-сущности как цифры
+var tp = new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
+tp.execute('...'); // …
+
+var tpName = new Typograf({mode: 'name'}); // HTML-сущности как имена
+tpName.exectute('...'); // &hellip;
+
+var tpDigit = new Typograf({mode: 'digit'}); // HTML-сущности как цифры
+tpDigit.execute('...'); //&#8230; 
   ```
 
 
