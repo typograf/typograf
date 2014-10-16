@@ -79,6 +79,7 @@ var App = {
             for(var i = 0; i < rules.length; i++) {
                 var rule = rules[i],
                     name = rule.name,
+                    title = rule.title,
                     id = 'setting-' + name,
                     ch = typeof this._prefs[name] === 'undefined' ? rule.enabled : this._prefs[name],
                     checked = ch ? ' checked="checked"' : '';
@@ -87,7 +88,7 @@ var App = {
                     continue;
                 }
 
-                html += '<div class="prefs__item"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + name + '</label></div>';
+                html += '<div class="prefs__item"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + title + '</label></div>';
             }
 
             $('prefs__items').innerHTML = html;

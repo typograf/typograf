@@ -1,3 +1,9 @@
-Typograf.rule('nbr', 710, function(text) {
-    return text.replace(/\n/g, '|<br/>');
-}, false);
+Typograf.rule({
+    title: 'Замена перевода строки на <br/>',
+    name: 'nbr',
+    sortIndex: 710,
+    func: function(text) {
+        return text.replace(/\n/g, '|<br/>');
+    },
+    enabled: false
+});
