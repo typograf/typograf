@@ -63,7 +63,7 @@ var tp = new Typograf(); // Режим по умолчанию, HTML-сущно�
 tp.execute('...'); // …
 
 var tpName = new Typograf({mode: 'name'}); // HTML-сущности как имена
-tpName.exectute('...'); // &hellip;
+tpName.execute('...'); // &hellip;
 
 var tpDigit = new Typograf({mode: 'digit'}); // HTML-сущности как цифры
 tpDigit.execute('...'); //&#8230; 
