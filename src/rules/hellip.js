@@ -1,4 +1,8 @@
-// Замена 3 точек на троеточие
-Typograf.rule('hellip', 20, function(text) {
-    return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
+Typograf.rule({
+    title: '... → …', 
+    name: 'hellip', 
+    sortIndex: 20, 
+    func: function(text) {
+        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
+    }
 });

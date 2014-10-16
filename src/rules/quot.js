@@ -1,5 +1,10 @@
-Typograf.rule('quot', 700, function(text) {
-    return text; // TODO
+Typograf.rule({
+    title: 'Расстановка кавычек',
+    name: 'quot',
+    sortIndex: 700,
+    func: function(text) {
+        return text; // TODO
+    }
 });
 
 Typograf.defaultSetting('quot11', '«');

@@ -14,13 +14,10 @@ function Typograf(prefs) {
     }, this);
 }
 
-Typograf.rule = function(name, sortIndex, callback, enabled) {
-    Typograf.prototype._rules.push({
-        name: name,
-        sortIndex: sortIndex,
-        callback: callback,
-        enabled: enabled !== false
-    });
+Typograf.rule = function(rule) {
+    rule.enabled = rule.enabled === false ? false : true;
+    
+    Typograf.prototype._rules.push(rule);
 
     if(Typograf._needSortRules) {
         this._sortRules();
@@ -112,7 +109,7 @@ Typograf.prototype = {
             ['<code[^>]*>', '<\\/code>'],
             ['<style[^>]*>', '<\\/style>'],
             ['<script[^>]*>', '<\\/script>'],
-            ['<object>','<\\/object>']
+            ['<object>', '<\\/object>']
         ];
 
         tags.forEach(function(tag) {
@@ -120,7 +117,7 @@ Typograf.prototype = {
         }, this);
 
         var i = 0;
-        text = text.replace(RegExp('(' + re + '<[^>]*[\\s][^>]*>)', "gim"), function(match) {
+        text = text.replace(new RegExp('(' + re + '<[^>]*[\\s][^>]*>)', 'gim'), function(match) {
             var key = '__typograf' + i + '__';
             that._hiddenTags[key] = match;
             i++;
@@ -162,3 +159,7 @@ Typograf.prototype = {
         return text;
     }
 };
+
+if(typeof exports === 'object') {
+    module.exports = Typograf;
+}
