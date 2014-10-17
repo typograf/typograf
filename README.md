@@ -51,8 +51,13 @@ tp.enable('space_after_num'); // Включить правило
 
 ## Добавить правило
   ```JavaScript
-Typograf.rule('replace_multi_excl' /* name */, 2000 /* sortIndex */, function(text) {
-    return text.replace(/!{3,}/g, '!');
+Typograf.rule({
+    title: 'Пример правила',
+    name: 'parampampam', 
+    sortIndex: 2000, // меньше - раньше, выше - позже выполняется
+    func: function(text) {
+        return text.replace(/parampampam/g, 'tryam');
+    }
 });
   ```
 
