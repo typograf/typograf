@@ -1,3 +1,4 @@
+var tests = [];
 var typo = new Typograf();
 
 function rule(name, text) {
@@ -5,7 +6,7 @@ function rule(name, text) {
     
     rules.forEach(function(f) {
         if(f.name === name) {
-            text = f.callback(text);
+            text = f.func(text);
         }
     });
     
@@ -15,3 +16,5 @@ function rule(name, text) {
 function texec(text) {
     return typo.execute(text);
 }
+
+QUnit.module('rules');
