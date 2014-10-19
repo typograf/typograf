@@ -1403,6 +1403,39 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: '!! → !',
+    name: 'exclamation',
+    sortIndex: 1150,
+    func: function(text) {
+        return text
+            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+    }
+});
+
+Typograf.rule({
+    title: '!! → !',
+    name: 'exclamation',
+    sortIndex: 1150,
+    func: function(text) {
+        return text
+            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+    }
+});
+
+Typograf.rule({
+    title: '!! → !',
+    name: 'exclamation',
+    sortIndex: 1150,
+    func: function(text) {
+        return text
+            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+    }
+});
+
+Typograf.rule({
     title: '!? → ?!',
     name: 'exclamation_question',
     sortIndex: 1140,
@@ -2136,6 +2169,56 @@ Typograf.rule({
 Typograf.defaultSetting('lengthLastWord', 3);
 
 Typograf.rule({
+    title: 'Расстановка запятых и неразрывного пробела перед а и но',
+    name: 'nbsp:but',
+    sortIndex: 1110,
+    func: function(text) {
+        var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
+        return text.replace(re, ',$2$3$4');
+    }
+});
+
+Typograf.rule({
+    title: 'Расстановка запятых и неразрывного пробела перед а и но',
+    name: 'nbsp:but',
+    sortIndex: 1110,
+    func: function(text) {
+        var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
+        return text.replace(re, ',$2$3$4');
+    }
+});
+
+Typograf.rule({
+    title: 'm2 → м², m3 → м³ и неразрывный пробел',
+    name: 'nbsp:m',
+    sortIndex: 1030,
+    func: function(text) {
+        var m = '(км|м|дм|см|мм)',
+            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
+            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
+
+        text = text.replace(re2, '$1$2\u00A0$3²$4');
+        
+        return text.replace(re3, '$1$2\u00A0$3³$4');
+    }
+});
+
+Typograf.rule({
+    title: 'm2 → м², m3 → м³ и неразрывный пробел',
+    name: 'nbsp:m',
+    sortIndex: 1030,
+    func: function(text) {
+        var m = '(км|м|дм|см|мм)',
+            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
+            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
+
+        text = text.replace(re2, '$1$2\u00A0$3²$4');
+        
+        return text.replace(re3, '$1$2\u00A0$3³$4');
+    }
+});
+
+Typograf.rule({
     title: 'Неразрывный пробел перед последним коротким словом в предложении',
     name: 'nbsp:before_last_word', 
     sortIndex: 620,
@@ -2160,71 +2243,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка запятых и неразрывного пробела перед а и но',
-    name: 'nbsp:but',
-    sortIndex: 1110,
-    func: function(text) {
-        var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
-        return text.replace(re, ',$2$3$4');
-    }
-});
-
-Typograf.rule({
-    title: 'Расстановка запятых и неразрывного пробела перед а и но',
-    name: 'nbsp:but',
-    sortIndex: 1110,
-    func: function(text) {
-        var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
-        return text.replace(re, ',$2$3$4');
-    }
-});
-
-Typograf.rule({
-    title: 'm2 → м², m3 → м³ и неразрывный пробел',
-    name: 'nbsp:m',
-    sortIndex: 1030,
-    func: function(text) {
-        var m = '(км|м|дм|см|мм)',
-            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
-            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
-
-        text = text.replace(re2, '$1$2\u00A0$3²$4');
-        
-        return text.replace(re3, '$1$2\u00A0$3³$4');
-    }
-});
-
-Typograf.rule({
-    title: 'm2 → м², m3 → м³ и неразрывный пробел',
-    name: 'nbsp:m',
-    sortIndex: 1030,
-    func: function(text) {
-        var m = '(км|м|дм|см|мм)',
-            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
-            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
-
-        text = text.replace(re2, '$1$2\u00A0$3²$4');
-        
-        return text.replace(re3, '$1$2\u00A0$3³$4');
-    }
-});
-
-Typograf.rule({
-    title: 'm2 → м², m3 → м³ и неразрывный пробел',
-    name: 'nbsp:m',
-    sortIndex: 1030,
-    func: function(text) {
-        var m = '(км|м|дм|см|мм)',
-            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
-            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
-
-        text = text.replace(re2, '$1$2\u00A0$3²$4');
-        
-        return text.replace(re3, '$1$2\u00A0$3³$4');
-    }
-});
-
-Typograf.rule({
     title: 'Неразрывный пробел после OOO или ОАО',
     name: 'nbsp:ooo',
     sortIndex: 1100,
@@ -2243,20 +2261,17 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после OOO или ОАО',
-    name: 'nbsp:ooo',
-    sortIndex: 1100,
+    title: 'm2 → м², m3 → м³ и неразрывный пробел',
+    name: 'nbsp:m',
+    sortIndex: 1030,
     func: function(text) {
-        return text.replace(/(ООО|ОАО) /g, '$1\u00A0');
-    }
-});
+        var m = '(км|м|дм|см|мм)',
+            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
+            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
 
-Typograf.rule({
-    title: 'Неразрывный пробел после XXXX',
-    name: 'nbsp:xxxx',
-    sortIndex: 1060,
-    func: function(text) {
-        return text.replace(/(^|\D)(\d{4}) ?г( |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
+        text = text.replace(re2, '$1$2\u00A0$3²$4');
+        
+        return text.replace(re3, '$1$2\u00A0$3³$4');
     }
 });
 
@@ -2297,6 +2312,62 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: 'Неразрывный пробел после OOO или ОАО',
+    name: 'nbsp:ooo',
+    sortIndex: 1100,
+    func: function(text) {
+        return text.replace(/(ООО|ОАО) /g, '$1\u00A0');
+    }
+});
+
+Typograf.rule({
+    title: 'Пробел после знаков пунктуации', 
+    name: 'space:after_punctuation', 
+    sortIndex: 560, 
+    func: function(text) {
+        return text
+            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
+            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
+    }
+});
+
+Typograf.rule({
+    title: 'Пробел после знаков пунктуации', 
+    name: 'space:after_punctuation', 
+    sortIndex: 560, 
+    func: function(text) {
+        return text
+            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
+            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
+    }
+});
+
+Typograf.rule({
+    title: 'Неразрывный пробел после XXXX',
+    name: 'nbsp:xxxx',
+    sortIndex: 1060,
+    func: function(text) {
+        return text.replace(/(^|\D)(\d{4}) ?г( |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
+    }
+});
+
+Typograf.rule({
+    name: '-space:before',
+    sortIndex: 500,
+    func: function(text) {
+        return text.replace(/\r/g, '');
+    }
+});
+
+Typograf.rule({
+    name: '-space:before',
+    sortIndex: 500,
+    func: function(text) {
+        return text.replace(/\r/g, '');
+    }
+});
+
+Typograf.rule({
     title: 'г.г. → гг. и неразрывный пробел',
     name: 'nbsp:yy',
     sortIndex: 1080,
@@ -2306,63 +2377,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
-    name: 'space:after_punctuation', 
-    sortIndex: 560, 
-    func: function(text) {
-        return text
-            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
-            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
-    }
-});
-
-Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
-    name: 'space:after_punctuation', 
-    sortIndex: 560, 
-    func: function(text) {
-        return text
-            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
-            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
-    }
-});
-
-Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
-    name: 'space:after_punctuation', 
-    sortIndex: 560, 
-    func: function(text) {
-        return text
-            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
-            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
-    }
-});
-
-Typograf.rule({
-    name: '-space:before',
-    sortIndex: 500,
-    func: function(text) {
-        return text.replace(/\r/g, '');
-    }
-});
-
-Typograf.rule({
-    name: '-space:before',
-    sortIndex: 500,
-    func: function(text) {
-        return text.replace(/\r/g, '');
-    }
-});
-
-Typograf.rule({
-    name: '-space:before',
-    sortIndex: 500,
-    func: function(text) {
-        return text.replace(/\r/g, '');
-    }
-});
-
-Typograf.rule({
     title: 'Удаление пробела перед %',
     name: 'space:del_before_percent',
     sortIndex: 600,
@@ -2381,11 +2395,13 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробела перед %',
-    name: 'space:del_before_percent',
-    sortIndex: 600,
+    title: 'Пробел после знаков пунктуации', 
+    name: 'space:after_punctuation', 
+    sortIndex: 560, 
     func: function(text) {
-        return text.replace(/\d( |\u0A00)%/g, '%');
+        return text
+            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
+            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
     }
 });
 
@@ -2416,6 +2432,59 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: '-space:before',
+    sortIndex: 500,
+    func: function(text) {
+        return text.replace(/\r/g, '');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление повторяющихся пробелов',
+    name: 'space:del_repeat_space',
+    sortIndex: 540,
+    func: function(text) {
+        return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление повторяющихся пробелов',
+    name: 'space:del_repeat_space',
+    sortIndex: 540,
+    func: function(text) {
+        return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробела перед %',
+    name: 'space:del_before_percent',
+    sortIndex: 600,
+    func: function(text) {
+        return text.replace(/\d( |\u0A00)%/g, '%');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов в конце строк',
+    name: 'space:del_trailing_blanks',
+    sortIndex: 505,
+    func: function(text) {
+        return text.replace(/\s+\n/g, '\n');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов в конце строк',
+    name: 'space:del_trailing_blanks',
+    sortIndex: 505,
+    func: function(text) {
+        return text.replace(/\s+\n/g, '\n');
+    }
+});
+
+Typograf.rule({
     title: 'Удаление пробелов перед знаками пунктуации',
     name: 'space:del_before_punctuation',
     sortIndex: 550,
@@ -2438,51 +2507,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление повторяющихся пробелов',
-    name: 'space:del_repeat_space',
-    sortIndex: 540,
-    func: function(text) {
-        return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление повторяющихся пробелов',
-    name: 'space:del_repeat_space',
-    sortIndex: 540,
-    func: function(text) {
-        return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов в конце строк',
-    name: 'space:del_trailing_blanks',
-    sortIndex: 505,
-    func: function(text) {
-        return text.replace(/\s+\n/g, '\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов в конце строк',
-    name: 'space:del_trailing_blanks',
-    sortIndex: 505,
-    func: function(text) {
-        return text.replace(/\s+\n/g, '\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов в конце строк',
-    name: 'space:del_trailing_blanks',
-    sortIndex: 505,
-    func: function(text) {
-        return text.replace(/\s+\n/g, '\n');
-    }
-});
-
-Typograf.rule({
     title: 'Замена табов на пробелы',
     name: 'space:replace_tab',
     sortIndex: 510,
@@ -2501,11 +2525,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Замена табов на пробелы',
-    name: 'space:replace_tab',
-    sortIndex: 510,
+    title: 'Удаление пробелов в конце строк',
+    name: 'space:del_trailing_blanks',
+    sortIndex: 505,
     func: function(text) {
-        return text.replace(/\t/g, ' ');
+        return text.replace(/\s+\n/g, '\n');
     }
 });
 
@@ -2528,11 +2552,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов в начале и в конце текста',
-    name: 'space:trim',
-    sortIndex: 530,
+    title: 'Замена табов на пробелы',
+    name: 'space:replace_tab',
+    sortIndex: 510,
     func: function(text) {
-        return text.trim();
+        return text.replace(/\t/g, ' ');
     }
 });
 
