@@ -87,6 +87,10 @@ tests.push(['nbsp:m', [
     [' 20 м3 ', ' 20\u00A0м³ ']
 ]]);
 
+tests.push(['space:del_trailing_blanks', [
+    ['asda d  \t \n er er ert er er       \nassdf asf sdf asdf\n', 'asda d\n er er ert er er\nassdf asf sdf asdf\n']
+]]);
+
 tests.push(['space:replace_tab', [
     ['  \t \t \t  ', '         ']
 ]]);
