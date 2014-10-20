@@ -4,13 +4,10 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
-    destDir = './',
-    filterWithoutSpec = gulpFilter(function(file) {
-        return file.path.search(/spec\.js/) === -1;
-    }),
-    filterOnlySpec = gulpFilter(function(file) {
-        return file.path.search(/spec\.js/) !== -1;
-    });
+    filter = function() {
+        return gulpFilter(['**/*.js', '!**/*.spec.js']);
+    },
+    destDir = './';
 
 var paths = {
     js: [
@@ -26,29 +23,31 @@ var paths = {
 
 gulp.task('js', function() {
     return gulp.src(paths.js)
-        .pipe(filterWithoutSpec)
+        .pipe(filter())
         .pipe(concat('typograf.js'))
         .pipe(gulp.dest(destDir));
 });
 
 gulp.task('minjs', function() {
     return gulp.src(paths.js)
-        .pipe(filterWithoutSpec)
+        .pipe(filter())
         .pipe(concat('typograf.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(destDir));
 });
 
 gulp.task('test-js', function() {
+    var filterSpec = gulpFilter(['**/*.spec.js']);
+
     return gulp.src(paths.testJs)
-        .pipe(filterOnlySpec)
+        .pipe(filterSpec)
         .pipe(concat('rules.js'))
         .pipe(gulp.dest('./tests/'));
 });
 
 gulp.task('lint', function() {
   return gulp.src(paths.js)
-    .pipe(filterWithoutSpec)
+    .pipe(filter())
     .pipe(jscs())
     .pipe(jshint())
     .pipe(jshint.reporter());
