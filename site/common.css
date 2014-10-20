@@ -127,9 +127,10 @@
     margin-left: 2em;
 }
 
-.clear
+.prefs__cap
 {
     clear: both;
+    height: 5em;
 }
 
 .nbsp
@@ -160,11 +161,12 @@
 
 .prefs__controls
 {
-    clear: both;
-    margin-top: 2em;
+    position: fixed;
+    left: 25px;
+    right: 25px;
+    bottom: 0;
     padding: 1em;
-    width: auto;
-    background: #f0f0f0;
+    background: rgba(230,230,230,0.9);
 }
 
 .prefs__item
