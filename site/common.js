@@ -134,7 +134,7 @@ var App = {
                 if (name.search('-') === 0) {
                     return;
                 }
-                
+
                 var pr = getPrefix(name);
                 if(pr !== oldPrefix) {
                     oldPrefix = pr;
@@ -195,8 +195,14 @@ var App = {
             that.execute();
         });
 
+        var oldValue = null;
         addEvent('#text', ['keyup', 'input', 'click'], function() {
             var val = $('#text').value;
+            if(val === oldValue) {
+                return;
+            }
+            oldValue = val;
+
             if(val.length > 0) {
                 show('#clear-text');
             } else {
