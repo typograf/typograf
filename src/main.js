@@ -1,5 +1,9 @@
 /*! Typograf | (c) 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
 
+/**
+* @constructor
+*/
+
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
 
@@ -14,18 +18,37 @@ function Typograf(prefs) {
     }, this);
 }
 
+/**
+* Добавить правило.
+* @static
+* @param {Object} rule
+* @param {string} rule.name Название правила
+* @param {string} rule.title Описание правила
+* @param {string} rule.sortIndex Индекс сортировки, чем выше, тем позже выполняется
+* @param {Function} func Функция обработки
+* @param {boolean} enabled Включено ли правило по умолчанию
+* @return {Typograf} this
+*/
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false ? false : true;
-    
+
     Typograf.prototype._rules.push(rule);
 
     if(Typograf._needSortRules) {
         this._sortRules();
     }
-    
+
     return this;
 };
 
+/**
+* Установить значение настройки по умолчанию.
+*
+* @statics
+* @param {string|Array} name Название настройки или массив с настройками
+* @param {*} [value] Значение настройки
+* @return {Typograf} this
+*/
 Typograf.defaultSetting = function(name, value) {
     if(typeof name === 'object') {
         Object.keys(name).forEach(function(key) {
@@ -34,7 +57,7 @@ Typograf.defaultSetting = function(name, value) {
     } else {
         Typograf.prototype._defaultSettings[name] = value;
     }
-    
+
     return this;
 };
 
@@ -46,11 +69,17 @@ Typograf._sortRules = function() {
 
 Typograf.prototype = {
     constructor: Typograf,
+    /**
+    * Типографировать текст.
+    *
+    * @param {string} text
+    * @return {string}
+    */
     execute: function(text) {
         if(!text) {
             return '';
         }
-        
+
         var isHTML = text.search(/<|>/) !== -1;
 
         if(isHTML) {
@@ -66,13 +95,21 @@ Typograf.prototype = {
         }, this);
 
         text = this._modification(text);
-        
+
         if(isHTML) {
             text = this._showTags(text);
         }
 
         return text;
     },
+    constructor: Typograf,
+
+    /**
+    * Установить/получить настройку
+    *
+    * @param {string} name
+    * @return {string} [value]
+    */
     setting: function(name, value) {
         if(arguments.length === 1) {
             return this._settings[name];
@@ -81,15 +118,43 @@ Typograf.prototype = {
             return this;
         }
     },
+
+    /**
+    * Включено ли правило.
+    *
+    * @param {string} rule Название правила
+    * @return {boolean}
+    */
     enabled: function(rule) {
         return this._enabledRules[rule];
     },
+
+    /**
+    * Оключено ли правило.
+    *
+    * @param {string} rule Название правила
+    * @return {boolean}
+    */
     disabled: function(rule) {
         return !this._enabledRules[rule];
     },
+
+    /**
+    * Включить правило.
+    *
+    * @param {string} rule Название правила
+    * @return {boolean}
+    */
     enable: function(rule) {
         return this._enable(rule, true);
     },
+
+    /**
+    * Отключить правило.
+    *
+    * @param {string} rule Название правила
+    * @return {boolean}
+    */
     disable: function(rule) {
         return this._enable(rule, false);
     },
@@ -101,7 +166,7 @@ Typograf.prototype = {
         } else {
             this._enabledRules[rule] = enabled;
         }
-        
+
         return this;
     },
     _defaultSettings: {},
@@ -129,7 +194,7 @@ Typograf.prototype = {
             var key = '__typograf' + i + '__';
             that._hiddenTags[key] = match;
             i++;
-            
+
             return key;
         });
 
@@ -155,7 +220,7 @@ Typograf.prototype = {
     _modification: function(text) {
         var mode = this._prefs.mode,
             index;
-            
+
         if(mode === 'name' || mode === 'digit') {
             index = mode === 'name' ? 0 : 1;
             this.entities.forEach(function(entity) {
