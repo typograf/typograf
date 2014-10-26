@@ -31,6 +31,8 @@
 
 
 ## Использование
+
+### В браузере
   ```HTML
 <script src="typograf.min.js"></script>
 <script>
@@ -38,7 +40,13 @@
     alert(tp.execute('     Мир - мой мир!      '));
 </script>
   ```
+### Node.js
+  ```JavaScript
+var Typograf = require('typograf'),
+    tp = new Typograf();
 
+console.log(tp.execute(' Мир - мой мир!!   '));
+  ```
 
 ## Включить/отключить правило
   ```JavaScript

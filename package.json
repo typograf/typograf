@@ -1,7 +1,7 @@
 {
   "name": "typograf",
-  "description": "Russian typographer at JavaScript",
-  "version": "1.0.0",
+  "description": "Client and server russian typographer at JavaScript",
+  "version": "1.0.1",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -14,7 +14,7 @@
     "url": "git://github.com/hcodes/typograf.git"
   },
   "keywords": [
-    "typo", "text", "typograf", "typographer"
+    "typo", "text", "typograf", "typographer", "typography", "russian"
   ],
   "engines": {
     "node": "*"
