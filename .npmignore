@@ -2,3 +2,8 @@ examples/
 site/
 src/
 tests/
+index.html
+gulpfile.js
+.jshintrc
+.jshintignore
+.jscs.json
