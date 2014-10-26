@@ -248,3 +248,7 @@ Typograf.prototype.entities = [
     ['\\&rsaquo;', '\\&\\#8250;', '\u203A'],
     ['\\&euro;', '\\&\\#8364;', '\u20AC']
 ];
+
+Typograf.prototype.entities.forEach(function(en) {
+    en[3] = new RegExp('(' + en[0] + '|' + en[1] + ')', 'g');
+}, this);
