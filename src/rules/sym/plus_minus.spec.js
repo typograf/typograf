@@ -1,4 +1,4 @@
-tests.push(['plus_minus', [
+tests.push(['sym:plus_minus', [
     ['+-', '±'],
     ['+-100', '±100']
 ]]);

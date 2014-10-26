@@ -3,6 +3,6 @@ Typograf.rule({
     name: 'nbsp:before_particle',
     sortIndex: 570,
     func: function(text) {
-        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яА-Я])/g, '\u00A0$1$2');
+        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
     }
 });

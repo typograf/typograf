@@ -3,12 +3,9 @@ Typograf.rule({
     name: 'dash:weekday',
     sortIndex: 600,
     func: function(text) {
-        var dash = this.setting('dashInterval'),
-            part = '(понедельник|вторник|среда|четверг|пятница|суббота|воскресенье)',
+        var part = '(' + this.data.weekdays.join('|') + ')',
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
-        return text.replace(re, '$1—$3')
-            .replace(/(^|\n|>) ?(-|—) /g, '$1— ')
-            .replace(/(^|[^\d\-])(\d{1,4}) ?(-|—) ?(\d{1,4})([^\d\-\=]|$)/g, '$1$2' + dash + '$4$5');
+        return text.replace(re, '$1' + this.setting('dashInterval') + '$3');
     }
 });

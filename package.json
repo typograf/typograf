@@ -1,6 +1,24 @@
 {
   "name": "typograf",
-  "version": "0.2.1",
+  "description": "Russian typographer at JavaScript",
+  "version": "1.0.0",
+  "author": {
+    "name": "Denis Seleznev",
+    "email": "hcodes@yandex.ru",
+    "url": "https://github.com/hcodes"
+  },
+  "main": "typograf.js",
+  "homepage": "https://github.com/hcodes/typograf",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hcodes/typograf.git"
+  },
+  "keywords": [
+    "typo", "text", "typograf", "typographer"
+  ],
+  "engines": {
+    "node": "*"
+  },
   "devDependencies": {
     "gulp": "~3.8.5",
     "gulp-concat": "~2.2.0",

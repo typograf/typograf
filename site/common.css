@@ -51,8 +51,8 @@
 #clear-text
 {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 12px;
+    top: 12px;
     font-size: 30px;
     padding: 5px;
     cursor: pointer;
@@ -112,8 +112,39 @@
 #set-prefs
 {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 2px;
+    border: 1px solid transparent;
+}
+
+#set-prefs:hover
+{
+    opacity: 0.9;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+#set-prefs:before,
+#set-prefs:after
+{
+    left: 5px;
+    top: 7px;
+    position: absolute;
+    border: 2px solid white;
+    border-left: none;
+    border-right: none;
+    width: 26px;
+    height: 5px;
+    content: "";
+}
+
+#set-prefs:after
+{
+    margin-top: 14px;
 }
 
 #prefs

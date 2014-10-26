@@ -22,10 +22,20 @@ Typograf.rule = function(rule) {
     if(Typograf._needSortRules) {
         this._sortRules();
     }
+    
+    return this;
 };
 
 Typograf.defaultSetting = function(name, value) {
-    Typograf.prototype._defaultSettings[name] = value;
+    if(typeof name === 'object') {
+        Object.keys(name).forEach(function(key) {
+            Typograf.prototype._defaultSettings[key] = name[key];
+        });
+    } else {
+        Typograf.prototype._defaultSettings[name] = value;
+    }
+    
+    return this;
 };
 
 Typograf._sortRules = function() {
@@ -78,14 +88,10 @@ Typograf.prototype = {
         return !this._enabledRules[rule];
     },
     enable: function(rule) {
-        this._enable(rule, true);
-
-        return this;
+        return this._enable(rule, true);
     },
     disable: function(rule) {
-        this._enable(rule, false);
-
-        return this;
+        return this._enable(rule, false);
     },
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
@@ -95,6 +101,8 @@ Typograf.prototype = {
         } else {
             this._enabledRules[rule] = enabled;
         }
+        
+        return this;
     },
     _defaultSettings: {},
     _rules: [],
@@ -415,47 +423,31 @@ Typograf.prototype.entities = [
     ['\\&euro;', '\\&\\#8364;', '\u20AC']
 ];
 
-Typograf.rule({
-    title: '-> → →, <- → ←',
-    name: 'arrow',
-    sortIndex: 1130,
-    func: function(text) {
-        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление лишних точек и пробелов в вв.',
-    name: 'cc',
-    sortIndex: 1090,
-    func: function(text) {
-        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
-
-        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
-    }
-});
-
-Typograf.rule({
-    title: 'Добавление ° к C и F',
-    name: 'cf',
-    sortIndex: 1020,
-    func: function(text) {
-        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:\\!\\?"\\]\\)]|$)', 'g');
-
-        return text.replace(re, '$1' + '\u2009' + '°$3$4');
-    }
-});
-
-Typograf.rule({
-    title: '(c) → ©, (tm) → ©, (r) → ™',
-    name: 'copy',
-    sortIndex: 10,
-    func: function(text) {
-        return text.replace(/\(r\)/gi, '®')
-            .replace(/\((c|с)\)/gi, '©')
-            .replace(/\(tm\)/gi, '™');
-    }
-});
+Typograf.prototype.data = {
+    months: [
+        'январь',
+        'февраль',
+        'март',
+        'апрель',
+        'май',
+        'июнь',
+        'июль',
+        'август',
+        'сентябрь',
+        'октябрь',
+        'ноябрь',
+        'декабрь'
+    ],
+    weekdays: [
+        'понедельник',
+        'вторник',
+        'среда',
+        'четверг',
+        'пятница',
+        'суббота',
+        'воскресенье'
+    ]
+};
 
 Typograf.rule({
     title: 'Удаление двойной пунктуации',
@@ -488,120 +480,51 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
-    name: 'fraction',
-    sortIndex: 1120,
-    func: function(text) {
-        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
-            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
-            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
-    }
-});
-
-Typograf.rule({
-    title: '... → …', 
-    name: 'hellip', 
-    sortIndex: 20, 
-    func: function(text) {
-        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
-    }
-});
-
-Typograf.rule({
-    title: 'Замена перевода строки на <br/>',
-    name: 'nbr',
-    sortIndex: 710,
-    func: function(text) {
-        return text.replace(/\n/g, '|<br/>');
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    title: 'Расстановка <p> и <br/>',
-    name: 'pbr',
-    sortIndex: 700,
-    func: function(text) {
-        if(text.search(/\n/) !== -1) {
-            text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-            text = text.replace(/([^>])\n/g, '$1<br />\n');
-        } else {
-            text = '<p>' + text + '</p>';
-        }
-
-        return text;
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    title: '+- → ±',
-    name: 'plus_minus',
-    sortIndex: 1010,
-    func: function(text) {
-        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
-        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
-    }
-});
-
-Typograf.rule({
     title: 'Расстановка кавычек',
     name: 'quot',
     sortIndex: 700,
     func: function(text) {
-        return text; // TODO
+        var letter = '[\\w\\dа-яёА-ЯЁ]',
+            lquot = this.setting('lquot'),
+            rquot = this.setting('rquot'),
+            lquot2 = this.setting('lquot2'),
+            rquot2 = this.setting('rquot2'),
+            tag = '(?:^|<\\w.*?>)*',
+            phraseL = '(?:…|' + letter + '|\\n)',
+            phraseR = '(?:' + [letter, '[)!?.:;#*]'].join('|') + ')*',
+            quotesL = '(«|»|„|“|”|‘|’|&quot;|")',
+            quotesR = '(»|“|&quot;|")',
+            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
+            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
+            reL2 = new RegExp('(' + lquot + ')(.*?)' + lquot + '(.*?)(' + rquot + ')', 'g'),
+            reR2 = new RegExp('(' + lquot + ')(.*?)' + rquot + '(.*?)(' + rquot + ')', 'g'),
+            reDoubleL = new RegExp(lquot + lquot, 'g'),
+            reDoubleR = new RegExp(rquot + rquot, 'g');
+            
+        text = text
+            .replace(reL, '$1' + lquot + '$3')
+            .replace(reR, '$1' + rquot + '$3');
+            
+        if(lquot === lquot2 && rquot === rquot2) {
+            text = text
+                .replace(reDoubleL, '$1$2' + lquot + '$3$4')
+                .replace(reDoubleR, '$1$2' + rquot + '$3$4');
+        } else {
+            text = text
+                .replace(reL2, '$1$2' + lquot2 + '$3$4')
+                .replace(reR2, '$1$2' + rquot2 + '$3$4');
+        }
+
+        return text;
     }
 });
 
-Typograf.defaultSetting('quot11', '«');
-Typograf.defaultSetting('quot12', '»');
-Typograf.defaultSetting('quot21', '„');
-Typograf.defaultSetting('quot22', '“');
-
-Typograf.rule({
-    title: 'Удаление HTML-тегов',
-    name: 'strip_tags',
-    sortIndex: 5,
-    func: function(text) {
-        return text.replace(/<\/?[^>]+>/g, '');
-    },
-    enabled: false
+Typograf.defaultSetting({
+    lquot: '«',
+    rquot: '»',
+    lquot2: '„',
+    rquot2: '“'
 });
-
-Typograf.rule({
-    title: 'x → ×',
-    name: 'times',
-    sortIndex: 1050,
-    func: function(text) {
-        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
-    }
-});
-
-Typograf.rule({
-    title: 'Расстановка ссылок', 
-    name: 'url', 
-    sortIndex: 200, 
-    func: function(text) {
-        var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
-            pureUrl = '([a-zA-Z0-9\/\\n+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
-            re = new RegExp(prefix + pureUrl, 'g');
-
-        return text.replace(re, '<a href="$1://$2">$1://$2</a>');
-    }
-});
-
-Typograf.rule({
-    title: 'Дефис на тире',
-    name: 'dash',
-    sortIndex: 620,
-    func: function(text) {
-        var re = new RegExp('( |\u00A0)(-|—)( |\\n)', 'g');
-        return text.replace(re, '\u00A0—$3').replace(/(X|I|V) ?- ?(X|I|V)/g, '$1—$2');
-    }
-});
-
-Typograf.defaultSetting('dashInterval', '\u2014');
-Typograf.defaultSetting('dash', '\u2014');
 
 (function() {
 
@@ -643,7 +566,7 @@ Typograf.rule({
     name: 'dash:koe',
     sortIndex: 38,
     func: function(text) {
-        var re = new RegExp(before + '(К|к)ое\\s([а-я]{3,})' + after, 'g');
+        var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
         text = text.replace(re, '$1$2ое-$3$4');
         
         var re2 = new RegExp(before + '(К|к)ой\\s([а-я]{3,})' + after, 'g');
@@ -664,11 +587,27 @@ Typograf.rule({
 })();
 
 Typograf.rule({
+    title: 'Дефис на тире',
+    name: 'dash:main',
+    sortIndex: 620,
+    func: function(text) {
+        var re = new RegExp('(\\s|\u00A0)(-|—)(\\s|\\n)', 'g');
+        
+        return text
+            .replace(re, '\u00A0—$3')
+            .replace(/(X|I|V)(?: |\u00A0)?(-|—)(?: |\u00A0)?(X|I|V)/g, '$1—$3');
+    }
+});
+
+Typograf.defaultSetting('dashInterval', '\u2014');
+Typograf.defaultSetting('dash', '\u2014');
+
+Typograf.rule({
     title: 'Дефис между месяцами',
     name: 'dash:month',
     sortIndex: 610,
     func: function(text) {
-        var part = '(январь|февраль|март|апрель|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь)',
+        var part = '(' + this.data.months.join('|') + ')',
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
         return text.replace(re, '$1' + this.setting('dashInterval') + '$3');
@@ -680,13 +619,60 @@ Typograf.rule({
     name: 'dash:weekday',
     sortIndex: 600,
     func: function(text) {
-        var dash = this.setting('dashInterval'),
-            part = '(понедельник|вторник|среда|четверг|пятница|суббота|воскресенье)',
+        var part = '(' + this.data.weekdays.join('|') + ')',
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
-        return text.replace(re, '$1—$3')
-            .replace(/(^|\n|>) ?(-|—) /g, '$1— ')
-            .replace(/(^|[^\d\-])(\d{1,4}) ?(-|—) ?(\d{1,4})([^\d\-\=]|$)/g, '$1$2' + dash + '$4$5');
+        return text.replace(re, '$1' + this.setting('dashInterval') + '$3');
+    }
+});
+
+Typograf.rule({
+    title: 'Замена перевода строки на <br/>',
+    name: 'html:nbr',
+    sortIndex: 710,
+    func: function(text) {
+        return text.replace(/\n/g, '<br/>');
+    },
+    enabled: false
+});
+
+Typograf.rule({
+    title: 'Расстановка <p> и <br/>',
+    name: 'html:pbr',
+    sortIndex: 700,
+    func: function(text) {
+        if(text.search(/\n/) === -1) {
+            text = '<p>' + text + '</p>';
+        } else {
+            text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
+            text = text.replace(/([^>])\n/g, '$1<br/>\n');
+        }
+
+        return text;
+    },
+    enabled: false
+});
+
+Typograf.rule({
+    title: 'Удаление HTML-тегов',
+    name: 'html:strip_tags',
+    sortIndex: 5,
+    func: function(text) {
+        return text.replace(/<\/?[^>]+>/g, '');
+    },
+    enabled: false
+});
+
+Typograf.rule({
+    title: 'Расстановка ссылок', 
+    name: 'html:url', 
+    sortIndex: 200, 
+    func: function(text) {
+        var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
+            pureUrl = '([a-zA-Z0-9\/\\n+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
+            re = new RegExp(prefix + pureUrl, 'g');
+
+        return text.replace(re, '<a href="$1://$2">$1://$2</a>');
     }
 });
 
@@ -695,7 +681,7 @@ Typograf.rule({
     name: 'nbsp:after_num',
     sortIndex: 610,
     func: function(text) {
-        return text.replace(/№(\d)/g, '№\u00A0$1').replace(/§(\d|I|V|X)/g, '§\u00A0$1');
+        return text.replace(/№ ?(\d)/g, '№\u00A0$1').replace(/§ ?(\d|I|V|X)/g, '§\u00A0$1');
     }
 });
 
@@ -705,7 +691,7 @@ Typograf.rule({
     sortIndex: 590,
     func: function(text) {
         var len = this.setting('lengthShortWord'),
-        re = new RegExp('( [а-яА-Я\\w]{1,' + len + '}) ', 'g');
+        re = new RegExp('( [а-яёА-ЯЁ\\w]{1,' + len + '}) ', 'g');
 
         return len > 0 ? text.replace(re, '$1\u00A0') : text;
     }
@@ -718,19 +704,19 @@ Typograf.rule({
     name: 'nbsp:before_particle',
     sortIndex: 570,
     func: function(text) {
-        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яА-Я])/g, '\u00A0$1$2');
+        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
     }
 });
 
 Typograf.rule({
     title: 'Неразрывный пробел перед последним коротким словом в предложении',
-    name: 'nbsp:before_last_word', 
+    name: 'nbsp:before_short_last_word',
     sortIndex: 620,
     func: function(text) {
         var len = this.setting('lengthLastWord'),
-            re = new RegExp('( )([а-яА-Я\\w]{1,' + len + '})(\\.|\\?|:|\\!|,)', 'g');
+            re = new RegExp(' ([а-яёА-ЯЁ\\w]{1,' + len + '})(\\.|\\?|:|!|,)', 'g');
 
-        return len > 0 ? text.replace(re, '\u00A0$2$3') : text;
+        return len > 0 ? text.replace(re, '\u00A0$1$2') : text;
     }
 });
 
@@ -784,7 +770,7 @@ Typograf.rule({
     name: 'nbsp:yy',
     sortIndex: 1080,
     func: function(text) {
-        return text.replace(/(^| )г\. ?г\./g, '\u00A0гг.');
+        return text.replace(/(^|\d) ?г\. ?г\./g, '$1\u00A0гг.');
     }
 });
 
@@ -812,7 +798,7 @@ Typograf.rule({
     name: 'space:del_before_percent',
     sortIndex: 600,
     func: function(text) {
-        return text.replace(/\d( |\u0A00)%/g, '%');
+        return text.replace(/(\d)( |\u00A0)%/g, '$1%');
     }
 });
 
@@ -862,6 +848,87 @@ Typograf.rule({
     sortIndex: 530,
     func: function(text) {
         return text.trim();
+    }
+});
+
+Typograf.rule({
+    title: '-> → →, <- → ←',
+    name: 'sym:arrow',
+    sortIndex: 1130,
+    func: function(text) {
+        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление лишних точек и пробелов в вв.',
+    name: 'sym:cc',
+    sortIndex: 1090,
+    func: function(text) {
+        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
+
+        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
+    }
+});
+
+Typograf.rule({
+    title: 'Добавление ° к C и F',
+    name: 'sym:cf',
+    sortIndex: 1020,
+    func: function(text) {
+        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:\\!\\?"\\]\\)]|$)', 'g');
+
+        return text.replace(re, '$1' + '\u2009' + '°$3$4');
+    }
+});
+
+Typograf.rule({
+    title: '(c) → ©, (tm) → ©, (r) → ™',
+    name: 'sym:copy',
+    sortIndex: 10,
+    func: function(text) {
+        return text.replace(/\(r\)/gi, '®')
+            .replace(/\((c|с)\)/gi, '©')
+            .replace(/\(tm\)/gi, '™');
+    }
+});
+
+Typograf.rule({
+    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
+    name: 'sym:fraction',
+    sortIndex: 1120,
+    func: function(text) {
+        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
+            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
+            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
+    }
+});
+
+Typograf.rule({
+    title: '... → …', 
+    name: 'sym:hellip', 
+    sortIndex: 20, 
+    func: function(text) {
+        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
+    }
+});
+
+Typograf.rule({
+    title: '+- → ±',
+    name: 'sym:plus_minus',
+    sortIndex: 1010,
+    func: function(text) {
+        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
+        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
+    }
+});
+
+Typograf.rule({
+    title: 'x → ×',
+    name: 'sym:times',
+    sortIndex: 1050,
+    func: function(text) {
+        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
 });
 

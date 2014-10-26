@@ -13,6 +13,7 @@ var paths = {
     js: [
         'src/main.js',
         'src/entities.js',
+        'src/data.js',
         'src/rules/**/*.js',
         'src/end.js'
     ],
@@ -41,7 +42,7 @@ gulp.task('test-js', function() {
 
     return gulp.src(paths.testJs)
         .pipe(filterSpec)
-        .pipe(concat('rules.js'))
+        .pipe(concat('_rules.js'))
         .pipe(gulp.dest('./tests/'));
 });
 
@@ -54,7 +55,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/**/*', ['js']);
+    gulp.watch('src/**/*', ['js', 'test-js']);
 });
 
 gulp.task('default', ['js', 'minjs', 'test-js', 'watch', 'lint']);
