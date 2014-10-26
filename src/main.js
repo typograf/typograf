@@ -20,13 +20,14 @@ function Typograf(prefs) {
 
 /**
 * Добавить правило.
+*
 * @static
 * @param {Object} rule
 * @param {string} rule.name Название правила
 * @param {string} rule.title Описание правила
 * @param {string} rule.sortIndex Индекс сортировки, чем выше, тем позже выполняется
-* @param {Function} func Функция обработки
-* @param {boolean} enabled Включено ли правило по умолчанию
+* @param {Function} rule.func Функция обработки
+* @param {boolean} rule.enabled Включено ли правило по умолчанию
 * @return {Typograf} this
 */
 Typograf.rule = function(rule) {
@@ -83,7 +84,7 @@ Typograf.prototype = {
         var isHTML = text.search(/<|>/) !== -1;
 
         if(isHTML) {
-            text = this._hideTags(text);
+            text = this._hideSafeTags(text);
         }
 
         text = this._utfication(text);
@@ -97,12 +98,11 @@ Typograf.prototype = {
         text = this._modification(text);
 
         if(isHTML) {
-            text = this._showTags(text);
+            text = this._showSafeTags(text);
         }
 
         return text;
     },
-    constructor: Typograf,
 
     /**
     * Установить/получить настройку
@@ -171,7 +171,7 @@ Typograf.prototype = {
     },
     _defaultSettings: {},
     _rules: [],
-    _hideTags: function(text) {
+    _hideSafeTags: function(text) {
         this._hiddenTags = {};
 
         var that = this,
@@ -200,7 +200,7 @@ Typograf.prototype = {
 
         return text;
     },
-    _showTags: function(text) {
+    _showSafeTags: function(text) {
         Object.keys(this._hiddenTags).forEach(function(key) {
             text = text.replace(new RegExp(key, 'gim'), this._hiddenTags[key]);
         }, this);
@@ -210,9 +210,12 @@ Typograf.prototype = {
         return text;
     },
     _utfication: function(text) {
+        if(text.search('&') === -1) {
+            return text;
+        }
+
         this.entities.forEach(function(entity) {
-            var re = new RegExp('(' + entity[0] + '|' + entity[1] + ')', 'g');
-            text = text.replace(re, entity[2]);
+            text = text.replace(entity[3], entity[2]);
         }, this);
 
         return text;
