@@ -1,4 +1,4 @@
-tests.push(['cf', [
+tests.push(['sym:cf', [
     [' 200 C', ' 200 °C'],
     [' 200 C.', ' 200 °C.'],
     [' 20d C', ' 20d C'],

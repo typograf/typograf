@@ -22,10 +22,20 @@ Typograf.rule = function(rule) {
     if(Typograf._needSortRules) {
         this._sortRules();
     }
+    
+    return this;
 };
 
 Typograf.defaultSetting = function(name, value) {
-    Typograf.prototype._defaultSettings[name] = value;
+    if(typeof name === 'object') {
+        Object.keys(name).forEach(function(key) {
+            Typograf.prototype._defaultSettings[key] = name[key];
+        });
+    } else {
+        Typograf.prototype._defaultSettings[name] = value;
+    }
+    
+    return this;
 };
 
 Typograf._sortRules = function() {
@@ -78,14 +88,10 @@ Typograf.prototype = {
         return !this._enabledRules[rule];
     },
     enable: function(rule) {
-        this._enable(rule, true);
-
-        return this;
+        return this._enable(rule, true);
     },
     disable: function(rule) {
-        this._enable(rule, false);
-
-        return this;
+        return this._enable(rule, false);
     },
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
@@ -95,6 +101,8 @@ Typograf.prototype = {
         } else {
             this._enabledRules[rule] = enabled;
         }
+        
+        return this;
     },
     _defaultSettings: {},
     _rules: [],

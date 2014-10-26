@@ -1,6 +1,6 @@
 Typograf.rule({
     title: '+- → ±',
-    name: 'plus_minus',
+    name: 'sym:plus_minus',
     sortIndex: 1010,
     func: function(text) {
         var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');

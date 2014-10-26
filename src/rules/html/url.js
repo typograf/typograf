@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'Расстановка ссылок', 
-    name: 'url', 
+    name: 'html:url', 
     sortIndex: 200, 
     func: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',

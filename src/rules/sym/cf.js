@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'Добавление ° к C и F',
-    name: 'cf',
+    name: 'sym:cf',
     sortIndex: 1020,
     func: function(text) {
         var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:\\!\\?"\\]\\)]|$)', 'g');
