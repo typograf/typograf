@@ -41,6 +41,10 @@
 </script>
   ```
 ### Node.js
+  ```
+npm install typograf
+  ```
+  
   ```JavaScript
 var Typograf = require('typograf'),
     tp = new Typograf();
