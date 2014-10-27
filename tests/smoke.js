@@ -5,4 +5,5 @@ test('smoke', function() {
     equal(texec('Роман, в котором творческие принципы Достоевского воплощаются в полной мере а удивительное владение сюжетом достигает подлинного расцвета.'), 'Роман, в\u00A0котором творческие принципы Достоевского воплощаются в\u00A0полной мере, а\u00A0удивительное владение сюжетом достигает подлинного расцвета.');
     
     equal(texec('              asdk aksod         kasod koas/n<script>    var a = 10;   \n\n\n<\/script> askod kasodko askd     '), 'asdk aksod kasod koas/n<script>    var a = 10;   \n\n\n<\/script> askod kasodko askd');
+    equal(texec('              <pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>    '), '<pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>');
 });
