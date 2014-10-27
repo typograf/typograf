@@ -39,6 +39,29 @@ function getPrefix(str) {
     return prefix;
 }
 
+function getHashParams(param) {
+    var hash = window.location.hash.replace(/^#!/, ''),
+        buf = hash.split('&'),
+        params = {};
+
+    for(var i = 0; i < buf.length; i++) {
+        var el = buf[i].split('=');
+        if(el.length > 1 && el[1] !== undefined) {
+            try {
+                params[el[0]] = window.decodeURIComponent(el[1]);
+            } catch(e) {
+                params[el[0]] = el[1];
+            }
+        }
+    }
+
+    return params;
+}
+
+function getHashParam(param) {
+    return getHashParams()[param];
+}
+
 function addEvent(elem, type, callback) {
     var elem = typeof elem === 'string' ? $(elem) : elem;
     if(Array.isArray(type)) {
@@ -54,13 +77,16 @@ var typo = new Typograf();
 
 var App = {
     init: function() {
+        this._setValue(getHashParam('text') || '');
+
         this._events();
+
         this.prefs._events();
 
         this.execute();
     },
     execute: function() {
-        var res = typo.execute($('#text').value);
+        var res = typo.execute(this._getValue());
         $('#result-html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
         $('#result').innerHTML = res;
     },
@@ -169,6 +195,26 @@ var App = {
             });
         }
     },
+    _setValue: function(value) {
+        $('#text').value = value;
+
+        this._updateValue(value);
+    },
+    _getValue: function() {
+        return $('#text').value;
+    },
+    _updateValue: function(value) {
+        window.location.hash = '#!text=' + window.encodeURIComponent(value);
+        
+        this._updateClearText(value);
+    },
+    _updateClearText: function(value) {
+        if(value.length > 0) {
+            show('#clear-text');
+        } else {
+            hide('#clear-text');
+        }
+    },
     _events: function() {
         var that = this;
 
@@ -187,9 +233,8 @@ var App = {
         });
 
         addEvent('#clear-text', 'click', function() {
-            hide('#clear-text');
+            that._setValue('');
 
-            $('#text').value = '';
             $('#text').focus();
 
             that.execute();
@@ -197,17 +242,14 @@ var App = {
 
         var oldValue = null;
         addEvent('#text', ['keyup', 'input', 'click'], function() {
-            var val = $('#text').value;
+            var val = that._getValue();
             if(val === oldValue) {
                 return;
             }
+
             oldValue = val;
 
-            if(val.length > 0) {
-                show('#clear-text');
-            } else {
-                hide('#clear-text');
-            }
+            that._updateValue(val);
 
             that.execute();
         });
