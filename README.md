@@ -55,18 +55,17 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 ## Включить/отключить правило
   ```JavaScript
 var tp = new Typograf();
-tp.disable('space_after_num'); // Отключить правило
+tp.disable('space/afterNum'); // Отключить в группе "space" правило "afterNum"
 //...
-tp.enable('space_after_num'); // Включить правило
+tp.enable('space/afterNum'); // Включить в группе "space" правило "afterNum"
   ```
-
 
 ## Добавить правило
   ```JavaScript
 Typograf.rule({
     title: 'Пример правила',
-    name: 'parampampam', 
-    sortIndex: 2000, // меньше - раньше, выше - позже выполняется
+    name: 'other/parampampam', // Группа "other", правило "parampampam"
+    sortIndex: 2000, // меньше - раньше, больше - позже выполняется
     func: function(text) {
         return text.replace(/parampampam/g, 'tryam');
     }

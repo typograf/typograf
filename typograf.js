@@ -8,12 +8,10 @@ function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
 
     this._settings = {};
-    Object.keys(this._defaultSettings).forEach(function(prop) {
-        this._settings[prop] = this._defaultSettings[prop];
-    }, this);
-
     this._enabledRules = {};
+
     this._rules.forEach(function(rule) {
+        this._settings[rule.name] = rule.settings || {};
         this._enabledRules[rule.name] = rule.enabled;
     }, this);
 }
@@ -43,23 +41,14 @@ Typograf.rule = function(rule) {
 };
 
 /**
-* Установить значение настройки по умолчанию.
+* Добавить общие данные для использования в правилах.
 *
-* @statics
-* @param {string|Array} name Название настройки или массив с настройками
-* @param {*} [value] Значение настройки
-* @return {Typograf} this
+* @static
+* @param {string} key Название ключа
+* @param {*} value Значение ключа
 */
-Typograf.defaultSetting = function(name, value) {
-    if(typeof name === 'object') {
-        Object.keys(name).forEach(function(key) {
-            Typograf.prototype._defaultSettings[key] = name[key];
-        });
-    } else {
-        Typograf.prototype._defaultSettings[name] = value;
-    }
-
-    return this;
+Typograf.data = function(key, value) {
+    Typograf.prototype.data[key] = value;
 };
 
 Typograf._sortRules = function() {
@@ -91,7 +80,7 @@ Typograf.prototype = {
 
         this._rules.forEach(function(rule) {
             if(this.enabled(rule.name)) {
-                text = rule.func.call(this, text);
+                text = rule.func.call(this, text, this._settings[rule.name]);
             }
         }, this);
 
@@ -107,14 +96,17 @@ Typograf.prototype = {
     /**
     * Установить/получить настройку
     *
-    * @param {string} name
-    * @return {string} [value]
+    * @param {string} rule Имя правила
+    * @param {string} name Имя настройки
+    * @return {*} [value] Значение настройки
     */
-    setting: function(name, value) {
-        if(arguments.length === 1) {
-            return this._settings[name];
+    setting: function(rule, name, value) {
+        if(arguments.length <= 2) {
+            return this._settings[rule] ? this._settings[rule][name] : undefined;
         } else {
-            this._settings[name] = value;
+            this._settings[rule] = this._settings[rule] || {};
+            this._settings[rule][name] = value;
+
             return this;
         }
     },
@@ -158,6 +150,7 @@ Typograf.prototype = {
     disable: function(rule) {
         return this._enable(rule, false);
     },
+    data: {},
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
             rule.forEach(function(el) {
@@ -169,10 +162,9 @@ Typograf.prototype = {
 
         return this;
     },
-    _defaultSettings: {},
     _rules: [],
     _hideSafeTags: function(text) {
-        this._hiddenTags = {};
+        this._hiddenSafeTags = {};
 
         var that = this,
             re = '',
@@ -192,7 +184,7 @@ Typograf.prototype = {
         var i = 0;
         text = text.replace(new RegExp('(' + re + '<[^>]*[\\s][^>]*>)', 'gim'), function(match) {
             var key = '__typograf' + i + '__';
-            that._hiddenTags[key] = match;
+            that._hiddenSafeTags[key] = match;
             i++;
 
             return key;
@@ -201,11 +193,11 @@ Typograf.prototype = {
         return text;
     },
     _showSafeTags: function(text) {
-        Object.keys(this._hiddenTags).forEach(function(key) {
-            text = text.replace(new RegExp(key, 'gim'), this._hiddenTags[key]);
+        Object.keys(this._hiddenSafeTags).forEach(function(key) {
+            text = text.replace(new RegExp(key, 'gim'), this._hiddenSafeTags[key]);
         }, this);
 
-        delete this._hiddenTags;
+        delete this._hiddenSafeTags;
 
         return text;
     },
@@ -495,35 +487,34 @@ Typograf.prototype.entities.forEach(function(en) {
     en[3] = new RegExp('(' + en[0] + '|' + en[1] + ')', 'g');
 }, this);
 
-Typograf.prototype.data = {
-    months: [
-        'январь',
-        'февраль',
-        'март',
-        'апрель',
-        'май',
-        'июнь',
-        'июль',
-        'август',
-        'сентябрь',
-        'октябрь',
-        'ноябрь',
-        'декабрь'
-    ],
-    weekdays: [
-        'понедельник',
-        'вторник',
-        'среда',
-        'четверг',
-        'пятница',
-        'суббота',
-        'воскресенье'
-    ]
-};
+Typograf.data('month', [
+    'январь',
+    'февраль',
+    'март',
+    'апрель',
+    'май',
+    'июнь',
+    'июль',
+    'август',
+    'сентябрь',
+    'октябрь',
+    'ноябрь',
+    'декабрь'
+]);
+
+Typograf.data('weekday', [
+    'понедельник',
+    'вторник',
+    'среда',
+    'четверг',
+    'пятница',
+    'суббота',
+    'воскресенье'
+]);
 
 Typograf.rule({
     title: 'Удаление двойной пунктуации',
-    name: 'del_double_punctiation',
+    name: 'delDoublePunctiation',
     sortIndex: 580,
     func: function(text) {
         return text.replace(/(,|:|;|\?){2,}/g, '$1');
@@ -543,7 +534,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '!? → ?!',
-    name: 'exclamation_question',
+    name: 'exclamationQuestion',
     sortIndex: 1140,
     func: function(text) {
         var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
@@ -555,12 +546,12 @@ Typograf.rule({
     title: 'Расстановка кавычек',
     name: 'quot',
     sortIndex: 700,
-    func: function(text) {
+    func: function(text, settings) {
         var letter = '[\\w\\dа-яёА-ЯЁ]',
-            lquot = this.setting('lquot'),
-            rquot = this.setting('rquot'),
-            lquot2 = this.setting('lquot2'),
-            rquot2 = this.setting('rquot2'),
+            lquot = settings.lquot,
+            rquot = settings.rquot,
+            lquot2 = settings.lquot2,
+            rquot2 = settings.rquot2,
             tag = '(?:^|<\\w.*?>)*',
             phraseL = '(?:…|' + letter + '|\\n)',
             phraseR = '(?:' + [letter, '[)!?.:;#*]'].join('|') + ')*',
@@ -588,14 +579,13 @@ Typograf.rule({
         }
 
         return text;
+    },
+    settings: {
+        lquot: '«',
+        rquot: '»',
+        lquot2: '„',
+        rquot2: '“'
     }
-});
-
-Typograf.defaultSetting({
-    lquot: '«',
-    rquot: '»',
-    lquot2: '„',
-    rquot2: '“'
 });
 
 (function() {
@@ -605,7 +595,7 @@ var before = '(^| |\\n)',
 
 Typograf.rule({
     title: 'Дефис перед то, либо, нибудь, ка, де, кась',
-    name: 'dash:to',
+    name: 'dash/to',
     sortIndex: 30,
     func: function(text) {
         var re = new RegExp('( | ?- ?)(то|либо|нибудь|ка|де|кась)' + after, 'g');
@@ -615,7 +605,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между из-за',
-    name: 'dash:izza',
+    name: 'dash/izza',
     sortIndex: 33,
     func: function(text) {
         var re = new RegExp(before + '(И|и)з за' + after, 'g');
@@ -625,7 +615,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между из-под',
-    name: 'dash:izpod',
+    name: 'dash/izpod',
     sortIndex: 35,
     func: function(text) {
         var re = new RegExp(before + '(И|и)з под' + after, 'g');
@@ -635,7 +625,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис после кое и кой',
-    name: 'dash:koe',
+    name: 'dash/koe',
     sortIndex: 38,
     func: function(text) {
         var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
@@ -648,7 +638,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между верно-таки и т.д.',
-    name: 'dash:taki',
+    name: 'dash/taki',
     sortIndex: 39,
     func: function(text) {
         var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' + after, 'g');
@@ -660,7 +650,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис на тире',
-    name: 'dash:main',
+    name: 'dash/main',
     sortIndex: 620,
     func: function(text) {
         var re = new RegExp('(\\s|\u00A0)(-|—)(\\s|\\n)', 'g');
@@ -668,39 +658,40 @@ Typograf.rule({
         return text
             .replace(re, '\u00A0—$3')
             .replace(/(X|I|V)(?: |\u00A0)?(-|—)(?: |\u00A0)?(X|I|V)/g, '$1—$3');
+    },
+    settings: {
+        dash: '\u2014',
+        dashInterval: '\u2014'
     }
 });
 
-Typograf.defaultSetting('dashInterval', '\u2014');
-Typograf.defaultSetting('dash', '\u2014');
-
 Typograf.rule({
     title: 'Дефис между месяцами',
-    name: 'dash:month',
+    name: 'dash/month',
     sortIndex: 610,
     func: function(text) {
-        var part = '(' + this.data.months.join('|') + ')',
+        var part = '(' + this.data.month.join('|') + ')',
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
-        return text.replace(re, '$1' + this.setting('dashInterval') + '$3');
+        return text.replace(re, '$1' + this.setting('dash/main', 'dashInterval') + '$3');
     }
 });
 
 Typograf.rule({
     title: 'Дефис между днями недели',
-    name: 'dash:weekday',
+    name: 'dash/weekday',
     sortIndex: 600,
     func: function(text) {
-        var part = '(' + this.data.weekdays.join('|') + ')',
+        var part = '(' + this.data.weekday.join('|') + ')',
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
-        return text.replace(re, '$1' + this.setting('dashInterval') + '$3');
+        return text.replace(re, '$1' + this.setting('dash/main', 'dashInterval') + '$3');
     }
 });
 
 Typograf.rule({
     title: 'Преобразование дат к виду DD.MM.YYYY',
-    name: 'date:main',
+    name: 'date/main',
     sortIndex: 1300,
     func: function(text) {
         var sp1 = '(-|\\.|\\/)',
@@ -716,7 +707,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Замена перевода строки на <br/>',
-    name: 'html:nbr',
+    name: 'html/nbr',
     sortIndex: 710,
     func: function(text) {
         return text.replace(/\n/g, '<br/>');
@@ -726,7 +717,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Расстановка <p> и <br/>',
-    name: 'html:pbr',
+    name: 'html/pbr',
     sortIndex: 700,
     func: function(text) {
         if(text.search(/\n/) === -1) {
@@ -743,7 +734,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление HTML-тегов',
-    name: 'html:strip_tags',
+    name: 'html/stripTags',
     sortIndex: 5,
     func: function(text) {
         return text.replace(/<\/?[^>]+>/g, '');
@@ -753,7 +744,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Расстановка ссылок',
-    name: 'html:url',
+    name: 'html/url',
     sortIndex: 200,
     func: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
@@ -761,32 +752,31 @@ Typograf.rule({
             re = new RegExp(prefix + pureUrl, 'g');
 
         return text.replace(re, function($0, $1, $2) {
-            var first = '<a href="' + $1 + '://' + $2 + '">',
-                url = $2;
+            var url = $2,
+                fullUrl = $1 + '://' + $2,
+                firstPart = '<a href="' + fullUrl + '">';
 
             if($1 === 'http') {
-                url = url.replace(/^www\./, '');
+                url = url
+                    .replace(/^www\./, '')
+                    .replace(/^([^\/]+)\/$/, '$1');
 
-                if(url.search(/\/$/) !== -1 && url.split('/').length === 2) {
-                    url = url.replace(/\/$/, '');
-                }
-
-                return first + url +'</a>';
+                return firstPart + url + '</a>';
             }
 
-            return first + $1 + '://' + $2 +'</a>';
+            return firstPart + fullUrl + '</a>';
         });
     }
 });
 
 Typograf.rule({
     title: '$100 → 100 $',
-    name: 'money:dollar',
+    name: 'money/dollar',
     sortIndex: 1140,
     func: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
             re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$'),
-            rep = '$1$2\u00A0\$';
+            rep = '$1$2\u00A0$';
 
         return text
             .replace(re1, rep)
@@ -796,7 +786,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '€100 → 100 €',
-    name: 'money:euro',
+    name: 'money/euro',
     sortIndex: 1140,
     func: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
@@ -811,7 +801,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел после № и §',
-    name: 'nbsp:after_num',
+    name: 'nbsp/afterNum',
     sortIndex: 610,
     func: function(text) {
         return text.replace(/№ ?(\d)/g, '№\u00A0$1').replace(/§ ?(\d|I|V|X)/g, '§\u00A0$1');
@@ -820,21 +810,22 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел после короткого слова',
-    name: 'nbsp:after_short_word', 
+    name: 'nbsp/afterShortWord', 
     sortIndex: 590,
-    func: function(text) {
-        var len = this.setting('lengthShortWord'),
+    func: function(text, settings) {
+        var len = settings.lengthShortWord,
         re = new RegExp('( [а-яёА-ЯЁ\\w]{1,' + len + '}) ', 'g');
 
         return len > 0 ? text.replace(re, '$1\u00A0') : text;
+    },
+    settings: {
+        lengthShortWord: 2
     }
 });
 
-Typograf.defaultSetting('lengthShortWord', 2);
-
 Typograf.rule({
     title: 'Неразрывный пробел перед ли, ль, же, бы, б',
-    name: 'nbsp:before_particle',
+    name: 'nbsp/beforeParticle',
     sortIndex: 570,
     func: function(text) {
         return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
@@ -843,21 +834,22 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел перед последним коротким словом в предложении',
-    name: 'nbsp:before_short_last_word',
+    name: 'nbsp/beforeShortLastWord',
     sortIndex: 620,
-    func: function(text) {
-        var len = this.setting('lengthLastWord'),
+    func: function(text, settings) {
+        var len = settings.lengthLastWord,
             re = new RegExp(' ([а-яёА-ЯЁ\\w]{1,' + len + '})(\\.|\\?|:|!|,)', 'g');
 
         return len > 0 ? text.replace(re, '\u00A0$1$2') : text;
+    },
+    settings: {
+        lengthLastWord: 3
     }
 });
 
-Typograf.defaultSetting('lengthLastWord', 3);
-
 Typograf.rule({
     title: 'Расстановка запятых и неразрывного пробела перед а и но',
-    name: 'nbsp:but',
+    name: 'nbsp/but',
     sortIndex: 1110,
     func: function(text) {
         var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
@@ -867,7 +859,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'm2 → м², m3 → м³ и неразрывный пробел',
-    name: 'nbsp:m',
+    name: 'nbsp/m',
     sortIndex: 1030,
     func: function(text) {
         var m = '(км|м|дм|см|мм)',
@@ -882,7 +874,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел после OOO или ОАО',
-    name: 'nbsp:ooo',
+    name: 'nbsp/ooo',
     sortIndex: 1100,
     func: function(text) {
         return text.replace(/(ООО|ОАО) /g, '$1\u00A0');
@@ -891,7 +883,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел после XXXX',
-    name: 'nbsp:xxxx',
+    name: 'nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
         return text.replace(/(^|\D)(\d{4}) ?г( |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
@@ -900,7 +892,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'г.г. → гг. и неразрывный пробел',
-    name: 'nbsp:yy',
+    name: 'nbsp/yy',
     sortIndex: 1080,
     func: function(text) {
         return text.replace(/(^|\d) ?г\. ?г\./g, '$1\u00A0гг.');
@@ -909,7 +901,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Пробел после знаков пунктуации', 
-    name: 'space:after_punctuation', 
+    name: 'space/afterPunctuation', 
     sortIndex: 560, 
     func: function(text) {
         return text
@@ -919,7 +911,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: '-space:before',
+    name: '-space/before',
     sortIndex: 500,
     func: function(text) {
         return text.replace(/\r/g, '');
@@ -928,7 +920,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление пробела перед %',
-    name: 'space:del_before_percent',
+    name: 'space/delBeforePercent',
     sortIndex: 600,
     func: function(text) {
         return text.replace(/(\d)( |\u00A0)%/g, '$1%');
@@ -937,7 +929,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление пробелов перед знаками пунктуации',
-    name: 'space:del_before_punctuation',
+    name: 'space/delBeforePunctuation',
     sortIndex: 550,
     func: function(text) {
         return text.replace(/ (\!|;|,|\?|\.|\:)/g, '$1')
@@ -950,7 +942,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление повторяющихся пробелов',
-    name: 'space:del_repeat_space',
+    name: 'space/delRepeatSpace',
     sortIndex: 540,
     func: function(text) {
         return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
@@ -959,7 +951,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление пробелов в конце строк',
-    name: 'space:del_trailing_blanks',
+    name: 'space/delTrailingBlanks',
     sortIndex: 505,
     func: function(text) {
         return text.replace(/\s+\n/g, '\n');
@@ -968,7 +960,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Замена табов на пробелы',
-    name: 'space:replace_tab',
+    name: 'space/replaceTab',
     sortIndex: 510,
     func: function(text) {
         return text.replace(/\t/g, ' ');
@@ -977,7 +969,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление пробелов в начале и в конце текста',
-    name: 'space:trim',
+    name: 'space/trim',
     sortIndex: 530,
     func: function(text) {
         return text.trim();
@@ -986,7 +978,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '-> → →, <- → ←',
-    name: 'sym:arrow',
+    name: 'sym/arrow',
     sortIndex: 1130,
     func: function(text) {
         return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
@@ -995,7 +987,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Удаление лишних точек и пробелов в вв.',
-    name: 'sym:cc',
+    name: 'sym/cc',
     sortIndex: 1090,
     func: function(text) {
         text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
@@ -1006,7 +998,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Добавление ° к C и F',
-    name: 'sym:cf',
+    name: 'sym/cf',
     sortIndex: 1020,
     func: function(text) {
         var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:\\!\\?"\\]\\)]|$)', 'g');
@@ -1017,7 +1009,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '(c) → ©, (tm) → ©, (r) → ™',
-    name: 'sym:copy',
+    name: 'sym/copy',
     sortIndex: 10,
     func: function(text) {
         return text.replace(/\(r\)/gi, '®')
@@ -1028,7 +1020,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
-    name: 'sym:fraction',
+    name: 'sym/fraction',
     sortIndex: 1120,
     func: function(text) {
         return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
@@ -1039,7 +1031,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '... → …', 
-    name: 'sym:hellip', 
+    name: 'sym/hellip', 
     sortIndex: 20, 
     func: function(text) {
         return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
@@ -1048,7 +1040,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: '+- → ±',
-    name: 'sym:plus_minus',
+    name: 'sym/plusMinus',
     sortIndex: 1010,
     func: function(text) {
         var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
@@ -1058,7 +1050,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'x → ×',
-    name: 'sym:times',
+    name: 'sym/times',
     sortIndex: 1050,
     func: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');

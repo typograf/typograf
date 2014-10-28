@@ -1,3 +1,3 @@
-tests.push(['space:replace_tab', [
+tests.push(['space/replaceTab', [
     ['  \t \t \t  ', '         ']
 ]]);

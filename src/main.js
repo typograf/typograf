@@ -8,12 +8,10 @@ function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
 
     this._settings = {};
-    Object.keys(this._defaultSettings).forEach(function(prop) {
-        this._settings[prop] = this._defaultSettings[prop];
-    }, this);
-
     this._enabledRules = {};
+
     this._rules.forEach(function(rule) {
+        this._settings[rule.name] = rule.settings || {};
         this._enabledRules[rule.name] = rule.enabled;
     }, this);
 }
@@ -43,23 +41,14 @@ Typograf.rule = function(rule) {
 };
 
 /**
-* Установить значение настройки по умолчанию.
+* Добавить общие данные для использования в правилах.
 *
-* @statics
-* @param {string|Array} name Название настройки или массив с настройками
-* @param {*} [value] Значение настройки
-* @return {Typograf} this
+* @static
+* @param {string} key Название ключа
+* @param {*} value Значение ключа
 */
-Typograf.defaultSetting = function(name, value) {
-    if(typeof name === 'object') {
-        Object.keys(name).forEach(function(key) {
-            Typograf.prototype._defaultSettings[key] = name[key];
-        });
-    } else {
-        Typograf.prototype._defaultSettings[name] = value;
-    }
-
-    return this;
+Typograf.data = function(key, value) {
+    Typograf.prototype.data[key] = value;
 };
 
 Typograf._sortRules = function() {
@@ -91,7 +80,7 @@ Typograf.prototype = {
 
         this._rules.forEach(function(rule) {
             if(this.enabled(rule.name)) {
-                text = rule.func.call(this, text);
+                text = rule.func.call(this, text, this._settings[rule.name]);
             }
         }, this);
 
@@ -107,14 +96,17 @@ Typograf.prototype = {
     /**
     * Установить/получить настройку
     *
-    * @param {string} name
-    * @return {string} [value]
+    * @param {string} rule Имя правила
+    * @param {string} name Имя настройки
+    * @return {*} [value] Значение настройки
     */
-    setting: function(name, value) {
-        if(arguments.length === 1) {
-            return this._settings[name];
+    setting: function(rule, name, value) {
+        if(arguments.length <= 2) {
+            return this._settings[rule] ? this._settings[rule][name] : undefined;
         } else {
-            this._settings[name] = value;
+            this._settings[rule] = this._settings[rule] || {};
+            this._settings[rule][name] = value;
+
             return this;
         }
     },
@@ -158,6 +150,7 @@ Typograf.prototype = {
     disable: function(rule) {
         return this._enable(rule, false);
     },
+    data: {},
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
             rule.forEach(function(el) {
@@ -169,10 +162,9 @@ Typograf.prototype = {
 
         return this;
     },
-    _defaultSettings: {},
     _rules: [],
     _hideSafeTags: function(text) {
-        this._hiddenTags = {};
+        this._hiddenSafeTags = {};
 
         var that = this,
             re = '',
@@ -192,7 +184,7 @@ Typograf.prototype = {
         var i = 0;
         text = text.replace(new RegExp('(' + re + '<[^>]*[\\s][^>]*>)', 'gim'), function(match) {
             var key = '__typograf' + i + '__';
-            that._hiddenTags[key] = match;
+            that._hiddenSafeTags[key] = match;
             i++;
 
             return key;
@@ -201,11 +193,11 @@ Typograf.prototype = {
         return text;
     },
     _showSafeTags: function(text) {
-        Object.keys(this._hiddenTags).forEach(function(key) {
-            text = text.replace(new RegExp(key, 'gim'), this._hiddenTags[key]);
+        Object.keys(this._hiddenSafeTags).forEach(function(key) {
+            text = text.replace(new RegExp(key, 'gim'), this._hiddenSafeTags[key]);
         }, this);
 
-        delete this._hiddenTags;
+        delete this._hiddenSafeTags;
 
         return text;
     },

@@ -1,4 +1,4 @@
-tests.push(['nbsp:m', [
+tests.push(['nbsp/m', [
     [' 2 м2 ', ' 2\u00A0м² '],
     [' 2.0 м2 ', ' 2.0\u00A0м² '],
     [' dd м2 ', ' dd м2 '],

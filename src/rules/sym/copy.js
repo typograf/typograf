@@ -1,6 +1,6 @@
 Typograf.rule({
     title: '(c) → ©, (tm) → ©, (r) → ™',
-    name: 'sym:copy',
+    name: 'sym/copy',
     sortIndex: 10,
     func: function(text) {
         return text.replace(/\(r\)/gi, '®')

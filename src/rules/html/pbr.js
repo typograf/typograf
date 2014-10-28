@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'Расстановка <p> и <br/>',
-    name: 'html:pbr',
+    name: 'html/pbr',
     sortIndex: 700,
     func: function(text) {
         if(text.search(/\n/) === -1) {

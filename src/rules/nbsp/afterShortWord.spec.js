@@ -1,3 +1,3 @@
-tests.push(['nbsp:after_short_word', [
+tests.push(['nbsp/afterShortWord', [
     ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.'],
 ]]);

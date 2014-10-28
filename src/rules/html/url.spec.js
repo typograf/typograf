@@ -1,4 +1,4 @@
-tests.push(['html:url', [
+tests.push(['html/url', [
     ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
     ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
     ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
