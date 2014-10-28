@@ -36,6 +36,7 @@
 ## Использование
 
 ### В браузере
+`bower install typograf`
   ```HTML
 <script src="dist/typograf.min.js"></script>
 <script>
