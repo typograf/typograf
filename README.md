@@ -86,6 +86,10 @@ tpName.execute('...'); // &hellip;
 var tpDigit = new Typograf({mode: 'digit'}); // HTML-сущности как цифры
 tpDigit.execute('...'); //&#8230; 
   ```
+## Ссылки
+[Ководство](http://www.artlebedev.ru/kovodstvo/)
+[Все типографы][http://rmcreative.ru/blog/post/vse-tipografy]
+[Порка типографов](http://www.typograf.ru/flog/)
 
 
 ## Лицензия
