@@ -1,0 +1,24 @@
+{
+  "name": "typograf",
+  "version": "1.0.1",
+  "description": "The typographer at JavaScript",
+  "bugs": "https://github.com/hcodes/typograf/issues/new",
+  "keywords": [
+    "texts",
+    "typographer",
+    "typography",
+    "typograf"
+  ],  
+  "main": [
+    "dist/typograf.js",
+    "dist/typograf.min.js"
+  ],
+  "ignore": [
+    "node_modules",
+    "libs"
+  ],
+  "devDependencies": {
+    "jquery": ">= 2.1.1",
+    "qunit": ">= 1.15.0"
+  }
+}

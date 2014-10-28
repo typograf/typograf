@@ -37,7 +37,7 @@
 
 ### В браузере
   ```HTML
-<script src="typograf.min.js"></script>
+<script src="dist/typograf.min.js"></script>
 <script>
     var tp = new Typograf();
     alert(tp.execute('     Мир - мой мир!      '));
