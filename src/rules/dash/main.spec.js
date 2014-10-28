@@ -1,4 +1,4 @@
-tests.push(['dash:main', [
+tests.push(['dash/main', [
     ['Правда - небольшая ложь', 'Правда\u00A0— небольшая ложь'],
     ['XX-XXI', 'XX—XXI'],
     ['XX - XXI', 'XX—XXI']

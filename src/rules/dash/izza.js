@@ -5,7 +5,7 @@ var before = '(^| |\\n)',
 
 Typograf.rule({
     title: 'Дефис перед то, либо, нибудь, ка, де, кась',
-    name: 'dash:to',
+    name: 'dash/to',
     sortIndex: 30,
     func: function(text) {
         var re = new RegExp('( | ?- ?)(то|либо|нибудь|ка|де|кась)' + after, 'g');
@@ -15,7 +15,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между из-за',
-    name: 'dash:izza',
+    name: 'dash/izza',
     sortIndex: 33,
     func: function(text) {
         var re = new RegExp(before + '(И|и)з за' + after, 'g');
@@ -25,7 +25,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между из-под',
-    name: 'dash:izpod',
+    name: 'dash/izpod',
     sortIndex: 35,
     func: function(text) {
         var re = new RegExp(before + '(И|и)з под' + after, 'g');
@@ -35,7 +35,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис после кое и кой',
-    name: 'dash:koe',
+    name: 'dash/koe',
     sortIndex: 38,
     func: function(text) {
         var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
@@ -48,7 +48,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Дефис между верно-таки и т.д.',
-    name: 'dash:taki',
+    name: 'dash/taki',
     sortIndex: 39,
     func: function(text) {
         var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' + after, 'g');

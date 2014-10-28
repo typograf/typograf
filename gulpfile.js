@@ -13,7 +13,7 @@ var paths = {
     js: [
         'src/main.js',
         'src/entities.js',
-        'src/data.js',
+        'src/data/**/*.js',
         'src/rules/**/*.js',
         'src/end.js'
     ],

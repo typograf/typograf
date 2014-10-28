@@ -2,12 +2,12 @@ Typograf.rule({
     title: 'Расстановка кавычек',
     name: 'quot',
     sortIndex: 700,
-    func: function(text) {
+    func: function(text, settings) {
         var letter = '[\\w\\dа-яёА-ЯЁ]',
-            lquot = this.setting('lquot'),
-            rquot = this.setting('rquot'),
-            lquot2 = this.setting('lquot2'),
-            rquot2 = this.setting('rquot2'),
+            lquot = settings.lquot,
+            rquot = settings.rquot,
+            lquot2 = settings.lquot2,
+            rquot2 = settings.rquot2,
             tag = '(?:^|<\\w.*?>)*',
             phraseL = '(?:…|' + letter + '|\\n)',
             phraseR = '(?:' + [letter, '[)!?.:;#*]'].join('|') + ')*',
@@ -35,12 +35,11 @@ Typograf.rule({
         }
 
         return text;
+    },
+    settings: {
+        lquot: '«',
+        rquot: '»',
+        lquot2: '„',
+        rquot2: '“'
     }
-});
-
-Typograf.defaultSetting({
-    lquot: '«',
-    rquot: '»',
-    lquot2: '„',
-    rquot2: '“'
 });

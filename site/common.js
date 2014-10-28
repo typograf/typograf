@@ -29,7 +29,7 @@ function toggle(el) {
 }
 
 function getPrefix(str) {
-    var prefix = str.split(':');
+    var prefix = str.split('/');
     if(prefix.length === 1) {
         prefix = '';
     } else {

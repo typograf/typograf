@@ -1,4 +1,4 @@
-tests.push(['sym:copy', [
+tests.push(['sym/copy', [
     ['(c)', '©'],
     ['(с)', '©'],
     ['(r)', '®'],

@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'Преобразование дат к виду DD.MM.YYYY',
-    name: 'date:main',
+    name: 'date/main',
     sortIndex: 1300,
     func: function(text) {
         var sp1 = '(-|\\.|\\/)',

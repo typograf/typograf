@@ -1,4 +1,4 @@
-tests.push(['money:dollar', [
+tests.push(['money/dollar', [
     ['100$', '100\u00A0$'],
     ['100 $', '100\u00A0$'],
     ['У меня есть $2!', 'У меня есть 2\u00A0$!'],

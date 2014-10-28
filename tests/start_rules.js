@@ -6,7 +6,7 @@ function rule(name, text) {
     
     rules.forEach(function(f) {
         if(f.name === name) {
-            text = f.func.call(typo, text);
+            text = f.func.call(typo, text, typo._settings[f.name]);
         }
     });
     

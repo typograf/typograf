@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'm2 → м², m3 → м³ и неразрывный пробел',
-    name: 'nbsp:m',
+    name: 'nbsp/m',
     sortIndex: 1030,
     func: function(text) {
         var m = '(км|м|дм|см|мм)',

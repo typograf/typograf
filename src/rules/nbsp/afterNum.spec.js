@@ -1,4 +1,4 @@
-tests.push(['nbsp:after_num', [
+tests.push(['nbsp/afterNum', [
     [' № 123', ' №\u00A0123'],
     [' №123', ' №\u00A0123'],
     [' § 123', ' §\u00A0123'],

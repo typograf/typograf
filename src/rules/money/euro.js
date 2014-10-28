@@ -1,6 +1,6 @@
 Typograf.rule({
     title: '€100 → 100 €',
-    name: 'money:euro',
+    name: 'money/euro',
     sortIndex: 1140,
     func: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
