@@ -1,10 +1,10 @@
 {
   "name": "typograf",
-  "version": "1.0.1",
-  "description": "The typographer at JavaScript",
+  "version": "1.2.0",
+  "description": "The client and server typographer",
   "bugs": "https://github.com/hcodes/typograf/issues/new",
   "keywords": [
-    "texts",
+    "text",
     "typographer",
     "typography",
     "typograf"
