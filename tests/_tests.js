@@ -1,3 +1,7 @@
+(function() {
+
+var tests = [];
+
 tests.push(['delDoublePunctiation', [
     ['У меня была только синяя краска;; но,, несмотря на это,, я затеял нарисовать охоту.', 'У меня была только синяя краска; но, несмотря на это, я затеял нарисовать охоту.'],
     ['Никогда не отказывайся от малого в работе:: из малого строится великое.', 'Никогда не отказывайся от малого в работе: из малого строится великое.']
@@ -262,3 +266,48 @@ tests.push(['sym/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90'],
 ]]);
+
+QUnit.module('smoke');
+
+test('smoke', function() {
+    var tests = [
+        ['    Мир - мой мир!    ', 'Мир\u00A0— мой\u00A0мир!'],
+        ['Мороз был страшный но яблони выжили.', 'Мороз был страшный, но\u00A0яблони выжили.'],
+        ['Стекло двери, которая ведет на веранду, усеяно дождевыми каплями.', 'Стекло двери, которая ведет на\u00A0веранду, усеяно дождевыми каплями.'],
+        ['Роман, в котором творческие принципы Достоевского воплощаются в полной мере а удивительное владение сюжетом достигает подлинного расцвета.', 'Роман, в\u00A0котором творческие принципы Достоевского воплощаются в\u00A0полной мере, а\u00A0удивительное владение сюжетом достигает подлинного расцвета.'],
+        ['              asdk aksod         kasod koas/n<script>    var a = 10;   \n\n\n<\/script> askod kasodko askd     ', 'asdk aksod kasod koas/n<script>    var a = 10;   \n\n\n<\/script> askod kasodko askd'],
+        ['              <pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>    ', '<pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>'],
+        ['"Энергия соблазна: от внутреннего к внешнему"', '«Энергия соблазна: от\u00A0внутреннего к\u00A0внешнему»']
+    ];
+    
+    tests.forEach(function(item) {
+        equal(typo.execute(item[0]), item[1], item[0] + ' → ' + item[1]);
+    });
+});
+
+
+QUnit.module('rules');
+
+var typo = new Typograf();
+
+function rule(name, text) {
+    var rules = Typograf.prototype._rules;
+    
+    rules.forEach(function(f) {
+        if(f.name === name) {
+            text = f.func.call(typo, text, typo._settings[f.name]);
+        }
+    });
+    
+    return text;
+}
+
+tests.forEach(function(elem) {
+    test(elem[0], function() {
+        elem[1].forEach(function (as) {
+            equal(rule(elem[0], as[0]), as[1], as[0] + ' → ' + as[1]);
+        });
+    });
+});
+
+})();
