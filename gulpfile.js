@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
-    destDir = './';
+    destDir = './dist';
 
 var paths = {
     js: [
