@@ -66,10 +66,16 @@ Typograf.prototype = {
     * @return {string}
     */
     execute: function(text) {
+        text = '' + text;
+        
         if(!text) {
             return '';
         }
-
+        
+        text = text
+            .replace(/\r\n/g, '\n') // Windows
+            .replace(/\r/g, '\n'); // MacOS
+        
         var isHTML = text.search(/<|>/) !== -1;
 
         if(isHTML) {
@@ -122,7 +128,7 @@ Typograf.prototype = {
     },
 
     /**
-    * Оключено ли правило.
+    * Отключено ли правило.
     *
     * @param {string} rule Название правила
     * @return {boolean}
@@ -907,14 +913,6 @@ Typograf.rule({
         return text
             .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
             .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
-    }
-});
-
-Typograf.rule({
-    name: '-space/before',
-    sortIndex: 500,
-    func: function(text) {
-        return text.replace(/\r/g, '');
     }
 });
 
