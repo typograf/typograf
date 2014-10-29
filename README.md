@@ -100,4 +100,4 @@ MIT License
 ## Ссылки
 + [Ководство](http://www.artlebedev.ru/kovodstvo/)
 + [Все типографы](http://rmcreative.ru/blog/post/vse-tipografy)
-+ [Порка типографов](http://www.typograf.ru/flog/)
++ [Сравнение типографов](http://www.typograf.ru/flog/)
