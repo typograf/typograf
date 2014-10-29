@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
