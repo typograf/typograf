@@ -30,10 +30,11 @@ function toggle(el) {
 
 function getPrefix(str) {
     var prefix = str.split('/');
-    if(prefix.length === 1) {
+    console.log(prefix);
+    if(prefix.length === 2) {
         prefix = '';
     } else {
-        prefix = prefix[0];
+        prefix = prefix[1];
     }
 
     return prefix;

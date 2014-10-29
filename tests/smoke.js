@@ -1,6 +1,6 @@
 QUnit.module('smoke');
 
-test('smoke', function() {
+test('ru/smoke', function() {
     var tests = [
         ['    Мир - мой мир!    ', 'Мир\u00A0— мой\u00A0мир!'],
         ['Мороз был страшный но яблони выжили.', 'Мороз был страшный, но\u00A0яблони выжили.'],
@@ -12,6 +12,6 @@ test('smoke', function() {
     ];
     
     tests.forEach(function(item) {
-        equal(typo.execute(item[0]), item[1], item[0] + ' → ' + item[1]);
+        equal(typo.execute(item[0], {lang: 'ru'}), item[1], item[0] + ' → ' + item[1]);
     });
 });
