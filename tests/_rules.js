@@ -111,6 +111,26 @@ tests.push(['html/url', [
     ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
 ]]);
 
+tests.push(['money/dollar', [
+    ['100$', '100\u00A0$'],
+    ['100 $', '100\u00A0$'],
+    ['У меня есть $2!', 'У меня есть 2\u00A0$!'],
+    ['У меня есть $2.5!', 'У меня есть 2.5\u00A0$!'],
+    ['У меня есть $ 2!', 'У меня есть 2\u00A0$!'],
+    ['У меня есть $ 2.5!', 'У меня есть 2.5\u00A0$!'],
+    ['20 $ 30 центов', '20\u00A0$ 30 центов']
+]]);
+
+tests.push(['money/euro', [
+    ['100€', '100\u00A0€'],
+    ['100 €', '100\u00A0€'],
+    ['У меня есть €2!', 'У меня есть 2\u00A0€!'],
+    ['У меня есть €2.5!', 'У меня есть 2.5\u00A0€!'],
+    ['У меня есть € 2!', 'У меня есть 2\u00A0€!'],
+    ['У меня есть € 2.5!', 'У меня есть 2.5\u00A0€!'],
+    ['20 € 30 центов', '20\u00A0€ 30 центов']
+]]);
+
 tests.push(['nbsp/afterNum', [
     [' № 123', ' №\u00A0123'],
     [' №123', ' №\u00A0123'],
@@ -174,12 +194,16 @@ tests.push(['space/delBeforePunctuation', [
     ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
 ]]);
 
+tests.push(['space/delRepeatN', [
+    ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
+]]);
+
 tests.push(['space/delRepeatSpace', [
     ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
 ]]);
 
 tests.push(['space/delTrailingBlanks', [
-    ['asda d  \t \n er er ert er er       \nassdf asf sdf asdf\n', 'asda d\n er er ert er er\nassdf asf sdf asdf\n']
+    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
 ]]);
 
 tests.push(['space/replaceTab', [
@@ -241,24 +265,4 @@ tests.push(['sym/plusMinus', [
 tests.push(['sym/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90'],
-]]);
-
-tests.push(['money/dollar', [
-    ['100$', '100\u00A0$'],
-    ['100 $', '100\u00A0$'],
-    ['У меня есть $2!', 'У меня есть 2\u00A0$!'],
-    ['У меня есть $2.5!', 'У меня есть 2.5\u00A0$!'],
-    ['У меня есть $ 2!', 'У меня есть 2\u00A0$!'],
-    ['У меня есть $ 2.5!', 'У меня есть 2.5\u00A0$!'],
-    ['20 $ 30 центов', '20\u00A0$ 30 центов']
-]]);
-
-tests.push(['money/euro', [
-    ['100€', '100\u00A0€'],
-    ['100 €', '100\u00A0€'],
-    ['У меня есть €2!', 'У меня есть 2\u00A0€!'],
-    ['У меня есть €2.5!', 'У меня есть 2.5\u00A0€!'],
-    ['У меня есть € 2!', 'У меня есть 2\u00A0€!'],
-    ['У меня есть € 2.5!', 'У меня есть 2.5\u00A0€!'],
-    ['20 € 30 центов', '20\u00A0€ 30 центов']
 ]]);

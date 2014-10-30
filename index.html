@@ -18,8 +18,10 @@
                 <div id="prefs__items"></div>
                 <div class="prefs__cap"></div>
                 <div class="prefs__controls">
-                    <input type="button" id="prefs-save" value="Cохранить" /> <input type="button" id="prefs-cancel" value="Отмена" />
+                    <input type="button" id="prefs-save" value="Cохранить" />
+                    <input type="button" id="prefs-cancel" value="Отмена" />
                     <input type="checkbox" id="prefs-all" autocomplete="off" /> <label for="prefs-all">Выбрать/снять всё</label>
+                    <input type="button" id="prefs-default" value="По умолчанию" />
                 </div>
             </div>
 
@@ -32,8 +34,8 @@
                     </div>
                     <div class="table__right">
                         Результат:
-                         <input type="radio" id="view-textarea" name="view" checked="checked" autocomplete="off" /> <label for="view-textarea">Исходный код</label>
-                         <input type="radio" id="view-html" name="view" autocomplete="off" /> <label for="view-html">Предпросмотр</label>
+                         <input type="radio" id="view-textarea" name="view" checked="checked" autocomplete="off" /> <label for="view-textarea">Текст</label>
+                         <input type="radio" id="view-html" name="view" autocomplete="off" /> <label for="view-html">HTML</label>
                         <br/>
                         <textarea id="result" readonly="readonly"></textarea>
                         <div id="result-html"></div>

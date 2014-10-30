@@ -939,11 +939,20 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: 'Удаление повторяющихся переносов строки (не более двух)',
+    name: 'space/delRepeatN',
+    sortIndex: 545,
+    func: function(text) {
+        return text.replace(/\n{3,}/g, '\n\n');
+    }
+});
+
+Typograf.rule({
     title: 'Удаление повторяющихся пробелов',
     name: 'space/delRepeatSpace',
     sortIndex: 540,
     func: function(text) {
-        return text.replace(/ {2,}/g, ' ').replace(/\n {1,}/g, '\n').replace(/\n{3,}/g, '\n\n');
+        return text.replace(/( |\t){2,}/g, '$1');
     }
 });
 
@@ -952,7 +961,7 @@ Typograf.rule({
     name: 'space/delTrailingBlanks',
     sortIndex: 505,
     func: function(text) {
-        return text.replace(/\s+\n/g, '\n');
+        return text.replace(/( |\t)+\n/g, '\n');
     }
 });
 

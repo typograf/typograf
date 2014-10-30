@@ -158,6 +158,11 @@
     margin-left: 2em;
 }
 
+#prefs-default
+{
+    margin-left: 1em;
+}
+
 .prefs__cap
 {
     clear: both;
