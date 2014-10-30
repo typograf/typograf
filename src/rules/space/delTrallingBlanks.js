@@ -3,6 +3,6 @@ Typograf.rule({
     name: 'space/delTrailingBlanks',
     sortIndex: 505,
     func: function(text) {
-        return text.replace(/\s+\n/g, '\n');
+        return text.replace(/( |\t)+\n/g, '\n');
     }
 });

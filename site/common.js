@@ -110,8 +110,9 @@ var App = {
         save: function() {
             var els = $('#prefs__items').querySelectorAll('input');
             for (var i = 0; i < els.length; i++) {
-                var id = els[i].dataset['id'],
-                    ch = els[i].checked;
+                var el = els[i];
+                    id = el.dataset['id'],
+                    ch = el.checked;
 
                 this._prefs[id] = ch;
 
@@ -126,6 +127,20 @@ var App = {
         },
         cancel: function() {
             this.hide();
+        },
+        byDefault: function() {
+            var els = $('#prefs__items').querySelectorAll('input');
+            for (var i = 0; i < els.length; i++) {
+                var id = els[i].dataset['id'];
+                Typograf.prototype._rules.some(function(rule) {
+                    if(id === rule.name) {
+                        els[i].checked = !(rule.enabled === false);
+                        return true;
+                    }
+                    
+                    return false;
+                });
+            }
         },
         _prefs: {},
         _build: function() {
@@ -178,14 +193,12 @@ var App = {
             $('#prefs__items').innerHTML = html;
         },
         _events: function() {
-            var that = this;
-            addEvent('#prefs-save', 'click', function() {
-                that.save();
-            });
+            addEvent('#prefs-save', 'click', (function() {
+                this.save();
+                App.execute();
+            }).bind(this));
 
-            addEvent('#prefs-cancel', 'click', function() {
-                that.cancel();
-            });
+            addEvent('#prefs-cancel', 'click', this.cancel.bind(this));
 
             addEvent('#prefs-all', 'click', function() {
                 var els = $('#prefs__items').querySelectorAll('input');
@@ -193,6 +206,8 @@ var App = {
                     els[i].checked = this.checked;
                 }
             });
+
+            addEvent('#prefs-default', 'click', this.byDefault.bind(this));
         }
     },
     _setValue: function(value) {
@@ -205,7 +220,7 @@ var App = {
     },
     _updateValue: function(value) {
         window.location.hash = '#!text=' + window.encodeURIComponent(value);
-        
+
         this._updateClearText(value);
     },
     _updateClearText: function(value) {
@@ -216,11 +231,9 @@ var App = {
         }
     },
     _events: function() {
-        var that = this;
-
-        addEvent('#set-prefs', 'click', function() {
-            that.prefs.toggle();
-        });
+        addEvent('#set-prefs', 'click', (function() {
+            this.prefs.toggle();
+        }).bind(this));
 
         addEvent('#view-textarea', 'click', function() {
             show('#result');
@@ -232,27 +245,27 @@ var App = {
             hide('#result');
         });
 
-        addEvent('#clear-text', 'click', function() {
-            that._setValue('');
+        addEvent('#clear-text', 'click', (function() {
+            this._setValue('');
 
             $('#text').focus();
 
-            that.execute();
-        });
+            this.execute();
+        }).bind(this));
 
         var oldValue = null;
-        addEvent('#text', ['keyup', 'input', 'click'], function() {
-            var val = that._getValue();
+        addEvent('#text', ['keyup', 'input', 'click'], (function() {
+            var val = this._getValue();
             if(val === oldValue) {
                 return;
             }
 
             oldValue = val;
 
-            that._updateValue(val);
+            this._updateValue(val);
 
-            that.execute();
-        });
+            this.execute();
+        }).bind(this));
     }
 };
 

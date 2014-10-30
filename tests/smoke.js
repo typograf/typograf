@@ -10,7 +10,7 @@ test('smoke', function() {
         ['              <pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>    ', '<pre>1<code>23</code>45</pre> <code>1<pre>2<code>333</code></pre></code>'],
         ['"Энергия соблазна: от внутреннего к внешнему"', '«Энергия соблазна: от\u00A0внутреннего к\u00A0внешнему»'],
         ['1\r\n2\r\n3', '1\n2\n3'], // Windows
-        ['1\r\r2\r3', '1\n2\n3'] // MacOS
+        ['1\r\r2\r3', '1\n\n2\n3'] // MacOS
     ];
     
     tests.forEach(function(item) {
