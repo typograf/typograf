@@ -1,12 +1,13 @@
 {
     "excludeFiles": [
         ".*",
-        "sources/js/start.js",
-        "sources/js/end.js",
-        "tests",
-        "build",
-        "sources/js/holiday",
-        "node_modules"
+        "dist",
+        "examples",
+        "coverage",
+        "libs",
+        "node_modules",
+        "test",
+        "site"
     ],
     "requireCurlyBraces": ["if", "else", "for", "while", "do"],
     "requireSpaceAfterKeywords": ["do", "else"],

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hcodes/typograf.png?branch=master)](https://travis-ci.org/hcodes/typograf)
+
 Типограф на JavaScript
 ======================
 

@@ -1,7 +1,10 @@
 gulpfile.js
 .*
-tests/**
 examples/**
-sources/js/start.js
-sources/js/end.js
+coverage/**
+dist/**
+libs/**
 node_modules/**
+site/**
+src/main.spec.js
+test/**

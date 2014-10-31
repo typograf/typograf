@@ -1,6 +1,6 @@
 {
   "name": "typograf",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "The client and server typographer",
   "bugs": "https://github.com/hcodes/typograf/issues/new",
   "keywords": [
@@ -12,13 +12,5 @@
   "main": [
     "dist/typograf.js",
     "dist/typograf.min.js"
-  ],
-  "ignore": [
-    "node_modules",
-    "libs"
-  ],
-  "devDependencies": {
-    "jquery": ">= 2.1.1",
-    "qunit": ">= 1.15.0"
-  }
+  ]
 }

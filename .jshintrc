@@ -1,5 +1,5 @@
 {
-    "predef": [ "Typograf", "module" ],
+    "predef": [ "Typograf", "module", "tests", "global" ],
     "browser": true,
     "jquery": true,
     "curly": true,

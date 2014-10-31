@@ -18,14 +18,8 @@ var paths = {
         'src/end.js'
     ],
     testRules: [
-        'src/rules/**/*.js',
-        'tests/end_rules.js'
-    ],
-    testJs: [
-        'tests/start_rules.js',
-        'tests/_rules.js',
-        'tests/smoke.js',
-        'tests/end_rules.js'
+        'src/main.spec.js',
+        'src/rules/**/*.js'
     ]
 };
 
@@ -49,14 +43,8 @@ gulp.task('testRules', function() {
 
     return gulp.src(paths.testRules)
         .pipe(filterSpec)
-        .pipe(concat('_rules.js'))
-        .pipe(gulp.dest('./tests/'));
-});
-
-gulp.task('testJs', ['testRules'], function() {
-    return gulp.src(paths.testJs)
-        .pipe(concat('_tests.js'))
-        .pipe(gulp.dest('./tests/'));
+        .pipe(concat('rules.js'))
+        .pipe(gulp.dest('./test/'));
 });
 
 gulp.task('lint', function() {
@@ -69,7 +57,6 @@ gulp.task('lint', function() {
 
 gulp.task('watch', function() {
     gulp.watch('src/**/*', ['js', 'testRules']);
-    gulp.watch('tests/**/*', ['testJs']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'testJs', 'watch', 'lint']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'watch', 'lint']);

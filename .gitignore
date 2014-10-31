@@ -41,3 +41,5 @@ Icon
 
 node_modules/
 libs/
+coverage/
+npm-debug.log
