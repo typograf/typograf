@@ -1,31 +1,31 @@
 var assert = require('chai').assert,
     rules = require('./rules.js'),
     Typograf = require('../dist/typograf.js'),
-    t = new Typograf();
+    t = new Typograf({lang: 'ru'});
 
 describe('API', function() {
     it('disable rule', function() {
-        t.disable('quot');
-        assert.ok(t.disabled('quot'));
+        t.disable('ru/quot');
+        assert.ok(t.disabled('ru/quot'));
 
-        t.enable('quot');
+        t.enable('ru/quot');
     });
 
     it('enable rule', function() {
-        assert.ok(t.disabled('html/pbr'));
+        assert.ok(t.disabled('common/html/pbr'));
 
-        t.enable('html/pbr');
-        assert.ok(t.enabled('html/pbr'));
+        t.enable('common/html/pbr');
+        assert.ok(t.enabled('common/html/pbr'));
 
-        t.disable('html/pbr');
+        t.disable('common/html/pbr');
     });
 
     it('enable some rules', function() {
-        t.enable(['html/pbr', 'html/url']);
-        assert.ok(t.enabled('html/pbr'));
-        assert.ok(t.enabled('html/url'));
+        t.enable(['common/html/pbr', 'common/html/url']);
+        assert.ok(t.enabled('common/html/pbr'));
+        assert.ok(t.enabled('common/html/url'));
 
-        t.disable(['html/pbr', 'html/url']);
+        t.disable(['common/html/pbr', 'common/html/url']);
     });
 
     it('get/set setting', function() {
@@ -33,7 +33,7 @@ describe('API', function() {
 
         assert.equal(t.setting('fake', 'value'), 10);
 
-        assert.equal(t.setting('nbsp/beforeShortLastWord', 'lengthLastWord'), 3);
+        assert.equal(t.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord'), 3);
 
         assert.equal(t.setting('fake'), undefined);
     });
@@ -50,7 +50,7 @@ describe('API', function() {
 
     it('add rule', function() {
         Typograf.rule({
-            name: 'example',
+            name: 'common/example',
             sortIndex: 100,
             func: function(text) {
                 return 'example';

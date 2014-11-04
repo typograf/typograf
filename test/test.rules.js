@@ -1,7 +1,7 @@
 var assert = require('chai').assert,
     rules = require('./rules.js'),
     Typograf = require('../dist/typograf.js'),
-    t = new Typograf();
+    t = new Typograf({lang: 'ru'});
 
 function executeRule(name, text) {
     var rules = Typograf.prototype._rules;
