@@ -1,4 +1,6 @@
-Typograf.prototype._entities = [
+Typograf.prototype.entities = [];
+
+[
     ['nbsp', 160],
     ['iexcl', 161],
     ['cent', 162],
@@ -247,11 +249,7 @@ Typograf.prototype._entities = [
     ['lsaquo', 8249],
     ['rsaquo', 8250],
     ['euro', 8364]
-];
-
-Typograf.prototype.entities = [];
-
-Typograf.prototype._entities.forEach(function(en) {
+].forEach(function(en) {
     var name = en[0] + ';',
         num = en[1] + ';',
         buf = ['&' + name, '&#' + num, String.fromCharCode(en[1])];

@@ -59,4 +59,4 @@ gulp.task('watch', function() {
     gulp.watch('src/**/*', ['js', 'testRules']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'watch', 'lint']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'lint']);

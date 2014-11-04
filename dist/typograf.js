@@ -237,7 +237,9 @@ if(typeof exports === 'object') {
     module.exports = Typograf;
 }
 
-Typograf.prototype._entities = [
+Typograf.prototype.entities = [];
+
+[
     ['nbsp', 160],
     ['iexcl', 161],
     ['cent', 162],
@@ -486,11 +488,7 @@ Typograf.prototype._entities = [
     ['lsaquo', 8249],
     ['rsaquo', 8250],
     ['euro', 8364]
-];
-
-Typograf.prototype.entities = [];
-
-Typograf.prototype._entities.forEach(function(en) {
+].forEach(function(en) {
     var name = en[0] + ';',
         num = en[1] + ';',
         buf = ['&' + name, '&#' + num, String.fromCharCode(en[1])];
@@ -719,36 +717,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '$100 → 100 $',
-    name: 'money/dollar',
-    sortIndex: 1140,
-    func: function(text) {
-        var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
-            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$'),
-            rep = '$1$2\u00A0$';
-
-        return text
-            .replace(re1, rep)
-            .replace(re2, rep);
-    }
-});
-
-Typograf.rule({
-    title: '€100 → 100 €',
-    name: 'money/euro',
-    sortIndex: 1140,
-    func: function(text) {
-        var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
-            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?€'),
-            rep = '$1$2\u00A0€';
-
-        return text
-            .replace(re1, rep)
-            .replace(re2, rep);
-    }
-});
-
-Typograf.rule({
     title: 'Замена перевода строки на <br/>',
     name: 'html/nbr',
     sortIndex: 710,
@@ -809,6 +777,36 @@ Typograf.rule({
 
             return firstPart + fullUrl + '</a>';
         });
+    }
+});
+
+Typograf.rule({
+    title: '$100 → 100 $',
+    name: 'money/dollar',
+    sortIndex: 1140,
+    func: function(text) {
+        var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
+            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$'),
+            rep = '$1$2\u00A0$';
+
+        return text
+            .replace(re1, rep)
+            .replace(re2, rep);
+    }
+});
+
+Typograf.rule({
+    title: '€100 → 100 €',
+    name: 'money/euro',
+    sortIndex: 1140,
+    func: function(text) {
+        var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
+            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?€'),
+            rep = '$1$2\u00A0€';
+
+        return text
+            .replace(re1, rep)
+            .replace(re2, rep);
     }
 });
 
@@ -913,84 +911,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
-    name: 'space/afterPunctuation', 
-    sortIndex: 560, 
-    func: function(text) {
-        return text
-            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
-            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробела перед %',
-    name: 'space/delBeforePercent',
-    sortIndex: 600,
-    func: function(text) {
-        return text.replace(/(\d)( |\u00A0)%/g, '$1%');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов перед знаками пунктуации',
-    name: 'space/delBeforePunctuation',
-    sortIndex: 550,
-    func: function(text) {
-        return text.replace(/ (\!|;|,|\?|\.|\:)/g, '$1')
-            .replace(/\( /g, '(')
-            .replace(/([^ ])\(/g, '$1 (')
-            .replace(/ \)/g, ')')
-            .replace(/\)([^\!;,\?\.\:])/g, ') $1');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление повторяющихся переносов строки (не более двух)',
-    name: 'space/delRepeatN',
-    sortIndex: 545,
-    func: function(text) {
-        return text.replace(/\n{3,}/g, '\n\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление повторяющихся пробелов',
-    name: 'space/delRepeatSpace',
-    sortIndex: 540,
-    func: function(text) {
-        return text.replace(/( |\t){2,}/g, '$1');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов в конце строк',
-    name: 'space/delTrailingBlanks',
-    sortIndex: 505,
-    func: function(text) {
-        return text.replace(/( |\t)+\n/g, '\n');
-    }
-});
-
-Typograf.rule({
-    title: 'Замена табов на пробелы',
-    name: 'space/replaceTab',
-    sortIndex: 510,
-    func: function(text) {
-        return text.replace(/\t/g, ' ');
-    }
-});
-
-Typograf.rule({
-    title: 'Удаление пробелов в начале и в конце текста',
-    name: 'space/trim',
-    sortIndex: 530,
-    func: function(text) {
-        return text.trim();
-    }
-});
-
-Typograf.rule({
     title: '-> → →, <- → ←',
     name: 'sym/arrow',
     sortIndex: 1130,
@@ -1068,6 +988,84 @@ Typograf.rule({
     sortIndex: 1050,
     func: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
+    }
+});
+
+Typograf.rule({
+    title: 'Пробел после знаков пунктуации', 
+    name: 'space/afterPunctuation', 
+    sortIndex: 560, 
+    func: function(text) {
+        return text
+            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
+            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробела перед %',
+    name: 'space/delBeforePercent',
+    sortIndex: 600,
+    func: function(text) {
+        return text.replace(/(\d)( |\u00A0)%/g, '$1%');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов перед знаками пунктуации',
+    name: 'space/delBeforePunctuation',
+    sortIndex: 550,
+    func: function(text) {
+        return text.replace(/ (\!|;|,|\?|\.|\:)/g, '$1')
+            .replace(/\( /g, '(')
+            .replace(/([^ ])\(/g, '$1 (')
+            .replace(/ \)/g, ')')
+            .replace(/\)([^\!;,\?\.\:])/g, ') $1');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление повторяющихся переносов строки (не более двух)',
+    name: 'space/delRepeatN',
+    sortIndex: 545,
+    func: function(text) {
+        return text.replace(/\n{3,}/g, '\n\n');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление повторяющихся пробелов',
+    name: 'space/delRepeatSpace',
+    sortIndex: 540,
+    func: function(text) {
+        return text.replace(/( |\t){2,}/g, '$1');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов в конце строк',
+    name: 'space/delTrailingBlanks',
+    sortIndex: 505,
+    func: function(text) {
+        return text.replace(/( |\t)+\n/g, '\n');
+    }
+});
+
+Typograf.rule({
+    title: 'Замена табов на пробелы',
+    name: 'space/replaceTab',
+    sortIndex: 510,
+    func: function(text) {
+        return text.replace(/\t/g, ' ');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов в начале и в конце текста',
+    name: 'space/trim',
+    sortIndex: 530,
+    func: function(text) {
+        return text.trim();
     }
 });
 
