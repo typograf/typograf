@@ -30,10 +30,10 @@ function toggle(el) {
 
 function getPrefix(str) {
     var prefix = str.split('/');
-    if(prefix.length === 1) {
+    if(prefix.length === 2) {
         prefix = '';
     } else {
-        prefix = prefix[0];
+        prefix = prefix[1];
     }
 
     return prefix;
@@ -73,7 +73,7 @@ function addEvent(elem, type, callback) {
     }
 }
 
-var typo = new Typograf();
+var typo = new Typograf({lang: 'ru'});
 
 var App = {
     init: function() {

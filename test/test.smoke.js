@@ -1,6 +1,6 @@
 var assert = require('chai').assert,
     Typograf = require('../dist/typograf'),
-    t = new Typograf(),
+    t = new Typograf({lang: 'ru'}),
     tests = [
         ['    Мир - мой мир!    ', 'Мир\u00A0— мой\u00A0мир!'],
         ['Мороз был страшный но яблони выжили.', 'Мороз был страшный, но\u00A0яблони выжили.'],
@@ -17,7 +17,7 @@ var assert = require('chai').assert,
         [undefined, 'undefined']
     ];
 
-describe('smoke', function() {
+describe('ru/smoke', function() {
     tests.forEach(function(item) {
         it(item[0], function() {
             assert.equal(t.execute(item[0]), item[1]);

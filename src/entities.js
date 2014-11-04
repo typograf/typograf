@@ -251,11 +251,11 @@ Typograf.prototype.entities = [];
     ['euro', 8364],
     [null, 8381] // рубль
 ].forEach(function(en) {
-    var name = en[0] + ';',
-        num = en[1] + ';',
-        buf = ['&' + name, '&#' + num, String.fromCharCode(en[1])];
+    var name = en[0],
+        num = en[1],
+        buf = ['&' + name + ';', '&#' + num + ';', String.fromCharCode(en[1])];
 
-    buf.push(new RegExp('(\\&\\#' + num + (name ? '|\\&' + name : '') + ')', 'g'));
+    buf.push(new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'));
 
     Typograf.prototype.entities.push(buf);
 }, this);

@@ -45,7 +45,7 @@ bower install typograf
   ```HTML
 <script src="dist/typograf.min.js"></script>
 <script>
-    var tp = new Typograf();
+    var tp = new Typograf({lang: 'ru'});
     alert(tp.execute('     Мир - мой мир!      '));
 </script>
   ```
@@ -56,14 +56,14 @@ npm install typograf
   
   ```JavaScript
 var Typograf = require('typograf'),
-    tp = new Typograf();
+    tp = new Typograf({lang: 'ru'});
 
 console.log(tp.execute(' Мир - мой мир!!   '));
   ```
 
 ## Включить/отключить правило
   ```JavaScript
-var tp = new Typograf();
+var tp = new Typograf({lang: 'ru'});
 tp.disable('space/afterNum'); // Отключить в группе "space" правило "afterNum"
 //...
 tp.enable('space/afterNum'); // Включить в группе "space" правило "afterNum"
@@ -84,7 +84,7 @@ Typograf.rule({
 
 ## Режим работы
   ```JavaScript
-var tp = new Typograf(); // Режим по умолчанию, HTML-сущности в utf-8
+var tp = new Typograf({lang: 'ru'}); // Режим по умолчанию, HTML-сущности в utf-8
 tp.execute('...'); // …
 
 var tpName = new Typograf({mode: 'name'}); // HTML-сущности как имена

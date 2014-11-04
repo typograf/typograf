@@ -11,8 +11,11 @@ function Typograf(prefs) {
     this._enabledRules = {};
 
     this._rules.forEach(function(rule) {
-        this._settings[rule.name] = rule.settings || {};
-        this._enabledRules[rule.name] = rule.enabled;
+        var name = rule.name;
+        rule._lang = name.split('/')[0];
+
+        this._settings[name] = rule.settings || {};
+        this._enabledRules[name] = rule.enabled;
     }, this);
 }
 
@@ -63,9 +66,15 @@ Typograf.prototype = {
     * Типографировать текст.
     *
     * @param {string} text
+    * @param {Object} params
     * @return {string}
     */
-    execute: function(text) {
+    execute: function(text, params) {
+        var lang = params && params.lang;
+        if(!lang) {
+            lang = this._prefs.lang;
+        }
+
         text = '' + text;
 
         if(!text) {
@@ -85,7 +94,7 @@ Typograf.prototype = {
         text = this._utfication(text);
 
         this._rules.forEach(function(rule) {
-            if(this.enabled(rule.name)) {
+            if(this.enabled(rule.name) && (rule._lang === 'common' || rule._lang === lang)) {
                 text = rule.func.call(this, text, this._settings[rule.name]);
             }
         }, this);
