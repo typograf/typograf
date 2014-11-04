@@ -248,7 +248,8 @@ Typograf.prototype.entities = [];
     ['permil', 8240],
     ['lsaquo', 8249],
     ['rsaquo', 8250],
-    ['euro', 8364]
+    ['euro', 8364],
+    [null, 8381] // рубль
 ].forEach(function(en) {
     var name = en[0] + ';',
         num = en[1] + ';',
