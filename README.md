@@ -64,16 +64,16 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 ## Включить/отключить правило
   ```JavaScript
 var tp = new Typograf({lang: 'ru'});
-tp.disable('space/afterNum'); // Отключить в группе "space" правило "afterNum"
+tp.disable('ru/space/afterNum'); // Отключить правило
 //...
-tp.enable('space/afterNum'); // Включить в группе "space" правило "afterNum"
+tp.enable('ru/space/afterNum'); // Включить правило
   ```
 
 ## Добавить правило
   ```JavaScript
 Typograf.rule({
     title: 'Пример правила',
-    name: 'other/parampampam', // Группа "other", правило "parampampam"
+    name: 'common/other/parampampam', // common - для любого языка, группа "other", правило "parampampam"
     sortIndex: 2000, // меньше - раньше, больше - позже выполняется
     func: function(text) {
         return text.replace(/parampampam/g, 'tryam');
@@ -87,10 +87,10 @@ Typograf.rule({
 var tp = new Typograf({lang: 'ru'}); // Режим по умолчанию, HTML-сущности в utf-8
 tp.execute('...'); // …
 
-var tpName = new Typograf({mode: 'name'}); // HTML-сущности как имена
+var tpName = new Typograf({lang: 'ru', mode: 'name'}); // HTML-сущности как имена
 tpName.execute('...'); // &hellip;
 
-var tpDigit = new Typograf({mode: 'digit'}); // HTML-сущности как цифры
+var tpDigit = new Typograf({lang: 'ru', mode: 'digit'}); // HTML-сущности как цифры
 tpDigit.execute('...'); //&#8230; 
   ```
 
