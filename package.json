@@ -7,7 +7,7 @@
     "email": "hcodes@yandex.ru",
     "url": "https://github.com/hcodes"
   },
-  "main": "typograf.js",
+  "main": "dist/typograf.js",
   "homepage": "https://github.com/hcodes/typograf",
   "repository": {
     "type": "git",
@@ -35,9 +35,9 @@
   },
   "scripts": {
     "test": "npm run-script jshint && npm run-script check-style && npm run-script unit-test-coverage",
+    "check-style": "./node_modules/.bin/jscs .",
     "jshint": "./node_modules/.bin/jshint .",
     "unit-test": "./node_modules/.bin/mocha -u bdd -R spec --recursive test",
-    "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
-    "check-style": "./node_modules/.bin/jscs ."
+    "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test"
   }
 }

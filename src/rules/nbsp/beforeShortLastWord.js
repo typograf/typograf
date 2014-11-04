@@ -6,7 +6,7 @@ Typograf.rule({
         var len = settings.lengthLastWord,
             re = new RegExp(' ([а-яёА-ЯЁ\\w]{1,' + len + '})(\\.|\\?|:|!|,)', 'g');
 
-        return len > 0 ? text.replace(re, '\u00A0$1$2') : text;
+        return text.replace(re, '\u00A0$1$2');
     },
     settings: {
         lengthLastWord: 3

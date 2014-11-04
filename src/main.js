@@ -67,15 +67,15 @@ Typograf.prototype = {
     */
     execute: function(text) {
         text = '' + text;
-        
+
         if(!text) {
             return '';
         }
-        
+
         text = text
             .replace(/\r\n/g, '\n') // Windows
             .replace(/\r/g, '\n'); // MacOS
-        
+
         var isHTML = text.search(/<|>/) !== -1;
 
         if(isHTML) {
@@ -108,7 +108,7 @@ Typograf.prototype = {
     */
     setting: function(rule, name, value) {
         if(arguments.length <= 2) {
-            return this._settings[rule] ? this._settings[rule][name] : undefined;
+            return this._settings[rule] && this._settings[rule][name];
         } else {
             this._settings[rule] = this._settings[rule] || {};
             this._settings[rule][name] = value;
@@ -225,8 +225,7 @@ Typograf.prototype = {
         if(mode === 'name' || mode === 'digit') {
             index = mode === 'name' ? 0 : 1;
             this.entities.forEach(function(entity) {
-                var re = new RegExp(entity[2], 'g');
-                text = text.replace(re, entity[index]);
+                text = text.replace(new RegExp(entity[2], 'g'), entity[index]);
             }, this);
         }
 
