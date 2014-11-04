@@ -514,6 +514,21 @@ Typograf.data('month', [
     'декабрь'
 ]);
 
+Typograf.data('monthCase', [
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря'
+]);
+
 Typograf.data('weekday', [
     'понедельник',
     'вторник',
@@ -714,6 +729,23 @@ Typograf.rule({
         return text
             .replace(re1, '$1$6.$4.$2$7')
             .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    title: '2 Мая, Понедельник → 2 мая, понедельник',
+    name: 'date/weekday',
+    sortIndex: 1310,
+    func: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data.monthCase.join('|'),
+            weekday = this.data.weekday.join('|'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
     }
 });
 
