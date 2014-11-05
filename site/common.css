@@ -10,6 +10,11 @@
     font-family: Arial, sans-serif;
 }
 
+input, textarea
+{
+    font-size: inherit;
+}
+
 .container
 {
     position: absolute;
