@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/hcodes/typograf.png?branch=master)](https://travis-ci.org/hcodes/typograf)
+[![Coverage Status](https://img.shields.io/coveralls/hcodes/typograf.svg?branch=master)](https://coveralls.io/r/hcodes/typograf)
 
 Типограф на JavaScript
 ======================
@@ -41,7 +42,7 @@
   ```
 bower install typograf
   ```
-  
+
   ```HTML
 <script src="dist/typograf.min.js"></script>
 <script>
@@ -53,7 +54,7 @@ bower install typograf
   ```
 npm install typograf
   ```
-  
+
   ```JavaScript
 var Typograf = require('typograf'),
     tp = new Typograf({lang: 'ru'});
@@ -91,7 +92,7 @@ var tpName = new Typograf({lang: 'ru', mode: 'name'}); // HTML-сущности,
 tpName.execute('...'); // &hellip;
 
 var tpDigit = new Typograf({lang: 'ru', mode: 'digit'}); // HTML-сущности, как цифры
-tpDigit.execute('...'); //&#8230; 
+tpDigit.execute('...'); //&#8230;
   ```
 
 

@@ -1,3 +1,16 @@
 language: node_js
 node_js:
   - 0.10
+
+env:
+  global:
+    - GH_REF: github.com/hcodes/typograf.git
+    - ISTANBUL_COVERAGE: yes
+
+branches:
+  only:
+    - master
+
+after_success:
+  - npm i coveralls
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && echo "Coverage data was sent to coveralls!"
