@@ -8,17 +8,19 @@
     padding: 0;
     margin: 0;
     font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 input, textarea
 {
-    font-size: inherit;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 .container
 {
     position: absolute;
-    padding: 15px;
+    padding: 5px 0;
     left: 0;
     top: 60px;
     width: 100%;
@@ -28,6 +30,7 @@ input, textarea
 
 .header
 {
+    position: fixed;
     padding: 0;
     margin: 0;
     width: 100%;
@@ -35,6 +38,7 @@ input, textarea
     border-bottom: 1px solid #008cb7;
     color: white;
     box-shadow: 0px 5px 10px rgba(0,0,0,0.15);
+    z-index: 10;
 }
 
 .header__title
@@ -68,50 +72,6 @@ input, textarea
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-}
-
-.table
-{
-    width: 100%;
-    height: 100%;
-}
-
-.table__left,
-.table__right
-{
-    position: relative;
-    width: 50%;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.table__left
-{
-    float: left;
-    padding-right: 10px;
-}
-
-.table__right
-{
-    padding-left: 10px;
-    float: right;
-    box-sizing: border-box;
-}
-
-#text, #result
-{
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    margin: 0;
-}
-
-#result-html
-{
-    margin-top: 0.5em;
-    background: #f0f0f0;
-    display: none;
-    padding: 1em;
 }
 
 #set-prefs
@@ -154,18 +114,9 @@ input, textarea
 
 #prefs
 {
-    margin: 10px;
+    margin: 5px 0;
+    padding: 0 20px;
     display: none;
-}
-
-#prefs-all
-{
-    margin-left: 2em;
-}
-
-#prefs-default
-{
-    margin-left: 1em;
 }
 
 .prefs__cap
@@ -174,19 +125,12 @@ input, textarea
     height: 5em;
 }
 
-.nbsp
-{
-    background: green;
-    opacity: 0.4;
-}
-
 .prefs__title
 {
-    font-size: 1.6em;
+    font-size: 1.4em;
     color: #679;
-    margin: 0;
+    margin: 0 0 0.5em 0;
     padding: 0;
-    margin-bottom: 0.5em;
     font-family: Georgia, serif;
     font-style: italic;
 }
@@ -203,10 +147,10 @@ input, textarea
 .prefs__controls
 {
     position: fixed;
-    left: 25px;
-    right: 25px;
+    left: 0;
+    right: 0;
     bottom: 0;
-    padding: 1em;
+    padding: 1em 0 1em 0;
     background: rgba(230,230,230,0.9);
 }
 
@@ -214,7 +158,150 @@ input, textarea
 {
     line-height: 30px;
     float: left;
+}
+
+.page_is-desktop .container
+{
+    margin: 0;
+}
+
+.page_is-desktop #text,
+.page_is-desktop #result
+{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.page_is-mobile #text
+{
+    position: absolute;
+    box-sizing: border-box;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page_is-desktop .table
+{
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+
+.page_is-desktop .table__left,
+.page_is-desktop .table__right
+{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.page_is-desktop .table__left
+{
+    float: left;
+    padding-right: 10px;
+}
+
+.page_is-desktop .table__right
+{
+    padding-left: 10px;
+    float: right;
+    box-sizing: border-box;
+}
+
+.page_is-desktop #result-html
+{
+    margin-top: 0.5em;
+    background: #f0f0f0;
+    display: none;
+    padding: 1em;
+}
+
+.page_is-desktop .nbsp
+{
+    background: green;
+    opacity: 0.4;
+}
+
+.page_is-desktop .prefs__item
+{
     width: 40%;
-    padding-left: 1em;
-    padding-right: 2em;
+    padding-right: 1em;
+}
+
+.page_is-mobile .prefs__item
+{
+    line-height: 30px;
+    float: left;
+    width: 100%;
+}
+
+.page_is-desktop #prefs-save
+{
+    margin-left: 2em;
+}
+
+.page_is-desktop #prefs-all
+{
+    margin-left: 2em;
+}
+
+.page_is-mobile #prefs-all
+{
+    text-align: right;
+}
+
+.page_is-desktop #prefs-default
+{
+    margin-left: 1em;
+}
+
+.page_is-mobile #prefs-default
+{
+    margin-top: 5px;
+    font-size: 12px;
+    float: right;
+}
+
+
+.page_is-mobile #text-container
+{
+    position: absolute;
+    box-sizing: border-box;
+    left: 1em;
+    top: 2.4em;
+    height: auto;
+    bottom: 2.4em;
+    right: 1em;
+}
+
+.page_is-mobile #execute
+{
+    position: absolute;
+    left: 1em;
+    bottom: 0;
+}
+
+.page_is-mobile .prefs__controls
+{
+    text-align: center;
+}
+
+.page_is-mobile #label-text
+{
+    position: absolute;
+    left: 1em;
+    top: 0.9em;
+}
+
+.page_is-mobile .prefs__top
+{
+    text-align: right;
 }
