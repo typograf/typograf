@@ -3,7 +3,7 @@
 
 Типограф на JavaScript
 ======================
-[Типограф в действии](http://hcodes.github.io/typograf/) [Мобильная версия](http://hcodes.github.io/typograf/site/mobile.html)
+[Типограф в действии](http://hcodes.github.io/typograf/) и [мобильная версия](http://hcodes.github.io/typograf/site/mobile.html)
 ## Что может типограф:
 + правильно расставлять кавычки и тире;
 + удаляет:
