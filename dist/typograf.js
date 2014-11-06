@@ -549,36 +549,6 @@ Typograf.data('ru/weekday', [
 ]);
 
 Typograf.rule({
-    title: 'Удаление двойной пунктуации',
-    name: 'common/delDoublePunctiation',
-    sortIndex: 580,
-    func: function(text) {
-        return text.replace(/(,|:|;|\?){2,}/g, '$1');
-    }
-});
-
-Typograf.rule({
-    title: '!! → !',
-    name: 'common/exclamation',
-    sortIndex: 1150,
-    func: function(text) {
-        return text
-            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
-            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
-    }
-});
-
-Typograf.rule({
-    title: '!? → ?!',
-    name: 'common/exclamationQuestion',
-    sortIndex: 1140,
-    func: function(text) {
-        var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
-        return text.replace(re, '$1?!$2');
-    }
-});
-
-Typograf.rule({
     title: 'Расстановка кавычек',
     name: 'ru/quot',
     sortIndex: 700,
@@ -621,6 +591,36 @@ Typograf.rule({
         rquot: '»',
         lquot2: '„',
         rquot2: '“'
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление двойной пунктуации',
+    name: 'common/delDoublePunctiation',
+    sortIndex: 580,
+    func: function(text) {
+        return text.replace(/(,|:|;|\?){2,}/g, '$1');
+    }
+});
+
+Typograf.rule({
+    title: '!! → !',
+    name: 'common/exclamation',
+    sortIndex: 1150,
+    func: function(text) {
+        return text
+            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+    }
+});
+
+Typograf.rule({
+    title: '!? → ?!',
+    name: 'common/exclamationQuestion',
+    sortIndex: 1140,
+    func: function(text) {
+        var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
+        return text.replace(re, '$1?!$2');
     }
 });
 
@@ -886,6 +886,39 @@ Typograf.rule({
     }
 });
 
+Typograf.rule({
+    title: 'Преобразование дат к виду DD.MM.YYYY',
+    name: 'ru/date/main',
+    sortIndex: 1300,
+    func: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+            
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    title: '2 Мая, Понедельник → 2 мая, понедельник',
+    name: 'ru/date/weekday',
+    sortIndex: 1310,
+    func: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data['ru/monthCase'].join('|'),
+            weekday = this.data['ru/weekday'].join('|'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
+});
+
 (function() {
 
 var before = '(^| |\\n)',
@@ -984,39 +1017,6 @@ Typograf.rule({
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
         return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
-    }
-});
-
-Typograf.rule({
-    title: 'Преобразование дат к виду DD.MM.YYYY',
-    name: 'ru/date/main',
-    sortIndex: 1300,
-    func: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-            
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    title: '2 Мая, Понедельник → 2 мая, понедельник',
-    name: 'ru/date/weekday',
-    sortIndex: 1310,
-    func: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data['ru/monthCase'].join('|'),
-            weekday = this.data['ru/weekday'].join('|'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
     }
 });
 

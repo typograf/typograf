@@ -1,11 +1,36 @@
 (function() {
 
+// for iPad 1
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+        if (typeof this !== 'function') {
+            throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+        }
+
+        var aArgs = Array.prototype.slice.call(arguments, 1),
+            fToBind = this,
+            fNOP = function () {
+            },
+            fBound = function () {
+                return fToBind.apply(this instanceof fNOP && oThis
+                        ? this
+                        : oThis,
+                    aArgs.concat(Array.prototype.slice.call(arguments)));
+            };
+
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+
+        return fBound;
+    };
+}
+
 function $(cls) {
     return document.querySelector(cls);
 }
 
 function escapeHTML(text) {
-    return  text.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+    return text.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 }
 
 function hide(el) {
@@ -21,7 +46,7 @@ function isVisible(el) {
 }
 
 function toggle(el) {
-    if(isVisible(el)) {
+    if (isVisible(el)) {
         show(el);
     } else {
         hide(el);
@@ -30,7 +55,7 @@ function toggle(el) {
 
 function getPrefix(str) {
     var prefix = str.split('/');
-    if(prefix.length === 2) {
+    if (prefix.length === 2) {
         prefix = '';
     } else {
         prefix = prefix[1];
@@ -44,12 +69,12 @@ function getHashParams(param) {
         buf = hash.split('&'),
         params = {};
 
-    for(var i = 0; i < buf.length; i++) {
+    for (var i = 0; i < buf.length; i++) {
         var el = buf[i].split('=');
-        if(el.length > 1 && el[1] !== undefined) {
+        if (el.length > 1 && el[1] !== undefined) {
             try {
                 params[el[0]] = window.decodeURIComponent(el[1]);
-            } catch(e) {
+            } catch (e) {
                 params[el[0]] = el[1];
             }
         }
@@ -64,8 +89,8 @@ function getHashParam(param) {
 
 function addEvent(elem, type, callback) {
     var elem = typeof elem === 'string' ? $(elem) : elem;
-    if(Array.isArray(type)) {
-        type.forEach(function(el) {
+    if (Array.isArray(type)) {
+        type.forEach(function (el) {
             elem.addEventListener(el, callback, false);
         });
     } else {
@@ -73,11 +98,17 @@ function addEvent(elem, type, callback) {
     }
 }
 
+
 var typo = new Typograf({lang: 'ru'});
 
 var App = {
-    init: function() {
-        this._setValue(getHashParam('text') || '');
+    isMobile: false,
+    init: function () {
+        this.isMobile = document.body.className.search('page_is-mobile') !== -1;
+
+        if(!this.isMobile) {
+            this._setValue(getHashParam('text') || '');
+        }
 
         this._events();
 
@@ -85,38 +116,43 @@ var App = {
 
         this.execute();
     },
-    execute: function() {
+    execute: function () {
         var res = typo.execute(this._getValue());
-        $('#result-html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
-        $('#result').innerHTML = res;
+
+        if(this.isMobile) {
+            $('#text').value = res;
+        } else {
+            $('#result-html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
+            $('#result').innerHTML = res;
+        }
     },
     prefs: {
-        show: function() {
+        show: function () {
             this._build();
             show('#prefs');
             hide('#edit');
         },
-        hide: function() {
+        hide: function () {
             hide('#prefs');
             show('#edit');
         },
-        toggle: function() {
-            if(isVisible('#prefs')) {
+        toggle: function () {
+            if (isVisible('#prefs')) {
                 this.hide();
             } else {
                 this.show();
             }
         },
-        save: function() {
+        save: function () {
             var els = $('#prefs__items').querySelectorAll('input');
             for (var i = 0; i < els.length; i++) {
                 var el = els[i];
-                    id = el.dataset['id'],
+                id = el.dataset['id'],
                     ch = el.checked;
 
                 this._prefs[id] = ch;
 
-                if(ch) {
+                if (ch) {
                     typo.enable(id);
                 } else {
                     typo.disable(id);
@@ -125,42 +161,44 @@ var App = {
 
             this.hide();
         },
-        cancel: function() {
+        cancel: function () {
             this.hide();
         },
-        byDefault: function() {
+        byDefault: function () {
             var els = $('#prefs__items').querySelectorAll('input');
             for (var i = 0; i < els.length; i++) {
                 var id = els[i].dataset['id'];
-                Typograf.prototype._rules.some(function(rule) {
-                    if(id === rule.name) {
+                Typograf.prototype._rules.some(function (rule) {
+                    if (id === rule.name) {
                         els[i].checked = !(rule.enabled === false);
                         return true;
                     }
-                    
+
                     return false;
                 });
             }
+
+            $('#prefs-all').checked = false;
         },
         _prefs: {},
-        _build: function() {
+        _build: function () {
             var rules = Typograf.prototype._rules,
                 html = '';
 
             var buf = [];
-            rules.forEach(function(el) {
+            rules.forEach(function (el) {
                 buf.push(el);
             });
 
-            buf.sort(function(a, b) {
-                if(!a.name || !b.name) {
+            buf.sort(function (a, b) {
+                if (!a.name || !b.name) {
                     return -1;
                 }
 
                 var prefixA = getPrefix(a.name),
                     prefixB = getPrefix(b.name);
 
-                if(prefixA > prefixB) {
+                if (prefixA > prefixB) {
                     return 1;
                 } else if (prefixA === prefixB) {
                     return 0;
@@ -170,14 +208,14 @@ var App = {
             });
 
             var oldPrefix = '';
-            buf.forEach(function(rule) {
+            buf.forEach(function (rule) {
                 var name = rule.name;
                 if (name.search('-') === 0) {
                     return;
                 }
 
                 var pr = getPrefix(name);
-                if(pr !== oldPrefix) {
+                if (pr !== oldPrefix) {
                     oldPrefix = pr;
                     html += '<div class="prefs__clear"></div>';
                 }
@@ -192,15 +230,15 @@ var App = {
 
             $('#prefs__items').innerHTML = html;
         },
-        _events: function() {
-            addEvent('#prefs-save', 'click', (function() {
+        _events: function () {
+            addEvent('#prefs-save', 'click', (function () {
                 this.save();
                 App.execute();
             }).bind(this));
 
             addEvent('#prefs-cancel', 'click', this.cancel.bind(this));
 
-            addEvent('#prefs-all', 'click', function() {
+            addEvent('#prefs-all', 'click', function () {
                 var els = $('#prefs__items').querySelectorAll('input');
                 for (var i = 0; i < els.length; i++) {
                     els[i].checked = this.checked;
@@ -210,42 +248,46 @@ var App = {
             addEvent('#prefs-default', 'click', this.byDefault.bind(this));
         }
     },
-    _setValue: function(value) {
+    _setValue: function (value) {
         $('#text').value = value;
 
         this._updateValue(value);
     },
-    _getValue: function() {
+    _getValue: function () {
         return $('#text').value;
     },
-    _updateValue: function(value) {
-        window.location.hash = '#!text=' + window.encodeURIComponent(value);
+    _updateValue: function (value) {
+        if(!this.isMobile) {
+            window.location.hash = '#!text=' + window.encodeURIComponent(value);
+        }
 
         this._updateClearText(value);
     },
-    _updateClearText: function(value) {
-        if(value.length > 0) {
+    _updateClearText: function (value) {
+        if (value.length > 0) {
             show('#clear-text');
         } else {
             hide('#clear-text');
         }
     },
-    _events: function() {
-        addEvent('#set-prefs', 'click', (function() {
+    _events: function () {
+        addEvent('#set-prefs', 'click', (function () {
             this.prefs.toggle();
         }).bind(this));
 
-        addEvent('#view-textarea', 'click', function() {
-            show('#result');
-            hide('#result-html');
-        });
+        if(!this.isMobile) {
+            addEvent('#view-textarea', 'click', function () {
+                show('#result');
+                hide('#result-html');
+            });
 
-        addEvent('#view-html', 'click', function() {
-            show('#result-html');
-            hide('#result');
-        });
+            addEvent('#view-html', 'click', function () {
+                show('#result-html');
+                hide('#result');
+            });
+        }
 
-        addEvent('#clear-text', 'click', (function() {
+        addEvent('#clear-text', 'click', (function () {
             this._setValue('');
 
             $('#text').focus();
@@ -254,23 +296,27 @@ var App = {
         }).bind(this));
 
         var oldValue = null;
-        addEvent('#text', ['keyup', 'input', 'click'], (function() {
-            var val = this._getValue();
-            if(val === oldValue) {
-                return;
-            }
 
-            oldValue = val;
+        if(this.isMobile) {
+            addEvent('#execute', 'click', this.execute.bind(this));
+        } else {
+            addEvent('#text', ['keyup', 'input', 'click'], (function () {
+                var val = this._getValue();
+                if (val === oldValue) {
+                    return;
+                }
 
-            this._updateValue(val);
+                oldValue = val;
 
-            this.execute();
-        }).bind(this));
+                this._updateValue(val);
+
+                this.execute();
+            }).bind(this));
+        }
     }
 };
 
-addEvent(window, 'load', function() {
+addEvent(window, 'load', function () {
     App.init();
 });
-
 })();
