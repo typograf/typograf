@@ -87,6 +87,14 @@ function getHashParam(param) {
     return getHashParams()[param];
 }
 
+function truncateString(text, len) {
+    if(text) {
+        return text.length > len ? text.substr(0, len) : text;
+    }
+    
+    return '';
+}
+
 function addEvent(elem, type, callback) {
     var elem = typeof elem === 'string' ? $(elem) : elem;
     if(Array.isArray(type)) {
@@ -258,7 +266,7 @@ var App = {
     },
     _updateValue: function(value) {
         if(!this.isMobile) {
-            window.location.hash = '#!text=' + window.encodeURIComponent(value);
+            window.location.hash = '#!text=' + window.encodeURIComponent(truncateString(value, 512));
         }
 
         this._updateClearText(value);
