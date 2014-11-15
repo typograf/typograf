@@ -1,9 +1,8 @@
 /*! Typograf | (c) 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
 
 /**
-* @constructor
-*/
-
+ * @constructor
+ */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
 
@@ -20,17 +19,17 @@ function Typograf(prefs) {
 }
 
 /**
-* Добавить правило.
-*
-* @static
-* @param {Object} rule
-* @param {string} rule.name Название правила
-* @param {string} rule.title Описание правила
-* @param {string} rule.sortIndex Индекс сортировки, чем выше, тем позже выполняется
-* @param {Function} rule.func Функция обработки
-* @param {boolean} rule.enabled Включено ли правило по умолчанию
-* @return {Typograf} this
-*/
+ * Добавить правило.
+ *
+ * @static
+ * @param {Object} rule
+ * @param {string} rule.name Название правила
+ * @param {string} rule.title Описание правила
+ * @param {string} rule.sortIndex Индекс сортировки, чем выше, тем позже выполняется
+ * @param {Function} rule.func Функция обработки
+ * @param {boolean} rule.enabled Включено ли правило по умолчанию
+ * @return {Typograf} this
+ */
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false ? false : true;
 
@@ -44,12 +43,12 @@ Typograf.rule = function(rule) {
 };
 
 /**
-* Добавить общие данные для использования в правилах.
-*
-* @static
-* @param {string} key Название ключа
-* @param {*} value Значение ключа
-*/
+ * Добавить общие данные для использования в правилах.
+ *
+ * @static
+ * @param {string} key Название ключа
+ * @param {*} value Значение ключа
+ */
 Typograf.data = function(key, value) {
     Typograf.prototype.data[key] = value;
 };
@@ -109,12 +108,12 @@ Typograf.prototype = {
     },
 
     /**
-    * Установить/получить настройку
-    *
-    * @param {string} rule Имя правила
-    * @param {string} name Имя настройки
-    * @return {*} [value] Значение настройки
-    */
+     * Установить/получить настройку
+     *
+     * @param {string} rule Имя правила
+     * @param {string} name Имя настройки
+     * @return {*} [value] Значение настройки
+     */
     setting: function(rule, name, value) {
         if(arguments.length <= 2) {
             return this._settings[rule] && this._settings[rule][name];
@@ -127,41 +126,41 @@ Typograf.prototype = {
     },
 
     /**
-    * Включено ли правило.
-    *
-    * @param {string} rule Название правила
-    * @return {boolean}
-    */
+     * Включено ли правило.
+     *
+     * @param {string} rule Название правила
+     * @return {boolean}
+     */
     enabled: function(rule) {
         return this._enabledRules[rule];
     },
 
     /**
-    * Отключено ли правило.
-    *
-    * @param {string} rule Название правила
-    * @return {boolean}
-    */
+     * Отключено ли правило.
+     *
+     * @param {string} rule Название правила
+     * @return {boolean}
+     */
     disabled: function(rule) {
         return !this._enabledRules[rule];
     },
 
     /**
-    * Включить правило.
-    *
-    * @param {string} rule Название правила
-    * @return {boolean}
-    */
+     * Включить правило.
+     *
+     * @param {string} rule Название правила
+     * @return {boolean}
+     */
     enable: function(rule) {
         return this._enable(rule, true);
     },
 
     /**
-    * Отключить правило.
-    *
-    * @param {string} rule Название правила
-    * @return {boolean}
-    */
+     * Отключить правило.
+     *
+     * @param {string} rule Название правила
+     * @return {boolean}
+     */
     disable: function(rule) {
         return this._enable(rule, false);
     },

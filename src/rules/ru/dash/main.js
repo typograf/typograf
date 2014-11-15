@@ -3,14 +3,16 @@ Typograf.rule({
     name: 'ru/dash/main',
     sortIndex: 620,
     func: function(text) {
-        var re = new RegExp('(\\s|\u00A0)(-|—)(\\s|\\n)', 'g');
+        var dashes = '(-|--|–|—)',
+            re1 = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
+            re2 = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
         
         return text
-            .replace(re, '\u00A0—$3')
-            .replace(/(X|I|V)(?: |\u00A0)?(-|—)(?: |\u00A0)?(X|I|V)/g, '$1—$3');
+            .replace(re1, '\u00A0' + this.setting('ru/dash/main', 'dash') + '$3')
+            .replace(re2, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
     },
     settings: {
-        dash: '\u2014',
-        dashInterval: '\u2014'
+        dash: '\u2014', // &mdash;
+        dashInterval: '\u2014' // &mdash;
     }
 });
