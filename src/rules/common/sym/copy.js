@@ -4,7 +4,7 @@ Typograf.rule({
     sortIndex: 10,
     func: function(text) {
         return text.replace(/\(r\)/gi, '®')
-            .replace(/\((c|с)\)/gi, '©')
+            .replace(/(copyright )?\((c|с)\)/gi, '©')
             .replace(/\(tm\)/gi, '™');
     }
 });
