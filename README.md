@@ -1,6 +1,7 @@
 [![NPM version](https://badge.fury.io/js/typograf.svg)](http://badge.fury.io/js/typograf)
 [![Build Status](https://travis-ci.org/hcodes/typograf.png?branch=master)](https://travis-ci.org/hcodes/typograf)
 [![Coverage Status](https://img.shields.io/coveralls/hcodes/typograf.svg?branch=master)](https://coveralls.io/r/hcodes/typograf)
+[![Dependency Status](https://gemnasium.com/hcodes/typograf.svg)](https://gemnasium.com/hcodes/typograf)
 
 Типограф на JavaScript
 ======================
