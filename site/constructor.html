@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="constructor.css" type="text/css" />
+        <script src="../dist/typograf.js"></script>
+        <script src="constructor.js"></script>
+        <title>Конструктор правил</title>
+    </head>
+    <body class="page_is-mobile">
+        <header class="header">
+            <h1 class="header__title">Конструктор правил</h1>
+        </header>
+        <div class="container">
+            <div class="input-text__container">
+                Текст:<br/>
+                <textarea class="input-text"></textarea>
+            </div>
+            <div class="layout">
+                <div class="add-rule">
+                    title: <input class="add-rule__title" type="text" value="" /><br />
+                    name: <input class="add-rule__name" type="text" value="common/some" /><br />
+                    sortIndex: <input class="add-rule__sortIndex" type="number" value="100" size="4" /><br />
+                    func:<br /><textarea>function(text) {
+    return text;
+}</textarea><br />
+                    <input type="button" value="Обновить" />
+                </div>
+<div class="code-rule__container">
+Код правила:
+<pre class="code-rule">// common/some.js
+Typograf.rule({
+    title: '<span id="source-rule__title"></span>',
+    name: '<span id="source-rule__name"></span>',
+    sortIndex: <span id="source-rule__sortIndex"></span>,
+    func: <span id="source-rule__func"></span>
+});
+</pre>
+</div>
+                <div class="rules">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

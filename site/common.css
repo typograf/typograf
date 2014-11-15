@@ -303,5 +303,7 @@ input, textarea
 
 .page_is-mobile .prefs__top
 {
-    text-align: right;
+    border-bottom: 1px solid #eaeaea;
+    padding: 0.4em 0 0.7em;
+    margin-bottom: 0.7em;
 }
