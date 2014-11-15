@@ -88,13 +88,16 @@ Typograf.rule({
 
 ## Режим работы
   ```JavaScript
-var tp = new Typograf({lang: 'ru'}); // Режим по умолчанию, HTML-сущности, как utf-8 символы
+// Режим по умолчанию, HTML-сущности, как utf-8 символы  
+var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
 
-var tpName = new Typograf({lang: 'ru', mode: 'name'}); // HTML-сущности, как имена
+// HTML-сущности, как имена
+var tpName = new Typograf({lang: 'ru', mode: 'name'});
 tpName.execute('...'); // &hellip;
 
-var tpDigit = new Typograf({lang: 'ru', mode: 'digit'}); // HTML-сущности, как цифры
+// HTML-сущности, как цифры
+var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
 tpDigit.execute('...'); //&#8230;
   ```
 
