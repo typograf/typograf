@@ -17,6 +17,9 @@ var paths = {
         'src/rules/**/*.js',
         'src/end.js'
     ],
+    css: [
+        'src/**/*.css'
+    ],
     testRules: [
         'src/main.spec.js',
         'src/rules/**/*.js'
@@ -38,6 +41,12 @@ gulp.task('minjs', function() {
         .pipe(gulp.dest(destDir));
 });
 
+gulp.task('css', function() {
+    return gulp.src(paths.css)
+        .pipe(concat('typograf.css'))
+        .pipe(gulp.dest(destDir));
+});
+
 gulp.task('testRules', function() {
     var filterSpec = gulpFilter(['**/*.spec.js']);
 
@@ -56,7 +65,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules']);
+    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'lint']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css']);

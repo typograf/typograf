@@ -3,10 +3,10 @@ var assert = require('chai').assert,
     Typograf = require('../dist/typograf.js'),
     t = new Typograf({lang: 'ru'}),
     _settings;
-    
+
 function pushSettings(ruleName, settings) {
     _settings = {};
-    
+
     Object.keys(settings).forEach(function(key) {
         _settings[key] = t.setting(ruleName, key);
         t.setting(ruleName, key, settings[key]);
@@ -21,17 +21,20 @@ function popSettings(ruleName) {
 
 function executeRule(name, text) {
     var rules = Typograf.prototype._rules;
-    
+
     rules.forEach(function(f) {
         if(f.name === name) {
             text = f.func.call(t, text, t._settings[f.name]);
         }
     });
-    
+
     return text;
 }
 
 describe('rules', function() {
+    var optRules = ['ru/optalign/quot', 'ru/optalign/bracket', 'ru/optalign/comma'];
+    t.enable(optRules);
+
     rules.forEach(function(elem) {
         it(elem[0], function() {
             elem[1].forEach(function(as) {
@@ -39,8 +42,7 @@ describe('rules', function() {
             });
         });
     });
-    
-    
+
     it('quotes lquot = lquot2 and rquot = rquot2', function() {
         pushSettings('ru/quot', {
             lquot: '«',
@@ -48,7 +50,7 @@ describe('rules', function() {
             lquot2: '«',
             rquot2: '»'
         });
-        
+
         assert.equal(executeRule('ru/quot', '"Триллер “Закрытая школа” на СТС"'), '«Триллер «Закрытая школа» на СТС»');
         assert.equal(executeRule('ru/quot', 'Триллер "Триллер “Закрытая школа” на СТС" Триллер'), 'Триллер «Триллер «Закрытая школа» на СТС» Триллер');
         assert.equal(executeRule('ru/quot', '"“Закрытая школа” на СТС"'), '«Закрытая школа» на СТС»');
@@ -58,5 +60,5 @@ describe('rules', function() {
 
         popSettings('ru/quot');
     });
-    
+
 });

@@ -1,0 +1,31 @@
+.typograf-oa-sp-lbracket
+{
+    margin-right: 0.3em;
+}
+
+.typograf-oa-lbracket,
+.typograf-oa-n-lbracket
+{
+    margin-left: -0.3em;
+}
+
+.typograf-oa-comma
+{
+    margin-right: -0.2em;
+}
+
+.typograf-oa-comma-sp
+{
+    margin-left: 0.2em;
+}
+
+.typograf-oa-sp-lquot
+{
+    margin-right: 0.44em;
+}
+
+.typograf-oa-lquot,
+.typograf-oa-n-lquot
+{
+    margin-left: -0.44em;
+}

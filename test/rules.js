@@ -311,3 +311,37 @@ tests.push(['ru/nbsp/yy', [
     ['2012-2015 г. г. ', '2012-2015\u00A0гг. '],
     ['2012-2015г.г. ', '2012-2015\u00A0гг. ']
 ]]);
+
+/*jshint maxlen:1000 */
+tests.push(['ru/optalign/bracket', [
+    ['В самом добром (кино)', 'В самом добром<span class="typograf-oa-sp-lbracket"> </span><span class="typograf-oa-lbracket">(</span>кино)'],
+    ['В самом добром\n(кино)', 'В самом добром\n<span class="typograf-oa-n-lbracket">(</span>кино)']
+]]);
+
+tests.push(['-ru/optalign/bracket', [
+    ['<span class="typograf-oa-sp-lbracket"> </span>', ' '],
+    ['<span class="typograf-oa-lbracket">(</span>', '(']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['ru/optalign/comma', [
+    ['В самом добром, кино', 'В самом добром<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>кино']
+]]);
+
+tests.push(['-ru/optalign/comma', [
+    ['<span class="typograf-oa-comma">,</span>', ','],
+    ['<span class="typograf-oa-comma-sp"> </span>', ' ']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['ru/optalign/quot', [
+    ['Вот у вас «Мой спутник».', 'Вот у вас<span class="typograf-oa-sp-lquot"> </span><span class="typograf-oa-lquot">«</span>Мой спутник».'],
+    ['Вот у вас\n«Мой спутник».', 'Вот у вас\n<span class="typograf-oa-n-lquot">«</span>Мой спутник».'],
+    ['Вот у вас<p> «Мой спутник».</p>', 'Вот у вас<p> <span class="typograf-oa-n-lquot">«</span>Мой спутник».</p>']
+]]);
+
+tests.push(['-ru/optalign/quot', [
+    ['<span class="typograf-oa-sp-lquot"> </span>', ' '],
+    ['<span class="typograf-oa-lquot">«</span>', '«'],
+    ['\n<span class="typograf-oa-n-lquot">«</span>', '\n«']
+]]);

@@ -29,6 +29,7 @@
     + `http://example.com` на http://example.com;
     + (с) на ©, (r) на ™, +- на ±;
     + и пр.
++ висячая пунктуация.
 
 
 ## Черты:
@@ -36,45 +37,64 @@
  + кроссбраузерность;
  + мультиязычность;
  + utf-8;
- + поддержка Node.js.
+ + поддержка Node.js;
+ + TDD.
 
 
 ## Использование
 
 ### В браузере
-  ```
+```
 bower install typograf
-  ```
+```
 
-  ```HTML
+```HTML
 <script src="dist/typograf.min.js"></script>
 <script>
     var tp = new Typograf({lang: 'ru'});
     alert(tp.execute('     Мир - мой мир!      '));
 </script>
-  ```
-### Node.js
-  ```
-npm install typograf
-  ```
+```
 
-  ```JavaScript
+### Node.js
+```
+npm install typograf
+```
+
+```JavaScript
 var Typograf = require('typograf'),
     tp = new Typograf({lang: 'ru'});
 
 console.log(tp.execute(' Мир - мой мир!!   '));
-  ```
+```
+
+## Висячая пунктуация
+По умолчанию висячая пунктуация отключена.
+
+Для включения необходимо подключить правила:
+```JavaScript
+var Typograf = require('typograf'),
+    tp = new Typograf({lang: 'ru'});
+
+tp.enable('ru/optalign/*');
+console.log(tp.execute('"Мир"'));
+```
+
+А также в HTML-код страницы добавить:
+```HTML
+<link rel="stylesheet" href="dist/typograf.css" type="text/css" />
+```
 
 ## Включить/отключить правило
-  ```JavaScript
+```JavaScript
 var tp = new Typograf({lang: 'ru'});
 tp.disable('ru/space/afterNum'); // Отключить правило
 //...
 tp.enable('ru/space/afterNum'); // Включить правило
-  ```
+```
 
 ## Добавить правило
-  ```JavaScript
+```JavaScript
 Typograf.rule({
     title: 'Пример правила',
     name: 'common/other/parampampam', // common - для любого языка, группа "other", правило "parampampam"
@@ -83,12 +103,12 @@ Typograf.rule({
         return text.replace(/parampampam/g, 'tryam');
     }
 });
-  ```
+```
 
 
 ## Режим работы
-  ```JavaScript
-// Режим по умолчанию, HTML-сущности, как utf-8 символы  
+```JavaScript
+// Режим по умолчанию, HTML-сущности, как utf-8 символы
 var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
 
@@ -99,7 +119,7 @@ tpName.execute('...'); // &hellip;
 // HTML-сущности, как цифры
 var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
 tpDigit.execute('...'); //&#8230;
-  ```
+```
 
 
 ## Лицензия

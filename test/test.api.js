@@ -26,6 +26,16 @@ describe('API', function() {
         assert.ok(t.enabled('common/html/url'));
 
         t.disable(['common/html/pbr', 'common/html/url']);
+
+        t.enable('ru/optalign/*');
+        assert.ok(t.enabled('ru/optalign/quot'));
+        assert.ok(t.enabled('ru/optalign/bracket'));
+        assert.ok(t.enabled('ru/optalign/comma'));
+
+        t.disable('ru/optalign/*');
+        assert.ok(t.disabled('ru/optalign/quot'));
+        assert.ok(t.disabled('ru/optalign/bracket'));
+        assert.ok(t.disabled('ru/optalign/comma'));
     });
 
     it('get/set setting', function() {

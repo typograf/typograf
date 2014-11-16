@@ -84,23 +84,25 @@ Typograf.prototype = {
             .replace(/\r\n/g, '\n') // Windows
             .replace(/\r/g, '\n'); // MacOS
 
-        var isHTML = text.search(/<|>/) !== -1;
+        this._isHTML = text.search(/<[a-z]/) !== -1;
 
-        if(isHTML) {
+        if(this._isHTML) {
             text = this._hideSafeTags(text);
         }
 
         text = this._utfication(text);
 
         this._rules.forEach(function(rule) {
-            if(this.enabled(rule.name) && (rule._lang === 'common' || rule._lang === lang)) {
+            var ruleLang = rule._lang.replace(/^_/, '');
+
+            if(this.enabled(rule.name) && (ruleLang === 'common' || ruleLang === lang)) {
                 text = rule.func.call(this, text, this._settings[rule.name]);
             }
         }, this);
 
         text = this._modification(text);
 
-        if(isHTML) {
+        if(this._isHTML) {
             text = this._showSafeTags(text);
         }
 
@@ -158,7 +160,7 @@ Typograf.prototype = {
     /**
      * Отключить правило.
      *
-     * @param {string} rule Название правила
+     * @param {string|Array[string]} rule Название правила
      * @return {boolean}
      */
     disable: function(rule) {
@@ -168,13 +170,30 @@ Typograf.prototype = {
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
             rule.forEach(function(el) {
-                this._enabledRules[el] = enabled;
+                this._enableByMask(el, enabled);
+            }, this);
+        } else {
+            this._enableByMask(rule, enabled);
+        }
+
+        return this;
+    },
+    _enableByMask: function(rule, enabled) {
+        var re;
+        if(rule.search(/\*/) !== -1) {
+            re = new RegExp(rule
+                .replace(/\//g, '\\\/')
+                .replace(/\*/, '.*'));
+            
+            this._rules.forEach(function(el) {
+                var name = el.name;
+                if(re.test(name)) {
+                    this._enabledRules[name] = enabled;
+                }
             }, this);
         } else {
             this._enabledRules[rule] = enabled;
         }
-
-        return this;
     },
     _rules: [],
     _hideSafeTags: function(text) {
