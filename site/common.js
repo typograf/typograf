@@ -131,7 +131,7 @@ var App = {
             rules = JSON.parse(localStorage.getItem('settings.rules'));
         } catch(e) {}
 
-        if(typeof rules === 'object' && Array.isArray(rules.disabled) && Array.isArray(rules.enabled)) {
+        if(rules && typeof rules === 'object' && Array.isArray(rules.disabled) && Array.isArray(rules.enabled)) {
             typograf
                 .enable(rules.enabled)
                 .disable(rules.disabled);
