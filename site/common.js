@@ -55,7 +55,7 @@ function toggle(el) {
 
 function getPrefix(str) {
     var prefix = str.split('/');
-    if (prefix.length === 2) {
+    if(prefix.length === 2) {
         prefix = '';
     } else {
         prefix = prefix[1];
@@ -91,7 +91,7 @@ function truncateString(text, len) {
     if(text) {
         return text.length > len ? text.substr(0, len) : text;
     }
-    
+
     return '';
 }
 
@@ -106,8 +106,7 @@ function addEvent(elem, type, callback) {
     }
 }
 
-
-var typo = new Typograf({lang: 'ru'});
+var typograf = new Typograf({lang: 'ru'});
 
 var App = {
     isMobile: false,
@@ -118,14 +117,28 @@ var App = {
             this._setValue(getHashParam('text') || '');
         }
 
+        this.loadFromLocalStorage();
+
         this._events();
 
         this.prefs._events();
 
         this.execute();
     },
+    loadFromLocalStorage: function() {
+        var rules;
+        try {
+            rules = JSON.parse(localStorage.getItem('settings.rules'));
+        } catch(e) {}
+
+        if(typeof rules === 'object' && Array.isArray(rules.disabled) && Array.isArray(rules.enabled)) {
+            typograf
+                .enable(rules.enabled)
+                .disable(rules.disabled);
+        }
+    },
     execute: function() {
-        var res = typo.execute(this._getValue());
+        var res = typograf.execute(this._getValue());
 
         if(this.isMobile) {
             $('#text').value = res;
@@ -152,22 +165,35 @@ var App = {
             }
         },
         save: function() {
-            var els = $('#prefs__items').querySelectorAll('input');
+            var els = $('#prefs__items').querySelectorAll('input'),
+                enabled = [],
+                disabled = [];
+
             for(var i = 0; i < els.length; i++) {
                 var el = els[i];
                 id = el.dataset['id'],
                     ch = el.checked;
 
-                this._prefs[id] = ch;
-
                 if(ch) {
-                    typo.enable(id);
+                    typograf.enable(id);
+                    enabled.push(id);
                 } else {
-                    typo.disable(id);
+                    typograf.disable(id);
+                    disabled.push(id);
                 }
             }
 
+            this.saveToLocalStorage(enabled, disabled);
+
             this.hide();
+        },
+        saveToLocalStorage: function(enabled, disabled) {
+            try {
+                localStorage.setItem('settings.rules', JSON.stringify({
+                    enabled: enabled,
+                    disabled: disabled
+                }));
+            } catch(e) {}
         },
         cancel: function() {
             this.hide();
@@ -188,7 +214,6 @@ var App = {
 
             $('#prefs-all').checked = false;
         },
-        _prefs: {},
         _build: function() {
             var rules = Typograf.prototype._rules,
                 html = '';
@@ -230,7 +255,7 @@ var App = {
 
                 var title = escapeHTML(rule.title),
                     id = 'setting-' + name,
-                    ch = typeof this._prefs[name] === 'undefined' ? rule.enabled : this._prefs[name],
+                    ch = typograf.enabled(name),
                     checked = ch ? ' checked="checked"' : '';
 
                 html += '<div class="prefs__item"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + title + '</label></div>';
