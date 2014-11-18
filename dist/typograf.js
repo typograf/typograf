@@ -184,7 +184,7 @@ Typograf.prototype = {
             re = new RegExp(rule
                 .replace(/\//g, '\\\/')
                 .replace(/\*/, '.*'));
-            
+
             this._rules.forEach(function(el) {
                 var name = el.name;
                 if(re.test(name)) {
@@ -235,13 +235,11 @@ Typograf.prototype = {
         return text;
     },
     _utfication: function(text) {
-        if(text.search('&') === -1) {
-            return text;
+        if(text.search(/&(#|[a-z])/) !== -1) {
+            this.entities.forEach(function(entity) {
+                text = text.replace(entity[3], entity[2]);
+            });
         }
-
-        this.entities.forEach(function(entity) {
-            text = text.replace(entity[3], entity[2]);
-        }, this);
 
         return text;
     },
@@ -252,8 +250,10 @@ Typograf.prototype = {
         if(mode === 'name' || mode === 'digit') {
             index = mode === 'name' ? 0 : 1;
             this.entities.forEach(function(entity) {
-                text = text.replace(new RegExp(entity[2], 'g'), entity[index]);
-            }, this);
+                if(entity[index]) {
+                    text = text.replace(entity[4], entity[index]);
+                }
+            });
         }
 
         return text;
@@ -519,9 +519,14 @@ Typograf.prototype.entities = [];
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],
-        buf = ['&' + name + ';', '&#' + num + ';', String.fromCharCode(en[1])];
-
-    buf.push(new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'));
+        sym = String.fromCharCode(num),
+        buf = [
+            '&' + name + ';', // 0 - &nbsp;
+            '&#' + num + ';', // 1 - &#160;
+            sym, // 2 - \u00A0
+            new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'), // 3
+            new RegExp(sym, 'g') // 4
+        ];
 
     Typograf.prototype.entities.push(buf);
 }, this);

@@ -253,9 +253,14 @@ Typograf.prototype.entities = [];
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],
-        buf = ['&' + name + ';', '&#' + num + ';', String.fromCharCode(en[1])];
-
-    buf.push(new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'));
+        sym = String.fromCharCode(num),
+        buf = [
+            '&' + name + ';', // 0 - &nbsp;
+            '&#' + num + ';', // 1 - &#160;
+            sym, // 2 - \u00A0
+            new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'), // 3
+            new RegExp(sym, 'g') // 4
+        ];
 
     Typograf.prototype.entities.push(buf);
 }, this);
