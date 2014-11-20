@@ -19,6 +19,10 @@
   "engines": {
     "node": ">= 0.10"
   },
+  "dependencies": {
+    "commander": "~1.3",
+    "isutf8": "~1.0"
+  },
   "devDependencies": {
     "mocha": "2.0.x",
     "chai": "1.x",

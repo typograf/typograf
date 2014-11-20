@@ -68,6 +68,18 @@ var Typograf = require('typograf'),
 console.log(tp.execute(' Мир - мой мир!!   '));
 ```
 
+### Командная строка
+```
+npm install typograf -g
+```
+`typograf` - вывод справки
+
+`typograf my_file.txt` - оттипографировать текст по русским правилам
+
+`typograf -l en my_file.txt` - оттипографировать файл по английским правилам
+
+`typograf -d ru/quot -e ru/optaling/* my_file.txt > new_my_file` - оттипографировать файл с отключенным правилом `ru/quot` и включенными правилами `ru/optaling/*`
+
 ## Висячая пунктуация
 По умолчанию висячая пунктуация отключена.
 
