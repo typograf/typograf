@@ -93,7 +93,7 @@ Typograf.prototype = {
         text = this._utfication(text);
 
         this._rules.forEach(function(rule) {
-            var ruleLang = rule._lang.replace(/^_/, '');
+            var ruleLang = rule._lang.replace(/^-/, '');
 
             if(this.enabled(rule.name) && (ruleLang === 'common' || ruleLang === lang)) {
                 text = rule.func.call(this, text, this._settings[rule.name]);
@@ -183,7 +183,7 @@ Typograf.prototype = {
         if(rule.search(/\*/) !== -1) {
             re = new RegExp(rule
                 .replace(/\//g, '\\\/')
-                .replace(/\*/, '.*'));
+                .replace(/\*/g, '.*'));
 
             this._rules.forEach(function(el) {
                 var name = el.name;

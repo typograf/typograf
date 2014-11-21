@@ -32,18 +32,28 @@ function executeRule(name, text) {
 }
 
 describe('rules', function() {
-    var optRules = ['ru/optalign/quot', 'ru/optalign/bracket', 'ru/optalign/comma'];
-    t.enable(optRules);
-
     rules.forEach(function(elem) {
-        it(elem[0], function() {
-            elem[1].forEach(function(as) {
-                assert.equal(executeRule(elem[0], as[0]), as[1], as[0] + ' → ' + as[1]);
+        var name = elem[0],
+            tests = elem[1];
+
+        it(name, function() {
+            tests.forEach(function(as) {
+                t.enable(name);
+                assert.equal(executeRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
             });
         });
     });
 
     it('quotes lquot = lquot2 and rquot = rquot2', function() {
+        var quotTests = [
+            ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
+            ['Триллер "Триллер “Закрытая школа” на СТС" Триллер', 'Триллер «Триллер «Закрытая школа» на СТС» Триллер'],
+            ['"“Закрытая школа” на СТС"', '«Закрытая школа» на СТС»'],
+            ['Триллер "“Закрытая школа” на СТС" Триллер', 'Триллер «Закрытая школа» на СТС» Триллер'],
+            ['"Триллер “Закрытая школа"', '«Триллер «Закрытая школа»'],
+            ['Триллер "Триллер “Закрытая школа" Триллер', 'Триллер «Триллер «Закрытая школа» Триллер']
+        ];
+
         pushSettings('ru/quot', {
             lquot: '«',
             rquot: '»',
@@ -51,14 +61,29 @@ describe('rules', function() {
             rquot2: '»'
         });
 
-        assert.equal(executeRule('ru/quot', '"Триллер “Закрытая школа” на СТС"'), '«Триллер «Закрытая школа» на СТС»');
-        assert.equal(executeRule('ru/quot', 'Триллер "Триллер “Закрытая школа” на СТС" Триллер'), 'Триллер «Триллер «Закрытая школа» на СТС» Триллер');
-        assert.equal(executeRule('ru/quot', '"“Закрытая школа” на СТС"'), '«Закрытая школа» на СТС»');
-        assert.equal(executeRule('ru/quot', 'Триллер "“Закрытая школа” на СТС" Триллер'), 'Триллер «Закрытая школа» на СТС» Триллер');
-        assert.equal(executeRule('ru/quot', '"Триллер “Закрытая школа"'), '«Триллер «Закрытая школа»');
-        assert.equal(executeRule('ru/quot', 'Триллер "Триллер “Закрытая школа" Триллер'), 'Триллер «Триллер «Закрытая школа» Триллер');
+        quotTests.forEach(function(el) {
+            assert.equal(executeRule('ru/quot', el[0]), el[1]);
+        });
 
         popSettings('ru/quot');
     });
 
+    it('off -ru/optalign', function() {
+        var tp = new Typograf({lang: 'ru'});
+
+        tp
+            .disable('*')
+            .enable('-*');
+
+        var optAlignTests = [
+            '<span class="typograf-oa-sp-lquot"> </span>',
+            '<span class="typograf-oa-lquot">«</span>',
+            '<span class="typograf-oa-comma">,</span>',
+            '<span class="typograf-oa-sp-lbracket"> </span>'
+        ];
+
+        optAlignTests.forEach(function(el) {
+            assert.equal(tp.execute(el), el);
+        });
+    });
 });
