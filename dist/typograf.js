@@ -1233,7 +1233,6 @@ Typograf.rule({
     name: '-ru/optalign/comma',
     sortIndex: -10,
     func: function(text) {
-        console.log(this.enabled('ru/optalign/comma'), 222);
         // Зачистка HTML-тегов от висячей пунктуации для запятой
         if(this.enabled('ru/optalign/comma')) {
             return text.replace(/<span class="typograf-oa-(comma|comma-sp)">(.*?)<\/span>/g, '$2');

@@ -69,7 +69,7 @@ describe('rules', function() {
     });
 
     it('off -ru/optalign', function() {
-        var tp = new Typograf({lang: 'ru'});
+        var tp = new Typograf();
 
         tp
             .disable('*')
@@ -83,7 +83,7 @@ describe('rules', function() {
         ];
 
         optAlignTests.forEach(function(el) {
-            assert.equal(tp.execute(el), el);
+            assert.equal(tp.execute(el, {lang: 'ru'}), el);
         });
     });
 });
