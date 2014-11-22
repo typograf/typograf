@@ -96,9 +96,13 @@ tp.enable('ru/space/afterNum'); // Включить правило
 ## Добавить правило
 ```JavaScript
 Typograf.rule({
+    // Заголовок
     title: 'Пример правила',
-    name: 'common/other/parampampam', // common - для любого языка, группа "other", правило "parampampam"
-    sortIndex: 2000, // меньше - раньше, больше - позже выполняется
+    // common - язык, группа - "other", имя правила - "parampampam"
+    name: 'common/other/parampampam', 
+    // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
+    sortIndex: 2000,
+    // Функция обработки правила
     func: function(text) {
         return text.replace(/parampampam/g, 'tryam');
     }
