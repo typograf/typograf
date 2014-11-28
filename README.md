@@ -146,3 +146,7 @@ MIT License
 + [Ководство](http://www.artlebedev.ru/kovodstvo/)
 + [Все типографы](http://rmcreative.ru/blog/post/vse-tipografy)
 + [Сравнение типографов](http://www.typograf.ru/flog/)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hcodes/typograf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
