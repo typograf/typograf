@@ -64,6 +64,12 @@ function getPrefix(str) {
     return prefix;
 }
 
+function getLangPrefix(str) {
+    var prefix = str.split('/');
+
+    return prefix[0];
+}
+
 function getHashParams(param) {
     var hash = window.location.hash.replace(/^#!/, ''),
         buf = hash.split('&'),
@@ -106,7 +112,7 @@ function addEvent(elem, type, callback) {
     }
 }
 
-var typograf = new Typograf({lang: 'ru'});
+var typograf = new Typograf();
 
 var App = {
     isMobile: false,
@@ -119,6 +125,8 @@ var App = {
 
         this.loadFromLocalStorage();
 
+        this._updateLang();
+
         this._events();
 
         this.prefs._events();
@@ -129,6 +137,7 @@ var App = {
         var rules;
         try {
             rules = JSON.parse(localStorage.getItem('settings.rules'));
+            this.prefs.lang = localStorage.getItem('settings.lang');
         } catch(e) {}
 
         if(rules && typeof rules === 'object' && Array.isArray(rules.disabled) && Array.isArray(rules.enabled)) {
@@ -136,9 +145,11 @@ var App = {
                 .enable(rules.enabled)
                 .disable(rules.disabled);
         }
+
+        this.prefs.lang = this.prefs.lang || 'ru';
     },
     execute: function() {
-        var res = typograf.execute(this._getValue());
+        var res = typograf.execute(this._getValue(), {lang: this.prefs.lang});
 
         if(this.isMobile) {
             $('#text').value = res;
@@ -150,8 +161,11 @@ var App = {
     prefs: {
         show: function() {
             this._build();
+
             show('#prefs');
             hide('#edit');
+
+            $('#set-lang').value = this.lang;
         },
         hide: function() {
             hide('#prefs');
@@ -164,47 +178,47 @@ var App = {
                 this.show();
             }
         },
-        save: function() {
-            var els = $('#prefs__items').querySelectorAll('input'),
-                enabled = [],
+        saveToLocalStorage: function() {
+            var enabled = [],
                 disabled = [];
 
-            for(var i = 0; i < els.length; i++) {
-                var el = els[i];
-                id = el.dataset['id'],
-                    ch = el.checked;
-
-                if(ch) {
-                    typograf.enable(id);
-                    enabled.push(id);
-                } else {
-                    typograf.disable(id);
-                    disabled.push(id);
+            Object.keys(typograf._enabledRules).forEach(function(name) {
+                if(name.search(/^-/) > -1) {
+                    return;
                 }
-            }
 
-            this.saveToLocalStorage(enabled, disabled);
+                if(typograf._enabledRules[name]) {
+                    enabled.push(name);
+                } else {
+                    disabled.push(name);
+                }
+            });
 
-            this.hide();
-        },
-        saveToLocalStorage: function(enabled, disabled) {
             try {
                 localStorage.setItem('settings.rules', JSON.stringify({
                     enabled: enabled,
                     disabled: disabled
                 }));
+
+                localStorage.setItem('settings.lang', this.lang);
             } catch(e) {}
         },
-        cancel: function() {
-            this.hide();
-        },
         byDefault: function() {
-            var els = $('#prefs__items').querySelectorAll('input');
+            var els = this._getCheckboxes();
             for(var i = 0; i < els.length; i++) {
-                var id = els[i].dataset['id'];
+                var id = els[i].dataset['id'],
+                    checked;
                 Typograf.prototype._rules.some(function(rule) {
                     if(id === rule.name) {
-                        els[i].checked = !(rule.enabled === false);
+                        var checked = !(rule.enabled === false);
+                        els[i].checked = checked;
+                        
+                        if(checked) {
+                            typograf.enable(id);
+                        } else {
+                            typograf.disable(id);
+                        }
+                        
                         return true;
                     }
 
@@ -213,6 +227,8 @@ var App = {
             }
 
             $('#prefs-all').checked = false;
+            
+            this.saveToLocalStorage();
         },
         _build: function() {
             var rules = Typograf.prototype._rules,
@@ -247,7 +263,14 @@ var App = {
                     return;
                 }
 
-                var pr = getPrefix(name);
+                var pr = getPrefix(name),
+                    langPr = getLangPrefix(name);
+
+
+                if(this.lang !== langPr && langPr !== 'common') {
+                    return;
+                }
+
                 if(pr !== oldPrefix) {
                     oldPrefix = pr;
                     html += '<div class="prefs__clear"></div>';
@@ -258,25 +281,66 @@ var App = {
                     ch = typograf.enabled(name),
                     checked = ch ? ' checked="checked"' : '';
 
-                html += '<div class="prefs__item"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + title + '</label></div>';
+                html += '<div class="prefs__rule"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + title + '</label></div>';
             }, this);
 
-            $('#prefs__items').innerHTML = html;
+            $('#prefs__rules').innerHTML = html;
+        },
+        changeLang: function() {
+            this.lang = $('#set-lang').value;
+            this._build();
+            this.saveToLocalStorage();
+
+            App._updateLang();
+        },
+        _getCheckboxes: function() {
+            return $('#prefs__rules').querySelectorAll('input');
+        },
+        _clickRule: function(e) {
+            if(e.target && e.target.tagName && e.target.tagName.toLowerCase() !== 'input') {
+                return;
+            }
+
+            var els = this._getCheckboxes();
+
+            for(var i = 0; i < els.length; i++) {
+                var el = els[i],
+                    id = el.dataset['id'],
+                    ch = el.checked;
+
+                if(ch) {
+                    typograf.enable(id);
+                } else {
+                    typograf.disable(id);
+                }
+            }
+
+            this.saveToLocalStorage();
+        },
+        _selectAll: function() {
+            var checked = $('#prefs-all').checked,
+                els = $('#prefs__rules').querySelectorAll('input');
+
+            for(var i = 0; i < els.length; i++) {
+                var el = els[i],
+                    id = el.dataset['id'];
+
+                el.checked = checked;
+                if(checked) {
+                    typograf.enable(id);
+                } else {
+                    typograf.disable(id);
+                }
+            }
+
+            this.saveToLocalStorage();
         },
         _events: function() {
-            addEvent('#prefs-save', 'click', (function() {
-                this.save();
-                App.execute();
-            }).bind(this));
+            addEvent('#set-lang', 'change', this.changeLang.bind(this));
 
-            addEvent('#prefs-cancel', 'click', this.cancel.bind(this));
+            addEvent('#prefs__rules', 'click', this._clickRule.bind(this));
 
-            addEvent('#prefs-all', 'click', function() {
-                var els = $('#prefs__items').querySelectorAll('input');
-                for(var i = 0; i < els.length; i++) {
-                    els[i].checked = this.checked;
-                }
-            });
+            addEvent('#prefs-all', 'click', this._selectAll.bind(this));
 
             addEvent('#prefs-default', 'click', this.byDefault.bind(this));
         }
@@ -302,6 +366,11 @@ var App = {
         } else {
             hide('#clear-text');
         }
+    },
+    _updateLang: function() {
+        var el = $('#current-lang');
+        el.innerHTML = this.prefs.lang;
+        el.value = this.prefs.lang;
     },
     _events: function() {
         addEvent('#set-prefs', 'click', (function() {

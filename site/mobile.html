@@ -12,20 +12,28 @@
     <body class="page_is-mobile">
         <header class="header">
             <h1 class="header__title">Типограф</h1>
+            <div id="current-lang"></div>
             <div title="Настройки" id="set-prefs"></div>
         </header>
         <div class="container">
             <div id="prefs">
-                <div class="prefs__title">Настройки <input type="button" id="prefs-default" value="По умолчанию" /></div>
-                <div class="prefs__top">
-                    <input type="checkbox" id="prefs-all" autocomplete="off" /> <label for="prefs-all">Выбрать/снять все</label>
+                <div class="prefs__title">Настройки</div>
+                <div class="prefs__items">
+                    <div class="prefs__lang">
+                        Язык правил: <select id="set-lang">
+                            <option value="ru">RU</option>
+                            <option value="en">EN</option>
+                        </select>
+                    </div>
+                    <div class="prefs__top">
+                        <input type="checkbox" id="prefs-all" autocomplete="off" /> <label for="prefs-all">Выбрать все</label>
+                        <input type="button" id="prefs-default" value="По умолчанию" />
+                    </div>
+
+                    <div id="prefs__rules"></div>
                 </div>
-                <div id="prefs__items"></div>
+
                 <div class="prefs__cap"></div>
-                <div class="prefs__controls">
-                    <input type="button" id="prefs-save" value="Cохранить" />
-                    <input type="button" id="prefs-cancel" value="Отмена" /><br />
-                </div>
             </div>
 
             <div id="edit">
@@ -35,7 +43,7 @@
                     <textarea id="text" autofocus="autofocus"></textarea>
                     <div id="clear-text" title="Очистить">&times;</div>
                 </div>
-                
+
                 <input type="button" id="execute" value="Типографировать" />
             </div>
         </div>

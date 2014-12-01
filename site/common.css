@@ -122,7 +122,7 @@ input, textarea
 .prefs__cap
 {
     clear: both;
-    height: 5em;
+    height: 1em;
 }
 
 .prefs__title
@@ -144,17 +144,7 @@ input, textarea
     margin-bottom: 1em;
 }
 
-.prefs__controls
-{
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 1em 0 1em 0;
-    background: rgba(230,230,230,0.9);
-}
-
-.prefs__item
+.prefs__rule
 {
     line-height: 30px;
     float: left;
@@ -230,46 +220,24 @@ input, textarea
     opacity: 0.4;
 }
 
-.page_is-desktop .prefs__item
+.page_is-desktop .prefs__rule
 {
     width: 40%;
     padding-right: 1em;
 }
 
-.page_is-mobile .prefs__item
+.page_is-mobile .prefs__rule
 {
     line-height: 30px;
     float: left;
     width: 100%;
 }
 
-.page_is-desktop #prefs-save
+#prefs-default
 {
-    margin-left: 2em;
-}
-
-.page_is-desktop #prefs-all
-{
-    margin-left: 2em;
-}
-
-.page_is-mobile #prefs-all
-{
-    text-align: right;
-}
-
-.page_is-desktop #prefs-default
-{
-    margin-left: 1em;
-}
-
-.page_is-mobile #prefs-default
-{
-    margin-top: 5px;
-    font-size: 12px;
     float: right;
+    font-size: 12px;
 }
-
 
 .page_is-mobile #text-container
 {
@@ -301,9 +269,27 @@ input, textarea
     top: 0.9em;
 }
 
-.page_is-mobile .prefs__top
+.prefs__top
 {
     border-bottom: 1px solid #eaeaea;
     padding: 0.4em 0 0.7em;
     margin-bottom: 0.7em;
+}
+
+#current-lang
+{
+    position: absolute;
+    right: 65px;
+    top: 20px;
+    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.prefs__lang
+{
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
