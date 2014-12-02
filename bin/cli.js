@@ -7,7 +7,7 @@ var fs = require('fs'),
     typograf = new T();
 
 program
-    .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json')).version)
+    .version(require('../package.json').version)
     .usage('[options] <file>')
     .option('-d, --disable <rules>', 'disable rules (separated by commas)')
     .option('-e, --enable <rules>', 'enable rules (separated by commas)')
@@ -34,11 +34,11 @@ if(fs.existsSync(file) && fs.statSync(file).isFile()) {
             .enable(getRules(program.enable))
             .execute(buf, {lang: program.lang || 'ru'}));
     } else {
-        console.log(file + ': is NOT UTF-8');
+        console.error(file + ': is NOT UTF-8');
         exitCode = 1;
     }
 } else {
-    console.log(file + ': No such file');
+    console.error(file + ': No such file');
     exitCode = 1;
 }
 
