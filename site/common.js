@@ -29,6 +29,41 @@ function $(cls) {
     return document.querySelector(cls);
 }
 
+var div = document.createElement('div'),
+    hasClassList = !!div.classList,
+    addClass = hasClassList ? function(el, name) {
+        el.classList.add(name);
+    } : function(el, name) { // support IE9
+        var re = new RegExp('(^|\\s)' + name + '(\\s|$)', 'g');
+        if(!re.test(name.className)) {
+            el.className = (el.className + ' ' + name)
+                .replace(/\s+/g, ' ')
+                .replace(/(^ | $)/g, '');
+        }
+    },
+    removeClass = hasClassList ? function(el, name) {
+        el.classList.remove(name);
+    } : function(el, name) { // support IE9
+        var re = new RegExp('(^|\\s)' + name + '(\\s|$)', 'g');
+        el.className = el.className
+            .replace(re, '$1')
+            .replace(/\s+/g, ' ')
+            .replace(/(^ | $)/g, '');
+    },
+    toggleClass = function(el, name) {
+        if(hasClass(el, name)) {
+            removeClass(el, name);
+        } else {
+            addClass(el, name);
+        }
+    },
+    hasClass = hasClassList ? function(el, name) {
+        return el.classList.contains(name);
+    } : function(el, name) { // support IE9
+        var re = new RegExp('(^|\\s)' + name + '(\\s|$)', 'g');
+        return el.className.search(re) !== -1;
+    };
+
 function escapeHTML(text) {
     return text.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 }
@@ -212,13 +247,13 @@ var App = {
                     if(id === rule.name) {
                         var checked = !(rule.enabled === false);
                         els[i].checked = checked;
-                        
+
                         if(checked) {
                             typograf.enable(id);
                         } else {
                             typograf.disable(id);
                         }
-                        
+
                         return true;
                     }
 
@@ -226,8 +261,8 @@ var App = {
                 });
             }
 
-            $('#prefs-all').checked = false;
-            
+            $('#prefs-all-rules').checked = false;
+
             this.saveToLocalStorage();
         },
         _build: function() {
@@ -315,11 +350,12 @@ var App = {
                 }
             }
 
+            this._synchronizeMainCheckbox();
             this.saveToLocalStorage();
         },
         _selectAll: function() {
-            var checked = $('#prefs-all').checked,
-                els = $('#prefs__rules').querySelectorAll('input');
+            var checked = $('#prefs-all-rules').checked,
+                els = this._getCheckboxes();
 
             for(var i = 0; i < els.length; i++) {
                 var el = els[i],
@@ -335,12 +371,23 @@ var App = {
 
             this.saveToLocalStorage();
         },
+        _synchronizeMainCheckbox: function() {
+            var els = this._getCheckboxes(),
+                count = 0;
+            for(var i = 0; i < els.length; i++) {
+                if(els[i].checked) {
+                    count++;
+                }
+            }
+
+            $('#prefs-all-rules').checked = count === els.length;
+        },
         _events: function() {
             addEvent('#set-lang', 'change', this.changeLang.bind(this));
 
             addEvent('#prefs__rules', 'click', this._clickRule.bind(this));
 
-            addEvent('#prefs-all', 'click', this._selectAll.bind(this));
+            addEvent('#prefs-all-rules', 'click', this._selectAll.bind(this));
 
             addEvent('#prefs-default', 'click', this.byDefault.bind(this));
         }
@@ -373,7 +420,8 @@ var App = {
         el.value = this.prefs.lang;
     },
     _events: function() {
-        addEvent('#set-prefs', 'click', (function() {
+        addEvent('.set-prefs', 'click', (function() {
+            toggleClass($('.set-prefs'), 'set-prefs_selected');
             this.prefs.toggle();
         }).bind(this));
 

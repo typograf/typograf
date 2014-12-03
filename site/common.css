@@ -74,7 +74,7 @@ input, textarea
     user-select: none;
 }
 
-#set-prefs
+.set-prefs
 {
     position: absolute;
     top: 10px;
@@ -84,17 +84,12 @@ input, textarea
     background: rgba(255,255,255,0.3);
     border-radius: 2px;
     border: 1px solid transparent;
-}
-
-#set-prefs:hover
-{
-    opacity: 0.9;
     cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.2);
+    transition: border-color 0.4s linear, opacity 0.4s linear;
 }
 
-#set-prefs:before,
-#set-prefs:after
+.set-prefs:before,
+.set-prefs:after
 {
     left: 5px;
     top: 7px;
@@ -107,9 +102,15 @@ input, textarea
     content: "";
 }
 
-#set-prefs:after
+.set-prefs:after
 {
     margin-top: 14px;
+}
+
+.set-prefs_selected
+{
+    opacity: 0.9;
+    border: 1px solid rgba(255,255,255,0.9);
 }
 
 #prefs
