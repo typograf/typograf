@@ -110,7 +110,7 @@ tp.enable('ru/space/afterNum'); // Включить правило
 Typograf.rule({
     // Заголовок
     title: 'Пример правила',
-    // common - язык, группа - "other", имя правила - "parampampam"
+    // язык/группа/правило
     name: 'common/other/parampampam', 
     // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
     sortIndex: 2000,
