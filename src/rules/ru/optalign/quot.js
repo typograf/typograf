@@ -14,15 +14,10 @@ Typograf.rule({
     },
     enabled: false
 })
-.rule({
-    name: '-ru/optalign/quot',
-    sortIndex: -10,
+.innerRule({
+    name: 'ru/optalign/quot',
     func: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
-        if(this.enabled('ru/optalign/quot')) {
-            return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
-        } else {
-            return text;
-        }
+        return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
     }
 });

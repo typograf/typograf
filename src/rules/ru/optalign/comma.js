@@ -8,15 +8,10 @@ Typograf.rule({
     },
     enabled: false
 })
-.rule({
-    name: '-ru/optalign/comma',
-    sortIndex: -10,
+.innerRule({
+    name: 'ru/optalign/comma',
     func: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для запятой
-        if(this.enabled('ru/optalign/comma')) {
-            return text.replace(/<span class="typograf-oa-(comma|comma-sp)">(.*?)<\/span>/g, '$2');
-        } else {
-            return text;
-        }
+        return text.replace(/<span class="typograf-oa-(comma|comma-sp)">(.*?)<\/span>/g, '$2');
     }
 });

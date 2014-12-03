@@ -5,7 +5,7 @@ tests.push(['ru/optalign/quot', [
     ['Вот у вас<p> «Мой спутник».</p>', 'Вот у вас<p> <span class="typograf-oa-n-lquot">«</span>Мой спутник».</p>']
 ]]);
 
-tests.push(['-ru/optalign/quot', [
+innerTests.push(['ru/optalign/quot', [
     ['<span class="typograf-oa-sp-lquot"> </span>', ' '],
     ['<span class="typograf-oa-lquot">«</span>', '«'],
     ['\n<span class="typograf-oa-n-lquot">«</span>', '\n«']

@@ -12,9 +12,15 @@ function Typograf(prefs) {
     this._rules.forEach(function(rule) {
         var name = rule.name;
         rule._lang = name.split('/')[0];
+        rule.sortIndex = rule.sortIndex || 0;
 
         this._settings[name] = rule.settings || {};
         this._enabledRules[name] = rule.enabled;
+    }, this);
+    
+    this._innerRules.forEach(function(rule) {
+        rule._lang = rule.name.split('/')[0];
+        rule.sortIndex = rule.sortIndex || 0;
     }, this);
 }
 
@@ -25,9 +31,9 @@ function Typograf(prefs) {
  * @param {Object} rule
  * @param {string} rule.name Название правила
  * @param {string} rule.title Описание правила
- * @param {string} rule.sortIndex Индекс сортировки, чем выше, тем позже выполняется
+ * @param {string} rule.sortIndex Индекс сортировки, чем больше число, тем позже выполняется
  * @param {Function} rule.func Функция обработки
- * @param {boolean} rule.enabled Включено ли правило по умолчанию
+ * @param {boolean} [rule.enabled] Включено ли правило по умолчанию
  * @return {Typograf} this
  */
 Typograf.rule = function(rule) {
@@ -37,6 +43,27 @@ Typograf.rule = function(rule) {
 
     if(Typograf._needSortRules) {
         this._sortRules();
+    }
+
+    return this;
+};
+
+/**
+ * Добавить внутреннее правило.
+ * Внутренние правила выполняются до основных.
+ * @static
+ * @param {Object} rule
+ * @param {string} rule.name Название правила
+ * @param {string} [rule.title] Описание правила
+ * @param {string} [rule.sortIndex] Индекс сортировки, чем больше число, тем позже выполняется
+ * @param {Function} rule.func Функция обработки
+ * @return {Typograf} this
+ */
+Typograf.innerRule = function(rule) {
+    Typograf.prototype._innerRules.push(rule);
+    
+    if(Typograf._needSortRules) {
+        this._sortInnerRules();
     }
 
     return this;
@@ -59,17 +86,31 @@ Typograf._sortRules = function() {
     });
 };
 
+Typograf._sortInnerRules = function() {
+    Typograf.prototype._innerRules.sort(function(a, b) {
+        return a.sortIndex > b.sortIndex ? 1 : -1;
+    });
+};
+
 Typograf.prototype = {
     constructor: Typograf,
     /**
     * Типографировать текст.
     *
     * @param {string} text
-    * @param {Object} params
+    * @param {Object} [params]
     * @return {string}
     */
     execute: function(text, params) {
-        var lang = params && params.lang;
+        var lang = params && params.lang,
+            iterator = function(rule) {
+                var rlang = rule._lang;
+
+                if(this.enabled(rule.name) && (rlang === 'common' || rlang === lang)) {
+                    text = rule.func.call(this, text, this._settings[rule.name]);
+                }
+            };
+            
         if(!lang) {
             lang = this._prefs.lang;
         }
@@ -92,13 +133,8 @@ Typograf.prototype = {
 
         text = this._utfication(text);
 
-        this._rules.forEach(function(rule) {
-            var ruleLang = rule._lang.replace(/^-/, '');
-
-            if(this.enabled(rule.name) && (ruleLang === 'common' || ruleLang === lang)) {
-                text = rule.func.call(this, text, this._settings[rule.name]);
-            }
-        }, this);
+        this._innerRules.forEach(iterator, this);
+        this._rules.forEach(iterator, this);
 
         text = this._modification(text);
 
@@ -196,6 +232,7 @@ Typograf.prototype = {
         }
     },
     _rules: [],
+    _innerRules: [],
     _hideSafeTags: function(text) {
         this._hiddenSafeTags = {};
 

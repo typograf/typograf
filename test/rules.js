@@ -1,6 +1,10 @@
-var tests = [];
+var tests = [],
+    innerTests = [];
 
-module.exports = tests;
+module.exports = {
+    tests: tests,
+    innerTests: innerTests
+};
 
 /* jshint maxlen:1000 */
 tests.push(['common/delDoublePunctiation', [
@@ -318,7 +322,7 @@ tests.push(['ru/optalign/bracket', [
     ['В самом добром\n(кино)', 'В самом добром\n<span class="typograf-oa-n-lbracket">(</span>кино)']
 ]]);
 
-tests.push(['-ru/optalign/bracket', [
+innerTests.push(['ru/optalign/bracket', [
     ['<span class="typograf-oa-sp-lbracket"> </span>', ' '],
     ['<span class="typograf-oa-lbracket">(</span>', '(']
 ]]);
@@ -328,7 +332,7 @@ tests.push(['ru/optalign/comma', [
     ['В самом добром, кино', 'В самом добром<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>кино']
 ]]);
 
-tests.push(['-ru/optalign/comma', [
+innerTests.push(['ru/optalign/comma', [
     ['<span class="typograf-oa-comma">,</span>', ','],
     ['<span class="typograf-oa-comma-sp"> </span>', ' ']
 ]]);
@@ -340,7 +344,7 @@ tests.push(['ru/optalign/quot', [
     ['Вот у вас<p> «Мой спутник».</p>', 'Вот у вас<p> <span class="typograf-oa-n-lquot">«</span>Мой спутник».</p>']
 ]]);
 
-tests.push(['-ru/optalign/quot', [
+innerTests.push(['ru/optalign/quot', [
     ['<span class="typograf-oa-sp-lquot"> </span>', ' '],
     ['<span class="typograf-oa-lquot">«</span>', '«'],
     ['\n<span class="typograf-oa-n-lquot">«</span>', '\n«']

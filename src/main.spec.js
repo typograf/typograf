@@ -1,3 +1,7 @@
-var tests = [];
+var tests = [],
+    innerTests = [];
 
-module.exports = tests;
+module.exports = {
+    tests: tests,
+    innerTests: innerTests
+};

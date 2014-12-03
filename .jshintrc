@@ -1,5 +1,5 @@
 {
-    "predef": [ "Typograf", "module", "tests", "console" ],
+    "predef": [ "Typograf", "tests", "innerTests" ],
     "browser": true,
     "jquery": true,
     "curly": true,
@@ -11,6 +11,7 @@
     "newcap": true,
     "noarg": true,
     "noempty": true,
+    "node": true,
     "nonew": true,
     "quotmark": "single",
     "undef": true,

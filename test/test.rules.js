@@ -1,5 +1,7 @@
 var assert = require('chai').assert,
-    rules = require('./rules.js'),
+    r = require('./rules.js'),
+    tests = r.tests,
+    innerTests = r.innerTests,
     Typograf = require('../dist/typograf.js'),
     t = new Typograf({lang: 'ru'}),
     _settings;
@@ -31,13 +33,23 @@ function executeRule(name, text) {
     return text;
 }
 
-describe('rules', function() {
-    rules.forEach(function(elem) {
-        var name = elem[0],
-            tests = elem[1];
+function executeInnerRule(name, text) {
+    var rules = Typograf.prototype._innerRules;
 
+    rules.forEach(function(f) {
+        if(f.name === name) {
+            text = f.func.call(t, text, t._settings[f.name]);
+        }
+    });
+
+    return text;
+}
+
+describe('rules', function() {
+    tests.forEach(function(elem) {
+        var name = elem[0];
         it(name, function() {
-            tests.forEach(function(as) {
+            elem[1].forEach(function(as) {
                 t.enable(name);
                 assert.equal(executeRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
             });
@@ -68,12 +80,10 @@ describe('rules', function() {
         popSettings('ru/quot');
     });
 
-    it('off -ru/optalign', function() {
+    it('off ru/optalign', function() {
         var tp = new Typograf();
 
-        tp
-            .disable('*')
-            .enable('-*');
+        tp.disable('*');
 
         var optAlignTests = [
             '<span class="typograf-oa-sp-lquot"> </span>',
@@ -84,6 +94,18 @@ describe('rules', function() {
 
         optAlignTests.forEach(function(el) {
             assert.equal(tp.execute(el, {lang: 'ru'}), el);
+        });
+    });
+});
+
+describe('inner rules', function() {
+    innerTests.forEach(function(elem) {
+        var name = elem[0];
+        it(name, function() {
+            elem[1].forEach(function(as) {
+                t.enable(name);
+                assert.equal(executeInnerRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
+            });
         });
     });
 });
