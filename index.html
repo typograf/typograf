@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Типограф на JavaScript</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="site/common.css" type="text/css" />
         <link rel="stylesheet" href="dist/typograf.css" type="text/css" />
-        <script src="dist/typograf.js"></script>
-        <script src="site/common.js"></script>
-        <title>Типограф на JavaScript</title>
     </head>
     <body class="page_is-desktop">
         <script>
@@ -14,45 +12,46 @@
         </script>
         <header class="header">
             <h1 class="header__title">Типограф</h1>
-            <div id="current-lang"></div>
+            <div class="current-lang"></div>
             <div title="Настройки" class="set-prefs"></div>
         </header>
         <div class="container">
-            <div id="prefs">
+            <div class="prefs">
                 <div class="prefs__title">Настройки</div>
                 <div class="prefs__items">
                     <div class="prefs__lang">
-                        Язык правил: <select id="set-lang">
+                        Язык правил: <select class="prefs__set-lang">
                             <option value="ru">RU</option>
                             <option value="en">EN</option>
                         </select>
                     </div>
                     <div class="prefs__top">
-                        <input type="checkbox" id="prefs-all-rules" autocomplete="off" /> <label for="prefs-all-rules">Выбрать все</label>
-                        <input type="button" id="prefs-default" value="По умолчанию" />
+                        <input type="checkbox" class="prefs__all-rules" id="prefs__all-rules" autocomplete="off" /> <label for="prefs__all-rules">Выбрать все</label>
+                        <input type="button" class="prefs__default" value="По умолчанию" />
                     </div>
-                    <div id="prefs__rules"></div>
+                    <div class="prefs__rules"></div>
                 </div>
                 <div class="prefs__cap"></div>
             </div>
 
-            <div id="edit">
+            <div class="input">
                 <div class="table">
                     <div class="table__left">
-                        <div id="clear-text" title="Очистить">&times;</div>
+                        <div class="input__clear" title="Очистить">&times;</div>
                         Текст:<br/>
-                        <textarea id="text" autofocus="autofocus"></textarea>
+                        <textarea class="input__text" autofocus="autofocus"></textarea>
                     </div>
-                    <div class="table__right">
+                    <div class="table__right result">
                         Результат:
-                        <input type="radio" id="view-textarea" name="view" checked="checked" autocomplete="off" /> <label for="view-textarea">Текст</label>
-                        <input type="radio" id="view-html" name="view" autocomplete="off" /> <label for="view-html">HTML</label>
-                        <br/>
-                        <textarea id="result" readonly="readonly"></textarea>
-                        <div id="result-html"></div>
+                        <input type="radio" class="result__as-text" id="result__as-text" name="view" checked="checked" autocomplete="off" /> <label for="result__as-text">Текст</label>
+                        <input type="radio" class="result__as-html" id="result__as-html" name="view" autocomplete="off" /> <label for="result__as-html">HTML</label>
+                        <textarea class="result__text" readonly="readonly"></textarea>
+                        <div class="result__html"></div>
                     </div>
                 </div>
              </div>
         </div>
+        <script src="dist/typograf.js" defer="defer"></script>
+        <script src="site/common.js" defer="defer"></script>
     </body>
 </html>

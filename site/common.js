@@ -61,7 +61,7 @@ var div = document.createElement('div'),
         return el.classList.contains(name);
     } : function(el, name) { // support IE9
         var re = new RegExp('(^|\\s)' + name + '(\\s|$)', 'g');
-        return el.className.search(re) !== -1;
+        return el.className.search(re) > -1;
     };
 
 function escapeHTML(text) {
@@ -152,7 +152,7 @@ var typograf = new Typograf();
 var App = {
     isMobile: false,
     init: function() {
-        this.isMobile = document.body.className.search('page_is-mobile') !== -1;
+        this.isMobile = document.body.className.search('page_is-mobile') > -1;
 
         if(!this.isMobile) {
             this._setValue(getHashParam('text') || '');
@@ -187,27 +187,29 @@ var App = {
         var res = typograf.execute(this._getValue(), {lang: this.prefs.lang});
 
         if(this.isMobile) {
-            $('#text').value = res;
+            $('.input__text').value = res;
         } else {
-            $('#result-html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
-            $('#result').innerHTML = res;
+            $('.result__html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
+            $('.result__text').innerHTML = res;
         }
     },
     prefs: {
         show: function() {
             this._build();
 
-            show('#prefs');
-            hide('#edit');
+            show('.prefs');
+            hide('.input');
 
-            $('#set-lang').value = this.lang;
+            $('.prefs__set-lang').value = this.lang;
+            
+            this._synchronizeMainCheckbox();
         },
         hide: function() {
-            hide('#prefs');
-            show('#edit');
+            hide('.prefs');
+            show('.input');
         },
         toggle: function() {
-            if(isVisible('#prefs')) {
+            if(isVisible('.prefs')) {
                 this.hide();
             } else {
                 this.show();
@@ -218,10 +220,6 @@ var App = {
                 disabled = [];
 
             Object.keys(typograf._enabledRules).forEach(function(name) {
-                if(name.search(/^-/) > -1) {
-                    return;
-                }
-
                 if(typograf._enabledRules[name]) {
                     enabled.push(name);
                 } else {
@@ -261,7 +259,7 @@ var App = {
                 });
             }
 
-            $('#prefs-all-rules').checked = false;
+            $('.prefs__all-rules').checked = false;
 
             this.saveToLocalStorage();
         },
@@ -293,14 +291,9 @@ var App = {
 
             var oldPrefix = '';
             buf.forEach(function(rule) {
-                var name = rule.name;
-                if(name.search('-') === 0) {
-                    return;
-                }
-
-                var pr = getPrefix(name),
+                var name = rule.name,
+                    pr = getPrefix(name),
                     langPr = getLangPrefix(name);
-
 
                 if(this.lang !== langPr && langPr !== 'common') {
                     return;
@@ -319,17 +312,17 @@ var App = {
                 html += '<div class="prefs__rule"><input type="checkbox"' + checked + ' id="' + id + '" data-id="' + name + '" /> <label for="' + id + '">' + title + '</label></div>';
             }, this);
 
-            $('#prefs__rules').innerHTML = html;
+            $('.prefs__rules').innerHTML = html;
         },
         changeLang: function() {
-            this.lang = $('#set-lang').value;
+            this.lang = $('.prefs__set-lang').value;
             this._build();
             this.saveToLocalStorage();
 
             App._updateLang();
         },
         _getCheckboxes: function() {
-            return $('#prefs__rules').querySelectorAll('input');
+            return $('.prefs__rules').querySelectorAll('input');
         },
         _clickRule: function(e) {
             if(e.target && e.target.tagName && e.target.tagName.toLowerCase() !== 'input') {
@@ -354,7 +347,7 @@ var App = {
             this.saveToLocalStorage();
         },
         _selectAll: function() {
-            var checked = $('#prefs-all-rules').checked,
+            var checked = $('.prefs__all-rules').checked,
                 els = this._getCheckboxes();
 
             for(var i = 0; i < els.length; i++) {
@@ -380,25 +373,25 @@ var App = {
                 }
             }
 
-            $('#prefs-all-rules').checked = count === els.length;
+            $('.prefs__all-rules').checked = count === els.length;
         },
         _events: function() {
-            addEvent('#set-lang', 'change', this.changeLang.bind(this));
+            addEvent('.prefs__set-lang', 'change', this.changeLang.bind(this));
 
-            addEvent('#prefs__rules', 'click', this._clickRule.bind(this));
+            addEvent('.prefs__rules', 'click', this._clickRule.bind(this));
 
-            addEvent('#prefs-all-rules', 'click', this._selectAll.bind(this));
+            addEvent('.prefs__all-rules', 'click', this._selectAll.bind(this));
 
-            addEvent('#prefs-default', 'click', this.byDefault.bind(this));
+            addEvent('.prefs__default', 'click', this.byDefault.bind(this));
         }
     },
     _setValue: function(value) {
-        $('#text').value = value;
+        $('.input__text').value = value;
 
         this._updateValue(value);
     },
     _getValue: function() {
-        return $('#text').value;
+        return $('.input__text').value;
     },
     _updateValue: function(value) {
         if(!this.isMobile) {
@@ -409,38 +402,46 @@ var App = {
     },
     _updateClearText: function(value) {
         if(value.length > 0) {
-            show('#clear-text');
+            show('.input__clear');
         } else {
-            hide('#clear-text');
+            hide('.input__clear');
         }
     },
     _updateLang: function() {
-        var el = $('#current-lang');
+        var el = $('.current-lang');
         el.innerHTML = this.prefs.lang;
         el.value = this.prefs.lang;
     },
     _events: function() {
         addEvent('.set-prefs', 'click', (function() {
-            toggleClass($('.set-prefs'), 'set-prefs_selected');
+            var el = $('.set-prefs'),
+                clSelected = 'set-prefs_selected';
+
+            if(hasClass(el, clSelected)) {
+                setTimeout(function() {
+                    App.execute();
+                }, 0);
+            }
+            toggleClass(el, clSelected);
             this.prefs.toggle();
         }).bind(this));
 
         if(!this.isMobile) {
-            addEvent('#view-textarea', 'click', function() {
-                show('#result');
-                hide('#result-html');
+            addEvent('.result__as-text', 'click', function() {
+                show('.result__text');
+                hide('.result__html');
             });
 
-            addEvent('#view-html', 'click', function() {
-                show('#result-html');
-                hide('#result');
+            addEvent('.result__as-html', 'click', function() {
+                show('.result__html');
+                hide('.result__text');
             });
         }
 
-        addEvent('#clear-text', 'click', (function() {
+        addEvent('.input__clear', 'click', (function() {
             this._setValue('');
 
-            $('#text').focus();
+            $('.input__text').focus();
 
             this.execute();
         }).bind(this));
@@ -448,9 +449,9 @@ var App = {
         var oldValue = null;
 
         if(this.isMobile) {
-            addEvent('#execute', 'click', this.execute.bind(this));
+            addEvent('.input__execute', 'click', this.execute.bind(this));
         } else {
-            addEvent('#text', ['keyup', 'input', 'click'], (function() {
+            addEvent('.input__text', ['keyup', 'input', 'click'], (function() {
                 var val = this._getValue();
                 if(val === oldValue) {
                     return;
@@ -466,7 +467,6 @@ var App = {
     }
 };
 
-addEvent(window, 'load', function() {
-    App.init();
-});
+addEvent(window, 'load', App.init.bind(App));
+
 })();

@@ -52,28 +52,6 @@ input, textarea
     font-style: italic;
 }
 
-#edit
-{
-    height: 100%;
-}
-
-#clear-text
-{
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    font-size: 30px;
-    padding: 5px;
-    cursor: pointer;
-    color: gray;
-    
-    display: none;
-
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
 .set-prefs
 {
     position: absolute;
@@ -113,7 +91,7 @@ input, textarea
     border: 1px solid rgba(255,255,255,0.9);
 }
 
-#prefs
+.prefs
 {
     margin: 5px 0;
     padding: 0 20px;
@@ -156,8 +134,8 @@ input, textarea
     margin: 0;
 }
 
-.page_is-desktop #text,
-.page_is-desktop #result
+.page_is-desktop .input__text,
+.page_is-desktop .result__text
 {
     width: 100%;
     height: 100%;
@@ -165,7 +143,43 @@ input, textarea
     margin: 0;
 }
 
-.page_is-mobile #text
+.input
+{
+    height: 100%;
+}
+
+.input__clear
+{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    font-size: 30px;
+    padding: 5px;
+    cursor: pointer;
+    color: gray;
+    
+    display: none;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.page_is-mobile .input__label
+{
+    position: absolute;
+    left: 1em;
+    top: 0.9em;
+}
+
+.page_is-mobile .input__execute
+{
+    position: absolute;
+    left: 1em;
+    bottom: 0;
+}
+
+.page_is-mobile .input__text
 {
     position: absolute;
     box-sizing: border-box;
@@ -207,7 +221,7 @@ input, textarea
     box-sizing: border-box;
 }
 
-.page_is-desktop #result-html
+.page_is-desktop .result__html
 {
     margin-top: 0.5em;
     background: #f0f0f0;
@@ -234,13 +248,13 @@ input, textarea
     width: 100%;
 }
 
-#prefs-default
+.prefs__default
 {
     float: right;
     font-size: 12px;
 }
 
-.page_is-mobile #text-container
+.page_is-mobile .input__container
 {
     position: absolute;
     box-sizing: border-box;
@@ -251,23 +265,9 @@ input, textarea
     right: 1em;
 }
 
-.page_is-mobile #execute
-{
-    position: absolute;
-    left: 1em;
-    bottom: 0;
-}
-
 .page_is-mobile .prefs__controls
 {
     text-align: center;
-}
-
-.page_is-mobile #label-text
-{
-    position: absolute;
-    left: 1em;
-    top: 0.9em;
 }
 
 .prefs__top
@@ -277,7 +277,15 @@ input, textarea
     margin-bottom: 0.7em;
 }
 
-#current-lang
+.prefs__lang
+{
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.current-lang
 {
     position: absolute;
     right: 55px;
@@ -286,12 +294,4 @@ input, textarea
     color: #fff;
     font-size: 18px;
     text-transform: uppercase;
-}
-
-.prefs__lang
-{
-    border-bottom: 1px solid #eaeaea;
-    margin-bottom: 1em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
 }
