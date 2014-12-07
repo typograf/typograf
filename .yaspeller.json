@@ -1,0 +1,10 @@
+{
+  "lang": "ru",
+  "fileExtensions": ["md"],
+  "excludeFiles": [
+    ".*",
+    "node_modules",
+    "test",
+    "coverage"
+  ]
+}
