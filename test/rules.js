@@ -24,6 +24,14 @@ tests.push(['common/exclamationQuestion', [
     ['Может домой!?', 'Может домой?!']
 ]]);
 
+tests.push(['common/repeatWord', [
+    ['Я пошел домой.', 'Я пошел домой.'],
+    ['Я пошел пошел домой.', 'Я пошел домой.'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
+    ['Hello world world!', 'Hello world!']
+]]);
+
 /*jshint maxlen:1000 */
 tests.push(['ru/quot', [
     ['Вот у вас "Мой спутник" – это не сочинение, это хорошо, потому что не выдумано.', 'Вот у вас «Мой спутник» – это не сочинение, это хорошо, потому что не выдумано.'],
@@ -71,43 +79,6 @@ tests.push(['common/nbsp/afterShortWord', [
 
 tests.push(['common/nbsp/beforeShortLastWord', [
     ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.']
-]]);
-
-tests.push(['common/space/afterPunctuation', [
-    ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
-    ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
-    ['Солнце садилось за горизонт,и поднялся ветер?Вот.', 'Солнце садилось за горизонт, и поднялся ветер? Вот.']
-]]);
-
-tests.push(['common/space/delBeforePercent', [
-    ['20 %', '20%'],
-    ['около 4\u00A0%', 'около 4%']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/space/delBeforePunctuation', [
-    ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
-]]);
-
-tests.push(['common/space/delRepeatN', [
-    ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
-]]);
-
-tests.push(['common/space/delRepeatSpace', [
-    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/space/delTrailingBlanks', [
-    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
-]]);
-
-tests.push(['common/space/replaceTab', [
-    ['  \t \t \t  ', '         ']
-]]);
-
-tests.push(['common/space/trim', [
-    ['   wkd kqw0ek 0qw    ', 'wkd kqw0ek 0qw']
 ]]);
 
 tests.push(['common/sym/arrow', [
@@ -163,6 +134,57 @@ tests.push(['common/sym/plusMinus', [
 tests.push(['common/sym/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90']
+]]);
+
+tests.push(['common/space/afterPunctuation', [
+    ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
+    ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
+    ['Солнце садилось за горизонт,и поднялся ветер?Вот.', 'Солнце садилось за горизонт, и поднялся ветер? Вот.']
+]]);
+
+tests.push(['common/space/delBeforePercent', [
+    ['20 %', '20%'],
+    ['около 4\u00A0%', 'около 4%']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/space/delBeforePunctuation', [
+    ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
+]]);
+
+tests.push(['common/space/delRepeatN', [
+    ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
+]]);
+
+tests.push(['common/space/delRepeatSpace', [
+    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/space/delTrailingBlanks', [
+    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
+]]);
+
+tests.push(['common/space/replaceTab', [
+    ['  \t \t \t  ', '         ']
+]]);
+
+tests.push(['common/space/trim', [
+    ['   wkd kqw0ek 0qw    ', 'wkd kqw0ek 0qw']
+]]);
+
+tests.push(['ru/date/main', [
+    ['2010-02-01', '01.02.2010'],
+    [' 2010-02-01 ', ' 01.02.2010 '],
+    ['11/22/2010', '22.11.2010'],
+    [' 11/22/2010 ', ' 22.11.2010 ']
+]]);
+
+tests.push(['ru/date/weekday', [
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, понедельник', '25 мая, понедельник'],
+    ['25 мая, Понедельник', '25 мая, понедельник']
 ]]);
 
 tests.push(['ru/dash/izza', [
@@ -221,20 +243,6 @@ tests.push(['ru/dash/month', [
 tests.push(['ru/dash/weekday', [
     ['Вторник-среда', 'Вторник—среда'],
     ['понедельник-четверг', 'понедельник—четверг']
-]]);
-
-tests.push(['ru/date/main', [
-    ['2010-02-01', '01.02.2010'],
-    [' 2010-02-01 ', ' 01.02.2010 '],
-    ['11/22/2010', '22.11.2010'],
-    [' 11/22/2010 ', ' 22.11.2010 ']
-]]);
-
-tests.push(['ru/date/weekday', [
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, понедельник', '25 мая, понедельник'],
-    ['25 мая, Понедельник', '25 мая, понедельник']
 ]]);
 
 tests.push(['ru/money/dollar', [
