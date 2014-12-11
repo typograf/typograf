@@ -189,7 +189,7 @@ var App = {
         if(this.isMobile) {
             $('.input__text').value = res;
         } else {
-            $('.result__html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0;</span>');
+            $('.result__html').innerHTML = res.replace(/(\u00A0|&nbsp;|&#160;)/g, '<span class="nbsp">\u00A0</span>');
             $('.result__text').innerHTML = res;
         }
     },
@@ -201,7 +201,7 @@ var App = {
             hide('.input');
 
             $('.prefs__set-lang').value = this.lang;
-            
+
             this._synchronizeMainCheckbox();
         },
         hide: function() {

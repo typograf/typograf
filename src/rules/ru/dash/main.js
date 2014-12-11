@@ -4,12 +4,15 @@ Typograf.rule({
     sortIndex: 620,
     func: function(text) {
         var dashes = '(-|--|–|—)',
-            re1 = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
-            re2 = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
-        
+            settingDash = this.setting('ru/dash/main', 'dash'),
+            reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
+            reDirect = new RegExp('(^|\n)' + dashes + '( |\u00A0)', 'g'),
+            reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
+
         return text
-            .replace(re1, '\u00A0' + this.setting('ru/dash/main', 'dash') + '$3')
-            .replace(re2, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
+            .replace(reMain, '\u00A0' + settingDash + '$3')
+            .replace(reDirect, '$1' + settingDash + '\u00A0')
+            .replace(reInterval, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
     },
     settings: {
         dash: '\u2014', // &mdash;
