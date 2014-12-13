@@ -1,23 +1,23 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
-    "url": "https://github.com/hcodes"
+    "url": "https://github.com/typograf/typograf"
   },
   "main": "dist/typograf.js",
-  "homepage": "https://github.com/hcodes/typograf",
+  "homepage": "https://github.com/typograf",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/hcodes/typograf/blob/master/LICENSE"
+      "url": "https://github.com/typograf/typograf/blob/master/LICENSE"
     }
   ],  
   "repository": {
     "type": "git",
-    "url": "git://github.com/hcodes/typograf.git"
+    "url": "git://github.com/typograf/typograf.git"
   },
   "keywords": [
     "typo", "text", "typograf", "typographer", "typography"

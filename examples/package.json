@@ -1,7 +1,0 @@
-{
-  "name": "example_typograf",
-  "private": true,
-  "dependencies": {
-    "typograf": "*"
-  }
-}
