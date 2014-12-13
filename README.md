@@ -6,7 +6,7 @@
 [![Dependency Status](https://david-dm.org/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
 [![devDependency Status](https://david-dm.org/typograf/typograf/dev-status.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
-[Типограф в действии](http://typograf.github.io) с [мобильной версией](http://hcodes.github.io/mobile.html)
+[Типограф в действии](http://typograf.github.io) с [мобильной версией](http://typograf.github.io/mobile.html)
 ## Что может типограф:
 + правильно расставлять кавычки и тире;
 + удаляет:
