@@ -1,12 +1,12 @@
 Типограф на JavaScript
 ======================
 [![NPM version](https://badge.fury.io/js/typograf.svg)](http://badge.fury.io/js/typograf)
-[![Build Status](https://travis-ci.org/hcodes/typograf.png?branch=master)](https://travis-ci.org/hcodes/typograf)
-[![Coverage Status](https://coveralls.io/repos/hcodes/typograf/badge.png?branch=master)](https://coveralls.io/r/hcodes/typograf)
-[![Dependency Status](https://gemnasium.com/hcodes/typograf.svg)](https://gemnasium.com/hcodes/typograf)
+[![Build Status](https://travis-ci.org/typograf/typograf.png?branch=master)](https://travis-ci.org/typograf/typograf)
+[![Coverage Status](https://coveralls.io/repos/typograf/typograf/badge.png?branch=master)](https://coveralls.io/r/typograf/typograf)
+[![Dependency Status](https://gemnasium.com/typograf/typograf.svg)](https://gemnasium.com/typograf/typograf)
 
 
-[Типограф в действии](http://hcodes.github.io/typograf/) с [мобильной версией](http://hcodes.github.io/typograf/site/mobile.html)
+[Типограф в действии](http://typograf.github.io) с [мобильной версией](http://hcodes.github.io/mobile.html)
 ## Что может типограф:
 + правильно расставлять кавычки и тире;
 + удаляет:
