@@ -3,8 +3,7 @@
 var fs = require('fs'),
     isutf8 = require('isutf8'),
     program = require('commander'),
-    T = require('../dist/typograf'),
-    typograf = new T();
+    typograf = new (require('../dist/typograf'));
 
 program
     .version(require('../package.json').version)
@@ -18,28 +17,46 @@ function getRules(str) {
     return (str || '').split(/,|;/);
 }
 
+function printText(text) {
+    process.stdout.write(typograf
+        .disable(getRules(program.disable))
+        .enable(getRules(program.enable))
+        .execute(text, {lang: program.lang || 'ru'}));
+}
+
 var file = program.args[0],
-    buf,
+    buf = '',
     exitCode = 0;
 
-if(!file) {
-    program.help();
-}
+if(process.stdin.isTTY) {
+    file || program.help();
 
-if(fs.existsSync(file) && fs.statSync(file).isFile()) {
-    buf = fs.readFileSync(file);
-    if(isutf8(buf)) {
-        process.stdout.write(typograf
-            .disable(getRules(program.disable))
-            .enable(getRules(program.enable))
-            .execute(buf, {lang: program.lang || 'ru'}));
+    if(fs.existsSync(file) && fs.statSync(file).isFile()) {
+        buf = fs.readFileSync(file);
+        if(isutf8(buf)) {
+            printText(buf);
+        } else {
+            console.error(file + ': is not utf-8');
+            exitCode = 1;
+        }
     } else {
-        console.error(file + ': is NOT UTF-8');
+        console.error(file + ': no such file');
         exitCode = 1;
     }
-} else {
-    console.error(file + ': No such file');
-    exitCode = 1;
-}
 
-process.exit(exitCode);
+    process.exit(exitCode);
+} else {
+    process.stdin.setEncoding('utf8');
+
+    process.stdin.on('readable', function() {
+        var chunk = process.stdin.read();
+        if(chunk !== null) {
+            buf += chunk;
+        }
+    });
+
+    process.stdin.on('end', function() {
+        printText(buf);
+        process.exit(exitCode);
+    });
+}
