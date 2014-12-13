@@ -3,8 +3,8 @@
 [![NPM version](https://badge.fury.io/js/typograf.svg)](http://badge.fury.io/js/typograf)
 [![Build Status](https://travis-ci.org/typograf/typograf.png?branch=master)](https://travis-ci.org/typograf/typograf)
 [![Coverage Status](https://coveralls.io/repos/typograf/typograf/badge.png?branch=master)](https://coveralls.io/r/typograf/typograf)
-[![Dependency Status](https://gemnasium.com/typograf/typograf.svg)](https://gemnasium.com/typograf/typograf)
-
+[![Dependency Status](https://david-dm.org/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
+[![devDependency Status](https://david-dm.org/typograf/typograf/dev-status.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
 [Типограф в действии](http://typograf.github.io) с [мобильной версией](http://hcodes.github.io/mobile.html)
 ## Что может типограф:
