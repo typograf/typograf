@@ -3,7 +3,7 @@
 var fs = require('fs'),
     isutf8 = require('isutf8'),
     program = require('commander'),
-    typograf = new (require('../dist/typograf'));
+    typograf = new (require('../dist/typograf'))();
 
 program
     .version(require('../package.json').version)

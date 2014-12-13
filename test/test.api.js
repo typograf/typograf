@@ -63,12 +63,18 @@ describe('API', function() {
             name: 'common/example',
             sortIndex: 100,
             func: function(text) {
-                return 'example';
+                return text.replace(/rule/, '');
             }
         });
-
+        
+        Typograf.innerRule({
+            name: 'common/example',
+            func: function(text) {
+                return text.replace(/inner_example/, '');
+            }
+        });
         var t2 = new Typograf();
 
-        assert.equal(t2.execute('hello'), 'example');
+        assert.equal(t2.execute('rule abc inner_example'), 'abc');
     });
 });

@@ -1,4 +1,4 @@
-/*! Typograf | (c) 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
+/*! Typograf | © 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
 
 /**
  * @constructor
@@ -9,19 +9,7 @@ function Typograf(prefs) {
     this._settings = {};
     this._enabledRules = {};
 
-    this._rules.forEach(function(rule) {
-        var name = rule.name;
-        rule._lang = name.split('/')[0];
-        rule.sortIndex = rule.sortIndex || 0;
-
-        this._settings[name] = rule.settings || {};
-        this._enabledRules[name] = rule.enabled;
-    }, this);
-    
-    this._innerRules.forEach(function(rule) {
-        rule._lang = rule.name.split('/')[0];
-        rule.sortIndex = rule.sortIndex || 0;
-    }, this);
+    this._rules.forEach(this._prepareRule, this);
 }
 
 /**
@@ -38,6 +26,8 @@ function Typograf(prefs) {
  */
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false ? false : true;
+    rule._lang = rule.name.split('/')[0];
+    rule.sortIndex = rule.sortIndex || 0;
 
     Typograf.prototype._rules.push(rule);
 
@@ -61,7 +51,10 @@ Typograf.rule = function(rule) {
  */
 Typograf.innerRule = function(rule) {
     Typograf.prototype._innerRules.push(rule);
-    
+
+    rule._lang = rule.name.split('/')[0];
+    rule.sortIndex = rule.sortIndex || 0;
+
     if(Typograf._needSortRules) {
         this._sortInnerRules();
     }
@@ -110,7 +103,7 @@ Typograf.prototype = {
                     text = rule.func.call(this, text, this._settings[rule.name]);
                 }
             };
-            
+
         if(!lang) {
             lang = this._prefs.lang;
         }
@@ -203,6 +196,11 @@ Typograf.prototype = {
         return this._enable(rule, false);
     },
     data: {},
+    _prepareRule: function(rule) {
+        var name = rule.name;
+        this._settings[name] = rule.settings || {};
+        this._enabledRules[name] = rule.enabled;
+    },
     _enable: function(rule, enabled) {
         if(Array.isArray(rule)) {
             rule.forEach(function(el) {
