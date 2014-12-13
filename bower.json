@@ -1,8 +1,8 @@
 {
   "name": "typograf",
-  "version": "2.1.0",
-  "description": "The client and server typographer",
-  "bugs": "https://github.com/hcodes/typograf/issues/new",
+  "version": "2.2.1",
+  "description": "Typographer in JavaScript",
+  "bugs": "https://github.com/typograf/typograf/issues/new",
   "keywords": [
     "text",
     "typographer",
