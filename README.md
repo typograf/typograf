@@ -80,7 +80,8 @@ npm install typograf -g
 
 `typograf -d ru/quot -e ru/optaling/* my_file.txt > new_my_file` - оттипографировать файл с отключенным правилом `ru/quot` и включенными правилами `ru/optaling/*`
 
-## Висячая пунктуация
+## API
+### Висячая пунктуация
 По умолчанию висячая пунктуация отключена.
 
 Для включения необходимо подключить правила:
@@ -97,7 +98,7 @@ console.log(tp.execute('"Мир"'));
 <link rel="stylesheet" href="dist/typograf.css" type="text/css" />
 ```
 
-## Включить/отключить правило
+### Включить/отключить правило
 ```JavaScript
 var tp = new Typograf({lang: 'ru'});
 tp.disable('ru/space/afterNum'); // Отключить правило
@@ -105,7 +106,7 @@ tp.disable('ru/space/afterNum'); // Отключить правило
 tp.enable('ru/space/afterNum'); // Включить правило
 ```
 
-## Добавить правило
+### Добавить правило
 ```JavaScript
 Typograf.rule({
     // Заголовок
@@ -122,7 +123,7 @@ Typograf.rule({
 ```
 
 
-## Режим работы
+### Режим работы
 ```JavaScript
 // Режим по умолчанию, HTML-сущности, как utf-8 символы
 var tp = new Typograf({lang: 'ru'});
