@@ -1,7 +1,7 @@
 Типограф на JavaScript
 ======================
 [![NPM version](https://badge.fury.io/js/typograf.svg)](http://badge.fury.io/js/typograf)
-[![Build Status](https://travis-ci.org/typograf/typograf.png?branch=master)](https://travis-ci.org/typograf/typograf)
+[![Build Status](https://travis-ci.org/typograf/typograf.svg?branch=master)](https://travis-ci.org/typograf/typograf)
 [![Coverage Status](https://coveralls.io/repos/typograf/typograf/badge.png?branch=master)](https://coveralls.io/r/typograf/typograf)
 [![Dependency Status](https://david-dm.org/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
 [![devDependency Status](https://david-dm.org/typograf/typograf/dev-status.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
