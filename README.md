@@ -72,13 +72,13 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 ```
 npm install typograf -g
 ```
-`typograf` - вывод справки
+`typograf` — вывод справки
 
-`typograf my_file.txt` - оттипографировать текст по русским правилам
+`typograf my_file.txt` — типографировать текст по русским правилам
 
-`typograf -l en my_file.txt` - оттипографировать файл по английским правилам
+`typograf -l en my_file.txt` — типографировать файл по английским правилам
 
-`typograf -d ru/quot -e ru/optaling/* my_file.txt > new_my_file` - оттипографировать файл с отключенным правилом `ru/quot` и включенными правилами `ru/optaling/*`
+`typograf -d ru/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/quot` и включенными правилами `ru/optaling/*`
 
 ## API
 ### Висячая пунктуация
