@@ -341,7 +341,7 @@ tests.push(['ru/nbsp/yy', [
     ['2012-2015г.г. ', '2012-2015\u00A0гг. ']
 ]]);
 
-tests.push(['ru/number/ordinal', [
+tests.push(['ru/number/ordinals', [
     ['5-ая', '5-я'],
     ['5-ый', '5-й'],
     ['102-ой', '102-й'],
