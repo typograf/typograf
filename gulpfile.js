@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    fs = require('fs'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -7,7 +8,42 @@ var gulp = require('gulp'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
-    destDir = './dist/';
+    destDir = './dist/',
+    makeMdRules = function() {
+        var Typograf = require('./dist/typograf.js'),
+            getRow = function(rule, i) {
+                text += '| ' + (i + 1) + '. | `' +
+                    rule.name + '` | ' +
+                    rule.title + ' | ' +
+                    rule.sortIndex + ' | ' +
+                    (rule.enabled !== false ? '✓' : '') + ' |\n';
+            },
+            writeFile = function(file, template) {
+                fs.writeFileSync(file, template.replace(/{{content}}/, text));
+            },
+            text = '';
+
+        Typograf.prototype._rules.sort(function(a, b) {
+            if(a.name > b.name) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }).forEach(getRow);
+        writeFile('RULES.md', fs.readFileSync('templates/rules.md').toString());
+
+        text = '';
+        Typograf.prototype._rules.sort(function(a, b) {
+            if(a.sortIndex > b.sortIndex) {
+                return 1;
+            } else if(a.sortIndex < b.sortIndex) {
+                return -1;
+            }
+
+            return 0;
+        }).forEach(getRow);
+        writeFile('RULES_SORTED.md', fs.readFileSync('templates/rules_sorted.md').toString());
+    };
 
 var paths = {
     js: [
@@ -30,7 +66,8 @@ gulp.task('js', function() {
     return gulp.src(paths.js)
         .pipe(filter())
         .pipe(concat('typograf.js'))
-        .pipe(gulp.dest(destDir));
+        .pipe(gulp.dest(destDir))
+        .on('end', makeMdRules);
 });
 
 gulp.task('minjs', function() {

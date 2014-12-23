@@ -708,7 +708,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка <p> и <br/>',
+    title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
     sortIndex: 700,
     func: function(text) {
@@ -1261,7 +1261,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '5-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → 5-й, -я, -е, -м, х',
+    title: '5-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → 5-й, -я, -е, -м, -х',
     name: 'ru/number/ordinals',
     sortIndex: 1300,
     func: function(text) {
