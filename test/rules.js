@@ -88,6 +88,14 @@ tests.push(['common/nbsp/dpi', [
     ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
 ]]);
 
+tests.push(['common/nbsp/nowrap', [
+    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
+    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
+    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
+    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
+    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
+]]);
+
 tests.push(['common/space/afterPunctuation', [
     ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
     ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
