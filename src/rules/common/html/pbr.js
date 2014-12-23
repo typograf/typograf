@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Расстановка <p> и <br/>',
+    title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
     sortIndex: 700,
     func: function(text) {
