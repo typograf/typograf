@@ -698,7 +698,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Замена перевода строки на <br/>',
+    title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
     sortIndex: 710,
     func: function(text) {
@@ -808,6 +808,25 @@ Typograf.rule({
         return text.replace(/(\d) ?(lpi|dpi)(?!\w)/, '$1\u00A0$2');
     }
 });
+
+(function() {
+
+function replaceNbsp($0, $1, $2, $3) {
+    return $1 + $2.replace(/([^\u00A0])\u00A0([^\u00A0])/g, '$1 $2') + $3;
+}
+
+Typograf.rule({
+    title: 'Заменять неразрывный пробел на пробел в тегах nowrap и nobr',
+    name: 'common/nbsp/nowrap',
+    sortIndex: 1400,
+    func: function(text) {
+        return text
+            .replace(/(<nowrap>)(.*?)(<\/nowrap>)/g, replaceNbsp)
+            .replace(/(<nobr>)(.*?)(<\/nobr>)/g, replaceNbsp);
+    }
+});
+
+})();
 
 Typograf.rule({
     title: 'Пробел после знаков пунктуации', 
