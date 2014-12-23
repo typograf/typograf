@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: '5-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → 5-й, -я, -е, -м, -х',
+    title: 'N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)',
     name: 'ru/number/ordinals',
     sortIndex: 1300,
     func: function(text) {

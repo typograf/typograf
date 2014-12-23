@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Преобразование дат к виду DD.MM.YYYY',
+    title: 'Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY',
     name: 'ru/date/main',
     sortIndex: 1300,
     func: function(text) {

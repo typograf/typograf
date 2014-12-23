@@ -816,7 +816,7 @@ function replaceNbsp($0, $1, $2, $3) {
 }
 
 Typograf.rule({
-    title: 'Заменять неразрывный пробел на пробел в тегах nowrap и nobr',
+    title: 'Заменять неразрывный пробел на обычный пробел в тегах nowrap и nobr',
     name: 'common/nbsp/nowrap',
     sortIndex: 1400,
     func: function(text) {
@@ -1070,7 +1070,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис между месяцами',
+    title: 'Тире между месяцами',
     name: 'ru/dash/month',
     sortIndex: 610,
     func: function(text) {
@@ -1082,7 +1082,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис между днями недели',
+    title: 'Тире между днями недели',
     name: 'ru/dash/weekday',
     sortIndex: 600,
     func: function(text) {
@@ -1094,7 +1094,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Преобразование дат к виду DD.MM.YYYY',
+    title: 'Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY',
     name: 'ru/date/main',
     sortIndex: 1300,
     func: function(text) {
@@ -1262,7 +1262,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после XXXX',
+    title: 'Неразрывный пробел после XXXX (2012 г.)',
     name: 'ru/nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
@@ -1280,7 +1280,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '5-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → 5-й, -я, -е, -м, -х',
+    title: 'N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)',
     name: 'ru/number/ordinals',
     sortIndex: 1300,
     func: function(text) {
@@ -1318,7 +1318,7 @@ Typograf.rule({
 
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая типографика для запятой',
+    title: 'Висячая пунктуация для запятой',
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {

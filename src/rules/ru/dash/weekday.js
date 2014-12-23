@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Дефис между днями недели',
+    title: 'Тире между днями недели',
     name: 'ru/dash/weekday',
     sortIndex: 600,
     func: function(text) {

@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел после XXXX',
+    title: 'Неразрывный пробел после XXXX (2012 г.)',
     name: 'ru/nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
