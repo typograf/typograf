@@ -66,7 +66,7 @@ describe('rules', function() {
             ['Триллер "Триллер “Закрытая школа" Триллер', 'Триллер «Триллер «Закрытая школа» Триллер']
         ];
 
-        pushSettings('ru/quot', {
+        pushSettings('ru/punctuation/quot', {
             lquot: '«',
             rquot: '»',
             lquot2: '«',
@@ -74,7 +74,7 @@ describe('rules', function() {
         });
 
         quotTests.forEach(function(el) {
-            assert.equal(executeRule('ru/quot', el[0]), el[1]);
+            assert.equal(executeRule('ru/punctuation/quot', el[0]), el[1]);
         });
 
         popSettings('ru/quot');

@@ -1,4 +1,4 @@
-tests.push(['common/sym/plusMinus', [
+tests.push(['common/number/plusMinus', [
     ['+-', '±'],
     ['+-100', '±100']
 ]]);
