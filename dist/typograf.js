@@ -607,36 +607,6 @@ Typograf.data('ru/weekday', [
 ]);
 
 Typograf.rule({
-    title: 'Удаление двойной пунктуации',
-    name: 'common/delDoublePunctiation',
-    sortIndex: 580,
-    func: function(text) {
-        return text.replace(/(,|:|;|\?){2,}/g, '$1');
-    }
-});
-
-Typograf.rule({
-    title: '!! → !',
-    name: 'common/exclamation',
-    sortIndex: 1150,
-    func: function(text) {
-        return text
-            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
-            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
-    }
-});
-
-Typograf.rule({
-    title: '!? → ?!',
-    name: 'common/exclamationQuestion',
-    sortIndex: 1140,
-    func: function(text) {
-        var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
-        return text.replace(re, '$1?!$2');
-    }
-});
-
-Typograf.rule({
     title: 'Удаление повтора слова',
     name: 'common/repeatWord',
     sortIndex: 1200,
@@ -644,57 +614,6 @@ Typograf.rule({
         return text.replace(/([a-zа-яё]+) \1([;:,.?! \n])/gi, '$1$2');
     },
     enabled: false
-});
-
-Typograf.rule({
-    title: 'Расстановка кавычек',
-    name: 'ru/quot',
-    sortIndex: 700,
-    func: function(text, settings) {
-        var letter = '[\\w\\dа-яёА-ЯЁ]',
-            tag = '(?:^|<\\w.*?>)*',
-            lquot = settings.lquot,
-            rquot = settings.rquot,
-            lquot2 = settings.lquot2,
-            rquot2 = settings.rquot2,
-            phraseL = '(?:…|' + letter + '|\\n)',
-            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
-            quotesL = '(«|„|“|")',
-            quotesR = '(»|”|“|")',
-            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
-            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
-            re2, reL2, reR2;
-
-        text = text
-            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
-            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
-            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
-                '$1' + lquot + lquot); // фикс для случая »« в начале текста
-
-        if(lquot === lquot2 && rquot === rquot2) {
-            text = text
-                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
-                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
-        } else {
-            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
-                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
-            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
-            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
-
-            text = text
-                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
-                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
-                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
-        }
-
-        return text;
-    },
-    settings: {
-        lquot: '«',
-        rquot: '»',
-        lquot2: '„',
-        rquot2: '“'
-    }
 });
 
 Typograf.rule({
@@ -776,9 +695,11 @@ Typograf.rule({
     sortIndex: 590,
     func: function(text, settings) {
         var len = settings.lengthShortWord,
-        re = new RegExp('( [\\w]{1,' + len + '}) ', 'g');
+            re = new RegExp('(^| |\u00A0)([a-zа-яё]{1,' + len + '})(\\.?) ', 'gi');
 
-        return text.replace(re, '$1\u00A0');
+        return text
+            .replace(re, '$1$2$3\u00A0')
+            .replace(re, '$1$2$3\u00A0');
     },
     settings: {
         lengthShortWord: 2
@@ -829,6 +750,75 @@ Typograf.rule({
 })();
 
 Typograf.rule({
+    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
+    name: 'common/number/fraction',
+    sortIndex: 1120,
+    func: function(text) {
+        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
+            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
+            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
+    }
+});
+
+Typograf.rule({
+    title: '+- → ±',
+    name: 'common/number/plusMinus',
+    sortIndex: 1010,
+    func: function(text) {
+        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
+        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
+    }
+});
+
+Typograf.rule({
+    title: 'x → × (10 x 5 → 10×5)',
+    name: 'common/number/times',
+    sortIndex: 1050,
+    func: function(text) {
+        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление двойной пунктуации',
+    name: 'common/punctuation/delDoublePunctuation',
+    sortIndex: 580,
+    func: function(text) {
+        return text.replace(/(,|:|;|\?){2,}/g, '$1');
+    }
+});
+
+Typograf.rule({
+    title: '!! → !',
+    name: 'common/punctuation/exclamation',
+    sortIndex: 1150,
+    func: function(text) {
+        return text
+            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+    }
+});
+
+Typograf.rule({
+    title: '!? → ?!',
+    name: 'common/punctuation/exclamationQuestion',
+    sortIndex: 1140,
+    func: function(text) {
+        var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
+        return text.replace(re, '$1?!$2');
+    }
+});
+
+Typograf.rule({
+    title: 'Три точки на троеточие', 
+    name: 'common/punctuation/hellip', 
+    sortIndex: 20, 
+    func: function(text) {
+        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
+    }
+});
+
+Typograf.rule({
     title: 'Пробел после знаков пунктуации', 
     name: 'common/space/afterPunctuation', 
     sortIndex: 560, 
@@ -840,11 +830,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробела перед %',
+    title: 'Удаление пробела перед %, ‰ и ‱',
     name: 'common/space/delBeforePercent',
     sortIndex: 600,
     func: function(text) {
-        return text.replace(/(\d)( |\u00A0)%/g, '$1%');
+        return text.replace(/(\d)( |\u00A0)(%|‰|‱)/g, '$1$3');
     }
 });
 
@@ -916,17 +906,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление лишних точек и пробелов в вв.',
-    name: 'common/sym/cc',
-    sortIndex: 1090,
-    func: function(text) {
-        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
-
-        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
-    }
-});
-
-Typograf.rule({
     title: 'Добавление ° к C и F',
     name: 'common/sym/cf',
     sortIndex: 1020,
@@ -945,45 +924,6 @@ Typograf.rule({
         return text.replace(/\(r\)/gi, '®')
             .replace(/(copyright )?\((c|с)\)/gi, '©')
             .replace(/\(tm\)/gi, '™');
-    }
-});
-
-Typograf.rule({
-    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
-    name: 'common/sym/fraction',
-    sortIndex: 1120,
-    func: function(text) {
-        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
-            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
-            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
-    }
-});
-
-Typograf.rule({
-    title: '... → …', 
-    name: 'common/sym/hellip', 
-    sortIndex: 20, 
-    func: function(text) {
-        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
-    }
-});
-
-Typograf.rule({
-    title: '+- → ±',
-    name: 'common/sym/plusMinus',
-    sortIndex: 1010,
-    func: function(text) {
-        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
-        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
-    }
-});
-
-Typograf.rule({
-    title: 'x → ×',
-    name: 'common/sym/times',
-    sortIndex: 1050,
-    func: function(text) {
-        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
 });
 
@@ -1171,26 +1111,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после № и §',
+    title: 'Неразрывный пробел после №',
     name: 'ru/nbsp/afterNum',
     sortIndex: 610,
     func: function(text) {
-        return text.replace(/№ ?(\d)/g, '№\u00A0$1').replace(/§ ?(\d|I|V|X)/g, '§\u00A0$1');
-    }
-});
-
-Typograf.rule({
-    title: 'Неразрывный пробел после короткого слова',
-    name: 'ru/nbsp/afterShortWord', 
-    sortIndex: 590,
-    func: function(text, settings) {
-        var len = settings.lengthShortWord,
-        re = new RegExp('( [а-яёА-ЯЁ]{1,' + len + '}) ', 'g');
-
-        return text.replace(re, '$1\u00A0');
-    },
-    settings: {
-        lengthShortWord: 2
+        return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
     }
 });
 
@@ -1229,6 +1154,17 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: 'Удаление пробелов и лишних точек в вв.',
+    name: 'ru/nbsp/cc',
+    sortIndex: 1090,
+    func: function(text) {
+        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
+
+        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
+    }
+});
+
+Typograf.rule({
     title: 'm2 → м², m3 → м³ и неразрывный пробел',
     name: 'ru/nbsp/m',
     sortIndex: 1030,
@@ -1237,9 +1173,9 @@ Typograf.rule({
             re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
             re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
 
-        text = text.replace(re2, '$1$2\u00A0$3²$4');
-        
-        return text.replace(re3, '$1$2\u00A0$3³$4');
+        return text
+            .replace(re2, '$1$2\u00A0$3²$4')
+            .replace(re3, '$1$2\u00A0$3³$4');
     }
 });
 
@@ -1340,7 +1276,7 @@ Typograf.rule({
     name: 'ru/optalign/quot',
     sortIndex: 1000,
     func: function(text, settings) {
-        var quotes = '(' + this.setting('ru/quot', 'lquot') + '|' + this.setting('ru/quot', 'lquot2') + ')',
+        var quotes = '(' + this.setting('ru/punctuation/quot', 'lquot') + '|' + this.setting('ru/punctuation/quot', 'lquot2') + ')',
             re = new RegExp('([a-zа-яё\\-]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
             re2 = new RegExp('(^|\n|<p> *)' + quotes, 'g');
 
@@ -1355,6 +1291,57 @@ Typograf.rule({
     func: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
         return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
+    }
+});
+
+Typograf.rule({
+    title: 'Расстановка кавычек',
+    name: 'ru/punctuation/quot',
+    sortIndex: 700,
+    func: function(text, settings) {
+        var letter = '[\\w\\dа-яёА-ЯЁ]',
+            tag = '(?:^|<\\w.*?>)*',
+            lquot = settings.lquot,
+            rquot = settings.rquot,
+            lquot2 = settings.lquot2,
+            rquot2 = settings.rquot2,
+            phraseL = '(?:…|' + letter + '|\\n)',
+            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
+            quotesL = '(«|„|“|")',
+            quotesR = '(»|”|“|")',
+            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
+            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
+            re2, reL2, reR2;
+
+        text = text
+            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
+            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
+            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
+                '$1' + lquot + lquot); // фикс для случая »« в начале текста
+
+        if(lquot === lquot2 && rquot === rquot2) {
+            text = text
+                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
+                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
+        } else {
+            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
+                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
+            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
+            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
+
+            text = text
+                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
+                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
+                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
+        }
+
+        return text;
+    },
+    settings: {
+        lquot: '«',
+        rquot: '»',
+        lquot2: '„',
+        rquot2: '“'
     }
 });
 

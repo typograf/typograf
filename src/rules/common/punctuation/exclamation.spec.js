@@ -1,4 +1,4 @@
-tests.push(['common/exclamation', [
+tests.push(['common/punctuation/exclamation', [
     ['!!', '!'],
     ['Ура!!  ', 'Ура!  '],
     ['!!!!', '!!!'],

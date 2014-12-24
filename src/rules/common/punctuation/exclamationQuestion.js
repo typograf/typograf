@@ -1,6 +1,6 @@
 Typograf.rule({
     title: '!? → ?!',
-    name: 'common/exclamationQuestion',
+    name: 'common/punctuation/exclamationQuestion',
     sortIndex: 1140,
     func: function(text) {
         var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');

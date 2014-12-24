@@ -1,6 +1,6 @@
 Typograf.rule({
     title: 'Расстановка кавычек',
-    name: 'ru/quot',
+    name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {
         var letter = '[\\w\\dа-яёА-ЯЁ]',

@@ -1,4 +1,4 @@
-tests.push(['common/sym/hellip', [
+tests.push(['common/punctuation/hellip', [
     ['Текст текст... Другой текст... ', 'Текст текст… Другой текст… '],
     ['..', '..'],
     ['...', '…'],
