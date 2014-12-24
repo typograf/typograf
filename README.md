@@ -56,7 +56,7 @@ npm install typograf -g
 
 `typograf -l en my_file.txt` — типографировать файл по английским правилам
 
-`typograf -d ru/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/quot` и включенными правилами `ru/optaling/*`
+`typograf -d ru/punctuation/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/punctuation/quot` и включенными правилами `ru/optaling/*`
 
 ## API
 ### Висячая пунктуация
@@ -79,9 +79,9 @@ console.log(tp.execute('"Мир"'));
 ### Включить/отключить правило
 ```JavaScript
 var tp = new Typograf({lang: 'ru'});
-tp.disable('ru/space/afterNum'); // Отключить правило
+tp.enable('ru/money/ruble'); // Включить правило
 //...
-tp.enable('ru/space/afterNum'); // Включить правило
+tp.disable('ru/money/ruble'); // Отключить правило
 ```
 
 ### Добавить правило
@@ -113,7 +113,7 @@ tpName.execute('...'); // &hellip;
 
 // HTML-сущности, как цифры
 var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
-tpDigit.execute('...'); //&#8230;
+tpDigit.execute('...'); // &#8230;
 ```
 
 
