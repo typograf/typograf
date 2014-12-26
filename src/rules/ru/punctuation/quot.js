@@ -3,7 +3,7 @@ Typograf.rule({
     name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {
-        var letter = '[\\w\\dа-яёА-ЯЁ]',
+        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
             tag = '(?:^|<\\w.*?>)*',
             lquot = settings.lquot,
             rquot = settings.rquot,

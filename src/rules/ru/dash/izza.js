@@ -41,7 +41,7 @@ Typograf.rule({
         var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
         text = text.replace(re, '$1$2ое-$3$4');
         
-        var re2 = new RegExp(before + '(К|к)ой\\s([а-я]{3,})' + after, 'g');
+        var re2 = new RegExp(before + '(К|к)ой\\s([а-яё]{3,})' + after, 'g');
         return text.replace(re2, '$1$2ой-$3$4');
     }
 });
