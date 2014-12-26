@@ -8,7 +8,7 @@
 
 [Типограф в действии](https://typograf.github.io/web/) с [мобильной версией](https://typograf.github.io/web/mobile.html)
 
-## [Поддерживаемые правила](./RULES.md)
+## [Поддерживаемые правила](./docs/RULES.md)
 
 ## Черты:
  + гибкость и расширяемость;

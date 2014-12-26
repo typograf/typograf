@@ -18,7 +18,8 @@ var gulp = require('gulp'),
                     rule.sortIndex + ' | ' +
                     (rule.enabled !== false ? '✓' : '') + ' |\n';
             },
-            writeFile = function(file, template) {
+            processTemplate = function(file, templateFile) {
+                var template = fs.readFileSync(templateFile).toString();
                 fs.writeFileSync(file, template.replace(/{{content}}/, text));
             },
             text = '';
@@ -30,7 +31,7 @@ var gulp = require('gulp'),
                 return -1;
             }
         }).forEach(getRow);
-        writeFile('RULES.md', fs.readFileSync('templates/rules.md').toString());
+        processTemplate('docs/RULES.md', 'templates/rules.md');
 
         text = '';
         Typograf.prototype._rules.sort(function(a, b) {
@@ -42,7 +43,7 @@ var gulp = require('gulp'),
 
             return 0;
         }).forEach(getRow);
-        writeFile('RULES_SORTED.md', fs.readFileSync('templates/rules_sorted.md').toString());
+        processTemplate('docs/RULES_SORTED.md', 'templates/rules_sorted.md');
     };
 
 var paths = {
