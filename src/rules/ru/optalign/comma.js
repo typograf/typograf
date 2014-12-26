@@ -4,7 +4,7 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
-        return text.replace(/([а-яёa-z0-9]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
+        return text.replace(/([а-яёa-z0-9\u0301]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     enabled: false
 })

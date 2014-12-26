@@ -249,7 +249,8 @@ Typograf.prototype.entities = [];
     ['lsaquo', 8249],
     ['rsaquo', 8250],
     ['euro', 8364],
-    [null, 8381] // рубль
+    [null, 769], // accent
+    [null, 8381] // russian ruble
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],

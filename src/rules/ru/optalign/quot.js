@@ -5,7 +5,7 @@ Typograf.rule({
     sortIndex: 1000,
     func: function(text, settings) {
         var quotes = '(' + this.setting('ru/punctuation/quot', 'lquot') + '|' + this.setting('ru/punctuation/quot', 'lquot2') + ')',
-            re = new RegExp('([a-zа-яё\\-]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
+            re = new RegExp('([a-zа-яё\\-\u0301]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
             re2 = new RegExp('(^|\n|<p> *)' + quotes, 'g');
 
         return text

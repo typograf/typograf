@@ -550,7 +550,8 @@ Typograf.prototype.entities = [];
     ['lsaquo', 8249],
     ['rsaquo', 8250],
     ['euro', 8364],
-    [null, 8381] // рубль
+    [null, 769], // accent
+    [null, 8381] // russian ruble
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],
@@ -611,7 +612,7 @@ Typograf.rule({
     name: 'common/repeatWord',
     sortIndex: 1200,
     func: function(text) {
-        return text.replace(/([a-zа-яё]+) \1([;:,.?! \n])/gi, '$1$2');
+        return text.replace(/([a-zа-яё\u0301]+) \1([;:,.?! \n])/gi, '$1$2');
     },
     enabled: false
 });
@@ -970,7 +971,7 @@ Typograf.rule({
         var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
         text = text.replace(re, '$1$2ое-$3$4');
         
-        var re2 = new RegExp(before + '(К|к)ой\\s([а-я]{3,})' + after, 'g');
+        var re2 = new RegExp(before + '(К|к)ой\\s([а-яё]{3,})' + after, 'g');
         return text.replace(re2, '$1$2ой-$3$4');
     }
 });
@@ -1258,7 +1259,7 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
-        return text.replace(/([а-яёa-z0-9]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
+        return text.replace(/([а-яёa-z0-9\u0301]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     enabled: false
 })
@@ -1277,7 +1278,7 @@ Typograf.rule({
     sortIndex: 1000,
     func: function(text, settings) {
         var quotes = '(' + this.setting('ru/punctuation/quot', 'lquot') + '|' + this.setting('ru/punctuation/quot', 'lquot2') + ')',
-            re = new RegExp('([a-zа-яё\\-]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
+            re = new RegExp('([a-zа-яё\\-\u0301]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
             re2 = new RegExp('(^|\n|<p> *)' + quotes, 'g');
 
         return text
@@ -1299,7 +1300,7 @@ Typograf.rule({
     name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {
-        var letter = '[\\w\\dа-яёА-ЯЁ]',
+        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
             tag = '(?:^|<\\w.*?>)*',
             lquot = settings.lquot,
             rquot = settings.rquot,

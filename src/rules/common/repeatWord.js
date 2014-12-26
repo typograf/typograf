@@ -3,7 +3,7 @@ Typograf.rule({
     name: 'common/repeatWord',
     sortIndex: 1200,
     func: function(text) {
-        return text.replace(/([a-zа-яё]+) \1([;:,.?! \n])/gi, '$1$2');
+        return text.replace(/([a-zа-яё\u0301]+) \1([;:,.?! \n])/gi, '$1$2');
     },
     enabled: false
 });
