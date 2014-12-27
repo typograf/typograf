@@ -95,7 +95,10 @@ Typograf.prototype = {
     * @return {string}
     */
     execute: function(text, params) {
-        var lang = params && params.lang,
+        params = params || {};
+
+        var lang = params.lang || this._prefs.lang,
+            mode = typeof params.mode === 'undefined' ? this._prefs.mode : params.mode,
             iterator = function(rule) {
                 var rlang = rule._lang;
 
@@ -103,10 +106,6 @@ Typograf.prototype = {
                     text = rule.func.call(this, text, this._settings[rule.name]);
                 }
             };
-
-        if(!lang) {
-            lang = this._prefs.lang;
-        }
 
         text = '' + text;
 
@@ -118,9 +117,8 @@ Typograf.prototype = {
             .replace(/\r\n/g, '\n') // Windows
             .replace(/\r/g, '\n'); // MacOS
 
-        this._isHTML = text.search(/<[a-z]/) !== -1;
-
-        if(this._isHTML) {
+        var isHTML = text.search(/<[a-z\/\!]/i) !== -1;
+        if(isHTML) {
             text = this._hideSafeTags(text);
         }
 
@@ -129,9 +127,9 @@ Typograf.prototype = {
         this._innerRules.forEach(iterator, this);
         this._rules.forEach(iterator, this);
 
-        text = this._modification(text);
+        text = this._modification(text, mode);
 
-        if(this._isHTML) {
+        if(isHTML) {
             text = this._showSafeTags(text);
         }
 
@@ -278,12 +276,9 @@ Typograf.prototype = {
 
         return text;
     },
-    _modification: function(text) {
-        var mode = this._prefs.mode,
-            index;
-
+    _modification: function(text, mode) {
         if(mode === 'name' || mode === 'digit') {
-            index = mode === 'name' ? 0 : 1;
+            var index = mode === 'name' ? 0 : 1;
             this.entities.forEach(function(entity) {
                 if(entity[index]) {
                     text = text.replace(entity[4], entity[index]);
@@ -608,16 +603,6 @@ Typograf.data('ru/weekday', [
 ]);
 
 Typograf.rule({
-    title: 'Удаление повтора слова',
-    name: 'common/repeatWord',
-    sortIndex: 1200,
-    func: function(text) {
-        return text.replace(/([a-zа-яё\u0301]+) \1([;:,.?! \n])/gi, '$1$2');
-    },
-    enabled: false
-});
-
-Typograf.rule({
     title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
     sortIndex: 710,
@@ -778,6 +763,16 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
+});
+
+Typograf.rule({
+    title: 'Удаление повтора слова',
+    name: 'common/other/repeatWord',
+    sortIndex: 1200,
+    func: function(text) {
+        return text.replace(/([a-zа-яё\u0301]+) \1([;:,.?! \n])/gi, '$1$2');
+    },
+    enabled: false
 });
 
 Typograf.rule({

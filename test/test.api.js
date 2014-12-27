@@ -57,6 +57,16 @@ describe('API', function() {
         assert.equal(t3.execute('1\u00A02'), '1&#160;2');
         assert.equal(t3.execute('1&nbsp;2'), '1&#160;2');
     });
+    
+    it('get entities as name or digit with method "execute"', function() {
+        var t2 = new Typograf();
+        assert.equal(t2.execute('1\u00A02', {mode: 'name'}), '1&nbsp;2');
+        assert.equal(t2.execute('1&#160;2', {mode: 'name'}), '1&nbsp;2');
+
+        var t3 = new Typograf();
+        assert.equal(t3.execute('1\u00A02', {mode: 'digit'}), '1&#160;2');
+        assert.equal(t3.execute('1&nbsp;2', {mode: 'digit'}), '1&#160;2');
+    });
 
     it('add rule', function() {
         Typograf.rule({

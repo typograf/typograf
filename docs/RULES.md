@@ -14,11 +14,11 @@
 | 10. | `common/number/fraction` | 1/2 → ½, 1/4 → ¼, 3/3 → ¾ | 1120 | ✓ |
 | 11. | `common/number/plusMinus` | +- → ± | 1010 | ✓ |
 | 12. | `common/number/times` | x → × (10 x 5 → 10×5) | 1050 | ✓ |
-| 13. | `common/punctuation/delDoublePunctuation` | Удаление двойной пунктуации | 580 | ✓ |
-| 14. | `common/punctuation/exclamation` | !! → ! | 1150 | ✓ |
-| 15. | `common/punctuation/exclamationQuestion` | !? → ?! | 1140 | ✓ |
-| 16. | `common/punctuation/hellip` | Три точки на троеточие | 20 | ✓ |
-| 17. | `common/repeatWord` | Удаление повтора слова | 1200 |  |
+| 13. | `common/other/repeatWord` | Удаление повтора слова | 1200 |  |
+| 14. | `common/punctuation/delDoublePunctuation` | Удаление двойной пунктуации | 580 | ✓ |
+| 15. | `common/punctuation/exclamation` | !! → ! | 1150 | ✓ |
+| 16. | `common/punctuation/exclamationQuestion` | !? → ?! | 1140 | ✓ |
+| 17. | `common/punctuation/hellip` | Три точки на троеточие | 20 | ✓ |
 | 18. | `common/space/afterPunctuation` | Пробел после знаков пунктуации | 560 | ✓ |
 | 19. | `common/space/delBeforePercent` | Удаление пробела перед %, ‰ и ‱ | 600 | ✓ |
 | 20. | `common/space/delBeforePunctuation` | Удаление пробелов перед знаками пунктуации | 550 | ✓ |
