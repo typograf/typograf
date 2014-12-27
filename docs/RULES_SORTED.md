@@ -23,10 +23,10 @@
 | 19. | `common/nbsp/afterShortWord` | Неразрывный пробел после короткого слова | 590 | ✓ |
 | 20. | `ru/dash/weekday` | Тире между днями недели | 600 | ✓ |
 | 21. | `common/space/delBeforePercent` | Удаление пробела перед %, ‰ и ‱ | 600 | ✓ |
-| 22. | `ru/dash/month` | Тире между месяцами | 610 | ✓ |
-| 23. | `common/nbsp/afterPara` | Неразрывный пробел после § | 610 | ✓ |
-| 24. | `ru/nbsp/afterNum` | Неразрывный пробел после № | 610 | ✓ |
-| 25. | `ru/nbsp/page` | Неразрывный пробел перед стр., гл., рис., илл. | 610 | ✓ |
+| 22. | `common/nbsp/afterPara` | Неразрывный пробел после § | 610 | ✓ |
+| 23. | `ru/nbsp/afterNum` | Неразрывный пробел после № | 610 | ✓ |
+| 24. | `ru/nbsp/page` | Неразрывный пробел перед стр., гл., рис., илл. | 610 | ✓ |
+| 25. | `ru/dash/month` | Тире между месяцами | 610 | ✓ |
 | 26. | `ru/dash/main` | Дефис на тире | 620 | ✓ |
 | 27. | `ru/nbsp/beforeShortLastWord` | Неразрывный пробел перед последним коротким словом в предложении | 620 | ✓ |
 | 28. | `common/nbsp/beforeShortLastWord` | Неразрывный пробел перед последним коротким словом в предложении | 620 | ✓ |
@@ -48,12 +48,12 @@
 | 44. | `common/number/fraction` | 1/2 → ½, 1/4 → ¼, 3/3 → ¾ | 1120 | ✓ |
 | 45. | `common/sym/arrow` | -> → →, <- → ← | 1130 | ✓ |
 | 46. | `ru/money/dollar` | $100 → 100 $ | 1140 | ✓ |
-| 47. | `ru/money/euro` | €100 → 100 € | 1140 | ✓ |
-| 48. | `common/punctuation/exclamationQuestion` | !? → ?! | 1140 | ✓ |
+| 47. | `common/punctuation/exclamationQuestion` | !? → ?! | 1140 | ✓ |
+| 48. | `ru/money/euro` | €100 → 100 € | 1140 | ✓ |
 | 49. | `ru/money/ruble` | 1 руб. → 1 ₽ | 1145 |  |
 | 50. | `common/nbsp/dpi` | Неразрывный пробел перед lpi, dpi | 1150 | ✓ |
 | 51. | `common/punctuation/exclamation` | !! → ! | 1150 | ✓ |
-| 52. | `common/repeatWord` | Удаление повтора слова | 1200 |  |
+| 52. | `common/other/repeatWord` | Удаление повтора слова | 1200 |  |
 | 53. | `ru/date/main` | Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY | 1300 | ✓ |
 | 54. | `ru/number/ordinals` | N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й) | 1300 | ✓ |
 | 55. | `ru/date/weekday` | 2 Мая, Понедельник → 2 мая, понедельник | 1310 | ✓ |
