@@ -68,6 +68,13 @@ describe('API', function() {
         assert.equal(t3.execute('1&nbsp;2', {mode: 'digit'}), '1&#160;2');
     });
 
+    it('add safe tag', function() {
+        var t2 = new Typograf({lang: 'ru'});
+        t2.addSafeTag('<myTag>', '<\\/myTag>');
+
+        assert.equal(t2.execute('  <myTag>  Hello world!!  </myTag>  '), '<myTag>  Hello world!!  </myTag>');
+    });
+
     it('add rule', function() {
         Typograf.rule({
             name: 'common/example',
