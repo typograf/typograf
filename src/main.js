@@ -200,7 +200,7 @@ Typograf.prototype = {
      * @static
      * @param {string} startTag
      * @param {string} endTag
-     */    
+     */
     addSafeTag: function(startTag, endTag) {
         this._safeTags.push([startTag, endTag]);
     },
@@ -244,38 +244,45 @@ Typograf.prototype = {
         this._safeTags = [
             ['<!--', '-->'],
             ['<!\\[CDATA\\[', '\\]\\]>'],
-            ['<pre[^>]*>', '<\\/pre>'],
-            ['<code[^>]*>', '<\\/code>'],
-            ['<style[^>]*>', '<\\/style>'],
-            ['<script[^>]*>', '<\\/script>'],
-            ['<object>', '<\\/object>']
+            ['<code[^>]*?>', '</code>'],
+            ['<object[^>]*?', '</object>'],
+            ['<pre[^>]*?>', '</pre>'],
+            ['<script[^>]*?>', '</script>'],
+            ['<style[^>]*?>', '</style>']
         ];
     },
     _hideSafeTags: function(text) {
         this._hiddenSafeTags = {};
 
         var that = this,
-            re = '';
+            i = 0,
+            pasteTag = function(match) {
+                var key = '__typograf' + i + '__';
+                that._hiddenSafeTags[key] = match;
+                i++;
+
+                return key;
+            };
 
         this._safeTags.forEach(function(tag) {
-            re += '(' + tag[0] + '(.|\\n)*?' + tag[1] + ')|';
-        }, this);
-
-        var i = 0;
-        text = text.replace(new RegExp('(' + re + '<[^>]*[\\s][^>]*>)', 'gim'), function(match) {
-            var key = '__typograf' + i + '__';
-            that._hiddenSafeTags[key] = match;
-            i++;
-
-            return key;
+            var re = new RegExp(tag[0] + '[^]*?' + tag[1], 'gi');
+            text = text.replace(re, pasteTag);
         });
 
-        return text;
+        return text.replace(/<[a-z\/][^>]*?>/gi, pasteTag);
     },
     _showSafeTags: function(text) {
-        Object.keys(this._hiddenSafeTags).forEach(function(key) {
-            text = text.replace(new RegExp(key, 'gim'), this._hiddenSafeTags[key]);
-        }, this);
+        var replace = function(key) {
+            text = text.replace(new RegExp(key, 'gi'), this._hiddenSafeTags[key]);
+        };
+
+        for(var i = 0; i < this._safeTags.length; i++) {
+            Object.keys(this._hiddenSafeTags).forEach(replace, this);
+
+            if(text.search(/__typograf[\d]+__/) < 0) {
+                break;
+            }
+        }
 
         delete this._hiddenSafeTags;
 

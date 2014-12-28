@@ -200,7 +200,7 @@ Typograf.prototype = {
      * @static
      * @param {string} startTag
      * @param {string} endTag
-     */    
+     */
     addSafeTag: function(startTag, endTag) {
         this._safeTags.push([startTag, endTag]);
     },
@@ -244,38 +244,45 @@ Typograf.prototype = {
         this._safeTags = [
             ['<!--', '-->'],
             ['<!\\[CDATA\\[', '\\]\\]>'],
-            ['<pre[^>]*>', '<\\/pre>'],
-            ['<code[^>]*>', '<\\/code>'],
-            ['<style[^>]*>', '<\\/style>'],
-            ['<script[^>]*>', '<\\/script>'],
-            ['<object>', '<\\/object>']
+            ['<code[^>]*?>', '</code>'],
+            ['<object[^>]*?', '</object>'],
+            ['<pre[^>]*?>', '</pre>'],
+            ['<script[^>]*?>', '</script>'],
+            ['<style[^>]*?>', '</style>']
         ];
     },
     _hideSafeTags: function(text) {
         this._hiddenSafeTags = {};
 
         var that = this,
-            re = '';
+            i = 0,
+            pasteTag = function(match) {
+                var key = '__typograf' + i + '__';
+                that._hiddenSafeTags[key] = match;
+                i++;
+
+                return key;
+            };
 
         this._safeTags.forEach(function(tag) {
-            re += '(' + tag[0] + '(.|\\n)*?' + tag[1] + ')|';
-        }, this);
-
-        var i = 0;
-        text = text.replace(new RegExp('(' + re + '<[^>]*[\\s][^>]*>)', 'gim'), function(match) {
-            var key = '__typograf' + i + '__';
-            that._hiddenSafeTags[key] = match;
-            i++;
-
-            return key;
+            var re = new RegExp(tag[0] + '[^]*?' + tag[1], 'gi');
+            text = text.replace(re, pasteTag);
         });
 
-        return text;
+        return text.replace(/<[a-z\/][^>]*?>/gi, pasteTag);
     },
     _showSafeTags: function(text) {
-        Object.keys(this._hiddenSafeTags).forEach(function(key) {
-            text = text.replace(new RegExp(key, 'gim'), this._hiddenSafeTags[key]);
-        }, this);
+        var replace = function(key) {
+            text = text.replace(new RegExp(key, 'gi'), this._hiddenSafeTags[key]);
+        };
+
+        for(var i = 0; i < this._safeTags.length; i++) {
+            Object.keys(this._hiddenSafeTags).forEach(replace, this);
+
+            if(text.search(/__typograf[\d]+__/) < 0) {
+                break;
+            }
+        }
 
         delete this._hiddenSafeTags;
 
@@ -834,7 +841,7 @@ Typograf.rule({
     sortIndex: 560, 
     func: function(text) {
         return text
-            .replace(/(!|;|\?)([^ \n\t!;\?])/g, '$1 $2')
+            .replace(/(!|;|\?)([^ \n\t!;\?\[])/g, '$1 $2')
             .replace(/(\D)(,|:)([^ \d\n\t!;,\?\.:])/g, '$1$2 $3');
     }
 });
@@ -1242,6 +1249,57 @@ Typograf.rule({
     }
 });
 
+Typograf.rule({
+    title: 'Расстановка кавычек',
+    name: 'ru/punctuation/quot',
+    sortIndex: 700,
+    func: function(text, settings) {
+        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
+            tag = '(?:^|<\\w.*?>)*',
+            lquot = settings.lquot,
+            rquot = settings.rquot,
+            lquot2 = settings.lquot2,
+            rquot2 = settings.rquot2,
+            phraseL = '(?:…|' + letter + '|\\n)',
+            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
+            quotesL = '(«|„|“|")',
+            quotesR = '(»|”|“|")',
+            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
+            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
+            re2, reL2, reR2;
+
+        text = text
+            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
+            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
+            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
+                '$1' + lquot + lquot); // фикс для случая »« в начале текста
+
+        if(lquot === lquot2 && rquot === rquot2) {
+            text = text
+                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
+                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
+        } else {
+            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
+                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
+            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
+            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
+
+            text = text
+                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
+                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
+                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
+        }
+
+        return text;
+    },
+    settings: {
+        lquot: '«',
+        rquot: '»',
+        lquot2: '„',
+        rquot2: '“'
+    }
+});
+
 /*jshint maxlen:1000 */
 Typograf.rule({
     title: 'Висячая пунктуация для открывающей скобки',
@@ -1301,57 +1359,6 @@ Typograf.rule({
     func: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
         return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
-    }
-});
-
-Typograf.rule({
-    title: 'Расстановка кавычек',
-    name: 'ru/punctuation/quot',
-    sortIndex: 700,
-    func: function(text, settings) {
-        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
-            tag = '(?:^|<\\w.*?>)*',
-            lquot = settings.lquot,
-            rquot = settings.rquot,
-            lquot2 = settings.lquot2,
-            rquot2 = settings.rquot2,
-            phraseL = '(?:…|' + letter + '|\\n)',
-            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
-            quotesL = '(«|„|“|")',
-            quotesR = '(»|”|“|")',
-            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
-            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
-            re2, reL2, reR2;
-
-        text = text
-            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
-            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
-            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
-                '$1' + lquot + lquot); // фикс для случая »« в начале текста
-
-        if(lquot === lquot2 && rquot === rquot2) {
-            text = text
-                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
-                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
-        } else {
-            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
-                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
-            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
-            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
-
-            text = text
-                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
-                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
-                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
-        }
-
-        return text;
-    },
-    settings: {
-        lquot: '«',
-        rquot: '»',
-        lquot2: '„',
-        rquot2: '“'
     }
 });
 
