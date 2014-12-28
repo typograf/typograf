@@ -9,6 +9,7 @@ function Typograf(prefs) {
     this._settings = {};
     this._enabledRules = {};
 
+    this._initSafeTags();
     this._rules.forEach(this._prepareRule, this);
 }
 
@@ -117,7 +118,7 @@ Typograf.prototype = {
             .replace(/\r\n/g, '\n') // Windows
             .replace(/\r/g, '\n'); // MacOS
 
-        var isHTML = text.search(/<[a-z\/\!]/i) !== -1;
+        var isHTML = text.search(/<[a-z!]/i) !== -1;
         if(isHTML) {
             text = this._hideSafeTags(text);
         }
@@ -193,6 +194,16 @@ Typograf.prototype = {
     disable: function(rule) {
         return this._enable(rule, false);
     },
+    /**
+     * Добавить безопасный тег.
+     *
+     * @static
+     * @param {string} startTag
+     * @param {string} endTag
+     */    
+    addSafeTag: function(startTag, endTag) {
+        this._safeTags.push([startTag, endTag]);
+    },
     data: {},
     _prepareRule: function(rule) {
         var name = rule.name;
@@ -229,22 +240,25 @@ Typograf.prototype = {
     },
     _rules: [],
     _innerRules: [],
-    _hideSafeTags: function(text) {
-        this._hiddenSafeTags = {};
-
-        var that = this,
-            re = '',
-            tags = [
+    _initSafeTags: function() {
+        this._safeTags = [
             ['<!--', '-->'],
+            ['<!\\[CDATA\\[', '\\]\\]>'],
             ['<pre[^>]*>', '<\\/pre>'],
             ['<code[^>]*>', '<\\/code>'],
             ['<style[^>]*>', '<\\/style>'],
             ['<script[^>]*>', '<\\/script>'],
             ['<object>', '<\\/object>']
         ];
+    },
+    _hideSafeTags: function(text) {
+        this._hiddenSafeTags = {};
 
-        tags.forEach(function(tag) {
-                re += '(' + tag[0] + '(.|\\n)*?' + tag[1] + ')|';
+        var that = this,
+            re = '';
+
+        this._safeTags.forEach(function(tag) {
+            re += '(' + tag[0] + '(.|\\n)*?' + tag[1] + ')|';
         }, this);
 
         var i = 0;
@@ -790,8 +804,8 @@ Typograf.rule({
     sortIndex: 1150,
     func: function(text) {
         return text
-            .replace(/(^|[^!])\!{2}($|[^!])/, '$1!$2')
-            .replace(/(^|[^!])\!{4}?($|[^!])/, '$1!!!$2');
+            .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
+            .replace(/(^|[^!])!{4}?($|[^!])/, '$1!!!$2');
     }
 });
 
@@ -820,8 +834,8 @@ Typograf.rule({
     sortIndex: 560, 
     func: function(text) {
         return text
-            .replace(/(\!|;|\?)([^ \n\t\!;\?])/g, '$1 $2')
-            .replace(/(\D)(,|\:)([^ \/\d\n\t\!;,\?\.\:])/g, '$1$2 $3');
+            .replace(/(!|;|\?)([^ \n\t!;\?])/g, '$1 $2')
+            .replace(/(\D)(,|:)([^ \d\n\t!;,\?\.:])/g, '$1$2 $3');
     }
 });
 
@@ -839,11 +853,11 @@ Typograf.rule({
     name: 'common/space/delBeforePunctuation',
     sortIndex: 550,
     func: function(text) {
-        return text.replace(/ (\!|;|,|\?|\.|\:)/g, '$1')
+        return text.replace(/ (!|;|,|\?|\.|:)/g, '$1')
             .replace(/\( /g, '(')
             .replace(/([^ ])\(/g, '$1 (')
             .replace(/ \)/g, ')')
-            .replace(/\)([^\!;,\?\.\:])/g, ') $1');
+            .replace(/\)([^!;,\?\.:])/g, ') $1');
     }
 });
 
@@ -906,7 +920,7 @@ Typograf.rule({
     name: 'common/sym/cf',
     sortIndex: 1020,
     func: function(text) {
-        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:\\!\\?"\\]\\)]|$)', 'g');
+        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
 
         return text.replace(re, '$1' + '\u2009' + '°$3$4');
     }
@@ -926,7 +940,7 @@ Typograf.rule({
 (function() {
 
 var before = '(^| |\\n)',
-    after = '( |,|\\.|\\?|\\:|\\!|$)';
+    after = '( |,|\\.|\\?|:|!|$)';
 
 Typograf.rule({
     title: 'Дефис перед то, либо, нибудь, ка, де, кась',
