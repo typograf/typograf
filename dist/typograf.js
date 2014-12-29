@@ -289,13 +289,26 @@ Typograf.prototype = {
         return text;
     },
     _utfication: function(text) {
-        if(text.search(/&(#|[a-z])/) !== -1) {
+        if(text.search(/&#/) !== -1) {
+            text = this._decHexToUtf(text);
+        }
+        
+        if(text.search(/&[a-z]/i) !== -1) {
             this.entities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
         }
 
         return text;
+    },
+    _decHexToUtf: function(text) {
+        return text
+            .replace(/&#(\d{1,6});/gi, function($0, $1) {
+                return String.fromCharCode(parseInt($1, 10));
+            })
+            .replace(/&#x([\da-f]{1,6});/gi, function($0, $1) {
+                return String.fromCharCode(parseInt($1, 16));
+            });
     },
     _modification: function(text, mode) {
         if(mode === 'name' || mode === 'digit') {
@@ -565,9 +578,7 @@ Typograf.prototype.entities = [];
     ['permil', 8240],
     ['lsaquo', 8249],
     ['rsaquo', 8250],
-    ['euro', 8364],
-    [null, 769], // accent
-    [null, 8381] // russian ruble
+    ['euro', 8364]
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],
@@ -576,7 +587,7 @@ Typograf.prototype.entities = [];
             '&' + name + ';', // 0 - &nbsp;
             '&#' + num + ';', // 1 - &#160;
             sym, // 2 - \u00A0
-            new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'), // 3
+            new RegExp('&' + name + ';', 'g'),
             new RegExp(sym, 'g') // 4
         ];
 
@@ -1249,57 +1260,6 @@ Typograf.rule({
     }
 });
 
-Typograf.rule({
-    title: 'Расстановка кавычек',
-    name: 'ru/punctuation/quot',
-    sortIndex: 700,
-    func: function(text, settings) {
-        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
-            tag = '(?:^|<\\w.*?>)*',
-            lquot = settings.lquot,
-            rquot = settings.rquot,
-            lquot2 = settings.lquot2,
-            rquot2 = settings.rquot2,
-            phraseL = '(?:…|' + letter + '|\\n)',
-            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
-            quotesL = '(«|„|“|")',
-            quotesR = '(»|”|“|")',
-            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
-            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
-            re2, reL2, reR2;
-
-        text = text
-            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
-            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
-            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
-                '$1' + lquot + lquot); // фикс для случая »« в начале текста
-
-        if(lquot === lquot2 && rquot === rquot2) {
-            text = text
-                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
-                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
-        } else {
-            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
-                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
-            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
-            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
-
-            text = text
-                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
-                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
-                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
-        }
-
-        return text;
-    },
-    settings: {
-        lquot: '«',
-        rquot: '»',
-        lquot2: '„',
-        rquot2: '“'
-    }
-});
-
 /*jshint maxlen:1000 */
 Typograf.rule({
     title: 'Висячая пунктуация для открывающей скобки',
@@ -1359,6 +1319,57 @@ Typograf.rule({
     func: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
         return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
+    }
+});
+
+Typograf.rule({
+    title: 'Расстановка кавычек',
+    name: 'ru/punctuation/quot',
+    sortIndex: 700,
+    func: function(text, settings) {
+        var letter = '[\\w\\dа-яёА-ЯЁ\u0301]',
+            tag = '(?:^|<\\w.*?>)*',
+            lquot = settings.lquot,
+            rquot = settings.rquot,
+            lquot2 = settings.lquot2,
+            rquot2 = settings.rquot2,
+            phraseL = '(?:…|' + letter + '|\\n)',
+            phraseR = '(?:' + [letter, '[)!?.:;#*,]'].join('|') + ')*',
+            quotesL = '(«|„|“|")',
+            quotesR = '(»|”|“|")',
+            reL = new RegExp('(' + tag + ')?' + quotesL + '(' + tag + phraseL + tag + ')', 'g'),
+            reR = new RegExp('(' + tag + phraseR + tag + ')' + quotesR + '(' + phraseR + ')', 'g'),
+            re2, reL2, reR2;
+
+        text = text
+            .replace(reL, '$1' + lquot + '$3') // Открывающая кавычка
+            .replace(reR, '$1' + rquot + '$3') // Закрывающая кавычка
+            .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
+                '$1' + lquot + lquot); // фикс для случая »« в начале текста
+
+        if(lquot === lquot2 && rquot === rquot2) {
+            text = text
+                .replace(new RegExp(lquot + lquot, 'g'), lquot) // ««Энергия» Синергия» -> «Энергия» Синергия»
+                .replace(new RegExp(rquot + rquot, 'g'), rquot); // «Энергия «Синергия»» -> «Энергия «Синергия»
+        } else {
+            re2 = new RegExp('(' + lquot + ')([^' + rquot + ']*?)' + lquot +
+                '(.*?)' + rquot + '([^' + lquot + ']*?)(' + rquot + ')', 'g');
+            reL2 = new RegExp('(' + lquot2 + ')(.*?)' + lquot + '(.*?)(' + rquot2 + ')', 'g');
+            reR2 = new RegExp('(' + lquot2 + ')(.*?)' + rquot + '(.*?)(' + rquot2 + ')', 'g');
+
+            text = text
+                .replace(re2, '$1$2' + lquot2 + '$3' + rquot2 + '$4$5') // Предварительная расстановка вложенных кавычек
+                .replace(reL2, '$1$2' + lquot2 + '$3$4') // Вложенная открывающая кавычка
+                .replace(reR2, '$1$2' + rquot2 + '$3$4'); // Вложенная закрывающая кавычка
+        }
+
+        return text;
+    },
+    settings: {
+        lquot: '«',
+        rquot: '»',
+        lquot2: '„',
+        rquot2: '“'
     }
 });
 

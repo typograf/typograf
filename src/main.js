@@ -289,13 +289,26 @@ Typograf.prototype = {
         return text;
     },
     _utfication: function(text) {
-        if(text.search(/&(#|[a-z])/) !== -1) {
+        if(text.search(/&#/) !== -1) {
+            text = this._decHexToUtf(text);
+        }
+        
+        if(text.search(/&[a-z]/i) !== -1) {
             this.entities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
         }
 
         return text;
+    },
+    _decHexToUtf: function(text) {
+        return text
+            .replace(/&#(\d{1,6});/gi, function($0, $1) {
+                return String.fromCharCode(parseInt($1, 10));
+            })
+            .replace(/&#x([\da-f]{1,6});/gi, function($0, $1) {
+                return String.fromCharCode(parseInt($1, 16));
+            });
     },
     _modification: function(text, mode) {
         if(mode === 'name' || mode === 'digit') {

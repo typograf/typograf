@@ -248,9 +248,7 @@ Typograf.prototype.entities = [];
     ['permil', 8240],
     ['lsaquo', 8249],
     ['rsaquo', 8250],
-    ['euro', 8364],
-    [null, 769], // accent
-    [null, 8381] // russian ruble
+    ['euro', 8364]
 ].forEach(function(en) {
     var name = en[0],
         num = en[1],
@@ -259,7 +257,7 @@ Typograf.prototype.entities = [];
             '&' + name + ';', // 0 - &nbsp;
             '&#' + num + ';', // 1 - &#160;
             sym, // 2 - \u00A0
-            new RegExp('(\\&\\#' + num + ';' + (name ? '|\\&' + name + ';' : '') + ')', 'g'), // 3
+            new RegExp('&' + name + ';', 'g'),
             new RegExp(sym, 'g') // 4
         ];
 

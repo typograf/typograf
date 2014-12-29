@@ -6,6 +6,182 @@ module.exports = {
     innerTests: innerTests
 };
 
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>b<br/>c']
+]]);
+
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>']
+]]);
+
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
+]]);
+
+tests.push(['common/html/url', [
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
+]]);
+
+tests.push(['common/nbsp/afterPara', [
+    [' § 123', ' §\u00A0123'],
+    [' §123', ' §\u00A0123'],
+    [' §XX', ' §\u00A0XX']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/nbsp/afterShortWord', [
+    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.'],
+    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.'],
+    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224'],
+    ['И вещи', 'И\u00A0вещи'],
+    ['И в Москве', 'И\u00A0в\u00A0Москве'],
+    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве']
+]]);
+
+tests.push(['common/nbsp/beforeShortLastWord', [
+    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.']
+]]);
+
+tests.push(['common/nbsp/dpi', [
+    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
+    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
+    ['Значение 10 lpii', 'Значение 10 lpii'],
+    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
+]]);
+
+/* jshint maxlen:1000 */
+tests.push(['common/nbsp/nowrap', [
+    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
+    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
+    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
+    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
+    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
+]]);
+
+tests.push(['common/number/fraction', [
+    ['1/2', '½'],
+    [' 1/2 ', ' ½ '],
+    ['1/4', '¼'],
+    [' 1/4 ', ' ¼ '],
+    ['3/4', '¾'],
+    [' 3/4 ', ' ¾ ']
+]]);
+
+tests.push(['common/number/plusMinus', [
+    ['+-', '±'],
+    ['+-100', '±100']
+]]);
+
+tests.push(['common/number/times', [
+    ['100 x 2', '100×2'],
+    ['Пример: 30x3=90', 'Пример: 30×3=90']
+]]);
+
+tests.push(['common/other/repeatWord', [
+    ['Я пошел домой.', 'Я пошел домой.'],
+    ['Я пошел пошел домой.', 'Я пошел домой.'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
+    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.'],
+    ['Hello world world!', 'Hello world!']
+]]);
+
+/* jshint maxlen:1000 */
+tests.push(['common/punctuation/delDoublePunctuation', [
+    ['У меня была только синяя краска;; но,, несмотря на это,, я затеял нарисовать охоту.', 'У меня была только синяя краска; но, несмотря на это, я затеял нарисовать охоту.'],
+    ['Никогда не отказывайся от малого в работе:: из малого строится великое.', 'Никогда не отказывайся от малого в работе: из малого строится великое.']
+]]);
+
+tests.push(['common/punctuation/exclamation', [
+    ['!!', '!'],
+    ['Ура!!  ', 'Ура!  '],
+    ['!!!!', '!!!'],
+    ['Ура!!!!  ', 'Ура!!!  ']
+]]);
+
+tests.push(['common/punctuation/exclamationQuestion', [
+    ['!?', '?!'],
+    ['Может домой!?', 'Может домой?!']
+]]);
+
+tests.push(['common/punctuation/hellip', [
+    ['Текст текст... Другой текст... ', 'Текст текст… Другой текст… '],
+    ['..', '..'],
+    ['...', '…'],
+    ['.....', '.....']
+]]);
+
+tests.push(['common/space/afterPunctuation', [
+    ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
+    ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
+    ['Солнце садилось за горизонт,и поднялся ветер?Вот.', 'Солнце садилось за горизонт, и поднялся ветер? Вот.'],
+    ['Солнце садилось за горизонт,и поднялся ветер??Вот.', 'Солнце садилось за горизонт, и поднялся ветер?? Вот.'],
+    ['Солнце садилось за горизонт,?', 'Солнце садилось за горизонт,?'],
+    ['Солнце садилось за горизонт1,и поднялся ветер?', 'Солнце садилось за горизонт1,и поднялся ветер?']
+]]);
+
+tests.push(['common/space/delBeforePercent', [
+    ['20 %', '20%'],
+    ['около 4\u00A0%', 'около 4%']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/space/delBeforePunctuation', [
+    ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
+]]);
+
+tests.push(['common/space/delRepeatN', [
+    ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
+]]);
+
+tests.push(['common/space/delRepeatSpace', [
+    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/space/delTrailingBlanks', [
+    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
+]]);
+
+tests.push(['common/space/replaceTab', [
+    ['  \t \t \t  ', '         ']
+]]);
+
+tests.push(['common/space/trim', [
+    ['   wkd kqw0ek 0qw    ', 'wkd kqw0ek 0qw']
+]]);
+
+tests.push(['common/sym/arrow', [
+    ['20 + 10 -> 30', '20 + 10 → 30'],
+    ['20 + 10 <- 30', '20 + 10 ← 30'],
+    ['<-', '←'],
+    ['->', '→']
+]]);
+
+tests.push(['common/sym/cf', [
+    [' 200 C', ' 200 °C'],
+    [' 200 C.', ' 200 °C.'],
+    [' 20d C', ' 20d C'],
+    [' 20 C1', ' 20 C1'],
+    [' 200 F', ' 200 °F']
+]]);
+
+tests.push(['common/sym/copy', [
+    ['(c)', '©'],
+    ['(с)', '©'],
+    ['Copyright (с)', '©'],
+    ['copyright (с)', '©'],
+    ['(r)', '®'],
+    ['(tm)', '™']
+]]);
+
 tests.push(['ru/dash/izza', [
     ['Из за лесу', 'Из-за лесу'],
     ['  Из за лесу', '  Из-за лесу'],
@@ -230,180 +406,4 @@ tests.push(['ru/punctuation/quot', [
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле “Не все коту масленица”.', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле «Не все коту масленица».'],
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС'],
     ['В самом добром кино “Мамы, в молодежном триллере “Закрытая школа” на СТС"', 'В самом добром кино «Мамы, в молодежном триллере „Закрытая школа“ на СТС»']
-]]);
-
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>b<br/>c']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-tests.push(['common/html/url', [
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
-]]);
-
-tests.push(['common/nbsp/afterPara', [
-    [' § 123', ' §\u00A0123'],
-    [' §123', ' §\u00A0123'],
-    [' §XX', ' §\u00A0XX']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/nbsp/afterShortWord', [
-    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.'],
-    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.'],
-    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224'],
-    ['И вещи', 'И\u00A0вещи'],
-    ['И в Москве', 'И\u00A0в\u00A0Москве'],
-    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве']
-]]);
-
-tests.push(['common/nbsp/beforeShortLastWord', [
-    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.']
-]]);
-
-tests.push(['common/nbsp/dpi', [
-    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
-    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
-    ['Значение 10 lpii', 'Значение 10 lpii'],
-    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
-]]);
-
-/* jshint maxlen:1000 */
-tests.push(['common/nbsp/nowrap', [
-    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
-    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
-    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
-    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
-    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
-]]);
-
-tests.push(['common/number/fraction', [
-    ['1/2', '½'],
-    [' 1/2 ', ' ½ '],
-    ['1/4', '¼'],
-    [' 1/4 ', ' ¼ '],
-    ['3/4', '¾'],
-    [' 3/4 ', ' ¾ ']
-]]);
-
-tests.push(['common/number/plusMinus', [
-    ['+-', '±'],
-    ['+-100', '±100']
-]]);
-
-tests.push(['common/number/times', [
-    ['100 x 2', '100×2'],
-    ['Пример: 30x3=90', 'Пример: 30×3=90']
-]]);
-
-tests.push(['common/other/repeatWord', [
-    ['Я пошел домой.', 'Я пошел домой.'],
-    ['Я пошел пошел домой.', 'Я пошел домой.'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.'],
-    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.'],
-    ['Hello world world!', 'Hello world!']
-]]);
-
-/* jshint maxlen:1000 */
-tests.push(['common/punctuation/delDoublePunctuation', [
-    ['У меня была только синяя краска;; но,, несмотря на это,, я затеял нарисовать охоту.', 'У меня была только синяя краска; но, несмотря на это, я затеял нарисовать охоту.'],
-    ['Никогда не отказывайся от малого в работе:: из малого строится великое.', 'Никогда не отказывайся от малого в работе: из малого строится великое.']
-]]);
-
-tests.push(['common/punctuation/exclamation', [
-    ['!!', '!'],
-    ['Ура!!  ', 'Ура!  '],
-    ['!!!!', '!!!'],
-    ['Ура!!!!  ', 'Ура!!!  ']
-]]);
-
-tests.push(['common/punctuation/exclamationQuestion', [
-    ['!?', '?!'],
-    ['Может домой!?', 'Может домой?!']
-]]);
-
-tests.push(['common/punctuation/hellip', [
-    ['Текст текст... Другой текст... ', 'Текст текст… Другой текст… '],
-    ['..', '..'],
-    ['...', '…'],
-    ['.....', '.....']
-]]);
-
-tests.push(['common/space/afterPunctuation', [
-    ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
-    ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
-    ['Солнце садилось за горизонт,и поднялся ветер?Вот.', 'Солнце садилось за горизонт, и поднялся ветер? Вот.'],
-    ['Солнце садилось за горизонт,и поднялся ветер??Вот.', 'Солнце садилось за горизонт, и поднялся ветер?? Вот.'],
-    ['Солнце садилось за горизонт,?', 'Солнце садилось за горизонт,?'],
-    ['Солнце садилось за горизонт1,и поднялся ветер?', 'Солнце садилось за горизонт1,и поднялся ветер?']
-]]);
-
-tests.push(['common/space/delBeforePercent', [
-    ['20 %', '20%'],
-    ['около 4\u00A0%', 'около 4%']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/space/delBeforePunctuation', [
-    ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
-]]);
-
-tests.push(['common/space/delRepeatN', [
-    ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
-]]);
-
-tests.push(['common/space/delRepeatSpace', [
-    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/space/delTrailingBlanks', [
-    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
-]]);
-
-tests.push(['common/space/replaceTab', [
-    ['  \t \t \t  ', '         ']
-]]);
-
-tests.push(['common/space/trim', [
-    ['   wkd kqw0ek 0qw    ', 'wkd kqw0ek 0qw']
-]]);
-
-tests.push(['common/sym/arrow', [
-    ['20 + 10 -> 30', '20 + 10 → 30'],
-    ['20 + 10 <- 30', '20 + 10 ← 30'],
-    ['<-', '←'],
-    ['->', '→']
-]]);
-
-tests.push(['common/sym/cf', [
-    [' 200 C', ' 200 °C'],
-    [' 200 C.', ' 200 °C.'],
-    [' 20d C', ' 20d C'],
-    [' 20 C1', ' 20 C1'],
-    [' 200 F', ' 200 °F']
-]]);
-
-tests.push(['common/sym/copy', [
-    ['(c)', '©'],
-    ['(с)', '©'],
-    ['Copyright (с)', '©'],
-    ['copyright (с)', '©'],
-    ['(r)', '®'],
-    ['(tm)', '™']
 ]]);
