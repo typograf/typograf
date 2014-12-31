@@ -98,7 +98,7 @@ Typograf.prototype = {
     execute: function(text, params) {
         params = params || {};
 
-        var lang = params.lang || this._prefs.lang,
+        var lang = params.lang || this._prefs.lang || 'common',
             mode = typeof params.mode === 'undefined' ? this._prefs.mode : params.mode,
             iterator = function(rule) {
                 var rlang = rule._lang;
@@ -107,6 +107,8 @@ Typograf.prototype = {
                     text = rule.func.call(this, text, this._settings[rule.name]);
                 }
             };
+        
+        this._lang = lang;
 
         text = '' + text;
 
@@ -133,10 +135,11 @@ Typograf.prototype = {
         if(isHTML) {
             text = this._showSafeTags(text);
         }
+        
+        this._lang = null;
 
         return text;
     },
-
     /**
      * Установить/получить настройку
      *
@@ -154,7 +157,6 @@ Typograf.prototype = {
             return this;
         }
     },
-
     /**
      * Включено ли правило.
      *
@@ -164,7 +166,6 @@ Typograf.prototype = {
     enabled: function(rule) {
         return this._enabledRules[rule];
     },
-
     /**
      * Отключено ли правило.
      *
@@ -174,7 +175,6 @@ Typograf.prototype = {
     disabled: function(rule) {
         return !this._enabledRules[rule];
     },
-
     /**
      * Включить правило.
      *
@@ -184,7 +184,6 @@ Typograf.prototype = {
     enable: function(rule) {
         return this._enable(rule, true);
     },
-
     /**
      * Отключить правило.
      *
@@ -197,7 +196,6 @@ Typograf.prototype = {
     /**
      * Добавить безопасный тег.
      *
-     * @static
      * @param {string} startTag
      * @param {string} endTag
      */
@@ -243,6 +241,9 @@ Typograf.prototype = {
     _initSafeTags: function() {
         this._safeTags = [
             ['<!--', '-->'],
+            ['<!ENTITY', '>'],
+            ['<!DOCTYPE', '>'],
+            ['<\\?xml', '\\?>'],
             ['<!\\[CDATA\\[', '\\]\\]>'],
             ['<code[^>]*?>', '</code>'],
             ['<object[^>]*?', '</object>'],
@@ -321,6 +322,13 @@ Typograf.prototype = {
         }
 
         return text;
+    },
+    _getLetter: function() {
+        var lang = this._lang || this._prefs.lang,
+            commonLetter = this.data['common/letter'],
+            langLetter = this.data[lang + '/letter'];
+        
+        return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     }
 };
 
@@ -330,6 +338,7 @@ if(typeof exports === 'object') {
 
 Typograf.prototype.entities = [];
 
+// http://www.w3.org/TR/html4/sgml/entities
 [
     ['nbsp', 160],
     ['iexcl', 161],
@@ -594,6 +603,12 @@ Typograf.prototype.entities = [];
     Typograf.prototype.entities.push(buf);
 }, this);
 
+Typograf.data('common/letter', 'a-z');
+
+Typograf.data('en/letter', 'a-z');
+
+Typograf.data('ru/letter', 'а-яё');
+
 Typograf.data('ru/month', [
     'январь',
     'февраль',
@@ -622,6 +637,21 @@ Typograf.data('ru/monthCase', [
     'октября',
     'ноября',
     'декабря'
+]);
+
+Typograf.data('ru/shortMonth', [
+    'янв',
+    'фев',
+    'мар',
+    'апр',
+    'ма[ейя]',
+    'июн',
+    'июл',
+    'авг',
+    'сен',
+    'окт',
+    'ноя',
+    'дек'
 ]);
 
 Typograf.data('ru/weekday', [
@@ -695,6 +725,19 @@ Typograf.rule({
 
             return firstPart + fullUrl + '</a>';
         });
+    }
+});
+
+Typograf.rule({
+    title: 'Неразрывный пробел между числом и словом',
+    name: 'ru/nbsp/afterNumber',
+    sortIndex: 615,
+    func: function(text) {
+        var re = '(^|\\D)(\\d{1,5}) ([' +
+            this._getLetter() +
+            ']{2,})';
+
+        return text.replace(new RegExp(re, 'gi'), '$1$2\u00A0$3');
     }
 });
 
@@ -802,7 +845,11 @@ Typograf.rule({
     name: 'common/other/repeatWord',
     sortIndex: 1200,
     func: function(text) {
-        return text.replace(/([a-zа-яё\u0301]+) \1([;:,.?! \n])/gi, '$1$2');
+        var re = '([' +
+            this._getLetter() +
+            '\u0301]+) \\1([;:,.?! \n])';
+
+        return text.replace(new RegExp(re, 'gi'), '$1$2');
     },
     enabled: false
 });
@@ -852,8 +899,8 @@ Typograf.rule({
     sortIndex: 560, 
     func: function(text) {
         return text
-            .replace(/(!|;|\?)([^ \n\t!;\?\[])/g, '$1 $2')
-            .replace(/(\D)(,|:)([^ \d\n\t!;,\?\.:])/g, '$1$2 $3');
+            .replace(/(!|;|\?)([^ _\n\t!;\?\[])/g, '$1 $2')
+            .replace(/(\D)(,|:)([^ _\d\n\t!;,\?\.:])/g, '$1$2 $3');
     }
 });
 
@@ -880,6 +927,16 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: 'Удаление пробелов в начале строки',
+    name: 'common/space/delLeadingBlanks',
+    sortIndex: 504,
+    func: function(text) {
+        return text.replace(/\n[ \t]+/g, '\n');
+    },
+    enabled: false
+});
+
+Typograf.rule({
     title: 'Удаление повторяющихся переносов строки (не более двух)',
     name: 'common/space/delRepeatN',
     sortIndex: 545,
@@ -889,25 +946,25 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление повторяющихся пробелов',
+    title: 'Удаление повторяющихся пробелов между символов',
     name: 'common/space/delRepeatSpace',
     sortIndex: 540,
     func: function(text) {
-        return text.replace(/( |\t){2,}/g, '$1');
+        return text.replace(/([^\n \t])( |\t){2,}([^\n \t])/g, '$1$2$3');
     }
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов в конце строк',
+    title: 'Удаление пробелов в конце строки',
     name: 'common/space/delTrailingBlanks',
     sortIndex: 505,
     func: function(text) {
-        return text.replace(/( |\t)+\n/g, '\n');
+        return text.replace(/[ \t]+\n/g, '\n');
     }
 });
 
 Typograf.rule({
-    title: 'Замена табов на пробелы',
+    title: 'Замена таба на 4 пробела',
     name: 'common/space/replaceTab',
     sortIndex: 510,
     func: function(text) {
@@ -916,11 +973,24 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов в начале и в конце текста',
-    name: 'common/space/trim',
+    title: 'Удаление пробелов и переносов строк в начале текста',
+    name: 'common/space/trimLeft',
     sortIndex: 530,
-    func: function(text) {
-        return text.trim();
+    func: String.prototype.trimLeft ? function(text) {
+        return text.trimLeft();
+    } : function(text) {
+        return text.replace(/^[\s\uFEFF\xA0]+/g, '');
+    }
+});
+
+Typograf.rule({
+    title: 'Удаление пробелов и переносов строк в конце текста',
+    name: 'common/space/trimRight',
+    sortIndex: 535,
+    func: String.prototype.trimRight ? function(text) {
+        return text.trimRight();
+    } : function(text) {
+        return text.replace(/[\s\uFEFF\xA0]+$/g, '');
     }
 });
 
@@ -1140,7 +1210,7 @@ Typograf.rule({
 
 Typograf.rule({
     title: 'Неразрывный пробел после №',
-    name: 'ru/nbsp/afterNum',
+    name: 'ru/nbsp/afterNumberSign',
     sortIndex: 610,
     func: function(text) {
         return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
@@ -1176,8 +1246,8 @@ Typograf.rule({
     name: 'ru/nbsp/but',
     sortIndex: 1110,
     func: function(text) {
-        var re = new RegExp('([,])?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
-        return text.replace(re, ',$2$3$4');
+        var re = new RegExp(',?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
+        return text.replace(re, ',$1$2$3');
     }
 });
 
@@ -1189,6 +1259,16 @@ Typograf.rule({
         text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
 
         return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
+    }
+});
+
+Typograf.rule({
+    title: 'Неразрывный пробел между числом и месяцем',
+    name: 'ru/nbsp/dayMonth',
+    sortIndex: 1105,
+    func: function(text) {
+        var re = new RegExp('(\\d{1,2}) (' + this.data['ru/shortMonth'].join('|') + ')', 'gi');
+        return text.replace(re, '$1\u00A0$2');
     }
 });
 
@@ -1226,11 +1306,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после XXXX (2012 г.)',
+    title: 'Неразрывный пробел после XXXX г. (2012 г.)',
     name: 'ru/nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
-        return text.replace(/(^|\D)(\d{4}) ?г( |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
+        return text.replace(/(^|\D)(\d{1,4}) ?г(од| |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
     }
 });
 

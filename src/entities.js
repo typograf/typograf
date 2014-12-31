@@ -1,5 +1,6 @@
 Typograf.prototype.entities = [];
 
+// http://www.w3.org/TR/html4/sgml/entities
 [
     ['nbsp', 160],
     ['iexcl', 161],

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE article [
+    <!ENTITY mdash "&mdash;"><!-- em dash -->
+    <!ENTITY mdash "&ndash;"><!-- en dash -->
+    <!ENTITY mdash "&mydash;"><!-- my dash -->
+]>
+<article>Hello,   world!!</article>
