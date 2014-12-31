@@ -1,4 +1,5 @@
 /*jshint maxlen:1000 */
 tests.push(['common/space/delTrailingBlanks', [
-    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
+    ['Hello world!  \t \n Hello world!       \n\n\n\nHello world!\n',
+        'Hello world!\n Hello world!\n\n\n\nHello world!\n']
 ]]);

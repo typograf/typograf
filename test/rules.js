@@ -6,27 +6,11 @@ module.exports = {
     innerTests: innerTests
 };
 
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>b<br/>c']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-tests.push(['common/html/url', [
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
+tests.push(['ru/nbsp/afterNumber', [
+    [' 123 дня ', ' 123\u00A0дня '],
+    ['2 кошки', '2\u00A0кошки'],
+    ['12 миллиардов рублей', '12\u00A0миллиардов рублей'],
+    ['20 years', '20\u00A0years']
 ]]);
 
 tests.push(['common/nbsp/afterPara', [
@@ -137,25 +121,38 @@ tests.push(['common/space/delBeforePunctuation', [
     ['И был посажен в крепость вместе с Измайловым ( странна судьба и союз сих имен ! ) .', 'И был посажен в крепость вместе с Измайловым (странна судьба и союз сих имен!).']
 ]]);
 
+/*jshint maxlen:1000 */
+tests.push(['common/space/delLeadingBlanks', [
+    ['Hello world!  \t \n \t \t  Hello world!       \n\n\n\n   \t\t\t   Hello world!\n',
+        'Hello world!  \t \nHello world!       \n\n\n\nHello world!\n']
+]]);
+
 tests.push(['common/space/delRepeatN', [
     ['asdk oasdk\nas\n\n\n\nd koa\n\n\nsd       ', 'asdk oasdk\nas\n\nd koa\n\nsd       ']
 ]]);
 
 tests.push(['common/space/delRepeatSpace', [
-    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
+    ['  \n  \n  Hello   world  !  \n  \n  ', '  \n  \n  Hello world !  \n  \n  ']
 ]]);
 
 /*jshint maxlen:1000 */
 tests.push(['common/space/delTrailingBlanks', [
-    ['asda d  \t \n er er ert er er       \n\n\n\nassdf asf sdf asdf\n', 'asda d\n er er ert er er\n\n\n\nassdf asf sdf asdf\n']
+    ['Hello world!  \t \n Hello world!       \n\n\n\nHello world!\n',
+        'Hello world!\n Hello world!\n\n\n\nHello world!\n']
 ]]);
 
 tests.push(['common/space/replaceTab', [
     ['  \t \t \t  ', '         ']
 ]]);
 
-tests.push(['common/space/trim', [
-    ['   wkd kqw0ek 0qw    ', 'wkd kqw0ek 0qw']
+tests.push(['common/space/trimLeft', [
+    ['   Hello world!    ', 'Hello world!    '],
+    [' \n\n \n Hello world!  \n\n  \n  ', 'Hello world!  \n\n  \n  ']
+]]);
+
+tests.push(['common/space/trimRight', [
+    ['   Hello world!    ', '   Hello world!'],
+    [' \n\n \n Hello world!  \n\n  \n  ', ' \n\n \n Hello world!']
 ]]);
 
 tests.push(['common/sym/arrow', [
@@ -289,7 +286,7 @@ tests.push(['ru/money/ruble', [
     ['У меня 100 р. У Миши 20 р.', 'У меня 100\u00A0₽. У Миши 20 р.']
 ]]);
 
-tests.push(['ru/nbsp/afterNum', [
+tests.push(['ru/nbsp/afterNumberSign', [
     [' № 123', ' №\u00A0123'],
     ['№ 123', '№\u00A0123'],
     [' №123', ' №\u00A0123'],
@@ -319,6 +316,12 @@ tests.push(['ru/nbsp/cc', [
     ['1934 в.в.', '1934\u00A0вв.']
 ]]);
 
+tests.push(['ru/nbsp/dayMonth', [
+    ['20 декабря', '20\u00A0декабря'],
+    ['20 дек 2010', '20\u00A0дек 2010'],
+    ['1 мая 2015', '1\u00A0мая 2015']
+]]);
+
 tests.push(['ru/nbsp/m', [
     [' 2 м2 ', ' 2\u00A0м² '],
     [' 2.0 м2 ', ' 2.0\u00A0м² '],
@@ -344,7 +347,10 @@ tests.push(['ru/nbsp/page', [
 
 tests.push(['ru/nbsp/xxxx', [
     ['2012 г.', '2012\u00A0г.'],
-    [' (2012 г.) ', ' (2012\u00A0г.) ']
+    [' (2012 г.) ', ' (2012\u00A0г.) '],
+    [' В 2015 году ', ' В 2015\u00A0году '],
+    [' 1 год ', ' 1\u00A0год '],
+    [' С 25 годом ', ' С 25\u00A0годом ']
 ]]);
 
 tests.push(['ru/nbsp/yy', [
@@ -406,4 +412,27 @@ tests.push(['ru/punctuation/quot', [
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле “Не все коту масленица”.', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле «Не все коту масленица».'],
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС'],
     ['В самом добром кино “Мамы, в молодежном триллере “Закрытая школа” на СТС"', 'В самом добром кино «Мамы, в молодежном триллере „Закрытая школа“ на СТС»']
+]]);
+
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>b<br/>c']
+]]);
+
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>']
+]]);
+
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
+]]);
+
+tests.push(['common/html/url', [
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
 ]]);

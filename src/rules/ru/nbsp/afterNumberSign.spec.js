@@ -1,4 +1,4 @@
-tests.push(['ru/nbsp/afterNum', [
+tests.push(['ru/nbsp/afterNumberSign', [
     [' № 123', ' №\u00A0123'],
     ['№ 123', '№\u00A0123'],
     [' №123', ' №\u00A0123'],

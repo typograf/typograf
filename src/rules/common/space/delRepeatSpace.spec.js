@@ -1,3 +1,3 @@
 tests.push(['common/space/delRepeatSpace', [
-    ['    asdk oaskdo       askd oasdk oasdk    asd koasd       ', ' asdk oaskdo askd oasdk oasdk asd koasd ']
+    ['  \n  \n  Hello   world  !  \n  \n  ', '  \n  \n  Hello world !  \n  \n  ']
 ]]);

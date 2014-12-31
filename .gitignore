@@ -42,4 +42,5 @@ Icon
 node_modules/
 libs/
 coverage/
+test/before/*.tmp
 npm-debug.log

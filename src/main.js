@@ -98,7 +98,7 @@ Typograf.prototype = {
     execute: function(text, params) {
         params = params || {};
 
-        var lang = params.lang || this._prefs.lang,
+        var lang = params.lang || this._prefs.lang || 'common',
             mode = typeof params.mode === 'undefined' ? this._prefs.mode : params.mode,
             iterator = function(rule) {
                 var rlang = rule._lang;
@@ -107,6 +107,8 @@ Typograf.prototype = {
                     text = rule.func.call(this, text, this._settings[rule.name]);
                 }
             };
+        
+        this._lang = lang;
 
         text = '' + text;
 
@@ -133,10 +135,11 @@ Typograf.prototype = {
         if(isHTML) {
             text = this._showSafeTags(text);
         }
+        
+        this._lang = null;
 
         return text;
     },
-
     /**
      * Установить/получить настройку
      *
@@ -154,7 +157,6 @@ Typograf.prototype = {
             return this;
         }
     },
-
     /**
      * Включено ли правило.
      *
@@ -164,7 +166,6 @@ Typograf.prototype = {
     enabled: function(rule) {
         return this._enabledRules[rule];
     },
-
     /**
      * Отключено ли правило.
      *
@@ -174,7 +175,6 @@ Typograf.prototype = {
     disabled: function(rule) {
         return !this._enabledRules[rule];
     },
-
     /**
      * Включить правило.
      *
@@ -184,7 +184,6 @@ Typograf.prototype = {
     enable: function(rule) {
         return this._enable(rule, true);
     },
-
     /**
      * Отключить правило.
      *
@@ -197,7 +196,6 @@ Typograf.prototype = {
     /**
      * Добавить безопасный тег.
      *
-     * @static
      * @param {string} startTag
      * @param {string} endTag
      */
@@ -243,6 +241,9 @@ Typograf.prototype = {
     _initSafeTags: function() {
         this._safeTags = [
             ['<!--', '-->'],
+            ['<!ENTITY', '>'],
+            ['<!DOCTYPE', '>'],
+            ['<\\?xml', '\\?>'],
             ['<!\\[CDATA\\[', '\\]\\]>'],
             ['<code[^>]*?>', '</code>'],
             ['<object[^>]*?', '</object>'],
@@ -321,6 +322,13 @@ Typograf.prototype = {
         }
 
         return text;
+    },
+    _getLetter: function() {
+        var lang = this._lang || this._prefs.lang,
+            commonLetter = this.data['common/letter'],
+            langLetter = this.data[lang + '/letter'];
+        
+        return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     }
 };
 

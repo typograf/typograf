@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<!DOCTYPE xsl:stylesheet [<!ENTITY mdash "&#x2014;">]>
+<greeting>Hello, world!</greeting>
