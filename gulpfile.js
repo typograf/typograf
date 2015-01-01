@@ -8,6 +8,11 @@ var gulp = require('gulp'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
+    queue = {
+        start: 1,
+        undefined: 2,
+        end: 3
+    },
     destDir = './dist/',
     makeMdRules = function() {
         var Typograf = require('./dist/typograf.js'),
@@ -16,6 +21,7 @@ var gulp = require('gulp'),
                     rule.name + '` | ' +
                     rule.title + ' | ' +
                     rule.sortIndex + ' | ' +
+                    (rule.queue || '') + ' | ' +
                     (rule.enabled !== false ? '✓' : '') + ' |\n';
             },
             processTemplate = function(file, templateFile) {
@@ -35,13 +41,21 @@ var gulp = require('gulp'),
 
         text = '';
         Typograf.prototype._rules.sort(function(a, b) {
-            if(a.sortIndex > b.sortIndex) {
+            var queueA = queue[a.queue],
+                queueB = queue[b.queue];
+            if(queueA === queueB) {
+                if(a.sortIndex > b.sortIndex) {
+                    return 1;
+                } else if(a.sortIndex < b.sortIndex) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            } else if(queueA > queueB) {
                 return 1;
-            } else if(a.sortIndex < b.sortIndex) {
+            } else {
                 return -1;
             }
-
-            return 0;
         }).forEach(getRow);
         processTemplate('docs/RULES_SORTED.md', 'templates/rules_sorted.md');
     };

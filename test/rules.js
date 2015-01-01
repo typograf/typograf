@@ -6,6 +6,33 @@ module.exports = {
     innerTests: innerTests
 };
 
+tests.push(['common/html/escape', [
+    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
+]]);
+
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>b<br/>c']
+]]);
+
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>']
+]]);
+
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
+]]);
+
+tests.push(['common/html/url', [
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
+]]);
+
 tests.push(['ru/nbsp/afterNumber', [
     [' 123 дня ', ' 123\u00A0дня '],
     ['2 кошки', '2\u00A0кошки'],
@@ -412,27 +439,4 @@ tests.push(['ru/punctuation/quot', [
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле “Не все коту масленица”.', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС. А еще на сцене театра им. Вл. Маяковского в спектакле «Не все коту масленица».'],
     ['В самом добром кино “Мамы”, в молодежном триллере “Закрытая школа” на СТС', 'В самом добром кино «Мамы», в молодежном триллере «Закрытая школа» на СТС'],
     ['В самом добром кино “Мамы, в молодежном триллере “Закрытая школа” на СТС"', 'В самом добром кино «Мамы, в молодежном триллере „Закрытая школа“ на СТС»']
-]]);
-
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>b<br/>c']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-tests.push(['common/html/url', [
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
 ]]);

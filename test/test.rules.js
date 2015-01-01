@@ -96,6 +96,35 @@ describe('rules', function() {
             assert.equal(tp.execute(el, {lang: 'ru'}), el);
         });
     });
+    
+    it('enable common/html/stripTags', function() {
+        var tp = new Typograf();
+        tp.enable('common/html/stripTags');
+
+        var tagTests = [
+            ['<p align="center">Hello world!</p> <a href="/">Hello world!</a>\n\n<pre>Hello world!</pre>',
+            'Hello world! Hello world!\n\nHello world!'],
+            ['<p align="center" Hello world!</p>', '']
+        ];
+
+        tagTests.forEach(function(el) {
+            assert.equal(tp.execute(el[0]), el[1]);
+        });
+    });
+    
+    it('enable common/html/stripTags', function() {
+        var tp = new Typograf();
+        tp.enable('common/html/escape');
+
+        var escapeTests = [
+            ['<p align="center">\nHello world!\n</p>',
+            '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
+        ];
+
+        escapeTests.forEach(function(el) {
+            assert.equal(tp.execute(el[0]), el[1]);
+        });
+    });
 });
 
 describe('inner rules', function() {

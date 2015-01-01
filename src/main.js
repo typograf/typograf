@@ -98,14 +98,21 @@ Typograf.prototype = {
     execute: function(text, params) {
         params = params || {};
 
-        var lang = params.lang || this._prefs.lang || 'common',
+        var that = this,
+            lang = params.lang || this._prefs.lang || 'common',
+            rulesForQueue = {},
+            innerRulesForQueue = {},
             mode = typeof params.mode === 'undefined' ? this._prefs.mode : params.mode,
             iterator = function(rule) {
                 var rlang = rule._lang;
 
-                if(this.enabled(rule.name) && (rlang === 'common' || rlang === lang)) {
+                if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     text = rule.func.call(this, text, this._settings[rule.name]);
                 }
+            },
+            executeRulesForQueue = function(queue) {
+                innerRulesForQueue[queue] && innerRulesForQueue[queue].forEach(iterator, that);
+                rulesForQueue[queue] && rulesForQueue[queue].forEach(iterator, that);
             };
         
         this._lang = lang;
@@ -116,9 +123,21 @@ Typograf.prototype = {
             return '';
         }
 
-        text = text
-            .replace(/\r\n/g, '\n') // Windows
-            .replace(/\r/g, '\n'); // MacOS
+        text = this._fixLineEnd(text);
+
+        this._innerRules.forEach(function(rule) {
+            var q = rule.queue;
+            innerRulesForQueue[q] = innerRulesForQueue[q] || [];
+            innerRulesForQueue[q].push(rule);
+        }, this);
+
+        this._rules.forEach(function(rule) {
+            var q = rule.queue;
+            rulesForQueue[q] = rulesForQueue[q] || [];
+            rulesForQueue[q].push(rule);
+        }, this);
+
+        executeRulesForQueue('start');
 
         var isHTML = text.search(/<[a-z!]/i) !== -1;
         if(isHTML) {
@@ -126,16 +145,15 @@ Typograf.prototype = {
         }
 
         text = this._utfication(text);
-
-        this._innerRules.forEach(iterator, this);
-        this._rules.forEach(iterator, this);
-
+        executeRulesForQueue();
         text = this._modification(text, mode);
 
         if(isHTML) {
             text = this._showSafeTags(text);
         }
-        
+
+        executeRulesForQueue('end');
+
         this._lang = null;
 
         return text;
@@ -202,7 +220,25 @@ Typograf.prototype = {
     addSafeTag: function(startTag, endTag) {
         this._safeTags.push([startTag, endTag]);
     },
+    /**
+     * Возращает строку с диапозоном символов для текущего языка,
+     * используется в регул. выражениях в правилах
+     *
+     * @return {string}
+     */    
+    letters: function() {
+        var lang = this._lang || this._prefs.lang,
+            commonLetter = this.data['common/letter'],
+            langLetter = this.data[lang + '/letter'];
+        
+        return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
+    },
     data: {},
+    _fixLineEnd: function(text) {
+        return text
+            .replace(/\r\n/g, '\n') // Windows
+            .replace(/\r/g, '\n'); // MacOS
+    },
     _prepareRule: function(rule) {
         var name = rule.name;
         this._settings[name] = rule.settings || {};
@@ -322,13 +358,6 @@ Typograf.prototype = {
         }
 
         return text;
-    },
-    _getLetter: function() {
-        var lang = this._lang || this._prefs.lang,
-            commonLetter = this.data['common/letter'],
-            langLetter = this.data[lang + '/letter'];
-        
-        return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     }
 };
 
