@@ -52,6 +52,10 @@ var Typograf = require('typograf'),
 console.log(tp.execute(' Мир - мой мир!!   '));
 ```
 
+### Плагины
+ + [grunt-typograf](https://github.com/typograf/grunt-typograf)
+ + [gulp-typograf](https://github.com/typograf/gulp-typograf)
+
 ### Командная строка
 ```
 npm install typograf -g
