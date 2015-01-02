@@ -1,20 +1,14 @@
 Типограф на JavaScript
 ======================
-[![NPM version](https://badge.fury.io/js/typograf.svg)](http://badge.fury.io/js/typograf)
-[![Build Status](https://travis-ci.org/typograf/typograf.svg?branch=master)](https://travis-ci.org/typograf/typograf)
-[![Coverage Status](https://coveralls.io/repos/typograf/typograf/badge.png?branch=master)](https://coveralls.io/r/typograf/typograf)
-[![Dependency Status](https://david-dm.org/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
-[![devDependency Status](https://david-dm.org/typograf/typograf/dev-status.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
+[![NPM version](https://img.shields.io/npm/v/typograf.svg)](https://www.npmjs.com/package/typograf)
+[![NPM downloads](https://img.shields.io/npm/dm/typograf.svg)](https://www.npmjs.com/package/typograf)
+[![Build Status](https://img.shields.io/travis/typograf/typograf.svg)](https://travis-ci.org/typograf/typograf)
+[![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg)](https://coveralls.io/r/typograf/typograf)
+
+[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
+[![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
 [Типограф в действии](https://typograf.github.io/web/) с [мобильной версией](https://typograf.github.io/web/mobile.html)
-
-## [Поддерживаемые правила](./docs/RULES.md)
-
-## Форматы:
- + HTML
- + TXT
- + SVG
- + XML
 
 ## Черты:
  + гибкость и расширяемость;
@@ -24,6 +18,13 @@
  + поддержка Node.js;
  + TDD.
 
+## [Поддерживаемые правила](./docs/RULES.md)
+
+## Форматы:
+ + HTML
+ + TXT
+ + SVG
+ + XML
 
 ## Использование
 
