@@ -3,10 +3,10 @@
 [![NPM version](https://img.shields.io/npm/v/typograf.svg)](https://www.npmjs.com/package/typograf)
 [![NPM downloads](https://img.shields.io/npm/dm/typograf.svg)](https://www.npmjs.com/package/typograf)
 [![Build Status](https://img.shields.io/travis/typograf/typograf.svg)](https://travis-ci.org/typograf/typograf)
+[![Build Status](https://img.shields.io/appveyor/ci/typograf/typograf/master.svg)](https://ci.appveyor.com/project/hcodes/typograf)
 [![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg)](https://coveralls.io/r/typograf/typograf)
 
-[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg)](https://david-dm.org/typograf/typograf)
-[![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
 [Типограф в действии](https://typograf.github.io/web/) с [мобильной версией](https://typograf.github.io/web/mobile.html)
 
@@ -101,7 +101,7 @@ Typograf.rule({
     // Заголовок
     title: 'Пример правила',
     // язык/группа/правило
-    name: 'common/other/parampampam', 
+    name: 'common/other/parampampam',
     // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
     sortIndex: 2000,
     // Функция обработки правила
