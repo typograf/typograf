@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел между числом и месяцем',
+    title: 'Нераз. пробел между числом и месяцем',
     name: 'ru/nbsp/dayMonth',
     sortIndex: 1105,
     func: function(text) {

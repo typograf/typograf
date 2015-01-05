@@ -19,17 +19,17 @@
 | 15. | [common/space/delRepeatN](../src/rules/common/space/delRepeatN.js) | Удаление повторяющихся переносов строки (не более двух) | 545 |  | ✓ |
 | 16. | [common/space/delBeforePunctuation](../src/rules/common/space/delBeforePunctuation.js) | Удаление пробелов перед знаками пунктуации | 550 |  | ✓ |
 | 17. | [common/space/afterPunctuation](../src/rules/common/space/afterPunctuation.js) | Пробел после знаков пунктуации | 560 |  | ✓ |
-| 18. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Неразрывный пробел перед ли, ль, же, бы, б | 570 |  | ✓ |
+| 18. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Нераз. пробел перед ли, ль, же, бы, б | 570 |  | ✓ |
 | 19. | [common/punctuation/delDoublePunctuation](../src/rules/common/punctuation/delDoublePunctuation.js) | Удаление двойной пунктуации | 580 |  | ✓ |
 | 20. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.js) | Нераз. пробел после короткого слова | 590 |  | ✓ |
 | 21. | [ru/dash/weekday](../src/rules/ru/dash/weekday.js) | Тире между днями недели | 600 |  | ✓ |
 | 22. | [common/space/delBeforePercent](../src/rules/common/space/delBeforePercent.js) | Удаление пробела перед %, ‰ и ‱ | 600 |  | ✓ |
 | 23. | [common/nbsp/afterPara](../src/rules/common/nbsp/afterPara.js) | Нераз. пробел после § | 610 |  | ✓ |
 | 24. | [ru/dash/month](../src/rules/ru/dash/month.js) | Тире между месяцами | 610 |  | ✓ |
-| 25. | [ru/nbsp/page](../src/rules/ru/nbsp/page.js) | Неразрывный пробел перед стр., гл., рис., илл. | 610 |  | ✓ |
-| 26. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Неразрывный пробел после № | 610 |  | ✓ |
+| 25. | [ru/nbsp/page](../src/rules/ru/nbsp/page.js) | Нераз. пробел перед стр., гл., рис., илл. | 610 |  | ✓ |
+| 26. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Нераз. пробел после № | 610 |  | ✓ |
 | 27. | [ru/nbsp/afterNumber](../src/rules/ru/nbsp/afterNumber.js) | Нераз. пробел между числом и словом | 615 |  | ✓ |
-| 28. | [ru/nbsp/beforeShortLastWord](../src/rules/ru/nbsp/beforeShortLastWord.js) | Неразрывный пробел перед последним коротким словом в предложении | 620 |  | ✓ |
+| 28. | [ru/nbsp/beforeShortLastWord](../src/rules/ru/nbsp/beforeShortLastWord.js) | Нераз. пробел перед последним коротким словом в предложении | 620 |  | ✓ |
 | 29. | [ru/dash/main](../src/rules/ru/dash/main.js) | Дефис на тире | 620 |  | ✓ |
 | 30. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.js) | Нераз. пробел перед последним коротким словом в предложении | 620 |  | ✓ |
 | 31. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 700 |  |  |
@@ -40,13 +40,13 @@
 | 36. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | Висячая пунктуация для запятой | 1002 |  |  |
 | 37. | [common/number/plusMinus](../src/rules/common/number/plusMinus.js) | +- → ± | 1010 |  | ✓ |
 | 38. | [common/sym/cf](../src/rules/common/sym/cf.js) | Добавление ° к C и F | 1020 |  | ✓ |
-| 39. | [ru/nbsp/m](../src/rules/ru/nbsp/m.js) | m2 → м², m3 → м³ и неразрывный пробел | 1030 |  | ✓ |
+| 39. | [ru/nbsp/m](../src/rules/ru/nbsp/m.js) | m2 → м², m3 → м³ и нераз. пробел | 1030 |  | ✓ |
 | 40. | [common/number/times](../src/rules/common/number/times.js) | x → × (10 x 5 → 10×5) | 1050 |  | ✓ |
-| 41. | [ru/nbsp/xxxx](../src/rules/ru/nbsp/xxxx.js) | Неразрывный пробел после XXXX г. (2012 г.) | 1060 |  | ✓ |
-| 42. | [ru/nbsp/yy](../src/rules/ru/nbsp/yy.js) | г.г. → гг. и неразрывный пробел | 1080 |  | ✓ |
+| 41. | [ru/nbsp/xxxx](../src/rules/ru/nbsp/xxxx.js) | Нераз. пробел после XXXX г. (2012 г.) | 1060 |  | ✓ |
+| 42. | [ru/nbsp/yy](../src/rules/ru/nbsp/yy.js) | г.г. → гг. и нераз. пробел | 1080 |  | ✓ |
 | 43. | [ru/nbsp/cc](../src/rules/ru/nbsp/cc.js) | Удаление пробелов и лишних точек в вв. | 1090 |  | ✓ |
-| 44. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.js) | Неразрывный пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 1100 |  | ✓ |
-| 45. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Неразрывный пробел между числом и месяцем | 1105 |  | ✓ |
+| 44. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.js) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 1100 |  | ✓ |
+| 45. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Нераз. пробел между числом и месяцем | 1105 |  | ✓ |
 | 46. | [ru/nbsp/but](../src/rules/ru/nbsp/but.js) | Расстановка запятых и неразрывного пробела перед а и но | 1110 |  | ✓ |
 | 47. | [common/number/fraction](../src/rules/common/number/fraction.js) | 1/2 → ½, 1/4 → ¼, 3/3 → ¾ | 1120 |  | ✓ |
 | 48. | [common/sym/arrow](../src/rules/common/sym/arrow.js) | -> → →, <- → ← | 1130 |  | ✓ |

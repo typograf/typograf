@@ -47,17 +47,17 @@
 | 43. | [ru/money/euro](../src/rules/ru/money/euro.js) | €100 → 100 € | 1140 |  | ✓ |
 | 44. | [ru/money/ruble](../src/rules/ru/money/ruble.js) | 1 руб. → 1 ₽ | 1145 |  |  |
 | 45. | [ru/nbsp/afterNumber](../src/rules/ru/nbsp/afterNumber.js) | Нераз. пробел между числом и словом | 615 |  | ✓ |
-| 46. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Неразрывный пробел после № | 610 |  | ✓ |
-| 47. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Неразрывный пробел перед ли, ль, же, бы, б | 570 |  | ✓ |
-| 48. | [ru/nbsp/beforeShortLastWord](../src/rules/ru/nbsp/beforeShortLastWord.js) | Неразрывный пробел перед последним коротким словом в предложении | 620 |  | ✓ |
+| 46. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Нераз. пробел после № | 610 |  | ✓ |
+| 47. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Нераз. пробел перед ли, ль, же, бы, б | 570 |  | ✓ |
+| 48. | [ru/nbsp/beforeShortLastWord](../src/rules/ru/nbsp/beforeShortLastWord.js) | Нераз. пробел перед последним коротким словом в предложении | 620 |  | ✓ |
 | 49. | [ru/nbsp/but](../src/rules/ru/nbsp/but.js) | Расстановка запятых и неразрывного пробела перед а и но | 1110 |  | ✓ |
 | 50. | [ru/nbsp/cc](../src/rules/ru/nbsp/cc.js) | Удаление пробелов и лишних точек в вв. | 1090 |  | ✓ |
-| 51. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Неразрывный пробел между числом и месяцем | 1105 |  | ✓ |
-| 52. | [ru/nbsp/m](../src/rules/ru/nbsp/m.js) | m2 → м², m3 → м³ и неразрывный пробел | 1030 |  | ✓ |
-| 53. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.js) | Неразрывный пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 1100 |  | ✓ |
-| 54. | [ru/nbsp/page](../src/rules/ru/nbsp/page.js) | Неразрывный пробел перед стр., гл., рис., илл. | 610 |  | ✓ |
-| 55. | [ru/nbsp/xxxx](../src/rules/ru/nbsp/xxxx.js) | Неразрывный пробел после XXXX г. (2012 г.) | 1060 |  | ✓ |
-| 56. | [ru/nbsp/yy](../src/rules/ru/nbsp/yy.js) | г.г. → гг. и неразрывный пробел | 1080 |  | ✓ |
+| 51. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Нераз. пробел между числом и месяцем | 1105 |  | ✓ |
+| 52. | [ru/nbsp/m](../src/rules/ru/nbsp/m.js) | m2 → м², m3 → м³ и нераз. пробел | 1030 |  | ✓ |
+| 53. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.js) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 1100 |  | ✓ |
+| 54. | [ru/nbsp/page](../src/rules/ru/nbsp/page.js) | Нераз. пробел перед стр., гл., рис., илл. | 610 |  | ✓ |
+| 55. | [ru/nbsp/xxxx](../src/rules/ru/nbsp/xxxx.js) | Нераз. пробел после XXXX г. (2012 г.) | 1060 |  | ✓ |
+| 56. | [ru/nbsp/yy](../src/rules/ru/nbsp/yy.js) | г.г. → гг. и нераз. пробел | 1080 |  | ✓ |
 | 57. | [ru/number/ordinals](../src/rules/ru/number/ordinals.js) | N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й) | 1300 |  | ✓ |
 | 58. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.js) | Висячая пунктуация для открывающей скобки | 1001 |  |  |
 | 59. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | Висячая пунктуация для запятой | 1002 |  |  |

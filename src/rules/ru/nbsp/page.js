@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел перед стр., гл., рис., илл.',
+    title: 'Нераз. пробел перед стр., гл., рис., илл.',
     name: 'ru/nbsp/page',
     sortIndex: 610,
     func: function(text) {

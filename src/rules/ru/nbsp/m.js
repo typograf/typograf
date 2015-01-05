@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'm2 → м², m3 → м³ и неразрывный пробел',
+    title: 'm2 → м², m3 → м³ и нераз. пробел',
     name: 'ru/nbsp/m',
     sortIndex: 1030,
     func: function(text) {

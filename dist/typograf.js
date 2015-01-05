@@ -1274,7 +1274,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после №',
+    title: 'Нераз. пробел после №',
     name: 'ru/nbsp/afterNumberSign',
     sortIndex: 610,
     func: function(text) {
@@ -1283,7 +1283,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел перед ли, ль, же, бы, б',
+    title: 'Нераз. пробел перед ли, ль, же, бы, б',
     name: 'ru/nbsp/beforeParticle',
     sortIndex: 570,
     func: function(text) {
@@ -1292,7 +1292,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел перед последним коротким словом в предложении',
+    title: 'Нераз. пробел перед последним коротким словом в предложении',
     name: 'ru/nbsp/beforeShortLastWord',
     sortIndex: 620,
     func: function(text, settings) {
@@ -1328,7 +1328,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел между числом и месяцем',
+    title: 'Нераз. пробел между числом и месяцем',
     name: 'ru/nbsp/dayMonth',
     sortIndex: 1105,
     func: function(text) {
@@ -1338,7 +1338,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'm2 → м², m3 → м³ и неразрывный пробел',
+    title: 'm2 → м², m3 → м³ и нераз. пробел',
     name: 'ru/nbsp/m',
     sortIndex: 1030,
     func: function(text) {
@@ -1353,7 +1353,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ',
+    title: 'Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ',
     name: 'ru/nbsp/ooo',
     sortIndex: 1100,
     func: function(text) {
@@ -1362,7 +1362,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел перед стр., гл., рис., илл.',
+    title: 'Нераз. пробел перед стр., гл., рис., илл.',
     name: 'ru/nbsp/page',
     sortIndex: 610,
     func: function(text) {
@@ -1371,7 +1371,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после XXXX г. (2012 г.)',
+    title: 'Нераз. пробел после XXXX г. (2012 г.)',
     name: 'ru/nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
@@ -1380,7 +1380,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'г.г. → гг. и неразрывный пробел',
+    title: 'г.г. → гг. и нераз. пробел',
     name: 'ru/nbsp/yy',
     sortIndex: 1080,
     func: function(text) {

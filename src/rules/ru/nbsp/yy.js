@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'г.г. → гг. и неразрывный пробел',
+    title: 'г.г. → гг. и нераз. пробел',
     name: 'ru/nbsp/yy',
     sortIndex: 1080,
     func: function(text) {
