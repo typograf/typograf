@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел между числом и словом',
+    title: 'Нераз. пробел между числом и словом',
     name: 'ru/nbsp/afterNumber',
     sortIndex: 615,
     func: function(text) {

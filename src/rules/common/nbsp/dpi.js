@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел перед lpi, dpi',
+    title: 'Нераз. пробел перед lpi, dpi',
     name: 'common/nbsp/dpi',
     sortIndex: 1150,
     func: function(text) {

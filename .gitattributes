@@ -29,3 +29,6 @@
 *.jst eol=lf
 *.json eol=lf
 *.md eol=lf
+
+dist/*.js -diff
+dist/*.css -diff

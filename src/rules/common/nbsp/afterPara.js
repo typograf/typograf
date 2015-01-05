@@ -1,5 +1,5 @@
 Typograf.rule({
-    title: 'Неразрывный пробел после §',
+    title: 'Нераз. пробел после §',
     name: 'common/nbsp/afterPara',
     sortIndex: 610,
     func: function(text) {

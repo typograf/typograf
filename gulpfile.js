@@ -17,8 +17,8 @@ var gulp = require('gulp'),
     makeMdRules = function() {
         var Typograf = require('./dist/typograf.js'),
             getRow = function(rule, i) {
-                text += '| ' + (i + 1) + '. | `' +
-                    rule.name + '` | ' +
+                text += '| ' + (i + 1) + '. | [' +
+                    rule.name + '](../src/rules/' + rule.name + '.js) | ' +
                     rule.title + ' | ' +
                     rule.sortIndex + ' | ' +
                     (rule.queue || '') + ' | ' +

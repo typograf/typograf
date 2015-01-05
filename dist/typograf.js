@@ -781,7 +781,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел между числом и словом',
+    title: 'Нераз. пробел между числом и словом',
     name: 'ru/nbsp/afterNumber',
     sortIndex: 615,
     func: function(text) {
@@ -794,7 +794,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после §',
+    title: 'Нераз. пробел после §',
     name: 'common/nbsp/afterPara',
     sortIndex: 610,
     func: function(text) {
@@ -803,7 +803,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел после короткого слова',
+    title: 'Нераз. пробел после короткого слова',
     name: 'common/nbsp/afterShortWord', 
     sortIndex: 590,
     func: function(text, settings) {
@@ -823,7 +823,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел перед последним коротким словом в предложении',
+    title: 'Нераз. пробел перед последним коротким словом в предложении',
     name: 'common/nbsp/beforeShortLastWord',
     sortIndex: 620,
     func: function(text, settings) {
@@ -838,7 +838,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Неразрывный пробел перед lpi, dpi',
+    title: 'Нераз. пробел перед lpi, dpi',
     name: 'common/nbsp/dpi',
     sortIndex: 1150,
     func: function(text) {
@@ -853,7 +853,7 @@ function replaceNbsp($0, $1, $2, $3) {
 }
 
 Typograf.rule({
-    title: 'Заменять неразрывный пробел на обычный пробел в тегах nowrap и nobr',
+    title: 'Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr',
     name: 'common/nbsp/nowrap',
     sortIndex: 1400,
     func: function(text) {
@@ -1080,18 +1080,19 @@ Typograf.rule({
     }
 });
 
-(function() {
-
-var before = '(^| |\\n)',
-    after = '( |,|\\.|\\?|:|!|$)';
+Typograf._ruDashBefore = '(^| |\\n)';
+Typograf._ruDashAfter = '( |,|\\.|\\?|:|!|$)';
 
 Typograf.rule({
-    title: 'Дефис перед то, либо, нибудь, ка, де, кась',
-    name: 'ru/dash/to',
-    sortIndex: 30,
+    title: 'Дефис между из-под',
+    name: 'ru/dash/izpod',
+    sortIndex: 35,
     func: function(text) {
-        var re = new RegExp('( | ?- ?)(то|либо|нибудь|ка|де|кась)' + after, 'g');
-        return text.replace(re, '-$2$3');
+        var re = new RegExp(Typograf._ruDashBefore +
+            '(И|и)з под' +
+            Typograf._ruDashAfter, 'g');
+
+        return text.replace(re, '$1$2з-под$3');
     }
 });
 
@@ -1100,18 +1101,11 @@ Typograf.rule({
     name: 'ru/dash/izza',
     sortIndex: 33,
     func: function(text) {
-        var re = new RegExp(before + '(И|и)з за' + after, 'g');
-        return text.replace(re, '$1$2з-за$3');
-    }
-});
+        var re = new RegExp(Typograf._ruDashBefore +
+            '(И|и)з за' +
+            Typograf._ruDashAfter, 'g');
 
-Typograf.rule({
-    title: 'Дефис между из-под',
-    name: 'ru/dash/izpod',
-    sortIndex: 35,
-    func: function(text) {
-        var re = new RegExp(before + '(И|и)з под' + after, 'g');
-        return text.replace(re, '$1$2з-под$3');
+        return text.replace(re, '$1$2з-за$3');
     }
 });
 
@@ -1120,25 +1114,19 @@ Typograf.rule({
     name: 'ru/dash/koe',
     sortIndex: 38,
     func: function(text) {
-        var re = new RegExp(before + '(К|к)ое\\s([а-яё]{3,})' + after, 'g');
+        var re = new RegExp(Typograf._ruDashBefore +
+            '(К|к)ое\\s([а-яё]{3,})' +
+            Typograf._ruDashAfter, 'g');
+
         text = text.replace(re, '$1$2ое-$3$4');
         
-        var re2 = new RegExp(before + '(К|к)ой\\s([а-яё]{3,})' + after, 'g');
+        var re2 = new RegExp(Typograf._ruDashBefore +
+            '(К|к)ой\\s([а-яё]{3,})' +
+            Typograf._ruDashAfter, 'g');
+
         return text.replace(re2, '$1$2ой-$3$4');
     }
 });
-
-Typograf.rule({
-    title: 'Дефис между верно-таки и т.д.',
-    name: 'ru/dash/taki',
-    sortIndex: 39,
-    func: function(text) {
-        var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' + after, 'g');
-        return text.replace(re, '$1-$2$3');
-    }
-});
-
-})();
 
 Typograf.rule({
     title: 'Дефис на тире',
@@ -1171,6 +1159,28 @@ Typograf.rule({
             re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
 
         return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
+    }
+});
+
+Typograf.rule({
+    title: 'Дефис между верно-таки и т.д.',
+    name: 'ru/dash/taki',
+    sortIndex: 39,
+    func: function(text) {
+        var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' +
+            Typograf._ruDashAfter, 'g');
+
+        return text.replace(re, '$1-$2$3');
+    }
+});
+
+Typograf.rule({
+    title: 'Дефис перед то, либо, нибудь, ка, де, кась',
+    name: 'ru/dash/to',
+    sortIndex: 30,
+    func: function(text) {
+        var re = new RegExp('( | ?- ?)(то|либо|нибудь|ка|де|кась)' + Typograf._ruDashAfter, 'g');
+        return text.replace(re, '-$2$3');
     }
 });
 
