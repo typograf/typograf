@@ -1,11 +1,12 @@
 {
   "name": "typograf",
   "version": "2.6.0",
-  "description": "Typographer in JavaScript",
+  "description": "Typograph in JavaScript",
   "bugs": "https://github.com/typograf/typograf/issues/new",
   "keywords": [
     "text",
     "typographer",
+    "typograph",    
     "typography",
     "typograf"
   ],
