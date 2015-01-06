@@ -3,14 +3,17 @@
 var fs = require('fs'),
     isutf8 = require('isutf8'),
     program = require('commander'),
-    typograf = new (require('../dist/typograf'))();
+    typograf = new (require('../dist/typograf'))(),
+    modes = ['digit', 'name', 'default'],
+    langs = ['en', 'ru'];
 
 program
     .version(require('../package.json').version)
     .usage('[options] <file>')
     .option('-d, --disable <rules>', 'disable rules (separated by commas)')
     .option('-e, --enable <rules>', 'enable rules (separated by commas)')
-    .option('-l, --lang <lang>', 'set lang: "ru", "en" or "common"')
+    .option('-l, --lang <lang>', 'set language rules: ' + '"' + langs.join('", "') + '"')
+    .option('--mode <mode>', 'HTML entities as: "digit" - &#160;, "name" - &nbsp, "default" - UTF-8 symbols')
     .parse(process.argv);
 
 function getRules(str) {
@@ -21,12 +24,26 @@ function printText(text) {
     process.stdout.write(typograf
         .disable(getRules(program.disable))
         .enable(getRules(program.enable))
-        .execute(text, {lang: program.lang || 'ru'}));
+        .execute(text, {lang: program.lang, mode: program.mode}));
+}
+
+if(!program.lang) {
+    console.error('Error: required parameter lang.');
+    process.exit(1);
+}
+
+if(langs.indexOf(program.lang) === -1) {
+    console.error('Error: language "' + program.lang + '" is not supported.');
+    process.exit(1);
+}
+
+if(modes.indexOf(program.mode || 'default') === -1) {
+    console.error('Error: mode "' + program.mode + '" is not supported.');
+    process.exit(1);
 }
 
 var file = program.args[0],
-    buf = '',
-    exitCode = 0;
+    buf = '';
 
 if(process.stdin.isTTY) {
     file || program.help();
@@ -37,14 +54,14 @@ if(process.stdin.isTTY) {
             printText(buf);
         } else {
             console.error(file + ': is not utf-8');
-            exitCode = 1;
+            process.exit(1);
         }
     } else {
         console.error(file + ': no such file');
-        exitCode = 1;
+        process.exit(1);
     }
 
-    process.exit(exitCode);
+    process.exit(0);
 } else {
     process.stdin.setEncoding('utf8');
 
@@ -57,6 +74,6 @@ if(process.stdin.isTTY) {
 
     process.stdin.on('end', function() {
         printText(buf);
-        process.exit(exitCode);
+        process.exit(0);
     });
 }
