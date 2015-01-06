@@ -63,11 +63,11 @@ npm install typograf -g
 ```
 `typograf` — вывод справки
 
-`typograf my_file.txt` — типографировать текст по русским правилам
+`typograf -l ru my_file.txt` — типографировать текст по русским правилам
 
 `typograf -l en my_file.txt` — типографировать файл по английским правилам
 
-`typograf -d ru/punctuation/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/punctuation/quot` и включенными правилами `ru/optaling/*`
+`typograf -l ru -d ru/punctuation/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/punctuation/quot` и включенными правилами `ru/optaling/*`
 
 ## API
 ### Висячая пунктуация
