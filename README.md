@@ -128,7 +128,7 @@ tpDigit.execute('...'); // &#8230;
 ```
 
 
-## Лицензия
+## [Лицензия](./LICENSE.ru.md)
 MIT License
 
 
