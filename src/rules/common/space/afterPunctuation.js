@@ -4,7 +4,7 @@ Typograf.rule({
     sortIndex: 560, 
     func: function(text) {
         return text
-            .replace(/(!|;|\?)([^ _\n\t!;\?\[])/g, '$1 $2')
-            .replace(/(\D)(,|:)([^ _\d\n\t!;,\?\.:])/g, '$1$2 $3');
+            .replace(/(!|;|\?)([^ \uDBFF\n\t!;?[])/g, '$1 $2')
+            .replace(/(\D)(,|:)([^ \uDBFF\n\t,.?:])/g, '$1$2 $3');
     }
 });

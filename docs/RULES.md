@@ -2,11 +2,11 @@
 
 | № | Имя | Название | [Индекс](./RULES_SORTED.md) | Очередь | Вкл. |
 |--:|-----|----------|----------------------------:|:-------:|:----:|
-| 1. | [common/html/escape](../src/rules/common/html/escape.js) | Экранирование HTML | 10 | end |  |
-| 2. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на тег br | 710 |  |  |
-| 3. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 700 |  |  |
-| 4. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 5 | end |  |
-| 5. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 200 |  | ✓ |
+| 1. | [common/html/escape](../src/rules/common/html/escape.js) | Экранирование HTML | 110 | end |  |
+| 2. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на тег br | 2010 |  |  |
+| 3. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 2020 |  |  |
+| 4. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 100 | end |  |
+| 5. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 2000 |  | ✓ |
 | 6. | [common/nbsp/afterPara](../src/rules/common/nbsp/afterPara.js) | Нераз. пробел после § | 610 |  | ✓ |
 | 7. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.js) | Нераз. пробел после короткого слова | 590 |  | ✓ |
 | 8. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.js) | Нераз. пробел перед последним коротким словом в предложении | 620 |  | ✓ |

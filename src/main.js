@@ -302,7 +302,7 @@ Typograf.prototype = {
         var that = this,
             i = 0,
             pasteTag = function(match) {
-                var key = '__typograf' + i + '__';
+                var key = '\uDBFFtypograf' + i + '\uDBFF';
                 that._hiddenSafeTags[key] = match;
                 i++;
 
@@ -324,7 +324,7 @@ Typograf.prototype = {
         for(var i = 0; i < this._safeTags.length; i++) {
             Object.keys(this._hiddenSafeTags).forEach(replace, this);
 
-            if(text.search(/__typograf[\d]+__/) < 0) {
+            if(text.search(/\uDBFFtypograf[\d]+\uDBFF/) < 0) {
                 break;
             }
         }

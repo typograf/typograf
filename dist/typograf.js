@@ -302,7 +302,7 @@ Typograf.prototype = {
         var that = this,
             i = 0,
             pasteTag = function(match) {
-                var key = '__typograf' + i + '__';
+                var key = '\uDBFFtypograf' + i + '\uDBFF';
                 that._hiddenSafeTags[key] = match;
                 i++;
 
@@ -324,7 +324,7 @@ Typograf.prototype = {
         for(var i = 0; i < this._safeTags.length; i++) {
             Object.keys(this._hiddenSafeTags).forEach(replace, this);
 
-            if(text.search(/__typograf[\d]+__/) < 0) {
+            if(text.search(/\uDBFFtypograf[\d]+\uDBFF/) < 0) {
                 break;
             }
         }
@@ -704,7 +704,7 @@ Typograf.data('ru/weekday', [
 Typograf.rule({
     title: 'Экранирование HTML',
     name: 'common/html/escape',
-    sortIndex: 10,
+    sortIndex: 110,
     queue: 'end',
     func: function(text) {
         var entityMap = {
@@ -726,7 +726,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
-    sortIndex: 710,
+    sortIndex: 2010,
     func: function(text) {
         return text.replace(/\n/g, '<br/>');
     },
@@ -736,7 +736,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
-    sortIndex: 700,
+    sortIndex: 2020,
     func: function(text) {
         if(text.search(/\n/) === -1) {
             text = '<p>' + text + '</p>';
@@ -753,7 +753,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Удаление HTML-тегов',
     name: 'common/html/stripTags',
-    sortIndex: 5,
+    sortIndex: 100,
     queue: 'end',
     func: function(text) {
         return text.replace(/<\/?[^>]+>/g, '');
@@ -764,7 +764,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Расстановка ссылок',
     name: 'common/html/url',
-    sortIndex: 200,
+    sortIndex: 2000,
     func: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
             pureUrl = '([a-zA-Z0-9\/\\n+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
@@ -933,7 +933,7 @@ Typograf.rule({
     func: function(text) {
         return text
             .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
-            .replace(/(^|[^!])!{4}?($|[^!])/, '$1!!!$2');
+            .replace(/(^|[^!])!{4}($|[^!])/, '$1!!!$2');
     }
 });
 
@@ -962,8 +962,8 @@ Typograf.rule({
     sortIndex: 560, 
     func: function(text) {
         return text
-            .replace(/(!|;|\?)([^ _\n\t!;\?\[])/g, '$1 $2')
-            .replace(/(\D)(,|:)([^ _\d\n\t!;,\?\.:])/g, '$1$2 $3');
+            .replace(/(!|;|\?)([^ \uDBFF\n\t!;?[])/g, '$1 $2')
+            .replace(/(\D)(,|:)([^ \uDBFF\n\t,.?:])/g, '$1$2 $3');
     }
 });
 

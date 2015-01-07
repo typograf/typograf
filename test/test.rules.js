@@ -112,7 +112,7 @@ describe('rules', function() {
         });
     });
     
-    it('enable common/html/stripTags', function() {
+    it('enable common/html/escape', function() {
         var tp = new Typograf();
         tp.enable('common/html/escape');
 

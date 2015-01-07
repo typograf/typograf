@@ -1,7 +1,7 @@
 Typograf.rule({
     title: 'Экранирование HTML',
     name: 'common/html/escape',
-    sortIndex: 10,
+    sortIndex: 110,
     queue: 'end',
     func: function(text) {
         var entityMap = {

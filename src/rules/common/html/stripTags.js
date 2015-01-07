@@ -1,7 +1,7 @@
 Typograf.rule({
     title: 'Удаление HTML-тегов',
     name: 'common/html/stripTags',
-    sortIndex: 5,
+    sortIndex: 100,
     queue: 'end',
     func: function(text) {
         return text.replace(/<\/?[^>]+>/g, '');
