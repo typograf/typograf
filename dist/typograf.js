@@ -1,4 +1,4 @@
-/*! Typograf | © 2014 Denis Seleznev | https://github.com/hcodes/typograf/ */
+/*! Typograf | © 2014 Denis Seleznev | https://github.com/typograf/typograf/ */
 
 /**
  * @constructor
