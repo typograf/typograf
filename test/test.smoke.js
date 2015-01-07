@@ -19,6 +19,9 @@ var assert = require('chai').assert,
         ['  <a \n href="#hash">  Hello   world!!  </a>  ', '<a \n href="#hash"> Hello world! </a>'],
         ['  <a href="#hash">  Hello   world!!  </a>  ', '<a href="#hash"> Hello world! </a>'],
         ['  <pre>  Hello   world!!  </pre>   Hello   world!!   <pre>  Hello   world!!  </pre>  ', '<pre>  Hello   world!!  </pre> Hello world! <pre>  Hello   world!!  </pre>'],
+        ['  <pre class="red">  Hello   world!!  </pre>  ', '<pre class="red">  Hello   world!!  </pre>'],
+        ['  <pre \n class="red">  Hello   world!!  </pre>  ', '<pre \n class="red">  Hello   world!!  </pre>'],
+        ['  <pre2>  Hello   world!!  <pre>  Hello   world!!  </pre>  </pre2>  ', '<pre2> Hello world! <pre>  Hello   world!!  </pre> </pre2>'],
         ['"Энергия соблазна: от внутреннего к внешнему"', '«Энергия соблазна: от\u00A0внутреннего к\u00A0внешнему»'],
         ['1\r\n2\r\n3', '1\n2\n3'], // Windows
         ['1\r\r2\r3', '1\n\n2\n3'], // MacOS
