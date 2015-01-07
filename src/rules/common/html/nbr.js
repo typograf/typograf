@@ -1,9 +1,9 @@
 Typograf.rule({
     title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
-    sortIndex: 2010,
+    sortIndex: 2020,
     func: function(text) {
-        return text.replace(/\n/g, '<br/>');
+        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
     },
     enabled: false
 });
