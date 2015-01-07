@@ -280,13 +280,21 @@ Typograf.prototype = {
             ['<!ENTITY', '>'],
             ['<!DOCTYPE', '>'],
             ['<\\?xml', '\\?>'],
-            ['<!\\[CDATA\\[', '\\]\\]>'],
-            ['<code[^>]*?>', '</code>'],
-            ['<object[^>]*?', '</object>'],
-            ['<pre[^>]*?>', '</pre>'],
-            ['<script[^>]*?>', '</script>'],
-            ['<style[^>]*?>', '</style>']
+            ['<!\\[CDATA\\[', '\\]\\]>']
         ];
+
+        [
+            'code',
+            'kbd',
+            'object',
+            'pre',
+            'samp',
+            'script',
+            'style',
+            'var'
+        ].forEach(function(tag) {
+            this._safeTags.push(['<' + tag + '(\\s[^>]*?)?>', '</' + tag + '>']);
+        }, this);
     },
     _hideSafeTags: function(text) {
         this._hiddenSafeTags = {};
