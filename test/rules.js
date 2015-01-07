@@ -11,8 +11,17 @@ tests.push(['common/html/escape', [
     ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
 ]]);
 
+/*jshint maxlen:1000 */
+tests.push(['common/html/mail', [
+    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
+    ['>example@example.com<', '>example@example.com<']
+]]);
+
 tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>b<br/>c']
+    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
+    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
 ]]);
 
 tests.push(['common/html/pbr', [

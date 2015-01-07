@@ -724,11 +724,23 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    title: 'Расстановка ссылок для эл. почты',
+    name: 'common/html/mail',
+    sortIndex: 2000,
+    func: function(text) {
+        return text.replace(
+            /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
+            '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
+        );
+    }
+});
+
+Typograf.rule({
     title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
-    sortIndex: 2010,
+    sortIndex: 2020,
     func: function(text) {
-        return text.replace(/\n/g, '<br/>');
+        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
     },
     enabled: false
 });
@@ -736,7 +748,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
-    sortIndex: 2020,
+    sortIndex: 2030,
     func: function(text) {
         if(text.search(/\n/) === -1) {
             text = '<p>' + text + '</p>';
@@ -764,7 +776,7 @@ Typograf.rule({
 Typograf.rule({
     title: 'Расстановка ссылок',
     name: 'common/html/url',
-    sortIndex: 2000,
+    sortIndex: 2010,
     func: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
             pureUrl = '([a-zA-Z0-9\/\\n+-=%&:_.~?]+[a-zA-Z0-9#+]*)',

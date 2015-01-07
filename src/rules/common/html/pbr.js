@@ -1,7 +1,7 @@
 Typograf.rule({
     title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
-    sortIndex: 2020,
+    sortIndex: 2030,
     func: function(text) {
         if(text.search(/\n/) === -1) {
             text = '<p>' + text + '</p>';
