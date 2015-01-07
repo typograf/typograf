@@ -8,7 +8,7 @@
 
 [![Dependency Status](https://img.shields.io/david/typograf/typograf.svg)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
-[Типограф в действии](https://typograf.github.io/web/) с [мобильной версией](https://typograf.github.io/web/mobile.html)
+[Типограф в действии](https://typograf.github.io) с [мобильной версией](https://typograf.github.io/mobile.html)
 
 ## Черты:
  + гибкость и расширяемость;
