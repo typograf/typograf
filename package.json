@@ -40,14 +40,14 @@
     "gulp-jshint": "^1.8.5",
     "gulp-rename": "~1.2.0",
     "gulp-uglify": "~1.0.x",
-    "yaspeller": "0.x",
+    "yaspeller": "~0.7.2",
     "jscs": "^1.7.x",
     "jshint": "2.x"
   },
   "scripts": {
-    "test": "npm run-script jshint && npm run-script check-style && npm run-script unit-test-coverage",
-    "typos": "./node_modules/.bin/yaspeller .",
-    "check-style": "./node_modules/.bin/jscs .",
+    "test": "npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",
+    "yaspeller": "./node_modules/.bin/yaspeller .",
+    "jscs": "./node_modules/.bin/jscs .",
     "jshint": "./node_modules/.bin/jshint .",
     "unit-test": "./node_modules/.bin/mocha -u bdd -R spec --recursive test",
     "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test"
