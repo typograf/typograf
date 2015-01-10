@@ -67,7 +67,8 @@ tests.push(['common/nbsp/afterShortWord', [
 ]]);
 
 tests.push(['common/nbsp/beforeShortLastWord', [
-    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.']
+    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.'],
+    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!']
 ]]);
 
 tests.push(['common/nbsp/dpi', [
@@ -333,10 +334,6 @@ tests.push(['ru/nbsp/afterNumberSign', [
 tests.push(['ru/nbsp/beforeParticle', [
     ['Может ли быть?', 'Может\u00A0ли быть?'],
     ['Может же быть?', 'Может\u00A0же быть?']
-]]);
-
-tests.push(['ru/nbsp/beforeShortLastWord', [
-    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!']
 ]]);
 
 /*jshint maxlen:1000 */

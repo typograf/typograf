@@ -848,7 +848,7 @@ Typograf.rule({
     sortIndex: 620,
     func: function(text, settings) {
         var len = settings.lengthLastWord,
-            re = new RegExp(' ([\\w]{1,' + len + '})(\\.|\\?|:|!|,)', 'g');
+            re = new RegExp(' ([' + this.letters() + ']{1,' + len + '})(\\.|\\?|:|!|,)', 'gi');
 
         return text.replace(re, '\u00A0$1$2');
     },
@@ -1308,21 +1308,6 @@ Typograf.rule({
     sortIndex: 570,
     func: function(text) {
         return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
-    }
-});
-
-Typograf.rule({
-    title: 'Нераз. пробел перед последним коротким словом в предложении',
-    name: 'ru/nbsp/beforeShortLastWord',
-    sortIndex: 620,
-    func: function(text, settings) {
-        var len = settings.lengthLastWord,
-            re = new RegExp(' ([а-яёА-ЯЁ]{1,' + len + '})(\\.|\\?|:|!|,)', 'g');
-
-        return text.replace(re, '\u00A0$1$2');
-    },
-    settings: {
-        lengthLastWord: 3
     }
 });
 
