@@ -2,6 +2,9 @@
 
 /**
  * @constructor
+ * @param {Object} [prefs]
+ * @param {string} [prefs.lang] Language rules
+ * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
@@ -14,15 +17,14 @@ function Typograf(prefs) {
 }
 
 /**
- * Добавить правило.
+ * Add a rule.
  *
  * @static
  * @param {Object} rule
- * @param {string} rule.name Название правила
- * @param {string} rule.title Описание правила
- * @param {string} rule.sortIndex Индекс сортировки, чем больше число, тем позже выполняется
- * @param {Function} rule.func Функция обработки
- * @param {boolean} [rule.enabled] Включено ли правило по умолчанию
+ * @param {string} rule.name Name of rule
+ * @param {Function} rule.func Processing function
+ * @param {string} [rule.sortIndex] Sorting index for rule
+ * @param {boolean} [rule.enabled] Rule is enabled by default
  * @return {Typograf} this
  */
 Typograf.rule = function(rule) {
@@ -40,14 +42,14 @@ Typograf.rule = function(rule) {
 };
 
 /**
- * Добавить внутреннее правило.
- * Внутренние правила выполняются до основных.
+ * Add internal rule.
+ * Internal rules are executed before main.
+ *
  * @static
  * @param {Object} rule
- * @param {string} rule.name Название правила
- * @param {string} [rule.title] Описание правила
- * @param {string} [rule.sortIndex] Индекс сортировки, чем больше число, тем позже выполняется
- * @param {Function} rule.func Функция обработки
+ * @param {string} rule.name Name of rule
+ * @param {Function} rule.func Processing function
+ * @param {string} [rule.sortIndex] Sorting index for rule
  * @return {Typograf} this
  */
 Typograf.innerRule = function(rule) {
@@ -64,11 +66,11 @@ Typograf.innerRule = function(rule) {
 };
 
 /**
- * Добавить общие данные для использования в правилах.
+ * Add data for use in rules.
  *
  * @static
- * @param {string} key Название ключа
- * @param {*} value Значение ключа
+ * @param {string} key
+ * @param {*} value
  */
 Typograf.data = function(key, value) {
     Typograf.prototype.data[key] = value;
@@ -89,20 +91,22 @@ Typograf._sortInnerRules = function() {
 Typograf.prototype = {
     constructor: Typograf,
     /**
-    * Типографировать текст.
-    *
-    * @param {string} text
-    * @param {Object} [params]
-    * @return {string}
-    */
-    execute: function(text, params) {
-        params = params || {};
+     * Execute typographical rules for text.
+     *
+     * @param {string} text
+     * @param {Object} [prefs]
+     * @param {string} [prefs.lang] Language rules
+     * @param {string} [prefs.mode] Type HTML entities
+     * @return {string}
+     */
+    execute: function(text, prefs) {
+        prefs = prefs || {};
 
         var that = this,
-            lang = params.lang || this._prefs.lang || 'common',
+            lang = prefs.lang || this._prefs.lang || 'common',
             rulesForQueue = {},
             innerRulesForQueue = {},
-            mode = typeof params.mode === 'undefined' ? this._prefs.mode : params.mode,
+            mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
             iterator = function(rule) {
                 var rlang = rule._lang;
 
@@ -159,60 +163,61 @@ Typograf.prototype = {
         return text;
     },
     /**
-     * Установить/получить настройку
+     * Get/set a setting
      *
-     * @param {string} rule Имя правила
-     * @param {string} name Имя настройки
-     * @return {*} [value] Значение настройки
+     * @param {string} ruleName
+     * @param {string} setting
+     * @param {*} [value]
+     * @return {*}
      */
-    setting: function(rule, name, value) {
+    setting: function(ruleName, setting, value) {
         if(arguments.length <= 2) {
-            return this._settings[rule] && this._settings[rule][name];
+            return this._settings[ruleName] && this._settings[ruleName][setting];
         } else {
-            this._settings[rule] = this._settings[rule] || {};
-            this._settings[rule][name] = value;
+            this._settings[ruleName] = this._settings[ruleName] || {};
+            this._settings[ruleName][setting] = value;
 
             return this;
         }
     },
     /**
-     * Включено ли правило.
+     * Is enabled a rule.
      *
-     * @param {string} rule Название правила
+     * @param {string} ruleName
      * @return {boolean}
      */
-    enabled: function(rule) {
-        return this._enabledRules[rule];
+    enabled: function(ruleName) {
+        return this._enabledRules[ruleName];
     },
     /**
-     * Отключено ли правило.
+     * Is disabled a rule.
      *
-     * @param {string} rule Название правила
+     * @param {string} ruleName
      * @return {boolean}
      */
-    disabled: function(rule) {
-        return !this._enabledRules[rule];
+    disabled: function(ruleName) {
+        return !this._enabledRules[ruleName];
     },
     /**
-     * Включить правило.
+     * Enable a rule.
      *
-     * @param {string} rule Название правила
+     * @param {string} ruleName
      * @return {boolean}
      */
-    enable: function(rule) {
-        return this._enable(rule, true);
+    enable: function(ruleName) {
+        return this._enable(ruleName, true);
     },
     /**
-     * Отключить правило.
+     * Disable a rule.
      *
-     * @param {string|Array[string]} rule Название правила
+     * @param {string|Array[string]} ruleName
      * @return {boolean}
      */
-    disable: function(rule) {
-        return this._enable(rule, false);
+    disable: function(ruleName) {
+        return this._enable(ruleName, false);
     },
     /**
-     * Добавить безопасный тег.
+     * Add safe tag.
      *
      * @param {string} startTag
      * @param {string} endTag
@@ -221,8 +226,8 @@ Typograf.prototype = {
         this._safeTags.push([startTag, endTag]);
     },
     /**
-     * Возращает строку с диапозоном символов для текущего языка,
-     * используется в регул. выражениях в правилах
+     * Get a string of characters with range for current language.
+     * This is used in regular expressions in rules.
      *
      * @return {string}
      */    
