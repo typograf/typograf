@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
     name: 'common/number/fraction',
     sortIndex: 1120,
     func: function(text) {

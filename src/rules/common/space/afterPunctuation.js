@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
     name: 'common/space/afterPunctuation', 
     sortIndex: 560, 
     func: function(text) {

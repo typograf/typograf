@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Тире между месяцами',
     name: 'ru/dash/month',
     sortIndex: 610,
     func: function(text) {

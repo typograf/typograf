@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Нераз. пробел после №',
     name: 'ru/nbsp/afterNumberSign',
     sortIndex: 610,
     func: function(text) {

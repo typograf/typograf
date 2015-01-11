@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '+- → ±',
     name: 'common/number/plusMinus',
     sortIndex: 1010,
     func: function(text) {

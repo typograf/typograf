@@ -1,6 +1,5 @@
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для запятой',
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {

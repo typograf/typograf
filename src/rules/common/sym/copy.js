@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '(c) → ©, (tm) → ©, (r) → ™',
     name: 'common/sym/copy',
     sortIndex: 10,
     func: function(text) {

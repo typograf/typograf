@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Расстановка запятых и неразрывного пробела перед а и но',
     name: 'ru/nbsp/but',
     sortIndex: 1110,
     func: function(text) {

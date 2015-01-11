@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Расстановка кавычек',
     name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {

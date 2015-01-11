@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Расстановка ссылок для эл. почты',
     name: 'common/html/mail',
     sortIndex: 2000,
     func: function(text) {

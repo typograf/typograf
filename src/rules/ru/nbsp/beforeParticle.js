@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Нераз. пробел перед ли, ль, же, бы, б',
     name: 'ru/nbsp/beforeParticle',
     sortIndex: 570,
     func: function(text) {
