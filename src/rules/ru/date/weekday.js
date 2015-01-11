@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '2 Мая, Понедельник → 2 мая, понедельник',
     name: 'ru/date/weekday',
     sortIndex: 1310,
     func: function(text) {

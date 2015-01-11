@@ -1,6 +1,5 @@
 Typograf.rule({
-    title: 'Замена заглавной буквы и добавление знака ударения', 
-    name: 'common/other/accent', 
+    name: 'ru/other/accent', 
     sortIndex: 560,
     enabled: false,
     func: function(text) {

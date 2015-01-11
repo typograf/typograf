@@ -43,7 +43,7 @@ tests.push(['common/html/url', [
     ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
 ]]);
 
-tests.push(['ru/nbsp/afterNumber', [
+tests.push(['common/nbsp/afterNumber', [
     [' 123 дня ', ' 123\u00A0дня '],
     ['2 кошки', '2\u00A0кошки'],
     ['12 миллиардов рублей', '12\u00A0миллиардов рублей'],
@@ -85,6 +85,25 @@ tests.push(['common/nbsp/nowrap', [
     ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
     ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
     ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
+]]);
+
+tests.push(['common/number/fraction', [
+    ['1/2', '½'],
+    [' 1/2 ', ' ½ '],
+    ['1/4', '¼'],
+    [' 1/4 ', ' ¼ '],
+    ['3/4', '¾'],
+    [' 3/4 ', ' ¾ ']
+]]);
+
+tests.push(['common/number/plusMinus', [
+    ['+-', '±'],
+    ['+-100', '±100']
+]]);
+
+tests.push(['common/number/times', [
+    ['100 x 2', '100×2'],
+    ['Пример: 30x3=90', 'Пример: 30×3=90']
 ]]);
 
 tests.push(['common/other/repeatWord', [
@@ -196,25 +215,6 @@ tests.push(['common/sym/copy', [
     ['copyright (с)', '©'],
     ['(r)', '®'],
     ['(tm)', '™']
-]]);
-
-tests.push(['common/number/fraction', [
-    ['1/2', '½'],
-    [' 1/2 ', ' ½ '],
-    ['1/4', '¼'],
-    [' 1/4 ', ' ¼ '],
-    ['3/4', '¾'],
-    [' 3/4 ', ' ¾ ']
-]]);
-
-tests.push(['common/number/plusMinus', [
-    ['+-', '±'],
-    ['+-100', '±100']
-]]);
-
-tests.push(['common/number/times', [
-    ['100 x 2', '100×2'],
-    ['Пример: 30x3=90', 'Пример: 30×3=90']
 ]]);
 
 tests.push(['ru/dash/izpod', [
@@ -437,7 +437,7 @@ innerTests.push(['ru/optalign/quot', [
     ['\n<span class="typograf-oa-n-lquot">«</span>', '\n«']
 ]]);
 
-tests.push(['common/other/accent', [
+tests.push(['ru/other/accent', [
     ['ногА', 'нога́'],
     ['(ногА)', '(нога́)'],
     [' АлексИй ', ' Алекси́й '],

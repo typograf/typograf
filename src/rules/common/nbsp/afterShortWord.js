@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Нераз. пробел после короткого слова',
     name: 'common/nbsp/afterShortWord', 
     sortIndex: 590,
     func: function(text, settings) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Удаление HTML-тегов',
     name: 'common/html/stripTags',
     sortIndex: 100,
     queue: 'end',

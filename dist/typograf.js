@@ -707,7 +707,6 @@ Typograf.data('ru/weekday', [
 ]);
 
 Typograf.rule({
-    title: 'Экранирование HTML',
     name: 'common/html/escape',
     sortIndex: 110,
     queue: 'end',
@@ -729,7 +728,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка ссылок для эл. почты',
     name: 'common/html/mail',
     sortIndex: 2000,
     func: function(text) {
@@ -741,7 +739,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
     sortIndex: 2020,
     func: function(text) {
@@ -751,7 +748,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка тегов p и br',
     name: 'common/html/pbr',
     sortIndex: 2030,
     func: function(text) {
@@ -768,7 +764,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление HTML-тегов',
     name: 'common/html/stripTags',
     sortIndex: 100,
     queue: 'end',
@@ -779,7 +774,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка ссылок',
     name: 'common/html/url',
     sortIndex: 2010,
     func: function(text) {
@@ -806,8 +800,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел между числом и словом',
-    name: 'ru/nbsp/afterNumber',
+    name: 'common/nbsp/afterNumber',
     sortIndex: 615,
     func: function(text) {
         var re = '(^|\\D)(\\d{1,5}) ([' +
@@ -819,7 +812,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел после §',
     name: 'common/nbsp/afterPara',
     sortIndex: 610,
     func: function(text) {
@@ -828,7 +820,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел после короткого слова',
     name: 'common/nbsp/afterShortWord', 
     sortIndex: 590,
     func: function(text, settings) {
@@ -848,7 +839,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел перед последним коротким словом в предложении',
     name: 'common/nbsp/beforeShortLastWord',
     sortIndex: 620,
     func: function(text, settings) {
@@ -863,7 +853,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел перед lpi, dpi',
     name: 'common/nbsp/dpi',
     sortIndex: 1150,
     func: function(text) {
@@ -878,7 +867,6 @@ function replaceNbsp($0, $1, $2, $3) {
 }
 
 Typograf.rule({
-    title: 'Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr',
     name: 'common/nbsp/nowrap',
     sortIndex: 1400,
     func: function(text) {
@@ -891,7 +879,6 @@ Typograf.rule({
 })();
 
 Typograf.rule({
-    title: '1/2 → ½, 1/4 → ¼, 3/3 → ¾',
     name: 'common/number/fraction',
     sortIndex: 1120,
     func: function(text) {
@@ -902,7 +889,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '+- → ±',
     name: 'common/number/plusMinus',
     sortIndex: 1010,
     func: function(text) {
@@ -912,7 +898,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'x → × (10 x 5 → 10×5)',
     name: 'common/number/times',
     sortIndex: 1050,
     func: function(text) {
@@ -921,7 +906,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление повтора слова',
     name: 'common/other/repeatWord',
     sortIndex: 1200,
     func: function(text) {
@@ -935,7 +919,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление двойной пунктуации',
     name: 'common/punctuation/delDoublePunctuation',
     sortIndex: 580,
     func: function(text) {
@@ -944,7 +927,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '!! → !',
     name: 'common/punctuation/exclamation',
     sortIndex: 1150,
     func: function(text) {
@@ -955,7 +937,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '!? → ?!',
     name: 'common/punctuation/exclamationQuestion',
     sortIndex: 1140,
     func: function(text) {
@@ -965,7 +946,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Три точки на троеточие', 
     name: 'common/punctuation/hellip', 
     sortIndex: 20, 
     func: function(text) {
@@ -974,7 +954,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Пробел после знаков пунктуации', 
     name: 'common/space/afterPunctuation', 
     sortIndex: 560, 
     func: function(text) {
@@ -985,7 +964,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробела перед %, ‰ и ‱',
     name: 'common/space/delBeforePercent',
     sortIndex: 600,
     func: function(text) {
@@ -994,7 +972,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов перед знаками пунктуации',
     name: 'common/space/delBeforePunctuation',
     sortIndex: 550,
     func: function(text) {
@@ -1007,7 +984,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов в начале строки',
     name: 'common/space/delLeadingBlanks',
     sortIndex: 504,
     func: function(text) {
@@ -1017,7 +993,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление повторяющихся переносов строки (не более двух)',
     name: 'common/space/delRepeatN',
     sortIndex: 545,
     func: function(text) {
@@ -1026,7 +1001,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление повторяющихся пробелов между символами',
     name: 'common/space/delRepeatSpace',
     sortIndex: 540,
     func: function(text) {
@@ -1035,7 +1009,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов в конце строки',
     name: 'common/space/delTrailingBlanks',
     sortIndex: 505,
     func: function(text) {
@@ -1044,7 +1017,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Замена таба на 4 пробела',
     name: 'common/space/replaceTab',
     sortIndex: 510,
     func: function(text) {
@@ -1053,7 +1025,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов и переносов строк в начале текста',
     name: 'common/space/trimLeft',
     sortIndex: 530,
     func: String.prototype.trimLeft ? function(text) {
@@ -1064,7 +1035,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов и переносов строк в конце текста',
     name: 'common/space/trimRight',
     sortIndex: 535,
     func: String.prototype.trimRight ? function(text) {
@@ -1075,7 +1045,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '-> → →, <- → ←',
     name: 'common/sym/arrow',
     sortIndex: 1130,
     func: function(text) {
@@ -1084,7 +1053,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Добавление ° к C и F',
     name: 'common/sym/cf',
     sortIndex: 1020,
     func: function(text) {
@@ -1095,7 +1063,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '(c) → ©, (tm) → ©, (r) → ™',
     name: 'common/sym/copy',
     sortIndex: 10,
     func: function(text) {
@@ -1109,7 +1076,6 @@ Typograf._ruDashBefore = '(^| |\\n)';
 Typograf._ruDashAfter = '( |,|\\.|\\?|:|!|$)';
 
 Typograf.rule({
-    title: 'Дефис между из-под',
     name: 'ru/dash/izpod',
     sortIndex: 35,
     func: function(text) {
@@ -1122,7 +1088,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис между из-за',
     name: 'ru/dash/izza',
     sortIndex: 33,
     func: function(text) {
@@ -1135,7 +1100,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис после кое и кой',
     name: 'ru/dash/koe',
     sortIndex: 38,
     func: function(text) {
@@ -1154,7 +1118,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис на тире',
     name: 'ru/dash/main',
     sortIndex: 620,
     func: function(text) {
@@ -1176,7 +1139,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Тире между месяцами',
     name: 'ru/dash/month',
     sortIndex: 610,
     func: function(text) {
@@ -1188,7 +1150,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис между верно-таки и т.д.',
     name: 'ru/dash/taki',
     sortIndex: 39,
     func: function(text) {
@@ -1200,7 +1161,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Дефис перед то, либо, нибудь, ка, де, кась',
     name: 'ru/dash/to',
     sortIndex: 30,
     func: function(text) {
@@ -1210,7 +1170,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Тире между днями недели',
     name: 'ru/dash/weekday',
     sortIndex: 600,
     func: function(text) {
@@ -1222,7 +1181,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY',
     name: 'ru/date/main',
     sortIndex: 1300,
     func: function(text) {
@@ -1238,7 +1196,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '2 Мая, Понедельник → 2 мая, понедельник',
     name: 'ru/date/weekday',
     sortIndex: 1310,
     func: function(text) {
@@ -1255,7 +1212,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '$100 → 100 $',
     name: 'ru/money/dollar',
     sortIndex: 1140,
     func: function(text) {
@@ -1270,7 +1226,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '€100 → 100 €',
     name: 'ru/money/euro',
     sortIndex: 1140,
     func: function(text) {
@@ -1285,7 +1240,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: '1 руб. → 1 ₽',
     name: 'ru/money/ruble',
     sortIndex: 1145,
     func: function(text) {
@@ -1299,7 +1253,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел после №',
     name: 'ru/nbsp/afterNumberSign',
     sortIndex: 610,
     func: function(text) {
@@ -1308,7 +1261,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел перед ли, ль, же, бы, б',
     name: 'ru/nbsp/beforeParticle',
     sortIndex: 570,
     func: function(text) {
@@ -1317,7 +1269,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка запятых и неразрывного пробела перед а и но',
     name: 'ru/nbsp/but',
     sortIndex: 1110,
     func: function(text) {
@@ -1327,7 +1278,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Удаление пробелов и лишних точек в вв.',
     name: 'ru/nbsp/cc',
     sortIndex: 1090,
     func: function(text) {
@@ -1338,7 +1288,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел между числом и месяцем',
     name: 'ru/nbsp/dayMonth',
     sortIndex: 1105,
     func: function(text) {
@@ -1348,7 +1297,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'm2 → м², m3 → м³ и нераз. пробел',
     name: 'ru/nbsp/m',
     sortIndex: 1030,
     func: function(text) {
@@ -1363,7 +1311,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ',
     name: 'ru/nbsp/ooo',
     sortIndex: 1100,
     func: function(text) {
@@ -1372,7 +1319,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел перед стр., гл., рис., илл.',
     name: 'ru/nbsp/page',
     sortIndex: 610,
     func: function(text) {
@@ -1381,7 +1327,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Нераз. пробел после XXXX г. (2012 г.)',
     name: 'ru/nbsp/xxxx',
     sortIndex: 1060,
     func: function(text) {
@@ -1390,7 +1335,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'г.г. → гг. и нераз. пробел',
     name: 'ru/nbsp/yy',
     sortIndex: 1080,
     func: function(text) {
@@ -1399,7 +1343,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)',
     name: 'ru/number/ordinals',
     sortIndex: 1300,
     func: function(text) {
@@ -1417,7 +1360,6 @@ Typograf.rule({
 
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для открывающей скобки',
     name: 'ru/optalign/bracket',
     sortIndex: 1001,
     func: function(text, settings) {
@@ -1437,7 +1379,6 @@ Typograf.rule({
 
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для запятой',
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
@@ -1455,7 +1396,6 @@ Typograf.rule({
 
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для открывающей кавычки',
     name: 'ru/optalign/quot',
     sortIndex: 1000,
     func: function(text, settings) {
@@ -1478,8 +1418,7 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Замена заглавной буквы и добавление знака ударения', 
-    name: 'common/other/accent', 
+    name: 'ru/other/accent', 
     sortIndex: 560,
     enabled: false,
     func: function(text) {
@@ -1490,7 +1429,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    title: 'Расстановка кавычек',
     name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {

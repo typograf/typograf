@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '!? → ?!',
     name: 'common/punctuation/exclamationQuestion',
     sortIndex: 1140,
     func: function(text) {

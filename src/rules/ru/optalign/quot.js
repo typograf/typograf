@@ -1,6 +1,5 @@
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для открывающей кавычки',
     name: 'ru/optalign/quot',
     sortIndex: 1000,
     func: function(text, settings) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Дефис между из-под',
     name: 'ru/dash/izpod',
     sortIndex: 35,
     func: function(text) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Удаление повтора слова',
     name: 'common/other/repeatWord',
     sortIndex: 1200,
     func: function(text) {

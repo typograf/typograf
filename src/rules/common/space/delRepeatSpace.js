@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Удаление повторяющихся пробелов между символами',
     name: 'common/space/delRepeatSpace',
     sortIndex: 540,
     func: function(text) {

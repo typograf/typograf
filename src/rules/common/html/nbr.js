@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Замена перевода строки на тег br',
     name: 'common/html/nbr',
     sortIndex: 2020,
     func: function(text) {

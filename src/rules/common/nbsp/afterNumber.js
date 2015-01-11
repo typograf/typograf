@@ -1,6 +1,5 @@
 Typograf.rule({
-    title: 'Нераз. пробел между числом и словом',
-    name: 'ru/nbsp/afterNumber',
+    name: 'common/nbsp/afterNumber',
     sortIndex: 615,
     func: function(text) {
         var re = '(^|\\D)(\\d{1,5}) ([' +

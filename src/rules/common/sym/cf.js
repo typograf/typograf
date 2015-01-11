@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Добавление ° к C и F',
     name: 'common/sym/cf',
     sortIndex: 1020,
     func: function(text) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Дефис после кое и кой',
     name: 'ru/dash/koe',
     sortIndex: 38,
     func: function(text) {

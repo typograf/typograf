@@ -1,4 +1,4 @@
-tests.push(['common/other/accent', [
+tests.push(['ru/other/accent', [
     ['ногА', 'нога́'],
     ['(ногА)', '(нога́)'],
     [' АлексИй ', ' Алекси́й '],

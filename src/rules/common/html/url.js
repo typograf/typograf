@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Расстановка ссылок',
     name: 'common/html/url',
     sortIndex: 2010,
     func: function(text) {

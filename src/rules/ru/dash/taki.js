@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Дефис между верно-таки и т.д.',
     name: 'ru/dash/taki',
     sortIndex: 39,
     func: function(text) {
