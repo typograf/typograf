@@ -1,6 +1,5 @@
 /*jshint maxlen:1000 */
 Typograf.rule({
-    title: 'Висячая пунктуация для открывающей скобки',
     name: 'ru/optalign/bracket',
     sortIndex: 1001,
     func: function(text, settings) {

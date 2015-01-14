@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '-> → →, <- → ←',
     name: 'common/sym/arrow',
     sortIndex: 1130,
     func: function(text) {

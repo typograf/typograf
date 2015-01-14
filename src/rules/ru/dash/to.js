@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Дефис перед то, либо, нибудь, ка, де, кась',
     name: 'ru/dash/to',
     sortIndex: 30,
     func: function(text) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Нераз. пробел перед последним коротким словом в предложении',
     name: 'common/nbsp/beforeShortLastWord',
     sortIndex: 620,
     func: function(text, settings) {

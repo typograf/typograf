@@ -34,6 +34,8 @@
     "chai": "1.x",
     "istanbul": "0.3.x",
     "gulp": "~3.8.5",
+    "gulp-util": "^3.0.2",
+    "through": "^2.3.6",
     "gulp-concat": "~2.4.x",
     "gulp-filter": "^2.0.0",
     "gulp-jscs": "^1.1.2",

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '1 руб. → 1 ₽',
     name: 'ru/money/ruble',
     sortIndex: 1145,
     func: function(text) {

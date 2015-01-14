@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: '€100 → 100 €',
     name: 'ru/money/euro',
     sortIndex: 1140,
     func: function(text) {

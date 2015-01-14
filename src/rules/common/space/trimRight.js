@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Удаление пробелов и переносов строк в конце текста',
     name: 'common/space/trimRight',
     sortIndex: 535,
     func: String.prototype.trimRight ? function(text) {

@@ -1,10 +1,12 @@
 var gulp = require('gulp'),
     fs = require('fs'),
     concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
+    gulpJsonRules = require('./libs/gulp-json-rules'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
@@ -16,10 +18,12 @@ var gulp = require('gulp'),
     destDir = './dist/',
     makeMdRules = function() {
         var Typograf = require('./dist/typograf.js'),
+            typografTitles = require('./dist/typograf.titles.json'),
             getRow = function(rule, i) {
+                var title = typografTitles[rule.name].ru || typografTitles[rule.name].common;
                 text += '| ' + (i + 1) + '. | [' +
                     rule.name + '](../src/rules/' + rule.name + '.js) | ' +
-                    rule.title + ' | ' +
+                    title + ' | ' +
                     rule.sortIndex + ' | ' +
                     (rule.queue || '') + ' | ' +
                     (rule.enabled !== false ? '✓' : '') + ' |\n';
@@ -61,6 +65,9 @@ var gulp = require('gulp'),
     };
 
 var paths = {
+    json: [
+        'src/**/*.json'
+    ],
     js: [
         'src/main.js',
         'src/entities.js',
@@ -81,14 +88,23 @@ gulp.task('js', function() {
     return gulp.src(paths.js)
         .pipe(filter())
         .pipe(concat('typograf.js'))
-        .pipe(gulp.dest(destDir))
-        .on('end', makeMdRules);
+        .pipe(gulp.dest(destDir));
 });
 
-gulp.task('minjs', function() {
-    return gulp.src(paths.js)
-        .pipe(filter())
-        .pipe(concat('typograf.min.js'))
+gulp.task('json', ['js'], function() {
+    return gulp.src(paths.json)
+        .pipe(gulpJsonRules('typograf.titles.json'))
+        .pipe(gulp.dest(destDir))
+        .on('end', function() {
+            var txt = fs.readFileSync('dist/typograf.titles.json');
+            fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
+            makeMdRules();
+        });
+});
+
+gulp.task('minjs', ['js'], function() {
+    return gulp.src('dist/typograf.js')
+        .pipe(rename('typograf.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest(destDir));
 });
@@ -117,7 +133,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css']);
+    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'json']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css', 'json']);

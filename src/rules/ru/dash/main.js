@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Дефис на тире',
     name: 'ru/dash/main',
     sortIndex: 620,
     func: function(text) {

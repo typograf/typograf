@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Удаление пробелов и лишних точек в вв.',
     name: 'ru/nbsp/cc',
     sortIndex: 1090,
     func: function(text) {

@@ -1,5 +1,4 @@
 Typograf.rule({
-    title: 'Экранирование HTML',
     name: 'common/html/escape',
     sortIndex: 110,
     queue: 'end',
