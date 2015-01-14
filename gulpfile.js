@@ -63,6 +63,20 @@ var gulp = require('gulp'),
         }).forEach(getRow);
         processTemplate('docs/RULES_SORTED.md', 'templates/rules_sorted.md');
     };
+    
+function buildTitles() {
+    var txt = fs.readFileSync('dist/typograf.titles.json');
+    fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
+}
+
+function updateBowerVersion() {
+    var pack = require('./package.json');
+    var bower = require('./bower.json');
+    if(pack.version !== bower.version) {
+        bower.version = pack.version;
+        fs.writeFileSync('bower.json', JSON.stringify(bower, null, '  '));
+    }
+}
 
 var paths = {
     json: [
@@ -96,8 +110,8 @@ gulp.task('json', ['js'], function() {
         .pipe(gulpJsonRules('typograf.titles.json'))
         .pipe(gulp.dest(destDir))
         .on('end', function() {
-            var txt = fs.readFileSync('dist/typograf.titles.json');
-            fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
+            buildTitles();
+            updateBowerVersion();
             makeMdRules();
         });
 });
