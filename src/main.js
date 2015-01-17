@@ -73,7 +73,7 @@ Typograf.innerRule = function(rule) {
  * @param {*} value
  */
 Typograf.data = function(key, value) {
-    Typograf.prototype.data[key] = value;
+    Typograf.prototype._data[key] = value;
 };
 
 Typograf._sortRules = function() {
@@ -233,12 +233,22 @@ Typograf.prototype = {
      */    
     letters: function() {
         var lang = this._lang || this._prefs.lang,
-            commonLetter = this.data['common/letter'],
-            langLetter = this.data[lang + '/letter'];
+            commonLetter = this.data('common/letter'),
+            langLetter = this.data(lang + '/letter');
         
         return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     },
-    data: {},
+    /**
+     * Get data for use in rules.
+     * This is used in regular expressions in rules.
+     *
+     * @param {string} key
+     * @return {*}
+     */    
+    data: function(key) {
+        return this._data[key];
+    },
+    _data: {},
     _fixLineEnd: function(text) {
         return text
             .replace(/\r\n/g, '\n') // Windows
