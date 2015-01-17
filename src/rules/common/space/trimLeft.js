@@ -3,7 +3,7 @@ Typograf.rule({
     sortIndex: 530,
     func: String.prototype.trimLeft ? function(text) {
         return text.trimLeft();
-    } : function(text) {
+    } : /* istanbul ignore next */ function(text) {
         return text.replace(/^[\s\uFEFF\xA0]+/g, '');
     }
 });

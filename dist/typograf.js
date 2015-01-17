@@ -30,7 +30,7 @@ function Typograf(prefs) {
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false ? false : true;
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || 0;
+    rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
 
     Typograf.prototype._rules.push(rule);
 
@@ -384,6 +384,7 @@ Typograf.prototype = {
     }
 };
 
+/* istanbul ignore else  */
 if(typeof exports === 'object') {
     module.exports = Typograf;
 }
@@ -1042,7 +1043,7 @@ Typograf.rule({
     sortIndex: 530,
     func: String.prototype.trimLeft ? function(text) {
         return text.trimLeft();
-    } : function(text) {
+    } : /* istanbul ignore next */ function(text) {
         return text.replace(/^[\s\uFEFF\xA0]+/g, '');
     }
 });
@@ -1052,7 +1053,7 @@ Typograf.rule({
     sortIndex: 535,
     func: String.prototype.trimRight ? function(text) {
         return text.trimRight();
-    } : function(text) {
+    } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
     }
 });

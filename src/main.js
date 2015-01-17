@@ -30,7 +30,7 @@ function Typograf(prefs) {
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false ? false : true;
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || 0;
+    rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
 
     Typograf.prototype._rules.push(rule);
 
@@ -384,6 +384,7 @@ Typograf.prototype = {
     }
 };
 
+/* istanbul ignore else  */
 if(typeof exports === 'object') {
     module.exports = Typograf;
 }
