@@ -1,7 +1,7 @@
 var assert = require('chai').assert,
     rules = require('./rules.js'),
     Typograf = require('../dist/typograf.js'),
-    t = new Typograf({lang: 'ru'});
+    t = new Typograf();
 
 describe('API', function() {
     it('disable rule', function() {
@@ -76,7 +76,7 @@ describe('API', function() {
     });
 
     it('add safe tag', function() {
-        var t2 = new Typograf({lang: 'ru'});
+        var t2 = new Typograf();
         t2.addSafeTag('<myTag>', '<\\/myTag>');
 
         assert.equal(t2.execute('  <myTag>  Hello world!!  </myTag>  '), '<myTag>  Hello world!!  </myTag>');
