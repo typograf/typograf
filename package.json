@@ -41,7 +41,7 @@
     "gulp-jscs": "^1.1.2",
     "gulp-jshint": "^1.8.5",
     "gulp-rename": "~1.2.0",
-    "gulp-uglify": "~1.0.x",
+    "gulp-uglify": "~1.1.x",
     "yaspeller": "~0.7.2",
     "jscs": "^1.7.x",
     "jshint": "2.x"
