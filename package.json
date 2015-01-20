@@ -14,13 +14,17 @@
       "type": "MIT",
       "url": "https://github.com/typograf/typograf/blob/master/LICENSE"
     }
-  ],  
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/typograf/typograf.git"
   },
   "keywords": [
-    "typo", "text", "typograf", "typographer", "typography"
+    "typo",
+    "text",
+    "typograf",
+    "typographer",
+    "typography"
   ],
   "engines": {
     "node": ">= 0.10"
@@ -30,21 +34,21 @@
     "isutf8": "~1.0"
   },
   "devDependencies": {
-    "mocha": "2.1.x",
     "chai": "1.x",
-    "istanbul": "0.3.x",
     "gulp": "~3.8.5",
-    "gulp-util": "^3.0.2",
-    "through": "^2.3.6",
     "gulp-concat": "~2.4.x",
     "gulp-filter": "^2.0.0",
     "gulp-jscs": "^1.1.2",
     "gulp-jshint": "^1.8.5",
     "gulp-rename": "~1.2.0",
-    "gulp-uglify": "~1.1.x",
-    "yaspeller": "~0.7.2",
+    "gulp-uglify": "~1.0.x",
+    "gulp-util": "^3.0.2",
+    "istanbul": "0.3.x",
     "jscs": "^1.7.x",
-    "jshint": "2.x"
+    "jshint": "2.x",
+    "mocha": "2.1.x",
+    "through": "^2.3.6",
+    "yaspeller": "~0.7.2"
   },
   "scripts": {
     "test": "npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",

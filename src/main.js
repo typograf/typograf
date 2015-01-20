@@ -111,14 +111,16 @@ Typograf.prototype = {
                 var rlang = rule._lang;
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
+                    this._onBeforeRule && this._onBeforeRule(text);
                     text = rule.func.call(this, text, this._settings[rule.name]);
+                    this._onAfterRule && this._onAfterRule(text);
                 }
             },
             executeRulesForQueue = function(queue) {
                 innerRulesForQueue[queue] && innerRulesForQueue[queue].forEach(iterator, that);
                 rulesForQueue[queue] && rulesForQueue[queue].forEach(iterator, that);
             };
-        
+
         this._lang = lang;
 
         text = '' + text;
@@ -230,12 +232,12 @@ Typograf.prototype = {
      * This is used in regular expressions in rules.
      *
      * @return {string}
-     */    
+     */
     letters: function() {
         var lang = this._lang || this._prefs.lang,
             commonLetter = this.data('common/letter'),
             langLetter = this.data(lang + '/letter');
-        
+
         return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     },
     /**
@@ -244,7 +246,7 @@ Typograf.prototype = {
      *
      * @param {string} key
      * @return {*}
-     */    
+     */
     data: function(key) {
         return this._data[key];
     },
@@ -314,32 +316,35 @@ Typograf.prototype = {
     _hideSafeTags: function(text) {
         this._hiddenSafeTags = {};
 
-        var that = this,
-            i = 0,
-            pasteTag = function(match) {
-                var key = '\uDBFFtypograf' + i + '\uDBFF';
-                that._hiddenSafeTags[key] = match;
-                i++;
-
-                return key;
-            };
+        this._iLabel = 0;
 
         this._safeTags.forEach(function(tag) {
             var re = new RegExp(tag[0] + '[^]*?' + tag[1], 'gi');
-            text = text.replace(re, pasteTag);
-        });
+            text = text.replace(re, this._pasteLabel.bind(this));
+        }, this);
 
-        return text.replace(/<[a-z\/][^>]*?>/gi, pasteTag);
+        return this._hideHTMLTags(text);
+    },
+    _getPrivateLabel: function(i) {
+        return '\uDBFFtf' + i + '\uDBFF';
+    },
+    _pasteLabel: function(match) {
+        var key = this._getPrivateLabel(this._iLabel);
+        this._hiddenSafeTags[key] = match;
+        this._iLabel++;
+
+        return key;
+    },
+    _replaceLabel: function(match) {
+        return this._hiddenSafeTags[match];
+    },
+    _hideHTMLTags: function(text) {
+        return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel.bind(this));
     },
     _showSafeTags: function(text) {
-        var replace = function(key) {
-            text = text.replace(new RegExp(key, 'gi'), this._hiddenSafeTags[key]);
-        };
-
         for(var i = 0; i < this._safeTags.length; i++) {
-            Object.keys(this._hiddenSafeTags).forEach(replace, this);
-
-            if(text.search(/\uDBFFtypograf[\d]+\uDBFF/) < 0) {
+            text = text.replace(/\uDBFFtf\d+\uDBFF/g, this._replaceLabel.bind(this));
+            if(text.search(/\uDBFFtf\d/) === -1) {
                 break;
             }
         }
@@ -352,7 +357,7 @@ Typograf.prototype = {
         if(text.search(/&#/) !== -1) {
             text = this._decHexToUtf(text);
         }
-        
+
         if(text.search(/&[a-z]/i) !== -1) {
             this.entities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
