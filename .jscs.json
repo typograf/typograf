@@ -1,6 +1,7 @@
 {
     "excludeFiles": [
         ".*",
+        "benchmark",
         "dist",
         "examples",
         "coverage",
