@@ -33,3 +33,17 @@ describe('common/smoke', function() {
         });
     });
 });
+
+it('enable common/html/escape', function() {
+    var tp = new Typograf();
+    tp.enable('common/html/escape');
+
+    var escapeTests = [
+        ['<p align="center">\nHello world!\n</p>',
+        '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
+    ];
+
+    escapeTests.forEach(function(el) {
+        assert.equal(tp.execute(el[0]), el[1]);
+    });
+});

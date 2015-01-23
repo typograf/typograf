@@ -12,7 +12,7 @@ Typograf.rule({
 .innerRule({
     name: 'ru/optalign/bracket',
     func: function(text) {
-        // Зачистка HTML-тегов от висячая пунктуация для скобки
+        // Зачистка HTML-тегов от висячей пунктуации для скобки
         return text.replace(/<span class="typograf-oa-(sp-lbracket|lbracket|n-lbracket)">(.*?)<\/span>/g, '$2');
     }
 });

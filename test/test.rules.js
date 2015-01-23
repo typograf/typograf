@@ -45,6 +45,18 @@ function executeInnerRule(name, text) {
     return text;
 }
 
+describe('inner rules', function() {
+    innerTests.forEach(function(elem) {
+        var name = elem[0];
+        it(name, function() {
+            elem[1].forEach(function(as) {
+                t.enable(name);
+                assert.equal(executeInnerRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
+            });
+        });
+    });
+});
+
 describe('rules', function() {
     tests.forEach(function(elem) {
         var name = elem[0];
@@ -55,48 +67,9 @@ describe('rules', function() {
             });
         });
     });
+});
 
-    it('quotes lquot = lquot2 and rquot = rquot2', function() {
-        var quotTests = [
-            ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
-            ['Триллер "Триллер “Закрытая школа” на СТС" Триллер', 'Триллер «Триллер «Закрытая школа» на СТС» Триллер'],
-            ['"“Закрытая школа” на СТС"', '«Закрытая школа» на СТС»'],
-            ['Триллер "“Закрытая школа” на СТС" Триллер', 'Триллер «Закрытая школа» на СТС» Триллер'],
-            ['"Триллер “Закрытая школа"', '«Триллер «Закрытая школа»'],
-            ['Триллер "Триллер “Закрытая школа" Триллер', 'Триллер «Триллер «Закрытая школа» Триллер']
-        ];
-
-        pushSettings('ru/punctuation/quot', {
-            lquot: '«',
-            rquot: '»',
-            lquot2: '«',
-            rquot2: '»'
-        });
-
-        quotTests.forEach(function(el) {
-            assert.equal(executeRule('ru/punctuation/quot', el[0]), el[1]);
-        });
-
-        popSettings('ru/quot');
-    });
-
-    it('off ru/optalign', function() {
-        var tp = new Typograf();
-
-        tp.disable('*');
-
-        var optAlignTests = [
-            '<span class="typograf-oa-sp-lquot"> </span>',
-            '<span class="typograf-oa-lquot">«</span>',
-            '<span class="typograf-oa-comma">,</span>',
-            '<span class="typograf-oa-sp-lbracket"> </span>'
-        ];
-
-        optAlignTests.forEach(function(el) {
-            assert.equal(tp.execute(el, {lang: 'ru'}), el);
-        });
-    });
-    
+describe('common specific tests', function() {
     it('enable common/html/stripTags', function() {
         var tp = new Typograf();
         tp.enable('common/html/stripTags');
@@ -127,14 +100,56 @@ describe('rules', function() {
     });
 });
 
-describe('inner rules', function() {
-    innerTests.forEach(function(elem) {
-        var name = elem[0];
-        it(name, function() {
-            elem[1].forEach(function(as) {
-                t.enable(name);
-                assert.equal(executeInnerRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
-            });
+describe('ru specific tests', function() {
+    it('quotes lquot = lquot2 and rquot = rquot2', function() {
+        var quotTests = [
+            ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
+            ['Триллер "Триллер “Закрытая школа” на СТС" Триллер', 'Триллер «Триллер «Закрытая школа» на СТС» Триллер'],
+            ['"“Закрытая школа” на СТС"', '«Закрытая школа» на СТС»'],
+            ['Триллер "“Закрытая школа” на СТС" Триллер', 'Триллер «Закрытая школа» на СТС» Триллер'],
+            ['"Триллер “Закрытая школа"', '«Триллер «Закрытая школа»'],
+            ['Триллер "Триллер “Закрытая школа" Триллер', 'Триллер «Триллер «Закрытая школа» Триллер']
+        ];
+
+        pushSettings('ru/punctuation/quot', {
+            lquot: '«',
+            rquot: '»',
+            lquot2: '«',
+            rquot2: '»'
+        });
+
+        quotTests.forEach(function(el) {
+            assert.equal(executeRule('ru/punctuation/quot', el[0]), el[1]);
+        });
+
+        popSettings('ru/quot');
+    });
+
+    it('ru/optalign', function() {
+        var tp = new Typograf({lang: 'ru'});
+        tp.enable('ru/optalign/*');
+
+        [
+            [
+                '<p>"что-то, где-то!"</p>',
+                '<p><span class="typograf-oa-n-lquot">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
+            ]
+        ].forEach(function(el) {
+            assert.equal(tp.execute(el[0]), el[1]);
+        });
+    });
+
+    it('off ru/optalign', function() {
+        var tp = new Typograf({lang: 'ru'});
+        tp.disable('*');
+
+        [
+            '<span class="typograf-oa-sp-lquot"> </span>',
+            '<span class="typograf-oa-lquot">«</span>',
+            '<span class="typograf-oa-comma">,</span>',
+            '<span class="typograf-oa-sp-lbracket"> </span>'
+        ].forEach(function(el) {
+            assert.equal(tp.execute(el), el);
         });
     });
 });
