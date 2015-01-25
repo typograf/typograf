@@ -1387,7 +1387,7 @@ Typograf.rule({
 .innerRule({
     name: 'ru/optalign/bracket',
     func: function(text) {
-        // Зачистка HTML-тегов от висячая пунктуация для скобки
+        // Зачистка HTML-тегов от висячей пунктуации для скобки
         return text.replace(/<span class="typograf-oa-(sp-lbracket|lbracket|n-lbracket)">(.*?)<\/span>/g, '$2');
     }
 });
@@ -1397,7 +1397,8 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
-        return text.replace(/([а-яёa-z0-9\u0301]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
+        var re = new RegExp('([' + this.letters() + '0-9\u0301]+), ', 'gi');
+        return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     enabled: false
 })
@@ -1413,10 +1414,13 @@ Typograf.rule({
 Typograf.rule({
     name: 'ru/optalign/quot',
     sortIndex: 1000,
-    func: function(text, settings) {
-        var quotes = '(' + this.setting('ru/punctuation/quot', 'lquot') + '|' + this.setting('ru/punctuation/quot', 'lquot2') + ')',
-            re = new RegExp('([a-zа-яё\\-\u0301]{3,})( |\u00A0)(' + quotes + ')', 'gi'),
-            re2 = new RegExp('(^|\n|<p> *)' + quotes, 'g');
+    func: function(text) {
+        var lquotes = '(["' +
+                this.setting('ru/punctuation/quot', 'lquot') +
+                this.setting('ru/punctuation/quot', 'lquot2') +
+                '])',
+            re = new RegExp('([' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
+            re2 = new RegExp('(^|\n|\uDBFF)' + lquotes, 'g'); // \uDBFF - часть внутренней метки HTML-тега
 
         return text
             .replace(re, '$1<span class="typograf-oa-sp-lquot">$2</span><span class="typograf-oa-lquot">$3</span>')

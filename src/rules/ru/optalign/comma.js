@@ -3,7 +3,8 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
-        return text.replace(/([а-яёa-z0-9\u0301]+)\, /gi, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
+        var re = new RegExp('([' + this.letters() + '0-9\u0301]+), ', 'gi');
+        return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     enabled: false
 })
