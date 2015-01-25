@@ -30,24 +30,24 @@
     "node": ">= 0.10"
   },
   "dependencies": {
-    "commander": "~2.6",
-    "isutf8": "~1.0"
+    "commander": "~2.6.0",
+    "isutf8": "~1.0.10"
   },
   "devDependencies": {
-    "chai": "1.x",
-    "gulp": "~3.8.5",
-    "gulp-concat": "~2.4.x",
-    "gulp-filter": "^2.0.0",
-    "gulp-jscs": "^1.1.2",
-    "gulp-jshint": "^1.8.5",
+    "chai": "~1.10.0",
+    "gulp": "~3.8.10",
+    "gulp-concat": "~2.4.3",
+    "gulp-filter": "~2.0.0",
+    "gulp-jscs": "~1.4.0",
+    "gulp-jshint": "~1.9.0",
     "gulp-rename": "~1.2.0",
-    "gulp-uglify": "~1.0.x",
-    "gulp-util": "^3.0.2",
-    "istanbul": "0.3.x",
-    "jscs": "^1.7.x",
-    "jshint": "2.x",
-    "mocha": "2.1.x",
-    "through": "^2.3.6",
+    "gulp-uglify": "~1.1.0",
+    "gulp-util": "~3.0.2",
+    "istanbul": "~0.3.5",
+    "jscs": "~1.10.0",
+    "jshint": "~2.6.0",
+    "mocha": "~2.1.0",
+    "through": "~2.3.6",
     "yaspeller": "~0.7.2"
   },
   "scripts": {
