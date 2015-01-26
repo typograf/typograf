@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
+    jsonlint = require('gulp-jsonlint');
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
     gulpJsonRules = require('./libs/gulp-json-rules'),
@@ -105,7 +106,13 @@ gulp.task('js', function() {
         .pipe(gulp.dest(destDir));
 });
 
-gulp.task('json', ['js'], function() {
+gulp.task('jsonlint', function() {
+    gulp.src(paths.json)
+        .pipe(jsonlint())
+        .pipe(jsonlint.reporter());
+});
+
+gulp.task('json', ['js', 'jsonlint'], function() {
     return gulp.src(paths.json)
         .pipe(gulpJsonRules('typograf.titles.json'))
         .pipe(gulp.dest(destDir))
@@ -147,7 +154,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'json']);
+    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'json', 'jsonlint']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css', 'json']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css', 'json', 'jsonlint']);
