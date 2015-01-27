@@ -135,6 +135,3 @@ MIT License
 ## Ссылки
 + [Букмарклет для типографа](https://github.com/typograf/bookmarklet)
 + [Средство поиска опечаток в текстах](https://github.com/hcodes/yaspeller)
-+ [Ководство](http://www.artlebedev.ru/kovodstvo/)
-+ [Все типографы](http://rmcreative.ru/blog/post/vse-tipografy)
-+ [Сравнение типографов](http://www.typograf.ru/flog/)
