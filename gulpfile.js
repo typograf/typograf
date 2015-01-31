@@ -12,11 +12,6 @@ var gulp = require('gulp'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
-    queue = {
-        start: 1,
-        undefined: 2,
-        end: 3
-    },
     destDir = './dist/';
 
 var paths = {

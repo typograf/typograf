@@ -1,5 +1,11 @@
 var fs = require('fs');
 
+var queue = {
+    start: 1,
+    'undefined': 2,
+    end: 3
+};
+
 module.exports = {
     updateBowerVersion: function() {
         var pack = require('../package.json');
