@@ -1,8 +1,7 @@
 {
   "lang": "ru",
-  "fileExtensions": ["md"],
+  "fileExtensions": [".md"],
   "excludeFiles": [
-    ".*",
     "node_modules",
     "test",
     "coverage",
