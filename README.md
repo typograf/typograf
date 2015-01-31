@@ -6,7 +6,7 @@
 [![Build Status](https://img.shields.io/appveyor/ci/hcodes/typograf/master.svg?style=flat)](https://ci.appveyor.com/project/hcodes/typograf)
 [![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg?style=flat)](https://coveralls.io/r/typograf/typograf)
 
-[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
 [Типограф в действии](https://typograf.github.io) с [мобильной версией](https://typograf.github.io/mobile.html)
 
