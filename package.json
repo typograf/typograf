@@ -33,6 +33,12 @@
     "commander": "~2.6.0",
     "isutf8": "~1.0.10"
   },
+  "files": [
+    "dist",
+    "docs",
+    "bin",
+    "LICENSE"
+  ],
   "devDependencies": {
     "chai": "~1.10.0",
     "gulp": "~3.8.10",
