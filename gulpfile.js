@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     jsonlint = require('gulp-jsonlint');
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
-    gulpJsonRules = require('./libs/gulp-json-rules'),
+    gulpJsonRules = require('./gulp/json-rules'),
+    typografUtils = require('./gulp/utils'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
@@ -16,68 +17,7 @@ var gulp = require('gulp'),
         undefined: 2,
         end: 3
     },
-    destDir = './dist/',
-    makeMdRules = function() {
-        var Typograf = require('./dist/typograf.js'),
-            typografTitles = require('./dist/typograf.titles.json'),
-            getRow = function(rule, i) {
-                var title = typografTitles[rule.name].ru || typografTitles[rule.name].common;
-                text += '| ' + (i + 1) + '. | [' +
-                    rule.name + '](../src/rules/' + rule.name + '.js) | ' +
-                    title + ' | ' +
-                    rule.sortIndex + ' | ' +
-                    (rule.queue || '') + ' | ' +
-                    (rule.enabled !== false ? '✓' : '') + ' |\n';
-            },
-            processTemplate = function(file, templateFile) {
-                var template = fs.readFileSync(templateFile).toString();
-                fs.writeFileSync(file, template.replace(/{{content}}/, text));
-            },
-            text = '';
-
-        Typograf.prototype._rules.sort(function(a, b) {
-            if(a.name > b.name) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }).forEach(getRow);
-        processTemplate('docs/RULES.md', 'templates/rules.md');
-
-        text = '';
-        Typograf.prototype._rules.sort(function(a, b) {
-            var queueA = queue[a.queue],
-                queueB = queue[b.queue];
-            if(queueA === queueB) {
-                if(a.sortIndex > b.sortIndex) {
-                    return 1;
-                } else if(a.sortIndex < b.sortIndex) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            } else if(queueA > queueB) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }).forEach(getRow);
-        processTemplate('docs/RULES_SORTED.md', 'templates/rules_sorted.md');
-    };
-    
-function buildTitles() {
-    var txt = fs.readFileSync('dist/typograf.titles.json');
-    fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
-}
-
-function updateBowerVersion() {
-    var pack = require('./package.json');
-    var bower = require('./bower.json');
-    if(pack.version !== bower.version) {
-        bower.version = pack.version;
-        fs.writeFileSync('bower.json', JSON.stringify(bower, null, '  '));
-    }
-}
+    destDir = './dist/';
 
 var paths = {
     json: [
@@ -117,9 +57,9 @@ gulp.task('json', ['js', 'jsonlint'], function() {
         .pipe(gulpJsonRules('typograf.titles.json'))
         .pipe(gulp.dest(destDir))
         .on('end', function() {
-            buildTitles();
-            updateBowerVersion();
-            makeMdRules();
+            typografUtils.buildTitles();
+            typografUtils.updateBowerVersion();
+            typografUtils.makeMdRules();
         });
 });
 
