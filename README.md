@@ -127,6 +127,11 @@ var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
 tpDigit.execute('...'); // &#8230;
 ```
 
+## Разработка
+`git clone https://github.com/typograf/typograf.git ./typograf`
+
+Пересборка и запуск тестов:
+`gulp && npm test`
 
 ## [Лицензия](./LICENSE.ru.md)
 MIT License
