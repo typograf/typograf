@@ -1,1 +1,0 @@
-Typograf.data('common/quotes', '«‹»›„‚“‟‘‛”’"\'');

@@ -661,9 +661,11 @@ Typograf.prototype.entities = [];
     Typograf.prototype.entities.push(buf);
 }, this);
 
+Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
+
 Typograf.data('common/letter', 'a-z');
 
-Typograf.data('common/quotes', '«‹»›„‚“‟‘‛”’"\'');
+Typograf.data('common/quot', '«‹»›„‚“‟‘‛”’"\'');
 
 Typograf.data('en/letter', 'a-z');
 
@@ -975,7 +977,7 @@ Typograf.rule({
     name: 'common/space/afterPunctuation', 
     sortIndex: 560, 
     func: function(text) {
-        var re = new RegExp('(!|;|\\?)([^ \uDBFF\n\t!;?' + this.data('common/quotes') + '[])', 'g');
+        var re = new RegExp('(!|;|\\?)([^ \uDBFF\n\t!;?' + this.data('common/quot') + '[])', 'g');
         return text
             .replace(re, '$1 $2')
             .replace(/(\D)(,|:)([^ \uDBFF\n\t,.?:])/g, '$1$2 $3');
@@ -1136,16 +1138,16 @@ Typograf.rule({
     name: 'ru/dash/main',
     sortIndex: 620,
     func: function(text) {
-        var dashes = '(-|--|–|—)',
-            settingDash = this.setting('ru/dash/main', 'dash'),
+        var name = 'ru/dash/main',
+            dashes = '(' + this.data('common/dash') + ')',
             reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
             reDirect = new RegExp('(^|\n)' + dashes + '( |\u00A0)', 'g'),
             reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
 
         return text
-            .replace(reMain, '\u00A0' + settingDash + '$3')
-            .replace(reDirect, '$1' + settingDash + '\u00A0')
-            .replace(reInterval, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
+            .replace(reMain, '\u00A0' + this.setting(name, 'dash') + '$3')
+            .replace(reDirect, '$1' + this.setting(name, 'dash') + '\u00A0')
+            .replace(reInterval, '$1' + this.setting(name, 'dashInterval') + '$3');
     },
     settings: {
         dash: '\u2014', // &mdash;
@@ -1158,7 +1160,7 @@ Typograf.rule({
     sortIndex: 610,
     func: function(text) {
         var part = '(' + this.data('ru/month').join('|') + ')',
-            re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
+            re = new RegExp(part + ' ?(' + this.data('common/dash') + ') ?' + part, 'gi');
 
         return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
     }
@@ -1189,7 +1191,7 @@ Typograf.rule({
     sortIndex: 600,
     func: function(text) {
         var part = '(' + this.data('ru/weekday').join('|') + ')',
-            re = new RegExp(part + ' ?(-|—) ?' + part, 'gi');
+            re = new RegExp(part + ' ?(' + this.data('common/dash') + ') ?' + part, 'gi');
 
         return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
     }
