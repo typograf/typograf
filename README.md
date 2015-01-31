@@ -1,12 +1,12 @@
 Типограф на JavaScript
 ======================
-[![NPM version](https://img.shields.io/npm/v/typograf.svg)](https://www.npmjs.com/package/typograf)
-[![NPM downloads](https://img.shields.io/npm/dm/typograf.svg)](https://www.npmjs.com/package/typograf)
-[![Build Status](https://img.shields.io/travis/typograf/typograf.svg)](https://travis-ci.org/typograf/typograf)
-[![Build Status](https://img.shields.io/appveyor/ci/hcodes/typograf/master.svg)](https://ci.appveyor.com/project/hcodes/typograf)
-[![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg)](https://coveralls.io/r/typograf/typograf)
+[![NPM version](https://img.shields.io/npm/v/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
+[![NPM downloads](https://img.shields.io/npm/dm/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
+[![Build Status](https://img.shields.io/travis/typograf/typograf.svg?style=flat)](https://travis-ci.org/typograf/typograf)
+[![Build Status](https://img.shields.io/appveyor/ci/hcodes/typograf/master.svg?style=flat)](https://ci.appveyor.com/project/hcodes/typograf)
+[![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg?style=flat)](https://coveralls.io/r/typograf/typograf)
 
-[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
 [Типограф в действии](https://typograf.github.io) с [мобильной версией](https://typograf.github.io/mobile.html)
 
