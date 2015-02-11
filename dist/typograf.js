@@ -1121,16 +1121,22 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/dash/kade',
+    sortIndex: 31,
+    func: function(text) {
+        var re = new RegExp('([a-яё]+)( | ?- ?)(ка|де|кась)' + this.data('ru/dash').after, 'g');
+        return text.replace(re, '$1-$3$4');
+    }
+});
+
+Typograf.rule({
     name: 'ru/dash/koe',
     sortIndex: 38,
     func: function(text) {
         var ruDash = this.data('ru/dash'),
-            re = new RegExp(ruDash.before + '(К|к)ое\\s([а-яё]{3,})' + ruDash.after, 'g'),
-            re2 = new RegExp(ruDash.before + '(К|к)ой\\s([а-яё]{3,})' + ruDash.after, 'g');
+            re = new RegExp(ruDash.before + '([Кк]о[ей])\\s([а-яё]{3,})' + ruDash.after, 'g');
 
-        return text
-            .replace(re, '$1$2ое-$3$4')
-            .replace(re2, '$1$2ой-$3$4');
+        return text.replace(re, '$1$2-$3$4');
     }
 });
 
@@ -1170,21 +1176,33 @@ Typograf.rule({
     name: 'ru/dash/taki',
     sortIndex: 39,
     func: function(text) {
-        var re = new RegExp('(верно|довольно|опять|прямо|так|всё|действительно|неужели)\\s(таки)' +
+        var re = new RegExp('(верно|довольно|опять|прямо|так|вс[её]|действительно|неужели)\\s(таки)' +
             this.data('ru/dash').after, 'g');
 
         return text.replace(re, '$1-$2$3');
     }
 });
 
+(function() {
+
+var words = [
+    'откуда', 'куда', 'где',
+    'когда', 'зачем', 'почему',
+    'как', 'како[ейм]', 'какая', 'каки[емх]', 'какими', 'какую', 
+    'что', 'чего', 'че[йм]', 'чьим?',
+    'кто', 'кого', 'кому', 'кем'
+];
+
 Typograf.rule({
     name: 'ru/dash/to',
     sortIndex: 30,
     func: function(text) {
-        var re = new RegExp('( | ?- ?)(то|либо|нибудь|ка|де|кась)' + this.data('ru/dash').after, 'g');
-        return text.replace(re, '-$2$3');
+        var re = new RegExp('(' + words.join('|') + ')( | ?- ?)(то|либо|нибудь)' + this.data('ru/dash').after, 'gi');
+        return text.replace(re, '$1-$3$4');
     }
 });
+
+})();
 
 Typograf.rule({
     name: 'ru/dash/weekday',
