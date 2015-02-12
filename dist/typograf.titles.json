@@ -23,34 +23,6 @@
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
   },
-  "common/other/repeatWord": {
-    "en": "Removing repeat words",
-    "ru": "Удаление повтора слова"
-  },
-  "common/punctuation/delDoublePunctuation": {
-    "en": "Removing double punctuation",
-    "ru": "Удаление двойной пунктуации"
-  },
-  "common/punctuation/exclamation": {
-    "common": "!! → !"
-  },
-  "common/punctuation/exclamationQuestion": {
-    "common": "!? → ?!"
-  },
-  "common/punctuation/hellip": {
-    "en": "Three points on ellipsis",
-    "ru": "Три точки на троеточие"
-  },
-  "common/sym/arrow": {
-    "common": "-> → →, <- → ←"
-  },
-  "common/sym/cf": {
-    "en": "Adding ° to C and F",
-    "ru": "Добавление ° к C и F"
-  },
-  "common/sym/copy": {
-    "common": "(c) → ©, (tm) → ©, (r) → ™"
-  },
   "common/nbsp/afterNumber": {
     "en": "Non-breaking space between number and word",
     "ru": "Нераз. пробел между числом и словом"
@@ -75,6 +47,83 @@
     "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
+  "common/number/fraction": {
+    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+  },
+  "common/number/plusMinus": {
+    "common": "+- → ±"
+  },
+  "common/number/times": {
+    "common": "x → × (10 x 5 → 10×5)"
+  },
+  "common/other/repeatWord": {
+    "en": "Removing repeat words",
+    "ru": "Удаление повтора слова"
+  },
+  "common/punctuation/delDoublePunctuation": {
+    "en": "Removing double punctuation",
+    "ru": "Удаление двойной пунктуации"
+  },
+  "common/punctuation/exclamation": {
+    "common": "!! → !"
+  },
+  "common/punctuation/exclamationQuestion": {
+    "common": "!? → ?!"
+  },
+  "common/punctuation/hellip": {
+    "en": "Three points on ellipsis",
+    "ru": "Три точки на троеточие"
+  },
+  "common/space/afterPunctuation": {
+    "en": "space after punctuation",
+    "ru": "Пробел после знаков пунктуации"
+  },
+  "common/space/delBeforePercent": {
+    "en": "Remove space before %, ‰ and ‱",
+    "ru": "Удаление пробела перед %, ‰ и ‱"
+  },
+  "common/space/delBeforePunctuation": {
+    "en": "Remove spaces before punctuation",
+    "ru": "Удаление пробелов перед знаками пунктуации"
+  },
+  "common/space/delLeadingBlanks": {
+    "en": "Remove spaces at start of line",
+    "ru": "Удаление пробелов в начале строки"
+  },
+  "common/space/delRepeatN": {
+    "en": "Remove duplicate line breaks (no more than two)",
+    "ru": "Удаление повторяющихся переносов строки (не более двух)"
+  },
+  "common/space/delRepeatSpace": {
+    "en": "Removing duplicate spaces between characters",
+    "ru": "Удаление повторяющихся пробелов между символами"
+  },
+  "common/space/delTrailingBlanks": {
+    "en": "Remove spaces at end of line",
+    "ru": "Удаление пробелов в конце строки"
+  },
+  "common/space/replaceTab": {
+    "en": "Replacement of tab to 4 spaces",
+    "ru": "Замена таба на 4 пробела"
+  },
+  "common/space/trimLeft": {
+    "en": "Remove spaces and line breaks in beginning of text",
+    "ru": "Удаление пробелов и переносов строк в начале текста"
+  },
+  "common/space/trimRight": {
+    "en": "Remove spaces and line breaks at end of text",
+    "ru": "Удаление пробелов и переносов строк в конце текста"
+  },
+  "common/sym/arrow": {
+    "common": "-> → →, <- → ←"
+  },
+  "common/sym/cf": {
+    "en": "Adding ° to C and F",
+    "ru": "Добавление ° к C и F"
+  },
+  "common/sym/copy": {
+    "common": "(c) → ©, (tm) → ©, (r) → ™"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
@@ -82,6 +131,10 @@
   "ru/dash/izza": {
     "en": "Hyphen between “из-за”",
     "ru": "Дефис между из-за"
+  },
+  "ru/dash/kade": {
+    "en": "Hyphen before “ка, де, кась”",
+    "ru": "Дефис перед ка, де, кась"
   },
   "ru/dash/koe": {
     "en": "Hyphen after “кое” and “кой”",
@@ -100,8 +153,8 @@
     "ru": "Дефис между верно-таки и т.д."
   },
   "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь, ка, де, кась”",
-    "ru": "Дефис перед то, либо, нибудь, ка, де, кась"
+    "en": "Hyphen before “то, либо, нибудь”",
+    "ru": "Дефис перед то, либо, нибудь"
   },
   "ru/dash/weekday": {
     "en": "Dash between the days of the week",
@@ -185,54 +238,5 @@
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
-  },
-  "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
-  },
-  "common/number/plusMinus": {
-    "common": "+- → ±"
-  },
-  "common/number/times": {
-    "common": "x → × (10 x 5 → 10×5)"
-  },
-  "common/space/afterPunctuation": {
-    "en": "space after punctuation",
-    "ru": "Пробел после знаков пунктуации"
-  },
-  "common/space/delBeforePercent": {
-    "en": "Remove space before %, ‰ and ‱",
-    "ru": "Удаление пробела перед %, ‰ и ‱"
-  },
-  "common/space/delBeforePunctuation": {
-    "en": "Remove spaces before punctuation",
-    "ru": "Удаление пробелов перед знаками пунктуации"
-  },
-  "common/space/delLeadingBlanks": {
-    "en": "Remove spaces at start of line",
-    "ru": "Удаление пробелов в начале строки"
-  },
-  "common/space/delRepeatN": {
-    "en": "Remove duplicate line breaks (no more than two)",
-    "ru": "Удаление повторяющихся переносов строки (не более двух)"
-  },
-  "common/space/delRepeatSpace": {
-    "en": "Removing duplicate spaces between characters",
-    "ru": "Удаление повторяющихся пробелов между символами"
-  },
-  "common/space/delTrailingBlanks": {
-    "en": "Remove spaces at end of line",
-    "ru": "Удаление пробелов в конце строки"
-  },
-  "common/space/replaceTab": {
-    "en": "Replacement of tab to 4 spaces",
-    "ru": "Замена таба на 4 пробела"
-  },
-  "common/space/trimLeft": {
-    "en": "Remove spaces and line breaks in beginning of text",
-    "ru": "Удаление пробелов и переносов строк в начале текста"
-  },
-  "common/space/trimRight": {
-    "en": "Remove spaces and line breaks at end of text",
-    "ru": "Удаление пробелов и переносов строк в конце текста"
   }
 }
