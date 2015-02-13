@@ -1,8 +1,8 @@
 var assert = require('chai').assert,
-    r = require('./rules.js'),
+    r = require('./rules'),
     tests = r.tests,
     innerTests = r.innerTests,
-    Typograf = require('../dist/typograf.js'),
+    Typograf = require('../dist/typograf'),
     t = new Typograf({lang: 'ru'}),
     _settings;
 

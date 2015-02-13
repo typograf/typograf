@@ -61,7 +61,10 @@ gulp.task('json', ['js', 'jsonlint'], function() {
 gulp.task('minjs', ['js'], function() {
     return gulp.src('dist/typograf.js')
         .pipe(rename('typograf.min.js'))
-        .pipe(uglify())
+        .pipe(uglify({
+            output: {ascii_only: true},
+            preserveComments: 'some'
+        }))
         .pipe(gulp.dest(destDir));
 });
 

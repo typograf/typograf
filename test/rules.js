@@ -6,87 +6,6 @@ module.exports = {
     innerTests: innerTests
 };
 
-/*jshint maxlen:1000 */
-tests.push(['common/html/escape', [
-    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/mail', [
-    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
-    ['>example@example.com<', '>example@example.com<']
-]]);
-
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
-    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-tests.push(['common/html/url', [
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
-]]);
-
-tests.push(['common/nbsp/afterNumber', [
-    [' 123 дня ', ' 123\u00A0дня '],
-    ['2 кошки', '2\u00A0кошки'],
-    ['12 миллиардов рублей', '12\u00A0миллиардов рублей'],
-    ['20 years', '20\u00A0years']
-]]);
-
-tests.push(['common/nbsp/afterPara', [
-    [' § 123', ' §\u00A0123'],
-    [' §123', ' §\u00A0123'],
-    [' §XX', ' §\u00A0XX']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/nbsp/afterShortWord', [
-    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.'],
-    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.'],
-    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224'],
-    ['И вещи', 'И\u00A0вещи'],
-    ['И в Москве', 'И\u00A0в\u00A0Москве'],
-    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве']
-]]);
-
-tests.push(['common/nbsp/beforeShortLastWord', [
-    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.'],
-    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!']
-]]);
-
-tests.push(['common/nbsp/dpi', [
-    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
-    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
-    ['Значение 10 lpii', 'Значение 10 lpii'],
-    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
-]]);
-
-/* jshint maxlen:1000 */
-tests.push(['common/nbsp/nowrap', [
-    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
-    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
-    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
-    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
-    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
-]]);
-
 tests.push(['common/number/fraction', [
     ['1/2', '½'],
     [' 1/2 ', ' ½ '],
@@ -220,70 +139,41 @@ tests.push(['common/sym/copy', [
     ['(tm)', '™']
 ]]);
 
-tests.push(['ru/dash/izpod', [
-    [' из под печки', ' из-под печки'],
-    [' Из под печки', ' Из-под печки']
+/*jshint maxlen:1000 */
+tests.push(['common/html/escape', [
+    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
 ]]);
 
-tests.push(['ru/dash/izza', [
-    ['Из за лесу', 'Из-за лесу'],
-    ['  Из за лесу', '  Из-за лесу'],
-    ['из за гор', 'из-за гор'],
-    ['  из за гор', '  из-за гор']
+/*jshint maxlen:1000 */
+tests.push(['common/html/mail', [
+    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
+    ['>example@example.com<', '>example@example.com<']
 ]]);
 
-tests.push(['ru/dash/kade', [
-    ['скажите ка  на ка? на-кась!', 'скажите-ка  на-ка? на-кась!'],
-    ['он де, ну ка, ну кась нате ка! нате кась?', 'он-де, ну-ка, ну-кась нате-ка! нате-кась?']
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
+    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
 ]]);
 
-tests.push(['ru/dash/koe', [
-    ['Завелись кое какие деньжонки.', 'Завелись кое-какие деньжонки.'],
-    ['Кое какие деньжонки.', 'Кое-какие деньжонки.'],
-    ['Кое как', 'Кое-как'],
-    ['Кой как', 'Кой-как'],
-    ['кой с каким', 'кой с каким'],
-    ['Кое в чем', 'Кое в чем'],
-    ['Кой какой', 'Кой-какой']
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>']
 ]]);
 
-/* jshint maxlen: 300 */
-tests.push(['ru/dash/main', [
-    ['Правда - небольшая ложь', 'Правда\u00A0— небольшая ложь'],
-    ['Сатрап смутился изумленный -\nИ гнев в нем душу помрачил...', 'Сатрап смутился изумленный\u00A0—\nИ гнев в нем душу помрачил...'],
-    ['Маленькая девочка бежала и кричала: \n- Не видали маму?', 'Маленькая девочка бежала и кричала: \n—\u00A0Не видали маму?'],
-    ['XX-XXI', 'XX—XXI'],
-    ['XX - XXI', 'XX—XXI']
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
 ]]);
 
-tests.push(['ru/dash/month', [
-    ['Март-декабрь', 'Март—декабрь'],
-    ['январь-май', 'январь—май']
-]]);
-
-tests.push(['ru/dash/taki', [
-    ['верно таки', 'верно-таки'],
-    ['довольно таки', 'довольно-таки'],
-    ['опять таки', 'опять-таки'],
-    ['прямо таки', 'прямо-таки'],
-    ['так таки', 'так-таки'],
-    ['всё таки', 'всё-таки'],
-    ['действительно таки', 'действительно-таки'],
-    ['неужели таки', 'неужели-таки']
-]]);
-
-tests.push(['ru/dash/to', [
-    ['когда то', 'когда-то'],
-    ['Какой либо', 'Какой-либо'],
-    ['откуда либо', 'откуда-либо'],
-    ['Кто нибудь', 'Кто-нибудь'],
-    ['кое у кого, кое в чем', 'кое у кого, кое в чем'],
-    ['кое с какими', 'кое с какими']
-]]);
-
-tests.push(['ru/dash/weekday', [
-    ['Вторник-среда', 'Вторник—среда'],
-    ['понедельник-четверг', 'понедельник—четверг']
+tests.push(['common/html/url', [
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/', 'Ссылка <a href="http://example.com/">example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>']
 ]]);
 
 tests.push(['ru/date/main', [
@@ -504,4 +394,114 @@ tests.push(['ru/punctuation/quot', [
         '<p>"Энергия\nсоблазна: "от\nвнутреннего" к\nвнешнему".</p>        <p>"Энергия\nсоблазна: "от\nвнутреннего" к\nвнешнему".</p>',
         '<p>«Энергия\nсоблазна: „от\nвнутреннего“ к\nвнешнему».</p>        <p>«Энергия\nсоблазна: „от\nвнутреннего“ к\nвнешнему».</p>'
     ]
+]]);
+
+tests.push(['ru/dash/izpod', [
+    [' из под печки', ' из-под печки'],
+    [' Из под печки', ' Из-под печки']
+]]);
+
+tests.push(['ru/dash/izza', [
+    ['Из за лесу', 'Из-за лесу'],
+    ['  Из за лесу', '  Из-за лесу'],
+    ['из за гор', 'из-за гор'],
+    ['  из за гор', '  из-за гор']
+]]);
+
+tests.push(['ru/dash/kade', [
+    ['скажите ка  на ка? на-кась!', 'скажите-ка  на-ка? на-кась!'],
+    ['он де, ну ка, ну кась нате ка! нате кась?', 'он-де, ну-ка, ну-кась нате-ка! нате-кась?']
+]]);
+
+tests.push(['ru/dash/koe', [
+    ['Завелись кое какие деньжонки.', 'Завелись кое-какие деньжонки.'],
+    ['Кое какие деньжонки.', 'Кое-какие деньжонки.'],
+    ['Кое как', 'Кое-как'],
+    ['Кой как', 'Кой-как'],
+    ['кой с каким', 'кой с каким'],
+    ['Кое в чем', 'Кое в чем'],
+    ['Кой какой', 'Кой-какой']
+]]);
+
+/* jshint maxlen: 300 */
+tests.push(['ru/dash/main', [
+    ['Правда - небольшая ложь', 'Правда\u00A0— небольшая ложь'],
+    ['Сатрап смутился изумленный -\nИ гнев в нем душу помрачил...', 'Сатрап смутился изумленный\u00A0—\nИ гнев в нем душу помрачил...'],
+    ['Маленькая девочка бежала и кричала: \n- Не видали маму?', 'Маленькая девочка бежала и кричала: \n—\u00A0Не видали маму?'],
+    ['XX-XXI', 'XX—XXI'],
+    ['XX - XXI', 'XX—XXI']
+]]);
+
+tests.push(['ru/dash/month', [
+    ['Март-декабрь', 'Март—декабрь'],
+    ['январь-май', 'январь—май']
+]]);
+
+tests.push(['ru/dash/taki', [
+    ['верно таки', 'верно-таки'],
+    ['довольно таки', 'довольно-таки'],
+    ['опять таки', 'опять-таки'],
+    ['прямо таки', 'прямо-таки'],
+    ['так таки', 'так-таки'],
+    ['всё таки', 'всё-таки'],
+    ['действительно таки', 'действительно-таки'],
+    ['неужели таки', 'неужели-таки']
+]]);
+
+tests.push(['ru/dash/to', [
+    ['когда то', 'когда-то'],
+    ['Какой либо', 'Какой-либо'],
+    ['откуда либо', 'откуда-либо'],
+    ['Кто нибудь', 'Кто-нибудь'],
+    ['кое у кого, кое в чем', 'кое у кого, кое в чем'],
+    ['кое с какими', 'кое с какими']
+]]);
+
+tests.push(['ru/dash/weekday', [
+    ['Вторник-среда', 'Вторник—среда'],
+    ['понедельник-четверг', 'понедельник—четверг']
+]]);
+
+tests.push(['common/nbsp/afterNumber', [
+    [' 123 дня ', ' 123\u00A0дня '],
+    ['2 кошки', '2\u00A0кошки'],
+    ['12 миллиардов рублей', '12\u00A0миллиардов рублей'],
+    ['20 years', '20\u00A0years']
+]]);
+
+tests.push(['common/nbsp/afterPara', [
+    [' § 123', ' §\u00A0123'],
+    [' §123', ' §\u00A0123'],
+    [' §XX', ' §\u00A0XX']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/nbsp/afterShortWord', [
+    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.'],
+    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.'],
+    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224'],
+    ['И вещи', 'И\u00A0вещи'],
+    ['И в Москве', 'И\u00A0в\u00A0Москве'],
+    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве']
+]]);
+
+tests.push(['common/nbsp/beforeShortLastWord', [
+    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.'],
+    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!']
+]]);
+
+tests.push(['common/nbsp/dpi', [
+    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
+    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
+    ['Значение 10 lpii', 'Значение 10 lpii'],
+    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
+]]);
+
+/* jshint maxlen:1000 */
+tests.push(['common/nbsp/nowrap', [
+    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
+    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
+    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
+    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
+    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
 ]]);

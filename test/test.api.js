@@ -1,6 +1,6 @@
 var assert = require('chai').assert,
-    rules = require('./rules.js'),
-    Typograf = require('../dist/typograf.js'),
+    rules = require('./rules'),
+    Typograf = require('../dist/typograf'),
     t = new Typograf();
 
 describe('API', function() {
