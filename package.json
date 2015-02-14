@@ -55,7 +55,7 @@
     "jshint": "~2.6.0",
     "mocha": "~2.1.0",
     "through": "~2.3.6",
-    "yaspeller": "1.0.0"
+    "yaspeller": "~1.0.0"
   },
   "scripts": {
     "test": "npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",

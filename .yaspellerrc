@@ -1,5 +1,5 @@
 {
-  "lang": "ru",
+  "lang": "en,ru",
   "fileExtensions": [".md"],
   "excludeFiles": [
     "node_modules",
@@ -8,6 +8,8 @@
     "docs"
   ],
   "dictionary": [
+    "js", "TDD", "SVG", "typograf",
+    "Пересборка",
     "табы",
     "2007г",
     "м²",
