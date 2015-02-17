@@ -40,9 +40,9 @@
     "LICENSE"
   ],
   "devDependencies": {
-    "chai": "~1.10.0",
+    "chai": "~2.0.0",
     "gulp": "~3.8.10",
-    "gulp-concat": "~2.4.3",
+    "gulp-concat": "~2.5.0",
     "gulp-filter": "~2.0.0",
     "gulp-jscs": "~1.4.0",
     "gulp-jshint": "~1.9.0",
