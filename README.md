@@ -111,6 +111,12 @@ Typograf.rule({
 });
 ```
 
+### Установить настройку у правила
+```JavaScript
+var tp = new Typograf({lang: 'ru'});
+// Название правила, название настройки, значение
+tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
+```
 
 ### Режим работы
 ```JavaScript
