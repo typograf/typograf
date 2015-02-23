@@ -95,6 +95,13 @@ tp.enable('ru/money/ruble'); // Включить правило
 tp.disable('ru/money/ruble'); // Отключить правило
 ```
 
+### Изменить настройку у правила
+```JavaScript
+var tp = new Typograf({lang: 'ru'});
+// Название правила, название настройки, значение
+tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
+```
+
 ### Добавить правило
 ```JavaScript
 Typograf.rule({
@@ -110,7 +117,6 @@ Typograf.rule({
     }
 });
 ```
-
 
 ### Режим работы
 ```JavaScript

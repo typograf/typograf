@@ -3,7 +3,7 @@
 | № | Имя ▼ | Название | [Индекс](./RULES_SORTED.md) | Очередь | Вкл. |
 |--:|-------|----------|----------------------------:|:-------:|:----:|
 | 1. | [common/html/escape](../src/rules/common/html/escape.js) | Экранирование HTML | 110 | end |  |
-| 2. | [common/html/mail](../src/rules/common/html/mail.js) | Расстановка ссылок для эл. почты | 2000 |  | ✓ |
+| 2. | [common/html/mail](../src/rules/common/html/mail.js) | Расстановка ссылок для эл. почты | 2000 |  |  |
 | 3. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на тег br | 2020 |  |  |
 | 4. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 2030 |  |  |
 | 5. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 100 | end |  |

@@ -1,28 +1,4 @@
 Typograf.prototype.titles = {
-  "common/html/escape": {
-    "en": "Escaping HTML",
-    "ru": "Экранирование HTML"
-  },
-  "common/html/mail": {
-    "en": "Placement of links for e-mail",
-    "ru": "Расстановка ссылок для эл. почты"
-  },
-  "common/html/nbr": {
-    "en": "Replacement line break on br tag",
-    "ru": "Замена перевода строки на тег br"
-  },
-  "common/html/pbr": {
-    "en": "Placement of p and br tags",
-    "ru": "Расстановка тегов p и br"
-  },
-  "common/html/stripTags": {
-    "en": "Removing HTML-tags",
-    "ru": "Удаление HTML-тегов"
-  },
-  "common/html/url": {
-    "en": "Placement of links",
-    "ru": "Расстановка ссылок"
-  },
   "common/nbsp/afterNumber": {
     "en": "Non-breaking space between number and word",
     "ru": "Нераз. пробел между числом и словом"
@@ -46,6 +22,30 @@ Typograf.prototype.titles = {
   "common/nbsp/nowrap": {
     "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
+  },
+  "common/html/escape": {
+    "en": "Escaping HTML",
+    "ru": "Экранирование HTML"
+  },
+  "common/html/mail": {
+    "en": "Placement of links for e-mail",
+    "ru": "Расстановка ссылок для эл. почты"
+  },
+  "common/html/nbr": {
+    "en": "Replacement line break on br tag",
+    "ru": "Замена перевода строки на тег br"
+  },
+  "common/html/pbr": {
+    "en": "Placement of p and br tags",
+    "ru": "Расстановка тегов p и br"
+  },
+  "common/html/stripTags": {
+    "en": "Removing HTML-tags",
+    "ru": "Удаление HTML-тегов"
+  },
+  "common/html/url": {
+    "en": "Placement of links",
+    "ru": "Расстановка ссылок"
   },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
@@ -124,6 +124,22 @@ Typograf.prototype.titles = {
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "ru/money/dollar": {
+    "common": "$100 → 100 $"
+  },
+  "ru/money/euro": {
+    "common": "€100 → 100 €"
+  },
+  "ru/money/ruble": {
+    "common": "1 руб. → 1 ₽"
+  },
+  "ru/date/main": {
+    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
+    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  },
+  "ru/date/weekday": {
+    "common": "2 Мая, Понедельник → 2 мая, понедельник"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
@@ -160,21 +176,8 @@ Typograf.prototype.titles = {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
-  "ru/date/main": {
-    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
-    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
-  },
-  "ru/date/weekday": {
-    "common": "2 Мая, Понедельник → 2 мая, понедельник"
-  },
-  "ru/money/dollar": {
-    "common": "$100 → 100 $"
-  },
-  "ru/money/euro": {
-    "common": "€100 → 100 €"
-  },
-  "ru/money/ruble": {
-    "common": "1 руб. → 1 ₽"
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/nbsp/afterNumberSign": {
     "en": "Non-breaking space after №",
@@ -215,9 +218,6 @@ Typograf.prototype.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
-  },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/optalign/bracket": {
     "en": "for opening bracket",
