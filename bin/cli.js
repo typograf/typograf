@@ -27,6 +27,10 @@ function printText(text) {
         .execute(text, {lang: program.lang, mode: program.mode}));
 }
 
+if(process.stdin.isTTY && !program.args.length) {
+    program.help();
+}
+
 if(!program.lang) {
     console.error('Error: required parameter lang.');
     process.exit(1);
@@ -46,8 +50,6 @@ var file = program.args[0],
     buf = '';
 
 if(process.stdin.isTTY) {
-    file || program.help();
-
     if(fs.existsSync(file) && fs.statSync(file).isFile()) {
         buf = fs.readFileSync(file);
         if(isutf8(buf)) {
