@@ -8,7 +8,7 @@ Typograf.rule({
             lquot2 = settings.lquot2,
             rquot2 = settings.rquot2,
             phrase = '[' + letters + ')!?.:;#*,' + ']*?',
-            reL = new RegExp('[«„“"]' + '([…' + letters + '\\n])', 'gi'),
+            reL = new RegExp('[«„“"]' + '([…' + letters + '])', 'gi'),
             reR = new RegExp('(' + phrase + ')' + '[»”“"]' + '(' + phrase + ')', 'gi'),
             reL1 = new RegExp(rquot2 + '([^' + lquot2 + rquot2 + ']*?)' + rquot2, 'g'),
             reR1 = new RegExp(lquot2 + '([^' + lquot2 + rquot2 + ']*?)' + lquot2, 'g'),

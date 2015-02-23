@@ -1,28 +1,4 @@
 {
-  "common/nbsp/afterNumber": {
-    "en": "Non-breaking space between number and word",
-    "ru": "Нераз. пробел между числом и словом"
-  },
-  "common/nbsp/afterPara": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
-  },
-  "common/nbsp/afterShortWord": {
-    "en": "Non-breaking space after short word",
-    "ru": "Нераз. пробел после короткого слова"
-  },
-  "common/nbsp/beforeShortLastWord": {
-    "en": "Non-breaking space before last short word in sentence",
-    "ru": "Нераз. пробел перед последним коротким словом в предложении"
-  },
-  "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
-  },
-  "common/nbsp/nowrap": {
-    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
-    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
-  },
   "common/html/escape": {
     "en": "Escaping HTML",
     "ru": "Экранирование HTML"
@@ -46,6 +22,30 @@
   "common/html/url": {
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
+  },
+  "common/nbsp/afterNumber": {
+    "en": "Non-breaking space between number and word",
+    "ru": "Нераз. пробел между числом и словом"
+  },
+  "common/nbsp/afterPara": {
+    "en": "Non-breaking space after §",
+    "ru": "Нераз. пробел после §"
+  },
+  "common/nbsp/afterShortWord": {
+    "en": "Non-breaking space after short word",
+    "ru": "Нераз. пробел после короткого слова"
+  },
+  "common/nbsp/beforeShortLastWord": {
+    "en": "Non-breaking space before last short word in sentence",
+    "ru": "Нераз. пробел перед последним коротким словом в предложении"
+  },
+  "common/nbsp/dpi": {
+    "en": "Non-breaking space before lpi, dpi",
+    "ru": "Нераз. пробел перед lpi, dpi"
+  },
+  "common/nbsp/nowrap": {
+    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
+    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
@@ -124,22 +124,6 @@
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
-  "ru/money/dollar": {
-    "common": "$100 → 100 $"
-  },
-  "ru/money/euro": {
-    "common": "€100 → 100 €"
-  },
-  "ru/money/ruble": {
-    "common": "1 руб. → 1 ₽"
-  },
-  "ru/date/main": {
-    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
-    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
-  },
-  "ru/date/weekday": {
-    "common": "2 Мая, Понедельник → 2 мая, понедельник"
-  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
@@ -176,8 +160,21 @@
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
+  "ru/date/main": {
+    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
+    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  },
+  "ru/date/weekday": {
+    "common": "2 Мая, Понедельник → 2 мая, понедельник"
+  },
+  "ru/money/dollar": {
+    "common": "$100 → 100 $"
+  },
+  "ru/money/euro": {
+    "common": "€100 → 100 €"
+  },
+  "ru/money/ruble": {
+    "common": "1 руб. → 1 ₽"
   },
   "ru/nbsp/afterNumberSign": {
     "en": "Non-breaking space after №",
@@ -218,6 +215,9 @@
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/optalign/bracket": {
     "en": "for opening bracket",

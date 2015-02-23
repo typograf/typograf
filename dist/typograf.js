@@ -900,19 +900,6 @@ Typograf.rule({
 })();
 
 Typograf.rule({
-    name: 'common/other/repeatWord',
-    sortIndex: 1200,
-    func: function(text) {
-        var re = '([' +
-            this.letters() +
-            '\u0301]+) \\1([;:,.?! \n])';
-
-        return text.replace(new RegExp(re, 'gi'), '$1$2');
-    },
-    enabled: false
-});
-
-Typograf.rule({
     name: 'common/number/fraction',
     sortIndex: 1120,
     func: function(text) {
@@ -937,6 +924,19 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
+});
+
+Typograf.rule({
+    name: 'common/other/repeatWord',
+    sortIndex: 1200,
+    func: function(text) {
+        var re = '([' +
+            this.letters() +
+            '\u0301]+) \\1([;:,.?! \n])';
+
+        return text.replace(new RegExp(re, 'gi'), '$1$2');
+    },
+    enabled: false
 });
 
 Typograf.rule({
@@ -1094,184 +1094,6 @@ Typograf.rule({
     }
 });
 
-Typograf.rule({
-    name: 'ru/money/dollar',
-    sortIndex: 1140,
-    func: function(text) {
-        var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
-            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$', 'g'),
-            rep = '$1$2\u00A0$';
-
-        return text
-            .replace(re1, rep)
-            .replace(re2, rep);
-    }
-});
-
-Typograf.rule({
-    name: 'ru/money/euro',
-    sortIndex: 1140,
-    func: function(text) {
-        var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
-            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?€', 'g'),
-            rep = '$1$2\u00A0€';
-
-        return text
-            .replace(re1, rep)
-            .replace(re2, rep);
-    }
-});
-
-Typograf.rule({
-    name: 'ru/money/ruble',
-    sortIndex: 1145,
-    func: function(text) {
-        var rep = '$1\u00A0₽';
-        return text
-            .replace(/^(\d+)( |\u00A0)?(р|руб)\.$/, rep)
-            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=[!?,:;])/g, rep)
-            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'ru/date/main',
-    sortIndex: 1300,
-    func: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-            
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    sortIndex: 1310,
-    func: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthCase').join('|'),
-            weekday = this.data('ru/weekday').join('|'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
-});
-
-Typograf.rule({
-    name: 'ru/number/ordinals',
-    sortIndex: 1300,
-    func: function(text) {
-        return text
-            .replace(/(\d)-(ый|ой)([^а-яё]|$)/g, '$1-й$3')
-            .replace(/(\d)-ая([^а-яё]|$)/g, '$1-я$2')
-            .replace(/(\d)-(ое|ые)([^а-яё]|$)/g, '$1-е$3')
-            .replace(/(\d)-(ым|ом)([^а-яё]|$)/g, '$1-м$3')
-            .replace(/(\d)-ых([^а-яё]|$)/g, '$1-х$2')
-            .replace(/(\d)-ого([^а-яё]|$)/g, '$1-го$2')
-            .replace(/(\d)-ому([^а-яё]|$)/g, '$1-му$2')
-            .replace(/(\d)-ыми([^а-яё]|$)/g, '$1-ми$2');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/afterNumberSign',
-    sortIndex: 610,
-    func: function(text) {
-        return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/beforeParticle',
-    sortIndex: 570,
-    func: function(text) {
-        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/but',
-    sortIndex: 1110,
-    func: function(text) {
-        var re = new RegExp(',?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
-        return text.replace(re, ',$1$2$3');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/cc',
-    sortIndex: 1090,
-    func: function(text) {
-        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
-
-        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/dayMonth',
-    sortIndex: 1105,
-    func: function(text) {
-        var re = new RegExp('(\\d{1,2}) (' + this.data('ru/shortMonth').join('|') + ')', 'gi');
-        return text.replace(re, '$1\u00A0$2');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/m',
-    sortIndex: 1030,
-    func: function(text) {
-        var m = '(км|м|дм|см|мм)',
-            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
-            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
-
-        return text
-            .replace(re2, '$1$2\u00A0$3²$4')
-            .replace(re3, '$1$2\u00A0$3³$4');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/ooo',
-    sortIndex: 1100,
-    func: function(text) {
-        return text.replace(/(^|[^a-яёA-ЯЁ])(ООО|ОАО|ЗАО|НИИ|ПБОЮЛ) /g, '$1$2\u00A0');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/page',
-    sortIndex: 610,
-    func: function(text) {
-        return text.replace(/ (стр|гл|рис|илл)\./g, '\u00A0$1.');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/xxxx',
-    sortIndex: 1060,
-    func: function(text) {
-        return text.replace(/(^|\D)(\d{1,4}) ?г(од| |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/nbsp/yy',
-    sortIndex: 1080,
-    func: function(text) {
-        return text.replace(/(^|\d) ?г\. ?г\./g, '$1\u00A0гг.');
-    }
-});
-
 Typograf.data('ru/dash', {
     before: '(^| |\\n)',
     after: '( |,|\\.|\\?|:|!|$)'
@@ -1395,13 +1217,180 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/other/accent', 
-    sortIndex: 560,
-    enabled: false,
+    name: 'ru/date/main',
+    sortIndex: 1300,
     func: function(text) {
-        return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
-           return $1 + $2.toLowerCase() + '\u0301' + $3;
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+            
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    sortIndex: 1310,
+    func: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data('ru/monthCase').join('|'),
+            weekday = this.data('ru/weekday').join('|'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
         });
+    }
+});
+
+Typograf.rule({
+    name: 'ru/money/dollar',
+    sortIndex: 1140,
+    func: function(text) {
+        var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
+            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$', 'g'),
+            rep = '$1$2\u00A0$';
+
+        return text
+            .replace(re1, rep)
+            .replace(re2, rep);
+    }
+});
+
+Typograf.rule({
+    name: 'ru/money/euro',
+    sortIndex: 1140,
+    func: function(text) {
+        var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
+            re2 = new RegExp('(^|[\\D])([\\d.,]+) ?€', 'g'),
+            rep = '$1$2\u00A0€';
+
+        return text
+            .replace(re1, rep)
+            .replace(re2, rep);
+    }
+});
+
+Typograf.rule({
+    name: 'ru/money/ruble',
+    sortIndex: 1145,
+    func: function(text) {
+        var rep = '$1\u00A0₽';
+        return text
+            .replace(/^(\d+)( |\u00A0)?(р|руб)\.$/, rep)
+            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=[!?,:;])/g, rep)
+            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
+    },
+    enabled: false
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/afterNumberSign',
+    sortIndex: 610,
+    func: function(text) {
+        return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/beforeParticle',
+    sortIndex: 570,
+    func: function(text) {
+        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/but',
+    sortIndex: 1110,
+    func: function(text) {
+        var re = new RegExp(',?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
+        return text.replace(re, ',$1$2$3');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/cc',
+    sortIndex: 1090,
+    func: function(text) {
+        text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
+
+        return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/dayMonth',
+    sortIndex: 1105,
+    func: function(text) {
+        var re = new RegExp('(\\d{1,2}) (' + this.data('ru/shortMonth').join('|') + ')', 'gi');
+        return text.replace(re, '$1\u00A0$2');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/m',
+    sortIndex: 1030,
+    func: function(text) {
+        var m = '(км|м|дм|см|мм)',
+            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
+            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
+
+        return text
+            .replace(re2, '$1$2\u00A0$3²$4')
+            .replace(re3, '$1$2\u00A0$3³$4');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/ooo',
+    sortIndex: 1100,
+    func: function(text) {
+        return text.replace(/(^|[^a-яёA-ЯЁ])(ООО|ОАО|ЗАО|НИИ|ПБОЮЛ) /g, '$1$2\u00A0');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/page',
+    sortIndex: 610,
+    func: function(text) {
+        return text.replace(/ (стр|гл|рис|илл)\./g, '\u00A0$1.');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/xxxx',
+    sortIndex: 1060,
+    func: function(text) {
+        return text.replace(/(^|\D)(\d{1,4}) ?г(од| |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/yy',
+    sortIndex: 1080,
+    func: function(text) {
+        return text.replace(/(^|\d) ?г\. ?г\./g, '$1\u00A0гг.');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/number/ordinals',
+    sortIndex: 1300,
+    func: function(text) {
+        return text
+            .replace(/(\d)-(ый|ой)([^а-яё]|$)/g, '$1-й$3')
+            .replace(/(\d)-ая([^а-яё]|$)/g, '$1-я$2')
+            .replace(/(\d)-(ое|ые)([^а-яё]|$)/g, '$1-е$3')
+            .replace(/(\d)-(ым|ом)([^а-яё]|$)/g, '$1-м$3')
+            .replace(/(\d)-ых([^а-яё]|$)/g, '$1-х$2')
+            .replace(/(\d)-ого([^а-яё]|$)/g, '$1-го$2')
+            .replace(/(\d)-ому([^а-яё]|$)/g, '$1-му$2')
+            .replace(/(\d)-ыми([^а-яё]|$)/g, '$1-ми$2');
     }
 });
 
@@ -1469,6 +1458,17 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/other/accent', 
+    sortIndex: 560,
+    enabled: false,
+    func: function(text) {
+        return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
+           return $1 + $2.toLowerCase() + '\u0301' + $3;
+        });
+    }
+});
+
+Typograf.rule({
     name: 'ru/punctuation/quot',
     sortIndex: 700,
     func: function(text, settings) {
@@ -1478,7 +1478,7 @@ Typograf.rule({
             lquot2 = settings.lquot2,
             rquot2 = settings.rquot2,
             phrase = '[' + letters + ')!?.:;#*,' + ']*?',
-            reL = new RegExp('[«„“"]' + '([…' + letters + '\\n])', 'gi'),
+            reL = new RegExp('[«„“"]' + '([…' + letters + '])', 'gi'),
             reR = new RegExp('(' + phrase + ')' + '[»”“"]' + '(' + phrase + ')', 'gi'),
             reL1 = new RegExp(rquot2 + '([^' + lquot2 + rquot2 + ']*?)' + rquot2, 'g'),
             reR1 = new RegExp(lquot2 + '([^' + lquot2 + rquot2 + ']*?)' + lquot2, 'g'),
