@@ -1,13 +1,16 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
     "url": "https://github.com/typograf/typograf"
   },
   "main": "dist/typograf.js",
+  "bin": {
+    "typograf": "./bin/cli.js"
+  },
   "homepage": "https://github.com/typograf",
   "licenses": [
     {
