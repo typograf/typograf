@@ -124,6 +124,10 @@
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
