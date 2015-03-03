@@ -1475,7 +1475,7 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     sortIndex: 1002,
     func: function(text, settings) {
-        var re = new RegExp('([' + this.letters() + '0-9\u0301]+), ', 'gi');
+        var re = new RegExp('([' + this.letters() + '\\d\u0301]+), ', 'gi');
         return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     enabled: false
@@ -1497,7 +1497,7 @@ Typograf.rule({
                 this.setting('ru/punctuation/quot', 'lquot') +
                 this.setting('ru/punctuation/quot', 'lquot2') +
                 '])',
-            re = new RegExp('([' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
+            re = new RegExp('([\\d' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
             re2 = new RegExp('(^|\n|\uDBFF)' + lquotes, 'g'); // \uDBFF - часть внутренней метки HTML-тега
 
         return text
