@@ -5,7 +5,6 @@
     "curly": true,
     "camelcase": true,
     "eqeqeq": true,
-    "es3": true,
     "immed": true,
     "latedef": "nofunc",
     "newcap": true,

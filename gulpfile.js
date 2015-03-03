@@ -7,8 +7,8 @@ var gulp = require('gulp'),
     jsonlint = require('gulp-jsonlint');
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
-    gulpJsonRules = require('./gulp/json-rules'),
-    typografUtils = require('./gulp/utils'),
+    gulpJsonRules = require('./.gulp/json-rules'),
+    typografUtils = require('./.gulp/utils'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
