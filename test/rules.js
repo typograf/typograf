@@ -220,6 +220,13 @@ tests.push(['common/sym/copy', [
     ['(tm)', '™']
 ]]);
 
+/*jshint maxlen:1000 */
+tests.push(['en/punctuation/quot', [
+    ['One of the most famous phrases is "to be or not to be".', 'One of the most famous phrases is “to be or not to be”.'],
+    ['"I have no special talent," Einstein. "I am only curious enough."', '“I have no special talent,” Einstein. “I am only curious enough.”'],
+    ['"I was reading "The Economics of the USA" yesterday," she replied to me.', '“I was reading ‘The Economics of the USA’ yesterday,” she replied to me.']
+]]);
+
 tests.push(['ru/dash/izpod', [
     [' из под печки', ' из-под печки'],
     [' Из под печки', ' Из-под печки']
@@ -428,7 +435,8 @@ innerTests.push(['ru/optalign/bracket', [
 
 /*jshint maxlen:1000 */
 tests.push(['ru/optalign/comma', [
-    ['В самом добром, кино', 'В самом добром<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>кино']
+    ['Смеркалось, шёл дождь', 'Смеркалось<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>шёл дождь'],
+    ['Было 2, стало 5', 'Было 2<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>стало 5']
 ]]);
 
 innerTests.push(['ru/optalign/comma', [
@@ -442,7 +450,8 @@ tests.push(['ru/optalign/quot', [
     ['Вот у вас\n«Мой спутник».', 'Вот у вас\n<span class="typograf-oa-n-lquot">«</span>Мой спутник».'],
     ['Вот у вас \uDBFF«Мой спутник».\uDBFF', 'Вот у вас \uDBFF<span class="typograf-oa-n-lquot">«</span>Мой спутник».\uDBFF'],
     ['"что-то", "где-то!"', '<span class="typograf-oa-n-lquot">"</span>что-то",<span class="typograf-oa-sp-lquot"> </span><span class="typograf-oa-lquot">"</span>где-то!"'],
-    ['"что-то, где-то" и "почему-то."', '<span class="typograf-oa-n-lquot">"</span>что-то, где-то" и<span class="typograf-oa-sp-lquot"> </span><span class="typograf-oa-lquot">"</span>почему-то."']
+    ['"что-то, где-то" и "почему-то."', '<span class="typograf-oa-n-lquot">"</span>что-то, где-то" и<span class="typograf-oa-sp-lquot"> </span><span class="typograf-oa-lquot">"</span>почему-то."'],
+    ['тестовый эфир 1 «постно — значит вкусно»', 'тестовый эфир 1<span class="typograf-oa-sp-lquot"> </span><span class="typograf-oa-lquot">«</span>постно — значит вкусно»']
 ]]);
 
 innerTests.push(['ru/optalign/quot', [
@@ -479,15 +488,15 @@ tests.push(['ru/punctuation/quot', [
     [
         'Печорин размышляет: "…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…"',
         'Печорин размышляет: «…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…»'
-    ],    
+    ],
     [
         'Печорин размышляет: "…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…"\n\n',
         'Печорин размышляет: «…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…»\n\n'
-    ],    
+    ],
     [
         'Печорин размышляет: "…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…"\n\nПечорин...',
         'Печорин размышляет: «…зачем было судьбе кинуть меня в мирный круг честных контрабандистов? Как камень, брошенный в гладкий источник, я встревожил их спокойствие…»\n\nПечорин...'
-    ],    
+    ],
     [
         'Лермонтов восклицает в предисловии, что это "старая и жалкая шутка!"',
         'Лермонтов восклицает в предисловии, что это «старая и жалкая шутка!»'

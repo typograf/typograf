@@ -7,7 +7,7 @@ Typograf.rule({
                 this.setting('ru/punctuation/quot', 'lquot') +
                 this.setting('ru/punctuation/quot', 'lquot2') +
                 '])',
-            re = new RegExp('([' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
+            re = new RegExp('([\\d' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
             re2 = new RegExp('(^|\n|\uDBFF)' + lquotes, 'g'); // \uDBFF - часть внутренней метки HTML-тега
 
         return text

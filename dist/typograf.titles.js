@@ -124,41 +124,9 @@ Typograf.prototype.titles = {
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
-  "ru/dash/izpod": {
-    "en": "Hyphen between “из-под”",
-    "ru": "Дефис между из-под"
-  },
-  "ru/dash/izza": {
-    "en": "Hyphen between “из-за”",
-    "ru": "Дефис между из-за"
-  },
-  "ru/dash/kade": {
-    "en": "Hyphen before “ка, де, кась”",
-    "ru": "Дефис перед ка, де, кась"
-  },
-  "ru/dash/koe": {
-    "en": "Hyphen after “кое” and “кой”",
-    "ru": "Дефис после кое и кой"
-  },
-  "ru/dash/main": {
-    "en": "Replacement hyphen with dash",
-    "ru": "Дефис на тире"
-  },
-  "ru/dash/month": {
-    "en": "Dash between months",
-    "ru": "Тире между месяцами"
-  },
-  "ru/dash/taki": {
-    "en": "Hyphen between “верно-таки” and etc.",
-    "ru": "Дефис между верно-таки и т.д."
-  },
-  "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь”",
-    "ru": "Дефис перед то, либо, нибудь"
-  },
-  "ru/dash/weekday": {
-    "en": "Dash between the days of the week",
-    "ru": "Тире между днями недели"
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
   },
   "ru/date/main": {
     "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
@@ -238,5 +206,41 @@ Typograf.prototype.titles = {
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
+  },
+  "ru/dash/izpod": {
+    "en": "Hyphen between “из-под”",
+    "ru": "Дефис между из-под"
+  },
+  "ru/dash/izza": {
+    "en": "Hyphen between “из-за”",
+    "ru": "Дефис между из-за"
+  },
+  "ru/dash/kade": {
+    "en": "Hyphen before “ка, де, кась”",
+    "ru": "Дефис перед ка, де, кась"
+  },
+  "ru/dash/koe": {
+    "en": "Hyphen after “кое” and “кой”",
+    "ru": "Дефис после кое и кой"
+  },
+  "ru/dash/main": {
+    "en": "Replacement hyphen with dash",
+    "ru": "Дефис на тире"
+  },
+  "ru/dash/month": {
+    "en": "Dash between months",
+    "ru": "Тире между месяцами"
+  },
+  "ru/dash/taki": {
+    "en": "Hyphen between “верно-таки” and etc.",
+    "ru": "Дефис между верно-таки и т.д."
+  },
+  "ru/dash/to": {
+    "en": "Hyphen before “то, либо, нибудь”",
+    "ru": "Дефис перед то, либо, нибудь"
+  },
+  "ru/dash/weekday": {
+    "en": "Dash between the days of the week",
+    "ru": "Тире между днями недели"
   }
 };

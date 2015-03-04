@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "2.8.2",
+  "version": "2.9.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -43,7 +43,7 @@
     "LICENSE"
   ],
   "devDependencies": {
-    "chai": "~2.0.0",
+    "chai": "~2.1.0",
     "gulp": "~3.8.10",
     "gulp-concat": "~2.5.0",
     "gulp-filter": "~2.0.0",
