@@ -23,39 +23,6 @@ Typograf.prototype.titles = {
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
   },
-  "common/nbsp/afterNumber": {
-    "en": "Non-breaking space between number and word",
-    "ru": "Нераз. пробел между числом и словом"
-  },
-  "common/nbsp/afterPara": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
-  },
-  "common/nbsp/afterShortWord": {
-    "en": "Non-breaking space after short word",
-    "ru": "Нераз. пробел после короткого слова"
-  },
-  "common/nbsp/beforeShortLastWord": {
-    "en": "Non-breaking space before last short word in sentence",
-    "ru": "Нераз. пробел перед последним коротким словом в предложении"
-  },
-  "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
-  },
-  "common/nbsp/nowrap": {
-    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
-    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
-  },
-  "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
-  },
-  "common/number/plusMinus": {
-    "common": "+- → ±"
-  },
-  "common/number/times": {
-    "common": "x → × (10 x 5 → 10×5)"
-  },
   "common/other/repeatWord": {
     "en": "Removing repeat words",
     "ru": "Удаление повтора слова"
@@ -73,6 +40,15 @@ Typograf.prototype.titles = {
   "common/punctuation/hellip": {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
+  },
+  "common/number/fraction": {
+    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+  },
+  "common/number/plusMinus": {
+    "common": "+- → ±"
+  },
+  "common/number/times": {
+    "common": "x → × (10 x 5 → 10×5)"
   },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
@@ -124,6 +100,42 @@ Typograf.prototype.titles = {
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "ru/dash/izpod": {
+    "en": "Hyphen between “из-под”",
+    "ru": "Дефис между из-под"
+  },
+  "ru/dash/izza": {
+    "en": "Hyphen between “из-за”",
+    "ru": "Дефис между из-за"
+  },
+  "ru/dash/kade": {
+    "en": "Hyphen before “ка, де, кась”",
+    "ru": "Дефис перед ка, де, кась"
+  },
+  "ru/dash/koe": {
+    "en": "Hyphen after “кое” and “кой”",
+    "ru": "Дефис после кое и кой"
+  },
+  "ru/dash/main": {
+    "en": "Replacement hyphen with dash",
+    "ru": "Дефис на тире"
+  },
+  "ru/dash/month": {
+    "en": "Dash between months",
+    "ru": "Тире между месяцами"
+  },
+  "ru/dash/taki": {
+    "en": "Hyphen between “верно-таки” and etc.",
+    "ru": "Дефис между верно-таки и т.д."
+  },
+  "ru/dash/to": {
+    "en": "Hyphen before “то, либо, нибудь”",
+    "ru": "Дефис перед то, либо, нибудь"
+  },
+  "ru/dash/weekday": {
+    "en": "Dash between the days of the week",
+    "ru": "Тире между днями недели"
+  },
   "en/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
@@ -143,6 +155,33 @@ Typograf.prototype.titles = {
   },
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
+  },
+  "common/nbsp/afterNumber": {
+    "en": "Non-breaking space between number and word",
+    "ru": "Нераз. пробел между числом и словом"
+  },
+  "common/nbsp/afterPara": {
+    "en": "Non-breaking space after §",
+    "ru": "Нераз. пробел после §"
+  },
+  "common/nbsp/afterShortWord": {
+    "en": "Non-breaking space after short word",
+    "ru": "Нераз. пробел после короткого слова"
+  },
+  "common/nbsp/beforeShortLastWord": {
+    "en": "Non-breaking space before last short word in sentence",
+    "ru": "Нераз. пробел перед последним коротким словом в предложении"
+  },
+  "common/nbsp/dpi": {
+    "en": "Non-breaking space before lpi, dpi",
+    "ru": "Нераз. пробел перед lpi, dpi"
+  },
+  "common/nbsp/nowrap": {
+    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
+    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
   "ru/nbsp/afterNumberSign": {
     "en": "Non-breaking space after №",
@@ -184,9 +223,6 @@ Typograf.prototype.titles = {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
   },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
   "ru/optalign/bracket": {
     "en": "for opening bracket",
     "ru": "для открывающей скобки"
@@ -206,41 +242,5 @@ Typograf.prototype.titles = {
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
-  },
-  "ru/dash/izpod": {
-    "en": "Hyphen between “из-под”",
-    "ru": "Дефис между из-под"
-  },
-  "ru/dash/izza": {
-    "en": "Hyphen between “из-за”",
-    "ru": "Дефис между из-за"
-  },
-  "ru/dash/kade": {
-    "en": "Hyphen before “ка, де, кась”",
-    "ru": "Дефис перед ка, де, кась"
-  },
-  "ru/dash/koe": {
-    "en": "Hyphen after “кое” and “кой”",
-    "ru": "Дефис после кое и кой"
-  },
-  "ru/dash/main": {
-    "en": "Replacement hyphen with dash",
-    "ru": "Дефис на тире"
-  },
-  "ru/dash/month": {
-    "en": "Dash between months",
-    "ru": "Тире между месяцами"
-  },
-  "ru/dash/taki": {
-    "en": "Hyphen between “верно-таки” and etc.",
-    "ru": "Дефис между верно-таки и т.д."
-  },
-  "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь”",
-    "ru": "Дефис перед то, либо, нибудь"
-  },
-  "ru/dash/weekday": {
-    "en": "Dash between the days of the week",
-    "ru": "Тире между днями недели"
   }
 };
