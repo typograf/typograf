@@ -33,7 +33,7 @@
     "node": ">= 0.10"
   },
   "dependencies": {
-    "commander": "~2.6.0",
+    "commander": "~2.7.1",
     "isutf8": "~1.0.10"
   },
   "files": [
