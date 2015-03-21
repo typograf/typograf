@@ -23,6 +23,39 @@ Typograf.prototype.titles = {
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
   },
+  "common/nbsp/afterNumber": {
+    "en": "Non-breaking space between number and word",
+    "ru": "Нераз. пробел между числом и словом"
+  },
+  "common/nbsp/afterPara": {
+    "en": "Non-breaking space after §",
+    "ru": "Нераз. пробел после §"
+  },
+  "common/nbsp/afterShortWord": {
+    "en": "Non-breaking space after short word",
+    "ru": "Нераз. пробел после короткого слова"
+  },
+  "common/nbsp/beforeShortLastWord": {
+    "en": "Non-breaking space before last short word in sentence",
+    "ru": "Нераз. пробел перед последним коротким словом в предложении"
+  },
+  "common/nbsp/dpi": {
+    "en": "Non-breaking space before lpi, dpi",
+    "ru": "Нераз. пробел перед lpi, dpi"
+  },
+  "common/nbsp/nowrap": {
+    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
+    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
+  },
+  "common/number/fraction": {
+    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+  },
+  "common/number/plusMinus": {
+    "common": "+- → ±"
+  },
+  "common/number/times": {
+    "common": "x → × (10 x 5 → 10×5)"
+  },
   "common/other/repeatWord": {
     "en": "Removing repeat words",
     "ru": "Удаление повтора слова"
@@ -40,15 +73,6 @@ Typograf.prototype.titles = {
   "common/punctuation/hellip": {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
-  },
-  "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
-  },
-  "common/number/plusMinus": {
-    "common": "+- → ±"
-  },
-  "common/number/times": {
-    "common": "x → × (10 x 5 → 10×5)"
   },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
@@ -100,6 +124,10 @@ Typograf.prototype.titles = {
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
@@ -136,10 +164,6 @@ Typograf.prototype.titles = {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
-  },
   "ru/date/main": {
     "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
     "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
@@ -156,32 +180,9 @@ Typograf.prototype.titles = {
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
   },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
-  "common/nbsp/afterNumber": {
-    "en": "Non-breaking space between number and word",
-    "ru": "Нераз. пробел между числом и словом"
-  },
-  "common/nbsp/afterPara": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
-  },
-  "common/nbsp/afterShortWord": {
-    "en": "Non-breaking space after short word",
-    "ru": "Нераз. пробел после короткого слова"
-  },
-  "common/nbsp/beforeShortLastWord": {
-    "en": "Non-breaking space before last short word in sentence",
-    "ru": "Нераз. пробел перед последним коротким словом в предложении"
-  },
-  "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
-  },
-  "common/nbsp/nowrap": {
-    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
-    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
+  "ru/nbsp/addr": {
+    "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
+    "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
   },
   "ru/nbsp/afterNumberSign": {
     "en": "Non-breaking space after №",
@@ -222,6 +223,9 @@ Typograf.prototype.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/optalign/bracket": {
     "en": "for opening bracket",
