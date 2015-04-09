@@ -870,7 +870,8 @@ Typograf.rule({
 
             return firstPart + fullUrl + '</a>';
         });
-    }
+    },
+    enabled: false
 });
 
 Typograf.rule({
@@ -953,6 +954,33 @@ Typograf.rule({
 })();
 
 Typograf.rule({
+    name: 'common/number/fraction',
+    sortIndex: 1120,
+    func: function(text) {
+        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
+            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
+            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
+    }
+});
+
+Typograf.rule({
+    name: 'common/number/plusMinus',
+    sortIndex: 1010,
+    func: function(text) {
+        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
+        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
+    }
+});
+
+Typograf.rule({
+    name: 'common/number/times',
+    sortIndex: 1050,
+    func: function(text) {
+        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
+    }
+});
+
+Typograf.rule({
     name: 'common/other/repeatWord',
     sortIndex: 1200,
     func: function(text) {
@@ -1007,7 +1035,7 @@ Typograf.rule({
         var re = new RegExp('(!|;|\\?)([^ \uDBFF\n\t!;?' + this.data('common/quot') + '[])', 'g');
         return text
             .replace(re, '$1 $2')
-            .replace(/(\D)(,|:)([^ \uDBFF\n\t,.?:])/g, '$1$2 $3');
+            .replace(/(\D)(,|:)([^ \/\uDBFF\n\t,.?:])/g, '$1$2 $3');
     }
 });
 
@@ -1089,33 +1117,6 @@ Typograf.rule({
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
-    }
-});
-
-Typograf.rule({
-    name: 'common/number/fraction',
-    sortIndex: 1120,
-    func: function(text) {
-        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
-            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
-            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
-    }
-});
-
-Typograf.rule({
-    name: 'common/number/plusMinus',
-    sortIndex: 1010,
-    func: function(text) {
-        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
-        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
-    }
-});
-
-Typograf.rule({
-    name: 'common/number/times',
-    sortIndex: 1050,
-    func: function(text) {
-        return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
 });
 

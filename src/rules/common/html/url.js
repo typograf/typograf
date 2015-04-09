@@ -29,5 +29,6 @@ Typograf.rule({
 
             return firstPart + fullUrl + '</a>';
         });
-    }
+    },
+    enabled: false
 });
