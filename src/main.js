@@ -1,5 +1,3 @@
-/*! Typograf | © 2014 Denis Seleznev | https://github.com/typograf/typograf/ */
-
 /**
  * @constructor
  * @param {Object} [prefs]

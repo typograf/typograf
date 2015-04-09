@@ -238,6 +238,13 @@ tests.push(['common/sym/copy', [
     ['(tm)', '™']
 ]]);
 
+/*jshint maxlen:1000 */
+tests.push(['en/punctuation/quot', [
+    ['One of the most famous phrases is "to be or not to be".', 'One of the most famous phrases is “to be or not to be”.'],
+    ['"I have no special talent," Einstein. "I am only curious enough."', '“I have no special talent,” Einstein. “I am only curious enough.”'],
+    ['"I was reading "The Economics of the USA" yesterday," she replied to me.', '“I was reading ‘The Economics of the USA’ yesterday,” she replied to me.']
+]]);
+
 tests.push(['ru/dash/izpod', [
     [' из под печки', ' из-под печки'],
     [' Из под печки', ' Из-под печки']
@@ -304,20 +311,6 @@ tests.push(['ru/dash/weekday', [
     ['понедельник-четверг', 'понедельник—четверг']
 ]]);
 
-tests.push(['ru/date/main', [
-    ['2010-02-01', '01.02.2010'],
-    [' 2010-02-01 ', ' 01.02.2010 '],
-    ['11/22/2010', '22.11.2010'],
-    [' 11/22/2010 ', ' 22.11.2010 ']
-]]);
-
-tests.push(['ru/date/weekday', [
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, понедельник', '25 мая, понедельник'],
-    ['25 мая, Понедельник', '25 мая, понедельник']
-]]);
-
 tests.push(['ru/money/dollar', [
     ['100$', '100\u00A0$'],
     ['100 $', '100\u00A0$'],
@@ -352,6 +345,20 @@ tests.push(['ru/money/ruble', [
     ['У меня 100 р., а у тебя нет.', 'У меня 100\u00A0₽, а у тебя нет.'],
     ['У меня 100 р., а у тебя 200 р.', 'У меня 100\u00A0₽, а у тебя 200 р.'],
     ['У меня 100 р. У Миши 20 р.', 'У меня 100\u00A0₽. У Миши 20 р.']
+]]);
+
+tests.push(['ru/date/main', [
+    ['2010-02-01', '01.02.2010'],
+    [' 2010-02-01 ', ' 01.02.2010 '],
+    ['11/22/2010', '22.11.2010'],
+    [' 11/22/2010 ', ' 22.11.2010 ']
+]]);
+
+tests.push(['ru/date/weekday', [
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, понедельник', '25 мая, понедельник'],
+    ['25 мая, Понедельник', '25 мая, понедельник']
 ]]);
 
 /*jshint maxlen:1000 */
@@ -576,11 +583,4 @@ tests.push(['ru/punctuation/quot', [
         '"Полотенцесушители из нержавеющей стали"\n\nПолотенцесушитель из черного металла, сделанные из нержавеющей стали, очень хорошо подходят к использованию в наших условиях. Снаружи они могут иметь полированную, матовую, или даже окрашенную поверхность. Модели с окрашенной поверхностью обычно стоят меньше других. Еще один плюс окрашенных полотенцесушителей — возможность разместить их в любом интерьере благодаря широкой цветовой гамме.',
         '«Полотенцесушители из нержавеющей стали»\n\nПолотенцесушитель из черного металла, сделанные из нержавеющей стали, очень хорошо подходят к использованию в наших условиях. Снаружи они могут иметь полированную, матовую, или даже окрашенную поверхность. Модели с окрашенной поверхностью обычно стоят меньше других. Еще один плюс окрашенных полотенцесушителей — возможность разместить их в любом интерьере благодаря широкой цветовой гамме.'
     ]
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['en/punctuation/quot', [
-    ['One of the most famous phrases is "to be or not to be".', 'One of the most famous phrases is “to be or not to be”.'],
-    ['"I have no special talent," Einstein. "I am only curious enough."', '“I have no special talent,” Einstein. “I am only curious enough.”'],
-    ['"I was reading "The Economics of the USA" yesterday," she replied to me.', '“I was reading ‘The Economics of the USA’ yesterday,” she replied to me.']
 ]]);
