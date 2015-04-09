@@ -7,7 +7,7 @@
 | 3. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на тег br | 2020 |  |  |
 | 4. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 2030 |  |  |
 | 5. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 100 | end |  |
-| 6. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 2010 |  | ✓ |
+| 6. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 2010 |  |  |
 | 7. | [common/nbsp/afterNumber](../src/rules/common/nbsp/afterNumber.js) | Нераз. пробел между числом и словом | 615 |  | ✓ |
 | 8. | [common/nbsp/afterPara](../src/rules/common/nbsp/afterPara.js) | Нераз. пробел после § | 610 |  | ✓ |
 | 9. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.js) | Нераз. пробел после короткого слова | 590 |  | ✓ |

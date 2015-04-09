@@ -23,30 +23,6 @@
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
   },
-  "common/nbsp/afterNumber": {
-    "en": "Non-breaking space between number and word",
-    "ru": "Нераз. пробел между числом и словом"
-  },
-  "common/nbsp/afterPara": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
-  },
-  "common/nbsp/afterShortWord": {
-    "en": "Non-breaking space after short word",
-    "ru": "Нераз. пробел после короткого слова"
-  },
-  "common/nbsp/beforeShortLastWord": {
-    "en": "Non-breaking space before last short word in sentence",
-    "ru": "Нераз. пробел перед последним коротким словом в предложении"
-  },
-  "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
-  },
-  "common/nbsp/nowrap": {
-    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
-    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
-  },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
   },
@@ -246,5 +222,29 @@
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
+  },
+  "common/nbsp/afterNumber": {
+    "en": "Non-breaking space between number and word",
+    "ru": "Нераз. пробел между числом и словом"
+  },
+  "common/nbsp/afterPara": {
+    "en": "Non-breaking space after §",
+    "ru": "Нераз. пробел после §"
+  },
+  "common/nbsp/afterShortWord": {
+    "en": "Non-breaking space after short word",
+    "ru": "Нераз. пробел после короткого слова"
+  },
+  "common/nbsp/beforeShortLastWord": {
+    "en": "Non-breaking space before last short word in sentence",
+    "ru": "Нераз. пробел перед последним коротким словом в предложении"
+  },
+  "common/nbsp/dpi": {
+    "en": "Non-breaking space before lpi, dpi",
+    "ru": "Нераз. пробел перед lpi, dpi"
+  },
+  "common/nbsp/nowrap": {
+    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
+    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   }
 }

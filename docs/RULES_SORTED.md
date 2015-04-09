@@ -62,7 +62,7 @@
 | 58. | [ru/date/weekday](../src/rules/ru/date/weekday.js) | 2 Мая, Понедельник → 2 мая, понедельник | 1310 |  | ✓ |
 | 59. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 1400 |  | ✓ |
 | 60. | [common/html/mail](../src/rules/common/html/mail.js) | Расстановка ссылок для эл. почты | 2000 |  |  |
-| 61. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 2010 |  | ✓ |
+| 61. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 2010 |  |  |
 | 62. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на тег br | 2020 |  |  |
 | 63. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 2030 |  |  |
 | 64. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 100 | end |  |
