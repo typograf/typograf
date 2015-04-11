@@ -133,6 +133,11 @@ var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
 tpDigit.execute('...'); // &#8230;
 ```
 
+### Сжатие с UglifyJS
+Если `typograf.js` сжимается вместе с другими js-файлами в `UglifyJS`,
+то необходимо использовать опцию `ascii_only: false`, иначе типограф будет работать некорректно.
+
+
 ## Разработка
 `git clone https://github.com/typograf/typograf.git ./typograf`
 
