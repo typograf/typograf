@@ -3,9 +3,10 @@
 var fs = require('fs'),
     isutf8 = require('isutf8'),
     program = require('commander'),
-    typograf = new (require('../dist/typograf'))(),
-    modes = ['digit', 'name', 'default'],
-    langs = ['en', 'ru'];
+    Typograf = require('../dist/typograf'),
+    typograf = new Typograf(),
+    langs = Typograf._langs,
+    modes = ['digit', 'name', 'default'];
 
 program
     .version(require('../package.json').version)
