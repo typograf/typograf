@@ -3,9 +3,9 @@
 var fs = require('fs'),
     isutf8 = require('isutf8'),
     program = require('commander'),
-    Typograf = require('../dist/typograf'),
-    typograf = new Typograf(),
-    langs = Typograf._langs,
+    TypografObj = require('../dist/typograf'),
+    typograf = new TypografObj(),
+    langs = TypografObj._langs,
     modes = ['digit', 'name', 'default'];
 
 program
