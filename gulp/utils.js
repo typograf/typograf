@@ -44,7 +44,7 @@ module.exports = {
                 return -1;
             }
         }).forEach(getRow);
-        processTemplate('docs/RULES.md', '.gulp/templates/RULES.md');
+        processTemplate('docs/RULES.md', 'gulp/templates/RULES.md');
 
         text = '';
         Typograf.prototype._rules.sort(function(a, b) {
@@ -64,6 +64,6 @@ module.exports = {
                 return -1;
             }
         }).forEach(getRow);
-        processTemplate('docs/RULES_SORTED.md', '.gulp/templates/RULES_SORTED.md');
+        processTemplate('docs/RULES_SORTED.md', 'gulp/templates/RULES_SORTED.md');
     }
 };

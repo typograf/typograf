@@ -1,6 +1,0 @@
-src/
-tests/
-gulpfile.js
-.jshintrc
-.jshintignore
-.jscs.json
