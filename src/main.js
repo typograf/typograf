@@ -1,5 +1,3 @@
-/*! Typograf | © 2014 Denis Seleznev | https://github.com/typograf/typograf/ */
-
 /**
  * @constructor
  * @param {Object} [prefs]
@@ -12,7 +10,10 @@ function Typograf(prefs) {
     this._settings = {};
     this._enabledRules = {};
 
+    this._replaceLabel = this._replaceLabel.bind(this);
+    this._pasteLabel = this._pasteLabel.bind(this);
     this._initSafeTags();
+
     this._rules.forEach(this._prepareRule, this);
 }
 
@@ -120,7 +121,7 @@ Typograf._quot = function(text, settings) {
         text = text
             .replace(reL1, rquot2 + '$1' + rquot)
             .replace(reR1, lquot + '$1' + lquot2);
-            
+
         if(text.search(new RegExp(lquot + '|' + rquot)) === -1) {
             text = text
                 .replace(reL2, lquot)
@@ -365,7 +366,7 @@ Typograf.prototype = {
 
         this._safeTags.forEach(function(tag) {
             var re = new RegExp(tag[0] + '[^]*?' + tag[1], 'gi');
-            text = text.replace(re, this._pasteLabel.bind(this));
+            text = text.replace(re, this._pasteLabel);
         }, this);
 
         return this._hideHTMLTags(text);
@@ -384,11 +385,11 @@ Typograf.prototype = {
         return this._hiddenSafeTags[match];
     },
     _hideHTMLTags: function(text) {
-        return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel.bind(this));
+        return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel);
     },
     _showSafeTags: function(text) {
         for(var i = 0; i < this._safeTags.length; i++) {
-            text = text.replace(/\uDBFFtf\d+\uDBFF/g, this._replaceLabel.bind(this));
+            text = text.replace(/\uDBFFtf\d+\uDBFF/g, this._replaceLabel);
             if(text.search(/\uDBFFtf\d/) === -1) {
                 break;
             }
@@ -433,8 +434,3 @@ Typograf.prototype = {
         return text;
     }
 };
-
-/* istanbul ignore else  */
-if(typeof exports === 'object') {
-    module.exports = Typograf;
-}

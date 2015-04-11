@@ -124,6 +124,42 @@
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "ru/dash/izpod": {
+    "en": "Hyphen between “из-под”",
+    "ru": "Дефис между из-под"
+  },
+  "ru/dash/izza": {
+    "en": "Hyphen between “из-за”",
+    "ru": "Дефис между из-за"
+  },
+  "ru/dash/kade": {
+    "en": "Hyphen before “ка, де, кась”",
+    "ru": "Дефис перед ка, де, кась"
+  },
+  "ru/dash/koe": {
+    "en": "Hyphen after “кое” and “кой”",
+    "ru": "Дефис после кое и кой"
+  },
+  "ru/dash/main": {
+    "en": "Replacement hyphen with dash",
+    "ru": "Дефис на тире"
+  },
+  "ru/dash/month": {
+    "en": "Dash between months",
+    "ru": "Тире между месяцами"
+  },
+  "ru/dash/taki": {
+    "en": "Hyphen between “верно-таки” and etc.",
+    "ru": "Дефис между верно-таки и т.д."
+  },
+  "ru/dash/to": {
+    "en": "Hyphen before “то, либо, нибудь”",
+    "ru": "Дефис перед то, либо, нибудь"
+  },
+  "ru/dash/weekday": {
+    "en": "Dash between the days of the week",
+    "ru": "Тире между днями недели"
+  },
   "en/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
@@ -143,6 +179,33 @@
   },
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
+  },
+  "ru/optalign/bracket": {
+    "en": "for opening bracket",
+    "ru": "для открывающей скобки"
+  },
+  "ru/optalign/comma": {
+    "en": "for comma",
+    "ru": "для запятой"
+  },
+  "ru/optalign/quot": {
+    "en": "for opening quotation marks",
+    "ru": "для открывающей кавычки"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
+  },
+  "ru/other/accent": {
+    "en": "Replacing capital letter and adding accents",
+    "ru": "Замена заглавной буквы и добавление знака ударения"
+  },
+  "ru/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
+  "ru/nbsp/addr": {
+    "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
+    "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
   },
   "ru/nbsp/afterNumberSign": {
     "en": "Non-breaking space after №",
@@ -183,64 +246,5 @@
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
-  },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
-  "ru/optalign/bracket": {
-    "en": "for opening bracket",
-    "ru": "для открывающей скобки"
-  },
-  "ru/optalign/comma": {
-    "en": "for comma",
-    "ru": "для запятой"
-  },
-  "ru/optalign/quot": {
-    "en": "for opening quotation marks",
-    "ru": "для открывающей кавычки"
-  },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
-  },
-  "ru/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
-  },
-  "ru/dash/izpod": {
-    "en": "Hyphen between “из-под”",
-    "ru": "Дефис между из-под"
-  },
-  "ru/dash/izza": {
-    "en": "Hyphen between “из-за”",
-    "ru": "Дефис между из-за"
-  },
-  "ru/dash/kade": {
-    "en": "Hyphen before “ка, де, кась”",
-    "ru": "Дефис перед ка, де, кась"
-  },
-  "ru/dash/koe": {
-    "en": "Hyphen after “кое” and “кой”",
-    "ru": "Дефис после кое и кой"
-  },
-  "ru/dash/main": {
-    "en": "Replacement hyphen with dash",
-    "ru": "Дефис на тире"
-  },
-  "ru/dash/month": {
-    "en": "Dash between months",
-    "ru": "Тире между месяцами"
-  },
-  "ru/dash/taki": {
-    "en": "Hyphen between “верно-таки” and etc.",
-    "ru": "Дефис между верно-таки и т.д."
-  },
-  "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь”",
-    "ru": "Дефис перед то, либо, нибудь"
-  },
-  "ru/dash/weekday": {
-    "en": "Dash between the days of the week",
-    "ru": "Тире между днями недели"
   }
 }

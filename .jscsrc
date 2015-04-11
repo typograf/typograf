@@ -8,7 +8,9 @@
         "libs",
         "node_modules",
         "test",
-        "site"
+        "site",
+        "src/start.js",
+        "src/end.js"
     ],
     "requireCurlyBraces": ["if", "else", "for", "while", "do"],
     "requireSpaceAfterKeywords": ["do", "else"],
