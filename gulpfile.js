@@ -19,10 +19,12 @@ var paths = {
         'src/**/*.json'
     ],
     js: [
+        'src/start.js',
         'src/main.js',
         'src/entities.js',
         'src/data/**/*.js',
         'src/rules/**/*.js',
+        'src/sort.js',
         'src/end.js'
     ],
     css: [

@@ -1,4 +1,18 @@
-/*! Typograf | © 2014 Denis Seleznev | https://github.com/typograf/typograf/ */
+/*! Typograf | © 2015 Denis Seleznev | https://github.com/typograf/typograf/ */
+
+(function(root, factory) {
+
+if(typeof define === 'function' && define.amd) {
+    define('typograf', [], factory);
+} else if (typeof exports === 'object') {
+    module.exports = factory();
+} else {
+    root.Typograf = factory();
+}
+
+}(this, function() {
+
+'use strict';
 
 /**
  * @constructor
@@ -1148,6 +1162,18 @@ Typograf.rule({
     }
 });
 
+Typograf.rule({
+    name: 'en/punctuation/quot',
+    sortIndex: 700,
+    func: Typograf._quot,
+    settings: {
+        lquot: '“',
+        rquot: '”',
+        lquot2: '‘',
+        rquot2: '’'
+    }
+});
+
 Typograf.data('ru/dash', {
     before: '(^| |\\n)',
     after: '( |,|\\.|\\?|:|!|$)'
@@ -1271,37 +1297,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/date/main',
-    sortIndex: 1300,
-    func: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-            
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    sortIndex: 1310,
-    func: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthCase').join('|'),
-            weekday = this.data('ru/weekday').join('|'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
-});
-
-Typograf.rule({
     name: 'ru/money/dollar',
     sortIndex: 1140,
     func: function(text) {
@@ -1340,6 +1335,37 @@ Typograf.rule({
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
     },
     enabled: false
+});
+
+Typograf.rule({
+    name: 'ru/date/main',
+    sortIndex: 1300,
+    func: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+            
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    sortIndex: 1310,
+    func: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data('ru/monthCase').join('|'),
+            weekday = this.data('ru/weekday').join('|'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
 });
 
 /*jshint maxlen:1000 */
@@ -1555,17 +1581,9 @@ Typograf.rule({
     }
 });
 
-Typograf.rule({
-    name: 'en/punctuation/quot',
-    sortIndex: 700,
-    func: Typograf._quot,
-    settings: {
-        lquot: '“',
-        rquot: '”',
-        lquot2: '‘',
-        rquot2: '’'
-    }
-});
-
 Typograf._sortRules();
 Typograf._needSortRules = true;
+
+return Typograf;
+
+}));

@@ -50,6 +50,30 @@
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
   },
+  "common/nbsp/afterNumber": {
+    "en": "Non-breaking space between number and word",
+    "ru": "Нераз. пробел между числом и словом"
+  },
+  "common/nbsp/afterPara": {
+    "en": "Non-breaking space after §",
+    "ru": "Нераз. пробел после §"
+  },
+  "common/nbsp/afterShortWord": {
+    "en": "Non-breaking space after short word",
+    "ru": "Нераз. пробел после короткого слова"
+  },
+  "common/nbsp/beforeShortLastWord": {
+    "en": "Non-breaking space before last short word in sentence",
+    "ru": "Нераз. пробел перед последним коротким словом в предложении"
+  },
+  "common/nbsp/dpi": {
+    "en": "Non-breaking space before lpi, dpi",
+    "ru": "Нераз. пробел перед lpi, dpi"
+  },
+  "common/nbsp/nowrap": {
+    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
+    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
+  },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
@@ -156,6 +180,26 @@
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
   },
+  "ru/optalign/bracket": {
+    "en": "for opening bracket",
+    "ru": "для открывающей скобки"
+  },
+  "ru/optalign/comma": {
+    "en": "for comma",
+    "ru": "для запятой"
+  },
+  "ru/optalign/quot": {
+    "en": "for opening quotation marks",
+    "ru": "для открывающей кавычки"
+  },
+  "ru/other/accent": {
+    "en": "Replacing capital letter and adding accents",
+    "ru": "Замена заглавной буквы и добавление знака ударения"
+  },
+  "ru/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
     "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
@@ -202,49 +246,5 @@
   },
   "ru/number/ordinals": {
     "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
-  "ru/optalign/bracket": {
-    "en": "for opening bracket",
-    "ru": "для открывающей скобки"
-  },
-  "ru/optalign/comma": {
-    "en": "for comma",
-    "ru": "для запятой"
-  },
-  "ru/optalign/quot": {
-    "en": "for opening quotation marks",
-    "ru": "для открывающей кавычки"
-  },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
-  },
-  "ru/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
-  },
-  "common/nbsp/afterNumber": {
-    "en": "Non-breaking space between number and word",
-    "ru": "Нераз. пробел между числом и словом"
-  },
-  "common/nbsp/afterPara": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
-  },
-  "common/nbsp/afterShortWord": {
-    "en": "Non-breaking space after short word",
-    "ru": "Нераз. пробел после короткого слова"
-  },
-  "common/nbsp/beforeShortLastWord": {
-    "en": "Non-breaking space before last short word in sentence",
-    "ru": "Нераз. пробел перед последним коротким словом в предложении"
-  },
-  "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
-  },
-  "common/nbsp/nowrap": {
-    "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
-    "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   }
 }
