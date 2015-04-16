@@ -1,6 +1,6 @@
 ## Правила типографа
 
-| № | Имя ▼ | Название | [Индекс](./RULES_SORTED.md) | Очередь | Вкл. |
+| № | Имя ▼ | Название | [Индекс](./RULES_SORTED.ru.md) | Очередь | Вкл. |
 |--:|-------|----------|----------------------------:|:-------:|:----:|
 | 1. | [common/sym/copy](../src/rules/common/sym/copy.js) | (c) → ©, (tm) → ©, (r) → ™ | 10 |  | ✓ |
 | 2. | [common/punctuation/hellip](../src/rules/common/punctuation/hellip.js) | Три точки на троеточие | 20 |  | ✓ |
