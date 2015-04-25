@@ -8,5 +8,5 @@ Typograf.rule({
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=[!?,:;])/g, rep)
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
     },
-    enabled: false
+    disabled: true
 });

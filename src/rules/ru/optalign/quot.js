@@ -14,7 +14,7 @@ Typograf.rule({
             .replace(re, '$1<span class="typograf-oa-sp-lquot">$2</span><span class="typograf-oa-lquot">$3</span>')
             .replace(re2, '$1<span class="typograf-oa-n-lquot">$2</span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/quot',

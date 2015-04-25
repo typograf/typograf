@@ -41,11 +41,11 @@ function Typograf(prefs) {
  * @param {string} rule.name Name of rule
  * @param {Function} rule.func Processing function
  * @param {string} [rule.sortIndex] Sorting index for rule
- * @param {boolean} [rule.enabled] Rule is enabled by default
+ * @param {boolean} [rule.disabled] Rule is disabled by default
  * @return {Typograf} this
  */
 Typograf.rule = function(rule) {
-    rule.enabled = rule.enabled === false ? false : true;
+    rule.enabled = rule.enabled === false || rule.disabled === true ? false : true;
     rule._lang = rule.name.split('/')[0];
     rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
 
@@ -784,109 +784,6 @@ Typograf.data('ru/weekday', [
 ]);
 
 Typograf.rule({
-    name: 'common/html/escape',
-    sortIndex: 110,
-    queue: 'end',
-    func: function(text) {
-        var entityMap = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            '\'': '&#39;',
-            '/': '&#x2F;'
-        };
-
-        return text.replace(/[&<>"'\/]/g, function(s) {
-            return entityMap[s];
-        });
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'common/html/mail',
-    sortIndex: 2000,
-    func: function(text) {
-        return text.replace(
-            /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
-            '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
-        );
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'common/html/nbr',
-    sortIndex: 2020,
-    func: function(text) {
-        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'common/html/pbr',
-    sortIndex: 2030,
-    func: function(text) {
-        if(text.search(/\n/) === -1) {
-            text = '<p>' + text + '</p>';
-        } else {
-            text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-            text = text.replace(/([^>])\n/g, '$1<br/>\n');
-        }
-
-        return text;
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'common/html/stripTags',
-    sortIndex: 100,
-    queue: 'end',
-    func: function(text) {
-        return text.replace(/<\/?[^>]+>/g, '');
-    },
-    enabled: false
-});
-
-Typograf.rule({
-    name: 'common/html/url',
-    sortIndex: 2010,
-    func: function(text) {
-        var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
-            pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
-            re = new RegExp(prefix + pureUrl, 'g');
-
-        return text.replace(re, function($0, protocol, path) {
-            path = path
-                .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
-                .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
-                
-            if(protocol === 'http') {
-                path = path.replace(/^([^\/]+)(:80)([^\d]|\/|$)/, '$1$3'); // Remove 80 port
-            } else if(protocol === 'https') {
-                path = path.replace(/^([^\/]+)(:443)([^\d]|\/|$)/, '$1$3'); // Remove 443 port
-            }
-
-            var url = path,
-                fullUrl = protocol + '://' + path,
-                firstPart = '<a href="' + fullUrl + '">';
-
-            if(protocol === 'http' || protocol === 'https') {
-                url = url.replace(/^www\./, '');
-
-                return firstPart + (protocol === 'http' ? url : protocol + '://' + url) + '</a>';
-            }
-
-            return firstPart + fullUrl + '</a>';
-        });
-    },
-    enabled: false
-});
-
-Typograf.rule({
     name: 'common/nbsp/afterNumber',
     sortIndex: 615,
     func: function(text) {
@@ -995,6 +892,109 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'common/html/escape',
+    sortIndex: 110,
+    queue: 'end',
+    func: function(text) {
+        var entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            '\'': '&#39;',
+            '/': '&#x2F;'
+        };
+
+        return text.replace(/[&<>"'\/]/g, function(s) {
+            return entityMap[s];
+        });
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/mail',
+    sortIndex: 2000,
+    func: function(text) {
+        return text.replace(
+            /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
+            '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
+        );
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/nbr',
+    sortIndex: 2020,
+    func: function(text) {
+        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/pbr',
+    sortIndex: 2030,
+    func: function(text) {
+        if(text.search(/\n/) === -1) {
+            text = '<p>' + text + '</p>';
+        } else {
+            text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
+            text = text.replace(/([^>])\n/g, '$1<br/>\n');
+        }
+
+        return text;
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/stripTags',
+    sortIndex: 100,
+    queue: 'end',
+    func: function(text) {
+        return text.replace(/<\/?[^>]+>/g, '');
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/url',
+    sortIndex: 2010,
+    func: function(text) {
+        var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
+            pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
+            re = new RegExp(prefix + pureUrl, 'g');
+
+        return text.replace(re, function($0, protocol, path) {
+            path = path
+                .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
+                .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
+                
+            if(protocol === 'http') {
+                path = path.replace(/^([^\/]+)(:80)([^\d]|\/|$)/, '$1$3'); // Remove 80 port
+            } else if(protocol === 'https') {
+                path = path.replace(/^([^\/]+)(:443)([^\d]|\/|$)/, '$1$3'); // Remove 443 port
+            }
+
+            var url = path,
+                fullUrl = protocol + '://' + path,
+                firstPart = '<a href="' + fullUrl + '">';
+
+            if(protocol === 'http' || protocol === 'https') {
+                url = url.replace(/^www\./, '');
+
+                return firstPart + (protocol === 'http' ? url : protocol + '://' + url) + '</a>';
+            }
+
+            return firstPart + fullUrl + '</a>';
+        });
+    },
+    disabled: true
+});
+
+Typograf.rule({
     name: 'common/other/repeatWord',
     sortIndex: 1200,
     func: function(text) {
@@ -1004,7 +1004,7 @@ Typograf.rule({
 
         return text.replace(new RegExp(re, 'gi'), '$1$2');
     },
-    enabled: false
+    disabled: true
 });
 
 Typograf.rule({
@@ -1079,7 +1079,7 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/\n[ \t]+/g, '\n');
     },
-    enabled: false
+    disabled: true
 });
 
 Typograf.rule({
@@ -1159,18 +1159,6 @@ Typograf.rule({
         return text.replace(/\(r\)/gi, '®')
             .replace(/(copyright )?\((c|с)\)/gi, '©')
             .replace(/\(tm\)/gi, '™');
-    }
-});
-
-Typograf.rule({
-    name: 'en/punctuation/quot',
-    sortIndex: 700,
-    func: Typograf._quot,
-    settings: {
-        lquot: '“',
-        rquot: '”',
-        lquot2: '‘',
-        rquot2: '’'
     }
 });
 
@@ -1365,7 +1353,7 @@ Typograf.rule({
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=[!?,:;])/g, rep)
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
     },
-    enabled: false
+    disabled: true
 });
 
 /*jshint maxlen:1000 */
@@ -1495,6 +1483,18 @@ Typograf.rule({
     }
 });
 
+Typograf.rule({
+    name: 'en/punctuation/quot',
+    sortIndex: 700,
+    func: Typograf._quot,
+    settings: {
+        lquot: '“',
+        rquot: '”',
+        lquot2: '‘',
+        rquot2: '’'
+    }
+});
+
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/bracket',
@@ -1504,7 +1504,7 @@ Typograf.rule({
             .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
             .replace(/(^|\n)\(/g, '$1<span class="typograf-oa-n-lbracket">(</span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/bracket',
@@ -1522,7 +1522,7 @@ Typograf.rule({
         var re = new RegExp('([' + this.letters() + '\\d\u0301]+), ', 'gi');
         return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/comma',
@@ -1548,7 +1548,7 @@ Typograf.rule({
             .replace(re, '$1<span class="typograf-oa-sp-lquot">$2</span><span class="typograf-oa-lquot">$3</span>')
             .replace(re2, '$1<span class="typograf-oa-n-lquot">$2</span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/quot',
@@ -1559,14 +1559,14 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/other/accent', 
+    name: 'ru/other/accent',
     sortIndex: 560,
-    enabled: false,
     func: function(text) {
         return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
            return $1 + $2.toLowerCase() + '\u0301' + $3;
         });
-    }
+    },
+    disabled: true
 });
 
 Typograf.rule({

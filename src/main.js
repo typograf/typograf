@@ -25,11 +25,11 @@ function Typograf(prefs) {
  * @param {string} rule.name Name of rule
  * @param {Function} rule.func Processing function
  * @param {string} [rule.sortIndex] Sorting index for rule
- * @param {boolean} [rule.enabled] Rule is enabled by default
+ * @param {boolean} [rule.disabled] Rule is disabled by default
  * @return {Typograf} this
  */
 Typograf.rule = function(rule) {
-    rule.enabled = rule.enabled === false ? false : true;
+    rule.enabled = rule.enabled === false || rule.disabled === true ? false : true;
     rule._lang = rule.name.split('/')[0];
     rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
 

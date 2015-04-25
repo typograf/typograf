@@ -6,61 +6,6 @@ module.exports = {
     innerTests: innerTests
 };
 
-/*jshint maxlen:1000 */
-tests.push(['common/html/escape', [
-    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/mail', [
-    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
-    ['>example@example.com<', '>example@example.com<']
-]]);
-
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
-    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/url', [
-    ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://www.example.com/', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    [
-        'Ссылка 1: http://www.example.com/?\nСсылка 2: https://www.example2.ru/?',
-        'Ссылка 1: <a href="http://www.example.com">example.com</a>\nСсылка 2: <a href="https://www.example2.ru">https://example2.ru</a>'
-    ],
-    ['Ссылка http://www.example.com/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com/#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:80', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:800', 'Ссылка <a href="http://www.example.com:800">example.com:800</a>'],
-    ['Ссылка http://www.example.com:80/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:80/?query=hello', 'Ссылка <a href="http://www.example.com/?query=hello">example.com/?query=hello</a>'],
-    ['Ссылка http://www.example.com:443', 'Ссылка <a href="http://www.example.com:443">example.com:443</a>'],
-    ['Ссылка https://www.example.com:443/?', 'Ссылка <a href="https://www.example.com">https://example.com</a>'],
-    ['Ссылка https://www.example.com:443/?query=hello', 'Ссылка <a href="https://www.example.com/?query=hello">https://example.com/?query=hello</a>'],
-    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
-]]);
-
 tests.push(['common/nbsp/afterNumber', [
     [' 123 дня ', ' 123\u00A0дня '],
     ['2 кошки', '2\u00A0кошки'],
@@ -122,6 +67,61 @@ tests.push(['common/number/plusMinus', [
 tests.push(['common/number/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/html/escape', [
+    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/html/mail', [
+    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
+    ['>example@example.com<', '>example@example.com<']
+]]);
+
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
+    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
+]]);
+
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>']
+]]);
+
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/html/url', [
+    ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://www.example.com/', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    [
+        'Ссылка 1: http://www.example.com/?\nСсылка 2: https://www.example2.ru/?',
+        'Ссылка 1: <a href="http://www.example.com">example.com</a>\nСсылка 2: <a href="https://www.example2.ru">https://example2.ru</a>'
+    ],
+    ['Ссылка http://www.example.com/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com/#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:80', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:800', 'Ссылка <a href="http://www.example.com:800">example.com:800</a>'],
+    ['Ссылка http://www.example.com:80/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:80/?query=hello', 'Ссылка <a href="http://www.example.com/?query=hello">example.com/?query=hello</a>'],
+    ['Ссылка http://www.example.com:443', 'Ссылка <a href="http://www.example.com:443">example.com:443</a>'],
+    ['Ссылка https://www.example.com:443/?', 'Ссылка <a href="https://www.example.com">https://example.com</a>'],
+    ['Ссылка https://www.example.com:443/?query=hello', 'Ссылка <a href="https://www.example.com/?query=hello">https://example.com/?query=hello</a>'],
+    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
 ]]);
 
 tests.push(['common/other/repeatWord', [
@@ -236,13 +236,6 @@ tests.push(['common/sym/copy', [
     ['copyright (с)', '©'],
     ['(r)', '®'],
     ['(tm)', '™']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['en/punctuation/quot', [
-    ['One of the most famous phrases is "to be or not to be".', 'One of the most famous phrases is “to be or not to be”.'],
-    ['"I have no special talent," Einstein. "I am only curious enough."', '“I have no special talent,” Einstein. “I am only curious enough.”'],
-    ['"I was reading "The Economics of the USA" yesterday," she replied to me.', '“I was reading ‘The Economics of the USA’ yesterday,” she replied to me.']
 ]]);
 
 tests.push(['ru/dash/izpod', [
@@ -474,6 +467,13 @@ tests.push(['ru/number/ordinals', [
     ['22-ого июля', '22-го июля'],
     ['Будите 121-ыми', 'Будите 121-ми'],
     ['4-ых', '4-х']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['en/punctuation/quot', [
+    ['One of the most famous phrases is "to be or not to be".', 'One of the most famous phrases is “to be or not to be”.'],
+    ['"I have no special talent," Einstein. "I am only curious enough."', '“I have no special talent,” Einstein. “I am only curious enough.”'],
+    ['"I was reading "The Economics of the USA" yesterday," she replied to me.', '“I was reading ‘The Economics of the USA’ yesterday,” she replied to me.']
 ]]);
 
 /*jshint maxlen:1000 */

@@ -4,5 +4,5 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/\n[ \t]+/g, '\n');
     },
-    enabled: false
+    disabled: true
 });

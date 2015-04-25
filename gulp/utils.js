@@ -30,7 +30,7 @@ module.exports = {
                     title + ' | ' +
                     rule.sortIndex + ' | ' +
                     (rule.queue || '') + ' | ' +
-                    (rule.enabled !== false ? '✓' : '') + ' |\n';
+                    (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
             },
             processTemplate = function(file, templateFile, text) {
                 var template = fs.readFileSync(templateFile).toString();

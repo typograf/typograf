@@ -16,5 +16,5 @@ Typograf.rule({
             return entityMap[s];
         });
     },
-    enabled: false
+    disabled: true
 });

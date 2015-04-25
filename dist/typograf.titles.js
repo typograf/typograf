@@ -23,6 +23,10 @@ Typograf.prototype.titles = {
     "en": "Placement of links",
     "ru": "Расстановка ссылок"
   },
+  "common/other/repeatWord": {
+    "en": "Removing repeat words",
+    "ru": "Удаление повтора слова"
+  },
   "common/nbsp/afterNumber": {
     "en": "Non-breaking space between number and word",
     "ru": "Нераз. пробел между числом и словом"
@@ -47,19 +51,6 @@ Typograf.prototype.titles = {
     "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
-  "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
-  },
-  "common/number/plusMinus": {
-    "common": "+- → ±"
-  },
-  "common/number/times": {
-    "common": "x → × (10 x 5 → 10×5)"
-  },
-  "common/other/repeatWord": {
-    "en": "Removing repeat words",
-    "ru": "Удаление повтора слова"
-  },
   "common/punctuation/delDoublePunctuation": {
     "en": "Removing double punctuation",
     "ru": "Удаление двойной пунктуации"
@@ -74,9 +65,14 @@ Typograf.prototype.titles = {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
   },
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
+  "common/number/fraction": {
+    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+  },
+  "common/number/plusMinus": {
+    "common": "+- → ±"
+  },
+  "common/number/times": {
+    "common": "x → × (10 x 5 → 10×5)"
   },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
@@ -127,6 +123,10 @@ Typograf.prototype.titles = {
   },
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
+  },
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
   },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",

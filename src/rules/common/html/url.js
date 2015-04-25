@@ -30,5 +30,5 @@ Typograf.rule({
             return firstPart + fullUrl + '</a>';
         });
     },
-    enabled: false
+    disabled: true
 });

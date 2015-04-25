@@ -4,5 +4,5 @@ Typograf.rule({
     func: function(text) {
         return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
     },
-    enabled: false
+    disabled: true
 });

@@ -7,7 +7,7 @@ Typograf.rule({
             .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
             .replace(/(^|\n)\(/g, '$1<span class="typograf-oa-n-lbracket">(</span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/bracket',
