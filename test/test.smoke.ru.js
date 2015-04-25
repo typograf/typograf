@@ -18,3 +18,13 @@ describe('ru/smoke', function() {
         });
     });
 });
+
+describe('ru/smoke double execute', function() {
+    ruTests.forEach(function(item) {
+        it(item[0], function() {
+            var result = t.execute(item[0]);
+            assert.equal(t.execute(result), item[1]);
+        });
+    });
+});
+
