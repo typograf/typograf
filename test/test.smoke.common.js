@@ -34,6 +34,15 @@ describe('common/smoke', function() {
     });
 });
 
+describe('common/smoke double execute', function() {
+    commonTests.forEach(function(item) {
+        it(item[0], function() {
+            var result = t.execute(item[0]);
+            assert.equal(t.execute(result), item[1]);
+        });
+    });
+});
+
 it('enable common/html/escape', function() {
     var tp = new Typograf();
     tp.enable('common/html/escape');

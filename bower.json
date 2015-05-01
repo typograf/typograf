@@ -1,7 +1,17 @@
 {
   "name": "typograf",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "description": "Typograph in JavaScript",
+  "ignore": [
+    "**/.*",
+    "docs",
+    "gulp",
+    "gulpfile.js",
+    "src",
+    "test",
+    "*.yml",
+    "package.json"
+  ],  
   "bugs": "https://github.com/typograf/typograf/issues/new",
   "keywords": [
     "text",

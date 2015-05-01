@@ -69,6 +69,19 @@ describe('rules', function() {
     });
 });
 
+describe('rules, double execute', function() {
+    tests.forEach(function(elem) {
+        var name = elem[0];
+        it(name, function() {
+            elem[1].forEach(function(as) {
+                t.enable(name);
+                var result = executeRule(name, as[0]);
+                assert.equal(result, as[1], as[0] + ' → ' + as[1]);
+            });
+        });
+    });
+});
+
 describe('common specific tests', function() {
     it('enable common/html/stripTags', function() {
         var tp = new Typograf();
@@ -85,7 +98,7 @@ describe('common specific tests', function() {
         });
     });
     
-    it('enable common/html/escape', function() {
+    it('should enable common/html/escape', function() {
         var tp = new Typograf();
         tp.enable('common/html/escape');
 
@@ -100,7 +113,7 @@ describe('common specific tests', function() {
     });
 });
 
-describe('ru specific tests', function() {
+describe('russian specific tests', function() {
     it('quotes lquot = lquot2 and rquot = rquot2', function() {
         var quotTests = [
             ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
@@ -139,7 +152,7 @@ describe('ru specific tests', function() {
         });
     });
 
-    it('off ru/optalign', function() {
+    it('shoult disable ru/optalign', function() {
         var tp = new Typograf({lang: 'ru'});
         tp.disable('*');
 

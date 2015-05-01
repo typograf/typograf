@@ -3,9 +3,11 @@ Typograf.rule({
     sortIndex: 620,
     func: function(text, settings) {
         var len = settings.lengthLastWord,
-            re = new RegExp(' ([' + this.letters() + ']{1,' + len + '})(\\.|\\?|:|!|,)', 'gi');
+            punc = '.,?!:;',
+            re = new RegExp('([^' + punc + ']) ([' +
+                this.letters() + ']{1,' + len + '}[' + punc + '])', 'gi');
 
-        return text.replace(re, '\u00A0$1$2');
+        return text.replace(re, '$1\u00A0$2');
     },
     settings: {
         lengthLastWord: 3

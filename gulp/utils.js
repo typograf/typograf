@@ -21,33 +21,44 @@ module.exports = {
     },
     makeMdRules: function() {
         var Typograf = require('../dist/typograf.js'),
-            typografTitles = require('../dist/typograf.titles.json'),
-            getRow = function(rule, i) {
-                var title = typografTitles[rule.name].ru || typografTitles[rule.name].common;
-                text += '| ' + (i + 1) + '. | [' +
+            titles = require('../dist/typograf.titles.json'),
+            rules = Typograf.prototype._rules,
+            getRow = function(rule, i, lang) {
+                var title = titles[rule.name][lang] || titles[rule.name].common;
+                return '| ' + i + '. | [' +
                     rule.name + '](../src/rules/' + rule.name + '.js) | ' +
                     title + ' | ' +
                     rule.sortIndex + ' | ' +
                     (rule.queue || '') + ' | ' +
-                    (rule.enabled !== false ? '✓' : '') + ' |\n';
+                    (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
             },
-            processTemplate = function(file, templateFile) {
+            processTemplate = function(file, templateFile, text) {
                 var template = fs.readFileSync(templateFile).toString();
                 fs.writeFileSync(file, template.replace(/{{content}}/, text));
             },
-            text = '';
+            buildDoc = function() {
+                Typograf._langs.forEach(function(lang) {
+                    var text = '';
 
-        Typograf.prototype._rules.sort(function(a, b) {
+                    rules.forEach(function(rule, i) {
+                        text += getRow(rule, i + 1, lang);
+                    });
+
+                    processTemplate('docs/RULES.' + lang + '.md', 'gulp/templates/RULES.' + lang + '.md', text);
+                });
+            };
+
+        rules.sort(function(a, b) {
             if(a.name > b.name) {
                 return 1;
             } else {
                 return -1;
             }
-        }).forEach(getRow);
-        processTemplate('docs/RULES.md', '.gulp/templates/RULES.md');
+        });
 
-        text = '';
-        Typograf.prototype._rules.sort(function(a, b) {
+        buildDoc();
+
+        rules.sort(function(a, b) {
             var queueA = queue[a.queue],
                 queueB = queue[b.queue];
             if(queueA === queueB) {
@@ -63,7 +74,8 @@ module.exports = {
             } else {
                 return -1;
             }
-        }).forEach(getRow);
-        processTemplate('docs/RULES_SORTED.md', '.gulp/templates/RULES_SORTED.md');
+        });
+
+        buildDoc();
     }
 };

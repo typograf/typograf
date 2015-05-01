@@ -5,5 +5,5 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/<\/?[^>]+>/g, '');
     },
-    enabled: false
+    disabled: true
 });

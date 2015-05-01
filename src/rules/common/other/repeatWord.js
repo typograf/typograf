@@ -8,5 +8,5 @@ Typograf.rule({
 
         return text.replace(new RegExp(re, 'gi'), '$1$2');
     },
-    enabled: false
+    disabled: true
 });

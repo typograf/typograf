@@ -6,7 +6,7 @@ Typograf.rule({
         var re = new RegExp('([' + this.letters() + '\\d\u0301]+), ', 'gi');
         return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
-    enabled: false
+    disabled: true
 })
 .innerRule({
     name: 'ru/optalign/comma',

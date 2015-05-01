@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -32,22 +32,22 @@
   "engines": {
     "node": ">= 0.10"
   },
-  "dependencies": {
-    "commander": "~2.7.1",
-    "isutf8": "~1.0.10"
-  },
   "files": [
     "dist",
     "docs",
     "bin",
     "LICENSE"
   ],
+  "dependencies": {
+    "commander": "~2.8.1",
+    "isutf8": "~1.0.10"
+  },
   "devDependencies": {
     "chai": "~2.2.0",
     "gulp": "~3.8.10",
     "gulp-concat": "~2.5.0",
     "gulp-filter": "~2.0.0",
-    "gulp-jscs": "~1.5.1",
+    "gulp-jscs": "~1.6.0",
     "gulp-jshint": "~1.10.0",
     "gulp-jsonlint": "^1.0.2",
     "gulp-rename": "~1.2.0",
@@ -55,10 +55,10 @@
     "gulp-util": "~3.0.2",
     "istanbul": "~0.3.5",
     "jscs": "~1.12.0",
-    "jshint": "~2.6.0",
+    "jshint": "~2.7.0",
     "mocha": "~2.2.0",
     "through": "~2.3.6",
-    "yaspeller": "~1.1.0"
+    "yaspeller": "~2.1.0"
   },
   "scripts": {
     "test": "npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",

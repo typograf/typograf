@@ -74,6 +74,16 @@ Typograf.prototype.titles = {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
   },
+  "common/sym/arrow": {
+    "common": "-> → →, <- → ←"
+  },
+  "common/sym/cf": {
+    "en": "Adding ° to C and F",
+    "ru": "Добавление ° к C и F"
+  },
+  "common/sym/copy": {
+    "common": "(c) → ©, (tm) → ©, (r) → ™"
+  },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
@@ -114,15 +124,9 @@ Typograf.prototype.titles = {
     "en": "Remove spaces and line breaks at end of text",
     "ru": "Удаление пробелов и переносов строк в конце текста"
   },
-  "common/sym/arrow": {
-    "common": "-> → →, <- → ←"
-  },
-  "common/sym/cf": {
-    "en": "Adding ° to C and F",
-    "ru": "Добавление ° к C и F"
-  },
-  "common/sym/copy": {
-    "common": "(c) → ©, (tm) → ©, (r) → ™"
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
   },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
@@ -160,10 +164,6 @@ Typograf.prototype.titles = {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
-  },
   "ru/date/main": {
     "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
     "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
@@ -179,29 +179,6 @@ Typograf.prototype.titles = {
   },
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
-  },
-  "ru/optalign/bracket": {
-    "en": "for opening bracket",
-    "ru": "для открывающей скобки"
-  },
-  "ru/optalign/comma": {
-    "en": "for comma",
-    "ru": "для запятой"
-  },
-  "ru/optalign/quot": {
-    "en": "for opening quotation marks",
-    "ru": "для открывающей кавычки"
-  },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
-  },
-  "ru/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
   },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
@@ -246,5 +223,28 @@ Typograf.prototype.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
+  },
+  "ru/optalign/bracket": {
+    "en": "for opening bracket",
+    "ru": "для открывающей скобки"
+  },
+  "ru/optalign/comma": {
+    "en": "for comma",
+    "ru": "для запятой"
+  },
+  "ru/optalign/quot": {
+    "en": "for opening quotation marks",
+    "ru": "для открывающей кавычки"
+  },
+  "ru/other/accent": {
+    "en": "Replacing capital letter and adding accents",
+    "ru": "Замена заглавной буквы и добавление знака ударения"
+  },
+  "ru/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
   }
 };

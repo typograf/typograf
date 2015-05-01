@@ -11,5 +11,5 @@ Typograf.rule({
 
         return text;
     },
-    enabled: false
+    disabled: true
 });
