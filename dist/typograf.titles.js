@@ -74,16 +74,6 @@ Typograf.prototype.titles = {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
   },
-  "common/sym/arrow": {
-    "common": "-> → →, <- → ←"
-  },
-  "common/sym/cf": {
-    "en": "Adding ° to C and F",
-    "ru": "Добавление ° к C и F"
-  },
-  "common/sym/copy": {
-    "common": "(c) → ©, (tm) → ©, (r) → ™"
-  },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
@@ -123,6 +113,16 @@ Typograf.prototype.titles = {
   "common/space/trimRight": {
     "en": "Remove spaces and line breaks at end of text",
     "ru": "Удаление пробелов и переносов строк в конце текста"
+  },
+  "common/sym/arrow": {
+    "common": "-> → →, <- → ←"
+  },
+  "common/sym/cf": {
+    "en": "Adding ° to C and F",
+    "ru": "Добавление ° к C и F"
+  },
+  "common/sym/copy": {
+    "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
   "en/punctuation/quot": {
     "en": "Placement of quotation marks",
@@ -227,6 +227,10 @@ Typograf.prototype.titles = {
   "ru/number/ordinals": {
     "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
+  "ru/other/accent": {
+    "en": "Replacing capital letter and adding accents",
+    "ru": "Замена заглавной буквы и добавление знака ударения"
+  },
   "ru/optalign/bracket": {
     "en": "for opening bracket",
     "ru": "для открывающей скобки"
@@ -238,10 +242,6 @@ Typograf.prototype.titles = {
   "ru/optalign/quot": {
     "en": "for opening quotation marks",
     "ru": "для открывающей кавычки"
-  },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
   },
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
