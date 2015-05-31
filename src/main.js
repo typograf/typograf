@@ -95,17 +95,23 @@ Typograf._quot = function(text, settings) {
         rquot = settings.rquot,
         lquot2 = settings.lquot2,
         rquot2 = settings.rquot2,
-        phrase = '[' + letters + ')!?.:;#*,' + ']*?',
-        reL = new RegExp('[«„“"]' + '([…' + letters + '])', 'gi'),
-        reR = new RegExp('(' + phrase + ')' + '[»”“"]' + '(' + phrase + ')', 'gi'),
+        openingQuotes = '[«„“"]',
+        closingQuotes = '[»”“"]',
+        phrase = '[' + letters + ')!?.:;#*,]*?',
+        reL = new RegExp(openingQuotes + '([…' + letters + '])', 'gi'),
+        reR = new RegExp('(' + phrase + ')' + closingQuotes + '(' + phrase + ')', 'gi'),
         reL1 = new RegExp(rquot2 + '([^' + lquot2 + rquot2 + ']*?)' + rquot2, 'g'),
         reR1 = new RegExp(lquot2 + '([^' + lquot2 + rquot2 + ']*?)' + lquot2, 'g'),
         reL2 = new RegExp(lquot2, 'g'),
-        reR2 = new RegExp(rquot2, 'g');
+        reR2 = new RegExp(rquot2, 'g'),
+        reOpeningTag = new RegExp('(^|\\s)' + quotes + '\uDBFF', 'g'),
+        reClosingTag = new RegExp('\uDBFF' + quotes + '([\s!?.:;#*,]|$)', 'g');
 
     text = text
         .replace(reL, lquot2 + '$1') // Opening quote
         .replace(reR, '$1' + rquot2 + '$2') // Closing quote
+        .replace(reOpeningTag, '$1' + lquot2 + '\uDBFF')
+        .replace(reClosingTag, '\uDBFF' + rquot2 + '$1')
         .replace(new RegExp('(^|\\w|\\s)' + rquot2 + lquot2, 'g'),
             '$1' + lquot2 + lquot2); // Fixed for the case »« at the beginning of the text
 
@@ -189,10 +195,11 @@ Typograf.prototype = {
             rulesForQueue[q].push(rule);
         }, this);
 
+        this._isHTML = text.search(/<[a-z!]/i) !== -1;
+        
         executeRulesForQueue('start');
 
-        var isHTML = text.search(/<[a-z!]/i) !== -1;
-        if(isHTML) {
+        if(this._isHTML) {
             text = this._hideSafeTags(text);
         }
 
@@ -200,13 +207,14 @@ Typograf.prototype = {
         executeRulesForQueue();
         text = this._modification(text, mode);
 
-        if(isHTML) {
+        if(this._isHTML) {
             text = this._showSafeTags(text);
         }
 
         executeRulesForQueue('end');
 
         this._lang = null;
+        this._isHTML = null;
 
         return text;
     },

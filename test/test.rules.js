@@ -45,6 +45,10 @@ function executeInnerRule(name, text) {
     return text;
 }
 
+function getLang(name, item) {
+    return item[2] ? item[2] : name.split(/\//)[0];
+}
+
 describe('inner rules', function() {
     innerTests.forEach(function(elem) {
         var name = elem[0];
@@ -58,24 +62,29 @@ describe('inner rules', function() {
 });
 
 describe('rules', function() {
+    var itTypograf = new Typograf();
     tests.forEach(function(elem) {
         var name = elem[0];
         it(name, function() {
+            itTypograf.disable('*').enable(name);
+
             elem[1].forEach(function(as) {
-                t.enable(name);
-                assert.equal(executeRule(name, as[0]), as[1], as[0] + ' → ' + as[1]);
+                var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
+                assert.equal(result, as[1], as[0] + ' → ' + as[1]);
             });
         });
     });
 });
 
 describe('rules, double execute', function() {
+    var itTypograf = new Typograf();
     tests.forEach(function(elem) {
         var name = elem[0];
         it(name, function() {
+            itTypograf.disable('*').enable(name);
+
             elem[1].forEach(function(as) {
-                t.enable(name);
-                var result = executeRule(name, as[0]);
+                var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
                 assert.equal(result, as[1], as[0] + ' → ' + as[1]);
             });
         });
@@ -97,7 +106,7 @@ describe('common specific tests', function() {
             assert.equal(tp.execute(el[0]), el[1]);
         });
     });
-    
+
     it('should enable common/html/escape', function() {
         var tp = new Typograf();
         tp.enable('common/html/escape');
