@@ -97,6 +97,7 @@ Typograf._quot = function(text, settings) {
         rquot2 = settings.rquot2,
         openingQuotes = '[«„“"]',
         closingQuotes = '[»”“"]',
+        quotes = '[«»„“”"]',
         phrase = '[' + letters + ')!?.:;#*,]*?',
         reL = new RegExp(openingQuotes + '([…' + letters + '])', 'gi'),
         reR = new RegExp('(' + phrase + ')' + closingQuotes + '(' + phrase + ')', 'gi'),

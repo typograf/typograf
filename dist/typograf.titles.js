@@ -1,28 +1,4 @@
 Typograf.prototype.titles = {
-  "common/html/escape": {
-    "en": "Escaping HTML",
-    "ru": "Экранирование HTML"
-  },
-  "common/html/mail": {
-    "en": "Placement of links for e-mail",
-    "ru": "Расстановка ссылок для эл. почты"
-  },
-  "common/html/nbr": {
-    "en": "Replacement line break on br tag",
-    "ru": "Замена перевода строки на тег br"
-  },
-  "common/html/pbr": {
-    "en": "Placement of p and br tags",
-    "ru": "Расстановка тегов p и br"
-  },
-  "common/html/stripTags": {
-    "en": "Removing HTML-tags",
-    "ru": "Удаление HTML-тегов"
-  },
-  "common/html/url": {
-    "en": "Placement of links",
-    "ru": "Расстановка ссылок"
-  },
   "common/nbsp/afterNumber": {
     "en": "Non-breaking space between number and word",
     "ru": "Нераз. пробел между числом и словом"
@@ -246,5 +222,29 @@ Typograf.prototype.titles = {
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
+  },
+  "common/html/escape": {
+    "en": "Escaping HTML",
+    "ru": "Экранирование HTML"
+  },
+  "common/html/mail": {
+    "en": "Placement of links for e-mail",
+    "ru": "Расстановка ссылок для эл. почты"
+  },
+  "common/html/nbr": {
+    "en": "Replacement line break on br tag",
+    "ru": "Замена перевода строки на тег br"
+  },
+  "common/html/pbr": {
+    "en": "Placement of p and br tags",
+    "ru": "Расстановка тегов p и br"
+  },
+  "common/html/stripTags": {
+    "en": "Removing HTML-tags",
+    "ru": "Удаление HTML-тегов"
+  },
+  "common/html/url": {
+    "en": "Placement of links",
+    "ru": "Расстановка ссылок"
   }
 };

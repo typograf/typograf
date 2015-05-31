@@ -1009,19 +1009,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'common/other/repeatWord',
-    sortIndex: 1200,
-    func: function(text) {
-        var re = '([' +
-            this.letters() +
-            '\u0301]+) \\1([;:,.?! \n])';
-
-        return text.replace(new RegExp(re, 'gi'), '$1$2');
-    },
-    disabled: true
-});
-
-Typograf.rule({
     name: 'common/punctuation/delDoublePunctuation',
     sortIndex: 580,
     func: function(text) {
@@ -1054,6 +1041,19 @@ Typograf.rule({
     func: function(text) {
         return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
     }
+});
+
+Typograf.rule({
+    name: 'common/other/repeatWord',
+    sortIndex: 1200,
+    func: function(text) {
+        var re = '([' +
+            this.letters() +
+            '\u0301]+) \\1([;:,.?! \n])';
+
+        return text.replace(new RegExp(re, 'gi'), '$1$2');
+    },
+    disabled: true
 });
 
 Typograf.rule({
