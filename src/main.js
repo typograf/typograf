@@ -95,24 +95,26 @@ Typograf._quot = function(text, settings) {
         rquot = settings.rquot,
         lquot2 = settings.lquot2,
         rquot2 = settings.rquot2,
-        openingQuotes = '[«„“"]',
-        closingQuotes = '[»”“"]',
         quotes = '[«»„“”"]',
         phrase = '[' + letters + ')!?.:;#*,]*?',
-        reL = new RegExp(openingQuotes + '([…' + letters + '])', 'gi'),
-        reR = new RegExp('(' + phrase + ')' + closingQuotes + '(' + phrase + ')', 'gi'),
+        reL = new RegExp('"([…' + letters + '])', 'gi'),
+        reR = new RegExp('(' + phrase + ')"(' + phrase + ')', 'gi'),
         reL1 = new RegExp(rquot2 + '([^' + lquot2 + rquot2 + ']*?)' + rquot2, 'g'),
         reR1 = new RegExp(lquot2 + '([^' + lquot2 + rquot2 + ']*?)' + lquot2, 'g'),
         reL2 = new RegExp(lquot2, 'g'),
         reR2 = new RegExp(rquot2, 'g'),
+        reQuotes = new RegExp(quotes, 'g'),
+        reFirstQuote = new RegExp('^(\s)?(' + quotes + ')', 'g'),
         reOpeningTag = new RegExp('(^|\\s)' + quotes + '\uDBFF', 'g'),
         reClosingTag = new RegExp('\uDBFF' + quotes + '([\s!?.:;#*,]|$)', 'g');
 
     text = text
+        .replace(reQuotes, '"')
         .replace(reL, lquot2 + '$1') // Opening quote
         .replace(reR, '$1' + rquot2 + '$2') // Closing quote
         .replace(reOpeningTag, '$1' + lquot2 + '\uDBFF')
         .replace(reClosingTag, '\uDBFF' + rquot2 + '$1')
+        .replace(reFirstQuote, '$1' + lquot2)
         .replace(new RegExp('(^|\\w|\\s)' + rquot2 + lquot2, 'g'),
             '$1' + lquot2 + lquot2); // Fixed for the case »« at the beginning of the text
 
@@ -129,7 +131,7 @@ Typograf._quot = function(text, settings) {
             .replace(reL1, rquot2 + '$1' + rquot)
             .replace(reR1, lquot + '$1' + lquot2);
 
-        if(text.search(new RegExp(lquot + '|' + rquot)) === -1) {
+        if(text.search(lquot) === -1 || text.search(rquot) === -1) {
             text = text
                 .replace(reL2, lquot)
                 .replace(reR2, rquot);
