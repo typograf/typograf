@@ -16,6 +16,7 @@
  + мультиязычность;
  + utf-8;
  + поддержка Node.js;
+ + [типографирование на лету](https://github.com/typograf/jquery-typograf);
  + TDD.
 
 ## [Поддерживаемые правила](./docs/RULES.ru.md)
