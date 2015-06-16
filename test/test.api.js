@@ -5,10 +5,15 @@ var assert = require('chai').assert,
 
 describe('API', function() {
     it('should disable rule', function() {
-        t.disable('ru/quot');
-        assert.ok(t.disabled('ru/quot'));
+        t.disable('ru/punctuation/quot');
+        assert.ok(t.disabled('ru/punctuation/quot'));
 
-        t.enable('ru/quot');
+        t.enable('ru/punctuation/quot');
+    });
+
+    it('should disable rule from constructor', function() {
+        var typograf = new Typograf({lang: 'ru', disable: '*'});
+        assert.ok(typograf.disabled('ru/punctuation/quot'));
     });
 
     it('should enable rule', function() {
@@ -18,6 +23,11 @@ describe('API', function() {
         assert.ok(t.enabled('common/html/pbr'));
 
         t.disable('common/html/pbr');
+    });
+
+    it('should enable rule from constructor', function() {
+        var typograf = new Typograf({lang: 'ru', enable: '*'});
+        assert.ok(typograf.enabled('common/html/pbr'));
     });
 
     it('should enable some rules', function() {
@@ -57,7 +67,7 @@ describe('API', function() {
         assert.equal(t3.execute('1\u00A02'), '1&#160;2');
         assert.equal(t3.execute('1&nbsp;2'), '1&#160;2');
     });
-    
+
     it('should get entities as name or digit with method "execute"', function() {
         var t2 = new Typograf();
         assert.equal(t2.execute('1\u00A02\u00A03', {mode: 'name'}), '1&nbsp;2&nbsp;3');
@@ -90,7 +100,7 @@ describe('API', function() {
                 return text.replace(/rule/, '');
             }
         });
-        
+
         Typograf.innerRule({
             name: 'common/example',
             func: function(text) {
