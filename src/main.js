@@ -3,6 +3,8 @@
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @param {string|Array[string]} [prefs.enable] Enable rules
+ * @param {string|Array[string]} [prefs.disable] Disable rules
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
@@ -15,6 +17,9 @@ function Typograf(prefs) {
     this._initSafeTags();
 
     this._rules.forEach(this._prepareRule, this);
+
+    this._prefs.disable && this.disable(this._prefs.disable);
+    this._prefs.enable && this.enable(this._prefs.enable);
 }
 
 /**
@@ -24,8 +29,9 @@ function Typograf(prefs) {
  * @param {Object} rule
  * @param {string} rule.name Name of rule
  * @param {Function} rule.func Processing function
- * @param {string} [rule.sortIndex] Sorting index for rule
+ * @param {number} [rule.sortIndex] Sorting index for rule
  * @param {boolean} [rule.disabled] Rule is disabled by default
+ * @param {Object} [rule.settings] Settings for rule
  * @return {Typograf} this
  */
 Typograf.rule = function(rule) {
@@ -199,7 +205,7 @@ Typograf.prototype = {
         }, this);
 
         this._isHTML = text.search(/<[a-z!]/i) !== -1;
-        
+
         executeRulesForQueue('start');
 
         if(this._isHTML) {
@@ -260,8 +266,8 @@ Typograf.prototype = {
     /**
      * Enable a rule.
      *
-     * @param {string} ruleName
-     * @return {boolean}
+     * @param {string|Array[string]} ruleName
+     * @return {Typograf} this
      */
     enable: function(ruleName) {
         return this._enable(ruleName, true);
@@ -270,7 +276,7 @@ Typograf.prototype = {
      * Disable a rule.
      *
      * @param {string|Array[string]} ruleName
-     * @return {boolean}
+     * @return {Typograf} this
      */
     disable: function(ruleName) {
         return this._enable(ruleName, false);

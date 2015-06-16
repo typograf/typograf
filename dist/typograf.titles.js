@@ -1,4 +1,8 @@
 Typograf.prototype.titles = {
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
   "common/html/escape": {
     "en": "Escaping HTML",
     "ru": "Экранирование HTML"
@@ -123,10 +127,6 @@ Typograf.prototype.titles = {
   },
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
-  },
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
   },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
