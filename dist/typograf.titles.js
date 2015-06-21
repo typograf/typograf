@@ -1,8 +1,4 @@
 Typograf.prototype.titles = {
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
-  },
   "common/html/escape": {
     "en": "Escaping HTML",
     "ru": "Экранирование HTML"
@@ -128,6 +124,10 @@ Typograf.prototype.titles = {
   "common/sym/copy": {
     "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
     "ru": "Дефис между из-под"
@@ -163,13 +163,6 @@ Typograf.prototype.titles = {
   "ru/dash/weekday": {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
-  },
-  "ru/date/main": {
-    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
-    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
-  },
-  "ru/date/weekday": {
-    "common": "2 Мая, Понедельник → 2 мая, понедельник"
   },
   "ru/money/dollar": {
     "common": "$100 → 100 $"
@@ -223,6 +216,13 @@ Typograf.prototype.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
+  },
+  "ru/date/main": {
+    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
+    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  },
+  "ru/date/weekday": {
+    "common": "2 Мая, Понедельник → 2 мая, понедельник"
   },
   "ru/number/ordinals": {
     "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
