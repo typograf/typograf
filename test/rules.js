@@ -6,6 +6,63 @@ module.exports = {
     innerTests: innerTests
 };
 
+/*jshint maxlen:1000 */
+tests.push(['common/html/escape', [
+    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/html/mail', [
+    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
+    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
+    ['>example@example.com<', '>example@example.com<']
+]]);
+
+tests.push(['common/html/nbr', [
+    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
+    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
+]]);
+
+tests.push(['common/html/pbr', [
+    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
+    ['a', '<p>a</p>'],
+    ['a\n\n\nb<br/>', 'a\n\n\nb<br/>'],
+    ['<p>a</p>\n\n\n<p>b</p>', '<p>a</p>\n\n\n<p>b</p>']
+]]);
+
+tests.push(['common/html/stripTags', [
+    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
+    ['<p', '<p'],
+    ['<p align="center">Hello</p>', 'Hello']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/html/url', [
+    ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
+    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
+    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
+    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>'],
+    ['Ссылка http://www.example.com/', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    [
+        'Ссылка 1: http://www.example.com/?\nСсылка 2: https://www.example2.ru/?',
+        'Ссылка 1: <a href="http://www.example.com">example.com</a>\nСсылка 2: <a href="https://www.example2.ru">https://example2.ru</a>'
+    ],
+    ['Ссылка http://www.example.com/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com/#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:80', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:800', 'Ссылка <a href="http://www.example.com:800">example.com:800</a>'],
+    ['Ссылка http://www.example.com:80/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
+    ['Ссылка http://www.example.com:80/?query=hello', 'Ссылка <a href="http://www.example.com/?query=hello">example.com/?query=hello</a>'],
+    ['Ссылка http://www.example.com:443', 'Ссылка <a href="http://www.example.com:443">example.com:443</a>'],
+    ['Ссылка https://www.example.com:443/?', 'Ссылка <a href="https://www.example.com">https://example.com</a>'],
+    ['Ссылка https://www.example.com:443/?query=hello', 'Ссылка <a href="https://www.example.com/?query=hello">https://example.com/?query=hello</a>'],
+    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
+]]);
+
 tests.push(['common/nbsp/afterNumber', [
     [' 123 дня ', ' 123\u00A0дня ', 'ru'],
     ['2 кошки', '2\u00A0кошки', 'ru'],
@@ -50,6 +107,15 @@ tests.push(['common/nbsp/nowrap', [
     ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
 ]]);
 
+tests.push(['common/other/repeatWord', [
+    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
+    ['Hello world world!', 'Hello world!', 'en']
+]]);
+
 tests.push(['common/number/fraction', [
     ['1/2', '½'],
     [' 1/2 ', ' ½ '],
@@ -67,15 +133,6 @@ tests.push(['common/number/plusMinus', [
 tests.push(['common/number/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90']
-]]);
-
-tests.push(['common/other/repeatWord', [
-    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
-    ['Hello world world!', 'Hello world!', 'en']
 ]]);
 
 /* jshint maxlen:1000 */
@@ -103,6 +160,30 @@ tests.push(['common/punctuation/hellip', [
     ['.....', '.....']
 ]]);
 
+tests.push(['common/sym/arrow', [
+    ['20 + 10 -> 30', '20 + 10 → 30'],
+    ['20 + 10 <- 30', '20 + 10 ← 30'],
+    ['<-', '←'],
+    ['->', '→']
+]]);
+
+tests.push(['common/sym/cf', [
+    [' 200 C', ' 200 °C'],
+    [' 200 C.', ' 200 °C.'],
+    [' 20d C', ' 20d C'],
+    [' 20 C1', ' 20 C1'],
+    [' 200 F', ' 200 °F']
+]]);
+
+tests.push(['common/sym/copy', [
+    ['(c)', '©'],
+    ['(с)', '©'],
+    ['Copyright (с)', '©'],
+    ['copyright (с)', '©'],
+    ['(r)', '®'],
+    ['(tm)', '™']
+]]);
+
 tests.push(['common/space/afterPunctuation', [
     ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
     ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
@@ -110,6 +191,7 @@ tests.push(['common/space/afterPunctuation', [
     ['Солнце садилось за горизонт,и поднялся ветер??Вот.', 'Солнце садилось за горизонт, и поднялся ветер?? Вот.'],
     ['Солнце садилось за горизонт,?', 'Солнце садилось за горизонт,?'],
     ['Солнце садилось за горизонт1,и поднялся ветер?', 'Солнце садилось за горизонт1,и поднялся ветер?'],
+    ['8 часов подряд (это же невозможно!). Для владельцев', '8 часов подряд (это же невозможно!). Для владельцев'],
     ['"Я!"', '"Я!"'],
     ['«Я!»', '«Я!»'],
     ['‹I!›', '‹I!›']
@@ -157,30 +239,6 @@ tests.push(['common/space/trimLeft', [
 tests.push(['common/space/trimRight', [
     ['   Hello world!    ', '   Hello world!'],
     [' \n\n \n Hello world!  \n\n  \n  ', ' \n\n \n Hello world!']
-]]);
-
-tests.push(['common/sym/arrow', [
-    ['20 + 10 -> 30', '20 + 10 → 30'],
-    ['20 + 10 <- 30', '20 + 10 ← 30'],
-    ['<-', '←'],
-    ['->', '→']
-]]);
-
-tests.push(['common/sym/cf', [
-    [' 200 C', ' 200 °C'],
-    [' 200 C.', ' 200 °C.'],
-    [' 20d C', ' 20d C'],
-    [' 20 C1', ' 20 C1'],
-    [' 200 F', ' 200 °F']
-]]);
-
-tests.push(['common/sym/copy', [
-    ['(c)', '©'],
-    ['(с)', '©'],
-    ['Copyright (с)', '©'],
-    ['copyright (с)', '©'],
-    ['(r)', '®'],
-    ['(tm)', '™']
 ]]);
 
 /*jshint maxlen:1000 */
@@ -568,61 +626,4 @@ tests.push(['ru/punctuation/quot', [
         '" Газета',
         '« Газета'
     ]
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/escape', [
-    ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/mail', [
-    ['example@example.com', '<a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>'],
-    ['E-mail: example@example.com, example2@example.com', 'E-mail: <a href="mailto:example@example.com">example@example.com</a>, <a href="mailto:example2@example.com">example2@example.com</a>'],
-    ['>example@example.com<', '>example@example.com<']
-]]);
-
-tests.push(['common/html/nbr', [
-    ['a\nb\nc', 'a<br/>\nb<br/>\nc'],
-    ['a<br/>\nb\nc', 'a<br/>\nb\nc']
-]]);
-
-tests.push(['common/html/pbr', [
-    ['a\n\nb\nc\n\nd', '<p>a</p>\n<p>b<br/>\nc</p>\n<p>d</p>'],
-    ['a', '<p>a</p>'],
-    ['a\n\n\nb<br/>', 'a\n\n\nb<br/>'],
-    ['<p>a</p>\n\n\n<p>b</p>', '<p>a</p>\n\n\n<p>b</p>']
-]]);
-
-tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/html/url', [
-    ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
-    ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
-    ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://ww2.example.com/path/', 'Ссылка <a href="http://ww2.example.com/path/">ww2.example.com/path/</a>'],
-    ['Ссылка http://www.example.com/path/', 'Ссылка <a href="http://www.example.com/path/">example.com/path/</a>'],
-    ['Ссылка http://www.example.com/', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    [
-        'Ссылка 1: http://www.example.com/?\nСсылка 2: https://www.example2.ru/?',
-        'Ссылка 1: <a href="http://www.example.com">example.com</a>\nСсылка 2: <a href="https://www.example2.ru">https://example2.ru</a>'
-    ],
-    ['Ссылка http://www.example.com/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com/#', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:80', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:800', 'Ссылка <a href="http://www.example.com:800">example.com:800</a>'],
-    ['Ссылка http://www.example.com:80/?', 'Ссылка <a href="http://www.example.com">example.com</a>'],
-    ['Ссылка http://www.example.com:80/?query=hello', 'Ссылка <a href="http://www.example.com/?query=hello">example.com/?query=hello</a>'],
-    ['Ссылка http://www.example.com:443', 'Ссылка <a href="http://www.example.com:443">example.com:443</a>'],
-    ['Ссылка https://www.example.com:443/?', 'Ссылка <a href="https://www.example.com">https://example.com</a>'],
-    ['Ссылка https://www.example.com:443/?query=hello', 'Ссылка <a href="https://www.example.com/?query=hello">https://example.com/?query=hello</a>'],
-    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
 ]]);
