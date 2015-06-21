@@ -97,6 +97,7 @@ Typograf._sortInnerRules = function() {
 
 Typograf._quot = function(text, settings) {
     var letters = '\\d' + this.letters() + '\u0301',
+        privateLabel = Typograf._privateLabel,
         lquot = settings.lquot,
         rquot = settings.rquot,
         lquot2 = settings.lquot2,
@@ -111,15 +112,15 @@ Typograf._quot = function(text, settings) {
         reR2 = new RegExp(rquot2, 'g'),
         reQuotes = new RegExp(quotes, 'g'),
         reFirstQuote = new RegExp('^(\s)?(' + quotes + ')', 'g'),
-        reOpeningTag = new RegExp('(^|\\s)' + quotes + '\uDBFF', 'g'),
-        reClosingTag = new RegExp('\uDBFF' + quotes + '([\s!?.:;#*,]|$)', 'g');
+        reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
+        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g');
 
     text = text
         .replace(reQuotes, '"')
         .replace(reL, lquot2 + '$1') // Opening quote
         .replace(reR, '$1' + rquot2 + '$2') // Closing quote
-        .replace(reOpeningTag, '$1' + lquot2 + '\uDBFF')
-        .replace(reClosingTag, '\uDBFF' + rquot2 + '$1')
+        .replace(reOpeningTag, '$1' + lquot2 + privateLabel)
+        .replace(reClosingTag, privateLabel + rquot2 + '$1')
         .replace(reFirstQuote, '$1' + lquot2)
         .replace(new RegExp('(^|\\w|\\s)' + rquot2 + lquot2, 'g'),
             '$1' + lquot2 + lquot2); // Fixed for the case »« at the beginning of the text
@@ -148,6 +149,7 @@ Typograf._quot = function(text, settings) {
 };
 
 Typograf._langs = ['en', 'ru'];
+Typograf._privateLabel = '\uDBFF';
 
 Typograf.prototype = {
     constructor: Typograf,
@@ -389,7 +391,8 @@ Typograf.prototype = {
         return this._hideHTMLTags(text);
     },
     _getPrivateLabel: function(i) {
-        return '\uDBFFtf' + i + '\uDBFF';
+        var label = Typograf._privateLabel;
+        return label + 'tf' + i + label;
     },
     _pasteLabel: function(match) {
         var key = this._getPrivateLabel(this._iLabel);
@@ -405,9 +408,12 @@ Typograf.prototype = {
         return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel);
     },
     _showSafeTags: function(text) {
+        var label = Typograf._privateLabel,
+            reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
+            reSearch = new RegExp(label + 'tf\\d');
         for(var i = 0; i < this._safeTags.length; i++) {
-            text = text.replace(/\uDBFFtf\d+\uDBFF/g, this._replaceLabel);
-            if(text.search(/\uDBFFtf\d/) === -1) {
+            text = text.replace(reReplace, this._replaceLabel);
+            if(text.search(reSearch) === -1) {
                 break;
             }
         }

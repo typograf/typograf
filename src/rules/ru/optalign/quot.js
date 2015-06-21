@@ -8,7 +8,7 @@ Typograf.rule({
                 this.setting('ru/punctuation/quot', 'lquot2') +
                 '])',
             re = new RegExp('([\\d' + this.letters() + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
-            re2 = new RegExp('(^|\n|\uDBFF)' + lquotes, 'g'); // \uDBFF - часть внутренней метки HTML-тега
+            re2 = new RegExp('(^|\n|' + Typograf._privateLabel + ')' + lquotes, 'g');
 
         return text
             .replace(re, '$1<span class="typograf-oa-sp-lquot">$2</span><span class="typograf-oa-lquot">$3</span>')
