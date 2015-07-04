@@ -19,6 +19,10 @@ module.exports = {
         var txt = fs.readFileSync('dist/typograf.titles.json');
         fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
     },
+    buildGroups: function() {
+        var txt = fs.readFileSync('dist/typograf.groups.json');
+        fs.writeFileSync('dist/typograf.groups.js', 'Typograf.prototype.groups = ' + txt + ';\n');
+    },
     makeMdRules: function() {
         var Typograf = require('../dist/typograf.js'),
             titles = require('../dist/typograf.titles.json'),

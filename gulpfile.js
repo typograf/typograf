@@ -15,8 +15,11 @@ var gulp = require('gulp'),
     destDir = './dist/';
 
 var paths = {
-    json: [
-        'src/**/*.json'
+    jsonRules: [
+        'src/rules/**/*.json'
+    ],
+    jsonGroups: [
+        'src/groups.json'
     ],
     js: [
         'src/start.js',
@@ -43,20 +46,35 @@ gulp.task('js', function() {
         .pipe(gulp.dest(destDir));
 });
 
-gulp.task('jsonlint', function() {
-    gulp.src(paths.json)
+gulp.task('jsonLintRules', function() {
+    gulp.src(paths.jsonRules)
         .pipe(jsonlint())
         .pipe(jsonlint.reporter());
 });
 
-gulp.task('json', ['js', 'jsonlint'], function() {
-    return gulp.src(paths.json)
+gulp.task('jsonLintGroups', function() {
+    gulp.src(paths.jsonGroups)
+        .pipe(jsonlint())
+        .pipe(jsonlint.reporter());
+});
+
+gulp.task('jsonRules', ['js', 'jsonLintRules'], function() {
+    return gulp.src(paths.jsonRules)
         .pipe(gulpJsonRules('typograf.titles.json'))
         .pipe(gulp.dest(destDir))
         .on('end', function() {
             typografUtils.buildTitles();
             typografUtils.updateBowerVersion();
             typografUtils.makeMdRules();
+        });
+});
+
+gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
+    return gulp.src(paths.jsonGroups)
+        .pipe(rename('typograf.groups.json'))
+        .pipe(gulp.dest(destDir))
+        .on('end', function() {
+            typografUtils.buildGroups();
         });
 });
 
@@ -85,7 +103,7 @@ gulp.task('testRules', function() {
         .pipe(gulp.dest('./test/'));
 });
 
-gulp.task('lint', function() {
+gulp.task('jsLint', function() {
   return gulp.src(paths.js)
     .pipe(filter())
     .pipe(jscs())
@@ -94,7 +112,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'json', 'jsonlint']);
+    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups']);
 });
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'lint', 'css', 'json', 'jsonlint']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'jsLint', 'css', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups']);
