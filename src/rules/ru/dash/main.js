@@ -3,7 +3,7 @@ Typograf.rule({
     sortIndex: 620,
     func: function(text) {
         var name = 'ru/dash/main',
-            dashes = '(' + this.data('common/dash') + ')',
+            dashes = '(' + Typograf.data('common/dash') + ')',
             reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
             reDirect = new RegExp('(^|\n)' + dashes + '( |\u00A0)', 'g'),
             reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');

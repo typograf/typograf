@@ -107,15 +107,6 @@ tests.push(['common/nbsp/nowrap', [
     ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
 ]]);
 
-tests.push(['common/other/repeatWord', [
-    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
-    ['Hello world world!', 'Hello world!', 'en']
-]]);
-
 tests.push(['common/number/fraction', [
     ['1/2', '½'],
     [' 1/2 ', ' ½ '],
@@ -133,6 +124,15 @@ tests.push(['common/number/plusMinus', [
 tests.push(['common/number/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90']
+]]);
+
+tests.push(['common/other/repeatWord', [
+    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
+    ['Hello world world!', 'Hello world!', 'en']
 ]]);
 
 /* jshint maxlen:1000 */
@@ -158,30 +158,6 @@ tests.push(['common/punctuation/hellip', [
     ['..', '..'],
     ['...', '…'],
     ['.....', '.....']
-]]);
-
-tests.push(['common/sym/arrow', [
-    ['20 + 10 -> 30', '20 + 10 → 30'],
-    ['20 + 10 <- 30', '20 + 10 ← 30'],
-    ['<-', '←'],
-    ['->', '→']
-]]);
-
-tests.push(['common/sym/cf', [
-    [' 200 C', ' 200 °C'],
-    [' 200 C.', ' 200 °C.'],
-    [' 20d C', ' 20d C'],
-    [' 20 C1', ' 20 C1'],
-    [' 200 F', ' 200 °F']
-]]);
-
-tests.push(['common/sym/copy', [
-    ['(c)', '©'],
-    ['(с)', '©'],
-    ['Copyright (с)', '©'],
-    ['copyright (с)', '©'],
-    ['(r)', '®'],
-    ['(tm)', '™']
 ]]);
 
 tests.push(['common/space/afterPunctuation', [
@@ -239,6 +215,30 @@ tests.push(['common/space/trimLeft', [
 tests.push(['common/space/trimRight', [
     ['   Hello world!    ', '   Hello world!'],
     [' \n\n \n Hello world!  \n\n  \n  ', ' \n\n \n Hello world!']
+]]);
+
+tests.push(['common/sym/arrow', [
+    ['20 + 10 -> 30', '20 + 10 → 30'],
+    ['20 + 10 <- 30', '20 + 10 ← 30'],
+    ['<-', '←'],
+    ['->', '→']
+]]);
+
+tests.push(['common/sym/cf', [
+    [' 200 C', ' 200 °C'],
+    [' 200 C.', ' 200 °C.'],
+    [' 20d C', ' 20d C'],
+    [' 20 C1', ' 20 C1'],
+    [' 200 F', ' 200 °F']
+]]);
+
+tests.push(['common/sym/copy', [
+    ['(c)', '©'],
+    ['(с)', '©'],
+    ['Copyright (с)', '©'],
+    ['copyright (с)', '©'],
+    ['(r)', '®'],
+    ['(tm)', '™']
 ]]);
 
 /*jshint maxlen:1000 */
