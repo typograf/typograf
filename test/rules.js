@@ -160,6 +160,30 @@ tests.push(['common/punctuation/hellip', [
     ['.....', '.....']
 ]]);
 
+tests.push(['common/sym/arrow', [
+    ['20 + 10 -> 30', '20 + 10 → 30'],
+    ['20 + 10 <- 30', '20 + 10 ← 30'],
+    ['<-', '←'],
+    ['->', '→']
+]]);
+
+tests.push(['common/sym/cf', [
+    [' 200 C', ' 200 °C'],
+    [' 200 C.', ' 200 °C.'],
+    [' 20d C', ' 20d C'],
+    [' 20 C1', ' 20 C1'],
+    [' 200 F', ' 200 °F']
+]]);
+
+tests.push(['common/sym/copy', [
+    ['(c)', '©'],
+    ['(с)', '©'],
+    ['Copyright (с)', '©'],
+    ['copyright (с)', '©'],
+    ['(r)', '®'],
+    ['(tm)', '™']
+]]);
+
 tests.push(['common/space/afterPunctuation', [
     ['Солнце садилось за горизонт,и поднялся ветер. Вот.', 'Солнце садилось за горизонт, и поднялся ветер. Вот.'],
     ['Солнце садилось за горизонт,и поднялся ветер!Вот.', 'Солнце садилось за горизонт, и поднялся ветер! Вот.'],
@@ -215,30 +239,6 @@ tests.push(['common/space/trimLeft', [
 tests.push(['common/space/trimRight', [
     ['   Hello world!    ', '   Hello world!'],
     [' \n\n \n Hello world!  \n\n  \n  ', ' \n\n \n Hello world!']
-]]);
-
-tests.push(['common/sym/arrow', [
-    ['20 + 10 -> 30', '20 + 10 → 30'],
-    ['20 + 10 <- 30', '20 + 10 ← 30'],
-    ['<-', '←'],
-    ['->', '→']
-]]);
-
-tests.push(['common/sym/cf', [
-    [' 200 C', ' 200 °C'],
-    [' 200 C.', ' 200 °C.'],
-    [' 20d C', ' 20d C'],
-    [' 20 C1', ' 20 C1'],
-    [' 200 F', ' 200 °F']
-]]);
-
-tests.push(['common/sym/copy', [
-    ['(c)', '©'],
-    ['(с)', '©'],
-    ['Copyright (с)', '©'],
-    ['copyright (с)', '©'],
-    ['(r)', '®'],
-    ['(tm)', '™']
 ]]);
 
 /*jshint maxlen:1000 */

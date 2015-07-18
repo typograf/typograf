@@ -1102,6 +1102,34 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'common/sym/arrow',
+    sortIndex: 1130,
+    func: function(text) {
+        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
+    }
+});
+
+Typograf.rule({
+    name: 'common/sym/cf',
+    sortIndex: 1020,
+    func: function(text) {
+        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
+
+        return text.replace(re, '$1' + '\u2009' + '°$3$4');
+    }
+});
+
+Typograf.rule({
+    name: 'common/sym/copy',
+    sortIndex: 10,
+    func: function(text) {
+        return text.replace(/\(r\)/gi, '®')
+            .replace(/(copyright )?\((c|с)\)/gi, '©')
+            .replace(/\(tm\)/gi, '™');
+    }
+});
+
+Typograf.rule({
     name: 'common/space/afterPunctuation',
     sortIndex: 560,
     func: function(text) {
@@ -1193,34 +1221,6 @@ Typograf.rule({
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
-    }
-});
-
-Typograf.rule({
-    name: 'common/sym/arrow',
-    sortIndex: 1130,
-    func: function(text) {
-        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
-    }
-});
-
-Typograf.rule({
-    name: 'common/sym/cf',
-    sortIndex: 1020,
-    func: function(text) {
-        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
-
-        return text.replace(re, '$1' + '\u2009' + '°$3$4');
-    }
-});
-
-Typograf.rule({
-    name: 'common/sym/copy',
-    sortIndex: 10,
-    func: function(text) {
-        return text.replace(/\(r\)/gi, '®')
-            .replace(/(copyright )?\((c|с)\)/gi, '©')
-            .replace(/\(tm\)/gi, '™');
     }
 });
 

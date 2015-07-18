@@ -180,9 +180,6 @@ Typograf.titles = {
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
   },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
     "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
@@ -226,6 +223,9 @@ Typograf.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/optalign/bracket": {
     "en": "for opening bracket",
