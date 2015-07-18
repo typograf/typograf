@@ -6,6 +6,8 @@ Typograf.rule({
         lquot: '«',
         rquot: '»',
         lquot2: '„',
-        rquot2: '“'
+        rquot2: '“',
+        lquot3: '‚',
+        rquot3: '‘'
     }
 });
