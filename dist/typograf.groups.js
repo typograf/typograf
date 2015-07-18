@@ -1,4 +1,4 @@
-Typograf.prototype.groups = [
+Typograf.groups = [
   {
     "name": "punctuation",
     "title": {
