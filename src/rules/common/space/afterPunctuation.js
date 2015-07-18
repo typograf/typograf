@@ -3,7 +3,7 @@ Typograf.rule({
     sortIndex: 560,
     func: function(text) {
         var privateLabel = Typograf._privateLabel,
-            reExcl = new RegExp('(!|;|\\?)([^!;?\\s[)' + privateLabel + this.data('common/quot') + '])', 'g'),
+            reExcl = new RegExp('(!|;|\\?)([^!;?\\s[)' + privateLabel + Typograf.data('common/quot') + '])', 'g'),
             reComma = new RegExp('(\\D)(,|:)([^,:.?\\s\\/' + privateLabel + '])', 'g');
 
         return text

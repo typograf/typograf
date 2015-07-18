@@ -3,8 +3,8 @@ Typograf.rule({
     sortIndex: 1310,
     func: function(text) {
         var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthCase').join('|'),
-            weekday = this.data('ru/weekday').join('|'),
+            monthCase = Typograf.data('ru/monthCase').join('|'),
+            weekday = Typograf.data('ru/weekday').join('|'),
             re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
 
         return text.replace(re, function() {

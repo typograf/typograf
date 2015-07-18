@@ -17,11 +17,11 @@ module.exports = {
     },
     buildTitles: function() {
         var txt = fs.readFileSync('dist/typograf.titles.json');
-        fs.writeFileSync('dist/typograf.titles.js', 'Typograf.prototype.titles = ' + txt + ';\n');
+        fs.writeFileSync('dist/typograf.titles.js', 'Typograf.titles = ' + txt + ';\n');
     },
     buildGroups: function() {
         var txt = fs.readFileSync('dist/typograf.groups.json');
-        fs.writeFileSync('dist/typograf.groups.js', 'Typograf.prototype.groups = ' + txt + ';\n');
+        fs.writeFileSync('dist/typograf.groups.js', 'Typograf.groups = ' + txt + ';\n');
     },
     makeMdRules: function() {
         var Typograf = require('../dist/typograf.js'),

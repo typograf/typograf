@@ -1,1 +1,1 @@
-Typograf.data('common/quot', '«‹»›„‚“‟‘‛”’"\'');
+Typograf.data('common/quot', '«‹»›„‚“‟‘‛”’"');

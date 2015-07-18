@@ -1,4 +1,4 @@
-Typograf.prototype.titles = {
+Typograf.titles = {
   "common/html/escape": {
     "en": "Escaping HTML",
     "ru": "Экранирование HTML"
@@ -164,6 +164,13 @@ Typograf.prototype.titles = {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
+  "ru/date/main": {
+    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
+    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  },
+  "ru/date/weekday": {
+    "common": "2 Мая, Понедельник → 2 мая, понедельник"
+  },
   "ru/money/dollar": {
     "common": "$100 → 100 $"
   },
@@ -172,6 +179,9 @@ Typograf.prototype.titles = {
   },
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
+  },
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
@@ -216,20 +226,6 @@ Typograf.prototype.titles = {
   "ru/nbsp/yy": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
-  },
-  "ru/date/main": {
-    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
-    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
-  },
-  "ru/date/weekday": {
-    "common": "2 Мая, Понедельник → 2 мая, понедельник"
-  },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
-  },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
   },
   "ru/optalign/bracket": {
     "en": "for opening bracket",

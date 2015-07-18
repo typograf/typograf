@@ -8,7 +8,13 @@
     "docs"
   ],
   "dictionary": [
-    "js", "TDD", "SVG", "typograf", "ru", "hcodes", "UglifyJS",
+    "js",
+    "hcodes",
+    "ru",
+    "SVG",
+    "TDD",
+    "typograf",
+    "UglifyJS",
     "Пересборка",
     "табы",
     "2007г",
