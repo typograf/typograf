@@ -5,7 +5,7 @@ Typograf.rule({
         var name = 'ru/dash/main',
             dashes = '(' + Typograf.data('common/dash') + ')',
             reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
-            reDirect = new RegExp('(^|\n)' + dashes + '( |\u00A0)', 'g'),
+            reDirect = new RegExp('(^|' + Typograf._privateLabel + ')' + dashes + '( |\u00A0)', 'gm'),
             reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
 
         return text
