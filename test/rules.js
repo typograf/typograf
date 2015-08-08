@@ -6,6 +6,50 @@ module.exports = {
     innerTests: innerTests
 };
 
+tests.push(['common/nbsp/afterNumber', [
+    [' 123 дня ', ' 123\u00A0дня ', 'ru'],
+    ['2 кошки', '2\u00A0кошки', 'ru'],
+    ['12 миллиардов рублей', '12\u00A0миллиардов рублей', 'ru'],
+    ['20 years', '20\u00A0years', 'ru']
+]]);
+
+tests.push(['common/nbsp/afterPara', [
+    [' § 123', ' §\u00A0123'],
+    [' §123', ' §\u00A0123'],
+    [' §XX', ' §\u00A0XX']
+]]);
+
+/*jshint maxlen:1000 */
+tests.push(['common/nbsp/afterShortWord', [
+    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.', 'ru'],
+    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.', 'ru'],
+    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224', 'ru'],
+    ['И вещи', 'И\u00A0вещи', 'ru'],
+    ['И в Москве', 'И\u00A0в\u00A0Москве', 'ru'],
+    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве', 'ru']
+]]);
+
+tests.push(['common/nbsp/beforeShortLastWord', [
+    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.', 'ru'],
+    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!', 'ru']
+]]);
+
+tests.push(['common/nbsp/dpi', [
+    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
+    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
+    ['Значение 10 lpii', 'Значение 10 lpii'],
+    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
+]]);
+
+/* jshint maxlen:1000 */
+tests.push(['common/nbsp/nowrap', [
+    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
+    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
+    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
+    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
+    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
+]]);
+
 /*jshint maxlen:1000 */
 tests.push(['common/html/escape', [
     ['Hello, world!<br/>Hello world!<p>Hello world!</p>', 'Hello, world!&lt;br&#x2F;&gt;Hello world!&lt;p&gt;Hello world!&lt;&#x2F;p&gt;']
@@ -63,48 +107,13 @@ tests.push(['common/html/url', [
     ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
 ]]);
 
-tests.push(['common/nbsp/afterNumber', [
-    [' 123 дня ', ' 123\u00A0дня ', 'ru'],
-    ['2 кошки', '2\u00A0кошки', 'ru'],
-    ['12 миллиардов рублей', '12\u00A0миллиардов рублей', 'ru'],
-    ['20 years', '20\u00A0years', 'ru']
-]]);
-
-tests.push(['common/nbsp/afterPara', [
-    [' § 123', ' §\u00A0123'],
-    [' §123', ' §\u00A0123'],
-    [' §XX', ' §\u00A0XX']
-]]);
-
-/*jshint maxlen:1000 */
-tests.push(['common/nbsp/afterShortWord', [
-    ['Apply non-breaking spaces to all frames of the current page.', 'Apply non-breaking spaces to\u00A0all frames of\u00A0the current page.', 'ru'],
-    ['Повторять, пока процесс не свернётся в навык.', 'Повторять, пока процесс не\u00A0свернётся в\u00A0навык.', 'ru'],
-    ['ТУ 14577-234-224', 'ТУ\u00A014577-234-224', 'ru'],
-    ['И вещи', 'И\u00A0вещи', 'ru'],
-    ['И в Москве', 'И\u00A0в\u00A0Москве', 'ru'],
-    ['И в г. Москве', 'И\u00A0в\u00A0г.\u00A0Москве', 'ru']
-]]);
-
-tests.push(['common/nbsp/beforeShortLastWord', [
-    ['Fedora, SuSE, Gentoo, Mandrake, or PLD.', 'Fedora, SuSE, Gentoo, Mandrake, or\u00A0PLD.', 'ru'],
-    ['Голубка дряхлая моя!', 'Голубка дряхлая\u00A0моя!', 'ru']
-]]);
-
-tests.push(['common/nbsp/dpi', [
-    ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
-    ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
-    ['Значение 10 lpii', 'Значение 10 lpii'],
-    ['Значение 10\u00A0lpi и 20\u00A0dpi.', 'Значение 10\u00A0lpi и 20\u00A0dpi.']
-]]);
-
-/* jshint maxlen:1000 */
-tests.push(['common/nbsp/nowrap', [
-    ['<nowrap>Hello\u00A0world!</nowrap>', '<nowrap>Hello world!</nowrap>'],
-    ['<nobr>\u00A0\u00A0\u00A0Hello\u00A0world!\u00A0\u00A0</nobr>', '<nobr>\u00A0\u00A0\u00A0Hello world!\u00A0\u00A0</nobr>'],
-    ['<nobr>Hello\u00A0\u00A0world!</nobr>', '<nobr>Hello\u00A0\u00A0world!</nobr>'],
-    ['В глуши долин, <nowrap>в\u00A0печальной\u00A0тьме</nowrap> лесов,', 'В глуши долин, <nowrap>в печальной тьме</nowrap> лесов,'],
-    ['В глуши долин, <nobr>в\u00A0печальной\u00A0тьме</nobr> лесов,', 'В глуши долин, <nobr>в печальной тьме</nobr> лесов,']
+tests.push(['common/other/repeatWord', [
+    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
+    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
+    ['Hello world world!', 'Hello world!', 'en']
 ]]);
 
 tests.push(['common/number/fraction', [
@@ -124,15 +133,6 @@ tests.push(['common/number/plusMinus', [
 tests.push(['common/number/times', [
     ['100 x 2', '100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90']
-]]);
-
-tests.push(['common/other/repeatWord', [
-    ['Я пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел домой.', 'Я пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Я пошел пошел пошел домой домой.', 'Я пошел пошел домой.', 'ru'],
-    ['Пью молоко\u0301 молоко\u0301.', 'Пью молоко\u0301.', 'ru'],
-    ['Hello world world!', 'Hello world!', 'en']
 ]]);
 
 /* jshint maxlen:1000 */
@@ -316,20 +316,6 @@ tests.push(['ru/dash/weekday', [
     ['понедельник-четверг', 'понедельник—четверг']
 ]]);
 
-tests.push(['ru/date/main', [
-    ['2010-02-01', '01.02.2010'],
-    [' 2010-02-01 ', ' 01.02.2010 '],
-    ['11/22/2010', '22.11.2010'],
-    [' 11/22/2010 ', ' 22.11.2010 ']
-]]);
-
-tests.push(['ru/date/weekday', [
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, Понедельник', '25 мая, понедельник'],
-    ['25 Мая, понедельник', '25 мая, понедельник'],
-    ['25 мая, Понедельник', '25 мая, понедельник']
-]]);
-
 tests.push(['ru/money/dollar', [
     ['100$', '100\u00A0$'],
     ['100 $', '100\u00A0$'],
@@ -364,6 +350,20 @@ tests.push(['ru/money/ruble', [
     ['У меня 100 р., а у тебя нет.', 'У меня 100\u00A0₽, а у тебя нет.'],
     ['У меня 100 р., а у тебя 200 р.', 'У меня 100\u00A0₽, а у тебя 200 р.'],
     ['У меня 100 р. У Миши 20 р.', 'У меня 100\u00A0₽. У Миши 20 р.']
+]]);
+
+tests.push(['ru/date/main', [
+    ['2010-02-01', '01.02.2010'],
+    [' 2010-02-01 ', ' 01.02.2010 '],
+    ['11/22/2010', '22.11.2010'],
+    [' 11/22/2010 ', ' 22.11.2010 ']
+]]);
+
+tests.push(['ru/date/weekday', [
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, Понедельник', '25 мая, понедельник'],
+    ['25 Мая, понедельник', '25 мая, понедельник'],
+    ['25 мая, Понедельник', '25 мая, понедельник']
 ]]);
 
 /*jshint maxlen:1000 */
@@ -455,6 +455,26 @@ tests.push(['ru/nbsp/page', [
     ['в гл. 2', 'в\u00A0гл. 2'],
     ['вокруг рис. 7', 'вокруг\u00A0рис. 7'],
     ['у илл. 5', 'у\u00A0илл. 5']
+]]);
+
+tests.push(['ru/nbsp/twoPartAbbr', [
+    ['т.д.',   'т.\u00A0д.'],
+    /*['т.п.',   'т.\u00A0п.'],
+    ['т.е.',   'т.\u00A0е.'],
+    ['т.к.',   'т.\u00A0к.'],
+    ['т.н.',   'т.\u00A0н.'],
+    ['т.о.',   'т.\u00A0о.'],
+    ['т.с.',   'т.\u00A0с.'],
+    ['ст.л.',  'ст.\u00A0л.'],
+    ['ч.л.',   'ч.\u00A0л.'],
+    ['н.ст.',  'н.\u00A0ст.'],
+    ['ст.ст.', 'ст.\u00A0ст.'],
+    ['н.э.',   'н.\u00A0э.'],
+    ['ж.д.',   'ж.\u00A0д.'],
+    ['с.х.',   'с.\u00A0х.'],
+    ['ед.ч.',  'ед.\u00A0ч.'],
+    ['мн.ч.',  'мн.\u00A0ч.'],*/
+    ['Яндекс.Браузер v.1.0', 'Яндекс.Браузер v.1.0']
 ]]);
 
 tests.push(['ru/nbsp/xxxx', [
