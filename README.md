@@ -14,7 +14,7 @@
  + гибкость и расширяемость;
  + кроссбраузерность;
  + мультиязычность;
- + utf-8;
+ + UTF-8;
  + поддержка Node.js;
  + [типографирование на лету](https://github.com/typograf/jquery-typograf);
  + TDD.
@@ -106,8 +106,6 @@ tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
 ### Добавить правило
 ```JavaScript
 Typograf.rule({
-    // Заголовок
-    title: 'Пример правила',
     // язык/группа/правило
     name: 'common/other/parampampam',
     // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
