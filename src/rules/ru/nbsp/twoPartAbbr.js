@@ -3,7 +3,7 @@ Typograf.rule({
     sortIndex: 565,
     func: function(text, settings) {
         settings.abbrs.forEach(function(abbr) {
-            var re = new RegExp(abbr, 'gim');
+            var re = new RegExp(abbr, 'gi');
             text = text.replace(re, '$1\u00A0$2');
         });
 
