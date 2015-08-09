@@ -60,16 +60,6 @@ Typograf.titles = {
   "common/number/times": {
     "common": "x → × (10 x 5 → 10×5)"
   },
-  "common/sym/arrow": {
-    "common": "-> → →, <- → ←"
-  },
-  "common/sym/cf": {
-    "en": "Adding ° to C and F",
-    "ru": "Добавление ° к C и F"
-  },
-  "common/sym/copy": {
-    "common": "(c) → ©, (tm) → ©, (r) → ™"
-  },
   "common/punctuation/delDoublePunctuation": {
     "en": "Removing double punctuation",
     "ru": "Удаление двойной пунктуации"
@@ -84,41 +74,19 @@ Typograf.titles = {
     "en": "Three points on ellipsis",
     "ru": "Три точки на троеточие"
   },
-  "ru/dash/izpod": {
-    "en": "Hyphen between “из-под”",
-    "ru": "Дефис между из-под"
+  "common/sym/arrow": {
+    "common": "-> → →, <- → ←"
   },
-  "ru/dash/izza": {
-    "en": "Hyphen between “из-за”",
-    "ru": "Дефис между из-за"
+  "common/sym/cf": {
+    "en": "Adding ° to C and F",
+    "ru": "Добавление ° к C и F"
   },
-  "ru/dash/kade": {
-    "en": "Hyphen before “ка, де, кась”",
-    "ru": "Дефис перед ка, де, кась"
+  "common/sym/copy": {
+    "common": "(c) → ©, (tm) → ©, (r) → ™"
   },
-  "ru/dash/koe": {
-    "en": "Hyphen after “кое” and “кой”",
-    "ru": "Дефис после кое и кой"
-  },
-  "ru/dash/main": {
-    "en": "Replacement hyphen with dash",
-    "ru": "Дефис на тире"
-  },
-  "ru/dash/month": {
-    "en": "Dash between months",
-    "ru": "Тире между месяцами"
-  },
-  "ru/dash/taki": {
-    "en": "Hyphen between “верно-таки” and etc.",
-    "ru": "Дефис между верно-таки и т.д."
-  },
-  "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь”",
-    "ru": "Дефис перед то, либо, нибудь"
-  },
-  "ru/dash/weekday": {
-    "en": "Dash between the days of the week",
-    "ru": "Тире между днями недели"
+  "en/punctuation/quot": {
+    "en": "Placement of quotation marks",
+    "ru": "Расстановка кавычек"
   },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
@@ -160,12 +128,41 @@ Typograf.titles = {
     "en": "Remove spaces and line breaks at end of text",
     "ru": "Удаление пробелов и переносов строк в конце текста"
   },
-  "ru/date/main": {
-    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
-    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  "ru/dash/izpod": {
+    "en": "Hyphen between “из-под”",
+    "ru": "Дефис между из-под"
   },
-  "ru/date/weekday": {
-    "common": "2 Мая, Понедельник → 2 мая, понедельник"
+  "ru/dash/izza": {
+    "en": "Hyphen between “из-за”",
+    "ru": "Дефис между из-за"
+  },
+  "ru/dash/kade": {
+    "en": "Hyphen before “ка, де, кась”",
+    "ru": "Дефис перед ка, де, кась"
+  },
+  "ru/dash/koe": {
+    "en": "Hyphen after “кое” and “кой”",
+    "ru": "Дефис после кое и кой"
+  },
+  "ru/dash/main": {
+    "en": "Replacement hyphen with dash",
+    "ru": "Дефис на тире"
+  },
+  "ru/dash/month": {
+    "en": "Dash between months",
+    "ru": "Тире между месяцами"
+  },
+  "ru/dash/taki": {
+    "en": "Hyphen between “верно-таки” and etc.",
+    "ru": "Дефис между верно-таки и т.д."
+  },
+  "ru/dash/to": {
+    "en": "Hyphen before “то, либо, нибудь”",
+    "ru": "Дефис перед то, либо, нибудь"
+  },
+  "ru/dash/weekday": {
+    "en": "Dash between the days of the week",
+    "ru": "Тире между днями недели"
   },
   "ru/money/dollar": {
     "common": "$100 → 100 $"
@@ -176,8 +173,24 @@ Typograf.titles = {
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
   },
-  "ru/number/ordinals": {
-    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
+  "ru/optalign/bracket": {
+    "en": "for opening bracket",
+    "ru": "для открывающей скобки"
+  },
+  "ru/optalign/comma": {
+    "en": "for comma",
+    "ru": "для запятой"
+  },
+  "ru/optalign/quot": {
+    "en": "for opening quotation marks",
+    "ru": "для открывающей кавычки"
+  },
+  "ru/date/main": {
+    "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
+    "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
+  },
+  "ru/date/weekday": {
+    "common": "2 Мая, Понедельник → 2 мая, понедельник"
   },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
@@ -227,28 +240,15 @@ Typograf.titles = {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
   },
-  "ru/optalign/bracket": {
-    "en": "for opening bracket",
-    "ru": "для открывающей скобки"
-  },
-  "ru/optalign/comma": {
-    "en": "for comma",
-    "ru": "для запятой"
-  },
-  "ru/optalign/quot": {
-    "en": "for opening quotation marks",
-    "ru": "для открывающей кавычки"
+  "ru/other/accent": {
+    "en": "Replacing capital letter and adding accents",
+    "ru": "Замена заглавной буквы и добавление знака ударения"
   },
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
   },
-  "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
-  },
-  "en/punctuation/quot": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
+  "ru/number/ordinals": {
+    "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   }
 };
