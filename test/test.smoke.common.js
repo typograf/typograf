@@ -1,5 +1,5 @@
 var assert = require('chai').assert,
-    Typograf = require('../dist/typograf'),
+    Typograf = require('../build/typograf'),
     t = new Typograf(),
     commonTests = [
         ['  start  <script>  var a = 10;  \n\n\n</script>  end  ',

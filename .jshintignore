@@ -2,6 +2,7 @@ gulpfile.js
 .*
 examples/**
 coverage/**
+build/**
 dist/**
 libs/**
 node_modules/**
