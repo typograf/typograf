@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/nbsp/twoPartAbbr',
     sortIndex: 565,
-    func: function(text, settings) {
+    func: function(text) {
         var abbrs = [
             'т.д.',    // так далее
             'т.п.',    // тому подобное
