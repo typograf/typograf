@@ -38,6 +38,7 @@ Icon
 .Spotlight-V100
 .Trashes
 
+build/
 node_modules/
 coverage/
 test/before/*.tmp

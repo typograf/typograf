@@ -1,6 +1,6 @@
 var chai = require('chai'),
     assert = chai.assert,
-    Typograf = require('../dist/typograf'),
+    Typograf = require('../build/typograf'),
     t = new Typograf({lang: 'ru', mode: 'digit'}),
     fs = require('fs');
     

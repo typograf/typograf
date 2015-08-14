@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     filter = function() {
         return gulpFilter(['**/*.js', '!**/*.spec.js']);
     },
-    destDir = './dist/';
+    destDir = './build/';
 
 var paths = {
     jsonRules: [
@@ -79,7 +79,7 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 });
 
 gulp.task('minjs', ['js'], function() {
-    return gulp.src('dist/typograf.js')
+    return gulp.src(destDir + 'typograf.js')
         .pipe(rename('typograf.min.js'))
         .pipe(uglify({
             output: {ascii_only: true},
@@ -100,7 +100,7 @@ gulp.task('testRules', function() {
     return gulp.src(paths.testRules)
         .pipe(filterSpec)
         .pipe(concat('rules.js'))
-        .pipe(gulp.dest('./test/'));
+        .pipe(gulp.dest(destDir));
 });
 
 gulp.task('jsLint', function() {

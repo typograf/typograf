@@ -16,16 +16,16 @@ module.exports = {
         }
     },
     buildTitles: function() {
-        var txt = fs.readFileSync('dist/typograf.titles.json');
-        fs.writeFileSync('dist/typograf.titles.js', 'Typograf.titles = ' + txt + ';\n');
+        var txt = fs.readFileSync('build/typograf.titles.json');
+        fs.writeFileSync('build/typograf.titles.js', 'Typograf.titles = ' + txt + ';\n');
     },
     buildGroups: function() {
-        var txt = fs.readFileSync('dist/typograf.groups.json');
-        fs.writeFileSync('dist/typograf.groups.js', 'Typograf.groups = ' + txt + ';\n');
+        var txt = fs.readFileSync('build/typograf.groups.json');
+        fs.writeFileSync('build/typograf.groups.js', 'Typograf.groups = ' + txt + ';\n');
     },
     makeMdRules: function() {
-        var Typograf = require('../dist/typograf.js'),
-            titles = require('../dist/typograf.titles.json'),
+        var Typograf = require('../build/typograf.js'),
+            titles = require('../build/typograf.titles.json'),
             rules = Typograf.prototype._rules,
             getRow = function(rule, i, lang) {
                 var title = titles[rule.name][lang] || titles[rule.name].common;
