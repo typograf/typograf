@@ -987,10 +987,9 @@ Typograf.rule({
     name: 'common/nbsp/beforeShortLastWord',
     sortIndex: 620,
     func: function(text, settings) {
-        var len = settings.lengthLastWord,
-            punc = '.,?!:;',
+        var punc = '.,?!:;',
             re = new RegExp('([^' + punc + ']) ([' +
-                this.letters() + ']{1,' + len + '}[' + punc + '])', 'gi');
+                this.letters() + ']{1,' + settings.lengthLastWord + '}[' + punc + '])', 'gi');
 
         return text.replace(re, '$1\u00A0$2');
     },
@@ -1102,34 +1101,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'common/sym/arrow',
-    sortIndex: 1130,
-    func: function(text) {
-        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
-    }
-});
-
-Typograf.rule({
-    name: 'common/sym/cf',
-    sortIndex: 1020,
-    func: function(text) {
-        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
-
-        return text.replace(re, '$1' + '\u2009' + '°$3$4');
-    }
-});
-
-Typograf.rule({
-    name: 'common/sym/copy',
-    sortIndex: 10,
-    func: function(text) {
-        return text.replace(/\(r\)/gi, '®')
-            .replace(/(copyright )?\((c|с)\)/gi, '©')
-            .replace(/\(tm\)/gi, '™');
-    }
-});
-
-Typograf.rule({
     name: 'common/space/afterPunctuation',
     sortIndex: 560,
     func: function(text) {
@@ -1221,6 +1192,34 @@ Typograf.rule({
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
+    }
+});
+
+Typograf.rule({
+    name: 'common/sym/arrow',
+    sortIndex: 1130,
+    func: function(text) {
+        return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
+    }
+});
+
+Typograf.rule({
+    name: 'common/sym/cf',
+    sortIndex: 1020,
+    func: function(text) {
+        var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
+
+        return text.replace(re, '$1' + '\u2009' + '°$3$4');
+    }
+});
+
+Typograf.rule({
+    name: 'common/sym/copy',
+    sortIndex: 10,
+    func: function(text) {
+        return text.replace(/\(r\)/gi, '®')
+            .replace(/(copyright )?\((c|с)\)/gi, '©')
+            .replace(/\(tm\)/gi, '™');
     }
 });
 
@@ -1425,6 +1424,22 @@ Typograf.rule({
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
     },
     disabled: true
+});
+
+Typograf.rule({
+    name: 'ru/nbsp/abbr',
+    sortIndex: 565,
+    func: function(text) {
+        return text.replace(/(^|\s)([а-яё]{1,3}\.){2,}(?![а-яё])/g, function($0, $1) {
+            var abbr = $0.split(/\./);
+            // Являются ли сокращения ссылкой
+            if(['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf(abbr[abbr.length - 2]) > -1) {
+                return $0;
+            }
+
+            return $1 + $0.split(/\./).join('.\u00A0').trim();
+        });
+    }
 });
 
 /*jshint maxlen:1000 */
