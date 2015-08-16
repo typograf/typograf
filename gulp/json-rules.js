@@ -1,9 +1,10 @@
-var through = require('through');
-var path = require('path');
-var gutil = require('gulp-util');
-var PluginError = gutil.PluginError;
-var File = gutil.File;
-var Buffer = require('buffer').Buffer;
+var through = require('through'),
+    path = require('path'),
+    sortKeys = require('sort-keys'),
+    gutil = require('gulp-util'),
+    PluginError = gutil.PluginError,
+    File = gutil.File,
+    Buffer = require('buffer').Buffer;
 
 function getRulePath(file) {
     var str = file.replace(/\.json$/, '').split(/\/|\\/);
@@ -54,7 +55,7 @@ module.exports = function(file, opt) {
             joinedFile = firstFile;
         }
 
-        joinedFile.contents = new Buffer(JSON.stringify(rules, null, '  '), 'utf8');
+        joinedFile.contents = new Buffer(JSON.stringify(sortKeys(rules, {deep: true}), null, '  '), 'utf8');
 
         this.emit('data', joinedFile);
         this.emit('end');

@@ -15,6 +15,8 @@ var gulp = require('gulp'),
     destDir = './build/';
 
 var paths = {
+    dist: 'dist/',
+    build: 'build/typograf.*',
     jsonRules: [
         'src/rules/**/*.json'
     ],
@@ -111,8 +113,8 @@ gulp.task('jsLint', function() {
     .pipe(jshint.reporter());
 });
 
-gulp.task('watch', function() {
-    gulp.watch(['src/**/*', 'test/**/*'], ['js', 'testRules', 'css', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups']);
-});
+gulp.task('default', ['js', 'minjs', 'testRules', 'jsLint', 'css']);
 
-gulp.task('default', ['js', 'minjs', 'testRules', 'jsLint', 'css', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups']);
+gulp.task('dist', ['default', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups'], function() {
+    return gulp.src(paths.build).pipe(gulp.dest(paths.dist));
+});

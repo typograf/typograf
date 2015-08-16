@@ -53,7 +53,8 @@
     "jshint": "~2.8.0",
     "mocha": "~2.2.0",
     "through": "~2.3.6",
-    "yaspeller": "~2.5.0"
+    "yaspeller": "~2.5.0",
+    "sort-keys": "~1.1.1"
   },
   "scripts": {
     "test": "npm run-script gulp && npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",
