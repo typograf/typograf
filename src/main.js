@@ -3,8 +3,8 @@
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
- * @param {string|Array[string]} [prefs.enable] Enable rules
- * @param {string|Array[string]} [prefs.disable] Disable rules
+ * @param {string|string[]} [prefs.enable] Enable rules
+ * @param {string|string[]} [prefs.disable] Disable rules
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
@@ -310,7 +310,7 @@ Typograf.prototype = {
     /**
      * Enable a rule.
      *
-     * @param {string|Array[string]} ruleName
+     * @param {string|string[]} ruleName
      * @return {Typograf} this
      */
     enable: function(ruleName) {
@@ -319,7 +319,7 @@ Typograf.prototype = {
     /**
      * Disable a rule.
      *
-     * @param {string|Array[string]} ruleName
+     * @param {string|string[]} ruleName
      * @return {Typograf} this
      */
     disable: function(ruleName) {

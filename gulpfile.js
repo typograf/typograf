@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    jsonlint = require('gulp-jsonlint');
+    jsonlint = require('gulp-jsonlint'),
     jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
     gulpJsonRules = require('./gulp/json-rules'),
@@ -106,11 +106,11 @@ gulp.task('testRules', function() {
 });
 
 gulp.task('jsLint', function() {
-  return gulp.src(paths.js)
-    .pipe(filter())
-    .pipe(jscs())
-    .pipe(jshint())
-    .pipe(jshint.reporter());
+    return gulp.src(paths.js)
+        .pipe(filter())
+        .pipe(jscs())
+        .pipe(jshint())
+        .pipe(jshint.reporter());
 });
 
 gulp.task('default', ['js', 'minjs', 'testRules', 'jsLint', 'css']);
