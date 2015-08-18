@@ -76,15 +76,21 @@ Typograf.innerRule = function(rule) {
  * Get/set data for use in rules.
  *
  * @static
- * @param {string} key
+ * @param {string|Object} key
  * @param {*} [value]
  * @return {*}
  */
 Typograf.data = function(key, value) {
-    if(arguments.length === 1) {
-        return Typograf._data[key];
-    } else {
-        Typograf._data[key] = value;
+    if(typeof key === 'string') {
+        if(arguments.length === 1) {
+            return Typograf._data[key];
+        } else {
+            Typograf._data[key] = value;
+        }
+    } else if(typeof key === 'object') {
+        Object.keys(key).forEach(function(k) {
+            Typograf._data[k] = key[k];
+        });
     }
 };
 
