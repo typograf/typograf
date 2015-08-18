@@ -16,6 +16,29 @@ describe('API', function() {
         assert.ok(typograf.disabled('ru/punctuation/quot'));
     });
 
+    it('should set/get data', function() {
+        Typograf.data('prop', 10);
+        assert.equal(Typograf.data('prop'), 10);
+
+        Typograf.data('prop', 20);
+        assert.equal(Typograf.data('prop'), 20);
+
+        Typograf.data('prop', undefined);
+    });
+
+    it('should set data as object', function() {
+        Typograf.data({
+            'prop1': 1,
+            'prop2': 2
+        });
+
+        assert.equal(Typograf.data('prop1'), 1);
+        assert.equal(Typograf.data('prop2'), 2);
+
+        Typograf.data('prop1', undefined);
+        Typograf.data('prop2', undefined);
+    });
+
     it('should enable rule', function() {
         assert.ok(t.disabled('common/html/pbr'));
 
