@@ -140,8 +140,14 @@ tpDigit.execute('...'); // &#8230;
 ## Разработка
 `git clone https://github.com/typograf/typograf.git ./typograf`
 
+Пересборка:
+`gulp`
+
 Пересборка и запуск тестов:
-`gulp && npm test`
+`npm test`
+
+Подготовка новой версии:
+`gulp dist`
 
 ## [Лицензия](./LICENSE.ru.md)
 MIT License
