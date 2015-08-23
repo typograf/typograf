@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/nbsp/m',
-    sortIndex: 1030,
-    func: function(text) {
+    index: 1030,
+    handler: function(text) {
         var m = '(км|м|дм|см|мм)',
             re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
             re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');

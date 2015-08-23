@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/dash/izpod',
-    sortIndex: 35,
-    func: function(text) {
+    index: 35,
+    handler: function(text) {
         var ruDash = Typograf.data('ru/dash'),
             re = new RegExp(ruDash.before + '(И|и)з под' + ruDash.after, 'g');
 

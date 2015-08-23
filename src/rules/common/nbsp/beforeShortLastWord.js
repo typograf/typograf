@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/nbsp/beforeShortLastWord',
-    sortIndex: 620,
-    func: function(text, settings) {
+    index: 620,
+    handler: function(text, settings) {
         var punc = '.,?!:;',
             re = new RegExp('([^' + punc + ']) ([' +
                 this.letters() + ']{1,' + settings.lengthLastWord + '}[' + punc + '])', 'gi');

@@ -6,9 +6,9 @@ function replaceNbsp($0, $1, $2, $3) {
 
 Typograf.rule({
     name: 'common/nbsp/nowrap',
-    sortIndex: 100,
+    index: 100,
     queue: 'start',
-    func: function(text) {
+    handler: function(text) {
         return text
             .replace(/(<nowrap>)(.*?)(<\/nowrap>)/g, replaceNbsp)
             .replace(/(<nobr>)(.*?)(<\/nobr>)/g, replaceNbsp);

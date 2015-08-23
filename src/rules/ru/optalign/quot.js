@@ -1,8 +1,8 @@
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/quot',
-    sortIndex: 1000,
-    func: function(text) {
+    index: 1000,
+    handler: function(text) {
         var lquotes = '(["' +
                 this.setting('ru/punctuation/quot', 'lquot') +
                 this.setting('ru/punctuation/quot', 'lquot2') +
@@ -18,7 +18,7 @@ Typograf.rule({
 })
 .innerRule({
     name: 'ru/optalign/quot',
-    func: function(text) {
+    handler: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
         return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
     }

@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/dash/main',
-    sortIndex: 620,
-    func: function(text) {
+    index: 620,
+    handler: function(text) {
         var name = 'ru/dash/main',
             dash = this.setting(name, 'dash'),
             dashes = '(' + Typograf.data('common/dash') + ')',

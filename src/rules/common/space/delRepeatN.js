@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/space/delRepeatN',
-    sortIndex: 545,
-    func: function(text) {
+    index: 545,
+    handler: function(text) {
         return text.replace(/\n{3,}/g, '\n\n');
     }
 });

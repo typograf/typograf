@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/punctuation/exclamation',
-    sortIndex: 1150,
-    func: function(text) {
+    index: 1150,
+    handler: function(text) {
         return text
             .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
             .replace(/(^|[^!])!{4}($|[^!])/, '$1!!!$2');

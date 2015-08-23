@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/dash/weekday',
-    sortIndex: 600,
-    func: function(text) {
+    index: 600,
+    handler: function(text) {
         var part = '(' + Typograf.data('ru/weekday').join('|') + ')',
             re = new RegExp(part + ' ?(' + Typograf.data('common/dash') + ') ?' + part, 'gi');
 

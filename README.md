@@ -109,9 +109,9 @@ Typograf.rule({
     // язык/группа/правило
     name: 'common/other/parampampam',
     // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
-    sortIndex: 2000,
+    index: 2000,
     // Функция обработки правила
-    func: function(text) {
+    handler: function(text) {
         return text.replace(/parampampam/g, 'tryam');
     }
 });

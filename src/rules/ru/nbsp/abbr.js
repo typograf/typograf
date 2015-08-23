@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/nbsp/abbr',
-    sortIndex: 565,
-    func: function(text) {
+    index: 565,
+    handler: function(text) {
         return text.replace(/(^|\s)([а-яё]{1,3}\.){2,}(?![а-яё])/g, function($0, $1) {
             var abbr = $0.split(/\./);
             // Являются ли сокращения ссылкой

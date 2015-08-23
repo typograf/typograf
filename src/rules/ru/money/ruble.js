@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/money/ruble',
-    sortIndex: 1145,
-    func: function(text) {
+    index: 1145,
+    handler: function(text) {
         var rep = '$1\u00A0₽';
         return text
             .replace(/^(\d+)( |\u00A0)?(р|руб)\.$/, rep)

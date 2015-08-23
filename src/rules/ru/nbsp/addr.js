@@ -1,8 +1,8 @@
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/nbsp/addr',
-    sortIndex: 1115,
-    func: function(text) {
+    index: 1115,
+    handler: function(text) {
         return text
             .replace(/(\s|^)(дом|д\.|кв\.|под\.|п\-д) *(\d+)/gi, '$1$2\u00A0$3')
             .replace(/(\s|^)(мкр-н|мк-н|мкр\.|мкрн)\s/gi, '$1$2\u00A0') // микрорайон

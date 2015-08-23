@@ -28,8 +28,8 @@ function Typograf(prefs) {
  * @static
  * @param {Object} rule
  * @param {string} rule.name Name of rule
- * @param {Function} rule.func Processing function
- * @param {number} [rule.sortIndex] Sorting index for rule
+ * @param {Function} rule.handler Processing function
+ * @param {number} [rule.index] Sorting index for rule
  * @param {boolean} [rule.disabled] Rule is disabled by default
  * @param {Object} [rule.settings] Settings for rule
  * @return {Typograf} this
@@ -37,7 +37,7 @@ function Typograf(prefs) {
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false || rule.disabled === true ? false : true;
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
+    rule.index = rule.index || /* istanbul ignore next */ 0;
 
     Typograf.prototype._rules.push(rule);
 
@@ -55,15 +55,15 @@ Typograf.rule = function(rule) {
  * @static
  * @param {Object} rule
  * @param {string} rule.name Name of rule
- * @param {Function} rule.func Processing function
- * @param {string} [rule.sortIndex] Sorting index for rule
+ * @param {Function} rule.handler Processing function
+ * @param {string} [rule.index] Sorting index for rule
  * @return {Typograf} this
  */
 Typograf.innerRule = function(rule) {
     Typograf.prototype._innerRules.push(rule);
 
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || 0;
+    rule.index = rule.index || 0;
 
     if(Typograf._needSortRules) {
         this._sortInnerRules();
@@ -98,13 +98,13 @@ Typograf._data = {};
 
 Typograf._sortRules = function() {
     Typograf.prototype._rules.sort(function(a, b) {
-        return a.sortIndex > b.sortIndex ? 1 : -1;
+        return a.index > b.index ? 1 : -1;
     });
 };
 
 Typograf._sortInnerRules = function() {
     Typograf.prototype._innerRules.sort(function(a, b) {
-        return a.sortIndex > b.sortIndex ? 1 : -1;
+        return a.index > b.index ? 1 : -1;
     });
 };
 
@@ -223,7 +223,7 @@ Typograf.prototype = {
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     this._onBeforeRule && this._onBeforeRule(text);
-                    text = rule.func.call(this, text, this._settings[rule.name]);
+                    text = rule.handler.call(this, text, this._settings[rule.name]);
                     this._onAfterRule && this._onAfterRule(text);
                 }
             },

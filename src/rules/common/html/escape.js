@@ -1,8 +1,8 @@
 Typograf.rule({
     name: 'common/html/escape',
-    sortIndex: 110,
+    index: 110,
     queue: 'end',
-    func: function(text) {
+    handler: function(text) {
         var entityMap = {
             '&': '&amp;',
             '<': '&lt;',
