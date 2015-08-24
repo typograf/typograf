@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/date/weekday',
-    sortIndex: 1310,
-    func: function(text) {
+    index: 1310,
+    handler: function(text) {
         var space = '( |\u00A0)',
             monthCase = Typograf.data('ru/monthCase').join('|'),
             weekday = Typograf.data('ru/weekday').join('|'),

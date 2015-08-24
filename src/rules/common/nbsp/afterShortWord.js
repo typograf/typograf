@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/nbsp/afterShortWord', 
-    sortIndex: 590,
-    func: function(text, settings) {
+    index: 590,
+    handler: function(text, settings) {
         var len = settings.lengthShortWord,
             str = '(^| |\u00A0)([' +
                 this.letters() +

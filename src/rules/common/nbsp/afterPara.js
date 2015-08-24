@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/nbsp/afterPara',
-    sortIndex: 610,
-    func: function(text) {
+    index: 610,
+    handler: function(text) {
         return text.replace(/§ ?(\d|I|V|X)/g, '§\u00A0$1');
     }
 });

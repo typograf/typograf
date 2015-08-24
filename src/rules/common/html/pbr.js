@@ -1,8 +1,8 @@
 Typograf.rule({
     name: 'common/html/pbr',
-    sortIndex: 90,
+    index: 90,
     queue: 'end',
-    func: function(text) {
+    handler: function(text) {
         if(text.search(/<(p|br)[\s\/>]/) === -1) {
             if(text.search(/\n/) === -1) {
                 text = '<p>' + text + '</p>';

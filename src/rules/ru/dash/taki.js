@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/dash/taki',
-    sortIndex: 39,
-    func: function(text) {
+    index: 39,
+    handler: function(text) {
         var re = new RegExp('(верно|довольно|опять|прямо|так|вс[её]|действительно|неужели)\\s(таки)' +
             Typograf.data('ru/dash').after, 'g');
 

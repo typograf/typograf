@@ -118,15 +118,15 @@ describe('API', function() {
     it('should add rule', function() {
         Typograf.rule({
             name: 'common/example',
-            sortIndex: 100,
-            func: function(text) {
+            index: 100,
+            handler: function(text) {
                 return text.replace(/rule/, '');
             }
         });
 
         Typograf.innerRule({
             name: 'common/example',
-            func: function(text) {
+            handler: function(text) {
                 return text.replace(/inner_example/, '');
             }
         });

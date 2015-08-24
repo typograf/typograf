@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/html/url',
-    sortIndex: 2010,
-    func: function(text) {
+    index: 2010,
+    handler: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
             pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
             re = new RegExp(prefix + pureUrl, 'g');

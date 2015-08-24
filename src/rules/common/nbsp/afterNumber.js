@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/nbsp/afterNumber',
-    sortIndex: 615,
-    func: function(text) {
+    index: 615,
+    handler: function(text) {
         var re = '(^|\\D)(\\d{1,5}) ([' +
             this.letters() +
             ']{2,})';

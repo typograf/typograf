@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/number/times',
-    sortIndex: 1050,
-    func: function(text) {
+    index: 1050,
+    handler: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
 });

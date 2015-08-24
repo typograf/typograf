@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'en/punctuation/quot',
-    sortIndex: 700,
-    func: Typograf._quot,
+    index: 700,
+    handler: Typograf._quot,
     settings: {
         lquot: '“',
         rquot: '”',

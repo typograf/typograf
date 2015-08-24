@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/dash/to',
-    sortIndex: 30,
-    func: function(text) {
+    index: 30,
+    handler: function(text) {
         var words = [
                 'откуда', 'куда', 'где',
                 'когда', 'зачем', 'почему',

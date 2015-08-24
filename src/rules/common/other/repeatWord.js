@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/other/repeatWord',
-    sortIndex: 1200,
-    func: function(text) {
+    index: 1200,
+    handler: function(text) {
         var re = '([' +
             this.letters() +
             '\u0301]+) \\1([;:,.?! \n])';

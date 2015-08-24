@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/date/main',
-    sortIndex: 1300,
-    func: function(text) {
+    index: 1300,
+    handler: function(text) {
         var sp1 = '(-|\\.|\\/)',
             sp2 = '(-|\\/)',
             re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),

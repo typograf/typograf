@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/money/dollar',
-    sortIndex: 1140,
-    func: function(text) {
+    index: 1140,
+    handler: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
             re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$', 'g'),
             rep = '$1$2\u00A0$';

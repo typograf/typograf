@@ -26,7 +26,7 @@ function executeRule(name, text) {
 
     rules.forEach(function(f) {
         if(f.name === name) {
-            text = f.func.call(t, text, t._settings[f.name]);
+            text = f.handler.call(t, text, t._settings[f.name]);
         }
     });
 
@@ -38,7 +38,7 @@ function executeInnerRule(name, text) {
 
     rules.forEach(function(f) {
         if(f.name === name) {
-            text = f.func.call(t, text, t._settings[f.name]);
+            text = f.handler.call(t, text, t._settings[f.name]);
         }
     });
 

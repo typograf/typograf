@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/nbsp/dpi',
-    sortIndex: 1150,
-    func: function(text) {
+    index: 1150,
+    handler: function(text) {
         return text.replace(/(\d) ?(lpi|dpi)(?!\w)/, '$1\u00A0$2');
     }
 });

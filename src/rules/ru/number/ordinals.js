@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/number/ordinals',
-    sortIndex: 1300,
-    func: function(text) {
+    index: 1300,
+    handler: function(text) {
         return text
             .replace(/(\d)-(ый|ой)([^а-яё]|$)/g, '$1-й$3')
             .replace(/(\d)-ая([^а-яё]|$)/g, '$1-я$2')

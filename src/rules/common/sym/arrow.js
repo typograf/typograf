@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/sym/arrow',
-    sortIndex: 1130,
-    func: function(text) {
+    index: 1130,
+    handler: function(text) {
         return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
     }
 });

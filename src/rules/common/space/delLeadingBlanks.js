@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/space/delLeadingBlanks',
-    sortIndex: 504,
-    func: function(text) {
+    index: 504,
+    handler: function(text) {
         return text.replace(/\n[ \t]+/g, '\n');
     },
     disabled: true

@@ -32,7 +32,7 @@ module.exports = {
                 return '| ' + i + '. | [' +
                     rule.name + '](../src/rules/' + rule.name + '.js) | ' +
                     title + ' | ' +
-                    rule.sortIndex + ' | ' +
+                    rule.index + ' | ' +
                     (rule.queue || '') + ' | ' +
                     (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
             },
@@ -66,9 +66,9 @@ module.exports = {
             var queueA = queue[a.queue],
                 queueB = queue[b.queue];
             if(queueA === queueB) {
-                if(a.sortIndex > b.sortIndex) {
+                if(a.index > b.index) {
                     return 1;
-                } else if(a.sortIndex < b.sortIndex) {
+                } else if(a.index < b.index) {
                     return -1;
                 } else {
                     return 0;
