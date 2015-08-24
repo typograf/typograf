@@ -85,15 +85,19 @@ console.log(tp.execute('"Мир"'));
 
 А также в HTML-код страницы добавить:
 ```HTML
-<link rel="stylesheet" href="dist/typograf.css" type="text/css" />
+<link rel="stylesheet" href="dist/typograf.css" />
 ```
 
 ### Включить/отключить правило
 ```JavaScript
 var tp = new Typograf({lang: 'ru'});
 tp.enable('ru/money/ruble'); // Включить правило
+tp.enable('ru/money/*'); // Включить все правила в группе
+tp.enable('*'); // Включить все правила
 //...
 tp.disable('ru/money/ruble'); // Отключить правило
+tp.disable('ru/money/*'); // Отключить все правила в группе
+tp.disable('*'); // Отключить все правила
 ```
 
 ### Изменить настройку у правила
@@ -106,7 +110,7 @@ tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
 ### Добавить правило
 ```JavaScript
 Typograf.rule({
-    // язык/группа/правило
+    // Язык/группа/правило
     name: 'common/other/parampampam',
     // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
     index: 2000,
@@ -119,7 +123,7 @@ Typograf.rule({
 
 ### Режим работы
 ```JavaScript
-// Режим по умолчанию, HTML-сущности, как utf-8 символы
+// Режим по умолчанию, HTML-сущности, как UTF-8 символы
 var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
 
@@ -138,7 +142,7 @@ tpDigit.execute('...'); // &#8230;
 
 
 ## Разработка
-`git clone https://github.com/typograf/typograf.git ./typograf`
+`git clone https://github.com/typograf/typograf.git`
 
 Пересборка:
 `gulp`
