@@ -1,6 +1,6 @@
 {
   "name": "typograf",
-  "version": "2.14.0",
+  "version": "3.0.0",
   "description": "Typograph in JavaScript",
   "ignore": [
     "**/.*",

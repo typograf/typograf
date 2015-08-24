@@ -70,10 +70,6 @@
   "common/punctuation/exclamationQuestion": {
     "common": "!? → ?!"
   },
-  "common/punctuation/hellip": {
-    "en": "Three points on ellipsis",
-    "ru": "Три точки на троеточие"
-  },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
@@ -246,6 +242,10 @@
   "ru/other/accent": {
     "en": "Replacing capital letter and adding accents",
     "ru": "Замена заглавной буквы и добавление знака ударения"
+  },
+  "ru/punctuation/hellip": {
+    "en": "Three points on ellipsis",
+    "ru": "Три точки на многоточие, ?... -> ?.. и пр."
   },
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",

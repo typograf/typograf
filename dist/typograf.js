@@ -19,8 +19,8 @@ if(typeof define === 'function' && define.amd) {
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
- * @param {string|Array[string]} [prefs.enable] Enable rules
- * @param {string|Array[string]} [prefs.disable] Disable rules
+ * @param {string|string[]} [prefs.enable] Enable rules
+ * @param {string|string[]} [prefs.disable] Disable rules
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
@@ -44,8 +44,8 @@ function Typograf(prefs) {
  * @static
  * @param {Object} rule
  * @param {string} rule.name Name of rule
- * @param {Function} rule.func Processing function
- * @param {number} [rule.sortIndex] Sorting index for rule
+ * @param {Function} rule.handler Processing function
+ * @param {number} [rule.index] Sorting index for rule
  * @param {boolean} [rule.disabled] Rule is disabled by default
  * @param {Object} [rule.settings] Settings for rule
  * @return {Typograf} this
@@ -53,7 +53,7 @@ function Typograf(prefs) {
 Typograf.rule = function(rule) {
     rule.enabled = rule.enabled === false || rule.disabled === true ? false : true;
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || /* istanbul ignore next */ 0;
+    rule.index = rule.index || /* istanbul ignore next */ 0;
 
     Typograf.prototype._rules.push(rule);
 
@@ -71,15 +71,15 @@ Typograf.rule = function(rule) {
  * @static
  * @param {Object} rule
  * @param {string} rule.name Name of rule
- * @param {Function} rule.func Processing function
- * @param {string} [rule.sortIndex] Sorting index for rule
+ * @param {Function} rule.handler Processing function
+ * @param {string} [rule.index] Sorting index for rule
  * @return {Typograf} this
  */
 Typograf.innerRule = function(rule) {
     Typograf.prototype._innerRules.push(rule);
 
     rule._lang = rule.name.split('/')[0];
-    rule.sortIndex = rule.sortIndex || 0;
+    rule.index = rule.index || 0;
 
     if(Typograf._needSortRules) {
         this._sortInnerRules();
@@ -92,15 +92,21 @@ Typograf.innerRule = function(rule) {
  * Get/set data for use in rules.
  *
  * @static
- * @param {string} key
+ * @param {string|Object} key
  * @param {*} [value]
  * @return {*}
  */
 Typograf.data = function(key, value) {
-    if(arguments.length === 1) {
-        return Typograf._data[key];
-    } else {
-        Typograf._data[key] = value;
+    if(typeof key === 'string') {
+        if(arguments.length === 1) {
+            return Typograf._data[key];
+        } else {
+            Typograf._data[key] = value;
+        }
+    } else if(typeof key === 'object') {
+        Object.keys(key).forEach(function(k) {
+            Typograf._data[k] = key[k];
+        });
     }
 };
 
@@ -108,13 +114,13 @@ Typograf._data = {};
 
 Typograf._sortRules = function() {
     Typograf.prototype._rules.sort(function(a, b) {
-        return a.sortIndex > b.sortIndex ? 1 : -1;
+        return a.index > b.index ? 1 : -1;
     });
 };
 
 Typograf._sortInnerRules = function() {
     Typograf.prototype._innerRules.sort(function(a, b) {
-        return a.sortIndex > b.sortIndex ? 1 : -1;
+        return a.index > b.index ? 1 : -1;
     });
 };
 
@@ -233,7 +239,7 @@ Typograf.prototype = {
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     this._onBeforeRule && this._onBeforeRule(text);
-                    text = rule.func.call(this, text, this._settings[rule.name]);
+                    text = rule.handler.call(this, text, this._settings[rule.name]);
                     this._onAfterRule && this._onAfterRule(text);
                 }
             },
@@ -326,7 +332,7 @@ Typograf.prototype = {
     /**
      * Enable a rule.
      *
-     * @param {string|Array[string]} ruleName
+     * @param {string|string[]} ruleName
      * @return {Typograf} this
      */
     enable: function(ruleName) {
@@ -335,7 +341,7 @@ Typograf.prototype = {
     /**
      * Disable a rule.
      *
-     * @param {string|Array[string]} ruleName
+     * @param {string|string[]} ruleName
      * @return {Typograf} this
      */
     disable: function(ruleName) {
@@ -780,52 +786,55 @@ Typograf.data('common/quot', '«‹»›„‚“‟‘‛”’"');
 
 Typograf.data('en/letter', 'a-z');
 
-Typograf.data('ru/letter', 'а-яё');
+Typograf.data({
+    'ru/letter': 'а-яё',
+    'ru/letterUpper': 'А-ЯЁ'
+});
 
-Typograf.data('ru/month', [
-    'январь',
-    'февраль',
-    'март',
-    'апрель',
-    'май',
-    'июнь',
-    'июль',
-    'август',
-    'сентябрь',
-    'октябрь',
-    'ноябрь',
-    'декабрь'
-]);
-
-Typograf.data('ru/monthCase', [
-    'января',
-    'февраля',
-    'марта',
-    'апреля',
-    'мая',
-    'июня',
-    'июля',
-    'августа',
-    'сентября',
-    'октября',
-    'ноября',
-    'декабря'
-]);
-
-Typograf.data('ru/shortMonth', [
-    'янв',
-    'фев',
-    'мар',
-    'апр',
-    'ма[ейя]',
-    'июн',
-    'июл',
-    'авг',
-    'сен',
-    'окт',
-    'ноя',
-    'дек'
-]);
+Typograf.data({
+    'ru/month': [
+        'январь',
+        'февраль',
+        'март',
+        'апрель',
+        'май',
+        'июнь',
+        'июль',
+        'август',
+        'сентябрь',
+        'октябрь',
+        'ноябрь',
+        'декабрь'
+    ],
+    'ru/monthCase': [
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря'
+    ],
+    'ru/shortMonth': [
+        'янв',
+        'фев',
+        'мар',
+        'апр',
+        'ма[ейя]',
+        'июн',
+        'июл',
+        'авг',
+        'сен',
+        'окт',
+        'ноя',
+        'дек'
+    ]
+});
 
 Typograf.data('ru/weekday', [
     'понедельник',
@@ -839,9 +848,9 @@ Typograf.data('ru/weekday', [
 
 Typograf.rule({
     name: 'common/html/escape',
-    sortIndex: 110,
+    index: 110,
     queue: 'end',
-    func: function(text) {
+    handler: function(text) {
         var entityMap = {
             '&': '&amp;',
             '<': '&lt;',
@@ -860,8 +869,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/mail',
-    sortIndex: 2000,
-    func: function(text) {
+    index: 2000,
+    handler: function(text) {
         return text.replace(
             /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
             '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
@@ -872,9 +881,9 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/nbr',
-    sortIndex: 110,
+    index: 110,
     queue: 'start',
-    func: function(text) {
+    handler: function(text) {
         return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
     },
     disabled: true
@@ -882,9 +891,9 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/pbr',
-    sortIndex: 90,
+    index: 90,
     queue: 'end',
-    func: function(text) {
+    handler: function(text) {
         if(text.search(/<(p|br)[\s\/>]/) === -1) {
             if(text.search(/\n/) === -1) {
                 text = '<p>' + text + '</p>';
@@ -901,9 +910,9 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/stripTags',
-    sortIndex: 100,
+    index: 100,
     queue: 'end',
-    func: function(text) {
+    handler: function(text) {
         return text.replace(/<\/?[^>]+>/g, '');
     },
     disabled: true
@@ -911,8 +920,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/url',
-    sortIndex: 2010,
-    func: function(text) {
+    index: 2010,
+    handler: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
             pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
             re = new RegExp(prefix + pureUrl, 'g');
@@ -946,8 +955,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/nbsp/afterNumber',
-    sortIndex: 615,
-    func: function(text) {
+    index: 615,
+    handler: function(text) {
         var re = '(^|\\D)(\\d{1,5}) ([' +
             this.letters() +
             ']{2,})';
@@ -958,16 +967,16 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/nbsp/afterPara',
-    sortIndex: 610,
-    func: function(text) {
+    index: 610,
+    handler: function(text) {
         return text.replace(/§ ?(\d|I|V|X)/g, '§\u00A0$1');
     }
 });
 
 Typograf.rule({
     name: 'common/nbsp/afterShortWord', 
-    sortIndex: 590,
-    func: function(text, settings) {
+    index: 590,
+    handler: function(text, settings) {
         var len = settings.lengthShortWord,
             str = '(^| |\u00A0)([' +
                 this.letters() +
@@ -985,8 +994,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/nbsp/beforeShortLastWord',
-    sortIndex: 620,
-    func: function(text, settings) {
+    index: 620,
+    handler: function(text, settings) {
         var punc = '.,?!:;',
             re = new RegExp('([^' + punc + ']) ([' +
                 this.letters() + ']{1,' + settings.lengthLastWord + '}[' + punc + '])', 'gi');
@@ -1000,8 +1009,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/nbsp/dpi',
-    sortIndex: 1150,
-    func: function(text) {
+    index: 1150,
+    handler: function(text) {
         return text.replace(/(\d) ?(lpi|dpi)(?!\w)/, '$1\u00A0$2');
     }
 });
@@ -1014,9 +1023,9 @@ function replaceNbsp($0, $1, $2, $3) {
 
 Typograf.rule({
     name: 'common/nbsp/nowrap',
-    sortIndex: 100,
+    index: 100,
     queue: 'start',
-    func: function(text) {
+    handler: function(text) {
         return text
             .replace(/(<nowrap>)(.*?)(<\/nowrap>)/g, replaceNbsp)
             .replace(/(<nobr>)(.*?)(<\/nobr>)/g, replaceNbsp);
@@ -1027,8 +1036,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/number/fraction',
-    sortIndex: 1120,
-    func: function(text) {
+    index: 1120,
+    handler: function(text) {
         return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
             .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
             .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
@@ -1037,8 +1046,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/number/plusMinus',
-    sortIndex: 1010,
-    func: function(text) {
+    index: 1010,
+    handler: function(text) {
         var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
         return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
     }
@@ -1046,16 +1055,16 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/number/times',
-    sortIndex: 1050,
-    func: function(text) {
+    index: 1050,
+    handler: function(text) {
         return text.replace(/(\d) ?(x|х) ?(\d)/g, '$1×$3');
     }
 });
 
 Typograf.rule({
     name: 'common/other/repeatWord',
-    sortIndex: 1200,
-    func: function(text) {
+    index: 1200,
+    handler: function(text) {
         var re = '([' +
             this.letters() +
             '\u0301]+) \\1([;:,.?! \n])';
@@ -1067,16 +1076,16 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/punctuation/delDoublePunctuation',
-    sortIndex: 580,
-    func: function(text) {
+    index: 580,
+    handler: function(text) {
         return text.replace(/(,|:|;|\?){2,}/g, '$1');
     }
 });
 
 Typograf.rule({
     name: 'common/punctuation/exclamation',
-    sortIndex: 1150,
-    func: function(text) {
+    index: 1150,
+    handler: function(text) {
         return text
             .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
             .replace(/(^|[^!])!{4}($|[^!])/, '$1!!!$2');
@@ -1085,25 +1094,17 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/punctuation/exclamationQuestion',
-    sortIndex: 1140,
-    func: function(text) {
+    index: 1140,
+    handler: function(text) {
         var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
         return text.replace(re, '$1?!$2');
     }
 });
 
 Typograf.rule({
-    name: 'common/punctuation/hellip', 
-    sortIndex: 20, 
-    func: function(text) {
-        return text.replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2');
-    }
-});
-
-Typograf.rule({
     name: 'common/space/afterPunctuation',
-    sortIndex: 560,
-    func: function(text) {
+    index: 560,
+    handler: function(text) {
         var privateLabel = Typograf._privateLabel,
             reExcl = new RegExp('(!|;|\\?)([^!;?\\s[)' + privateLabel + Typograf.data('common/quot') + '])', 'g'),
             reComma = new RegExp('(\\D)(,|:)([^,:.?\\s\\/' + privateLabel + '])', 'g');
@@ -1116,16 +1117,16 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/space/delBeforePercent',
-    sortIndex: 600,
-    func: function(text) {
+    index: 600,
+    handler: function(text) {
         return text.replace(/(\d)( |\u00A0)(%|‰|‱)/g, '$1$3');
     }
 });
 
 Typograf.rule({
     name: 'common/space/delBeforePunctuation',
-    sortIndex: 550,
-    func: function(text) {
+    index: 550,
+    handler: function(text) {
         return text.replace(/ (!|;|,|\?|\.|:)/g, '$1')
             .replace(/\( /g, '(')
             .replace(/([^ ])\(/g, '$1 (')
@@ -1136,8 +1137,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/space/delLeadingBlanks',
-    sortIndex: 504,
-    func: function(text) {
+    index: 504,
+    handler: function(text) {
         return text.replace(/\n[ \t]+/g, '\n');
     },
     disabled: true
@@ -1145,40 +1146,40 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/space/delRepeatN',
-    sortIndex: 545,
-    func: function(text) {
+    index: 545,
+    handler: function(text) {
         return text.replace(/\n{3,}/g, '\n\n');
     }
 });
 
 Typograf.rule({
     name: 'common/space/delRepeatSpace',
-    sortIndex: 540,
-    func: function(text) {
+    index: 540,
+    handler: function(text) {
         return text.replace(/([^\n \t])( |\t){2,}([^\n \t])/g, '$1$2$3');
     }
 });
 
 Typograf.rule({
     name: 'common/space/delTrailingBlanks',
-    sortIndex: 505,
-    func: function(text) {
+    index: 505,
+    handler: function(text) {
         return text.replace(/[ \t]+\n/g, '\n');
     }
 });
 
 Typograf.rule({
     name: 'common/space/replaceTab',
-    sortIndex: 510,
-    func: function(text) {
+    index: 510,
+    handler: function(text) {
         return text.replace(/\t/g, ' ');
     }
 });
 
 Typograf.rule({
     name: 'common/space/trimLeft',
-    sortIndex: 530,
-    func: String.prototype.trimLeft ? function(text) {
+    index: 530,
+    handler: String.prototype.trimLeft ? function(text) {
         return text.trimLeft();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/^[\s\uFEFF\xA0]+/g, '');
@@ -1187,8 +1188,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/space/trimRight',
-    sortIndex: 535,
-    func: String.prototype.trimRight ? function(text) {
+    index: 535,
+    handler: String.prototype.trimRight ? function(text) {
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
@@ -1197,16 +1198,16 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/sym/arrow',
-    sortIndex: 1130,
-    func: function(text) {
+    index: 1130,
+    handler: function(text) {
         return text.replace(/(^|[^-])->(?!>)/g, '$1→').replace(/(^|[^<])<-(?!-)/g, '$1←');
     }
 });
 
 Typograf.rule({
     name: 'common/sym/cf',
-    sortIndex: 1020,
-    func: function(text) {
+    index: 1020,
+    handler: function(text) {
         var re = new RegExp('(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
 
         return text.replace(re, '$1' + '\u2009' + '°$3$4');
@@ -1215,8 +1216,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/sym/copy',
-    sortIndex: 10,
-    func: function(text) {
+    index: 10,
+    handler: function(text) {
         return text.replace(/\(r\)/gi, '®')
             .replace(/(copyright )?\((c|с)\)/gi, '©')
             .replace(/\(tm\)/gi, '™');
@@ -1225,8 +1226,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'en/punctuation/quot',
-    sortIndex: 700,
-    func: Typograf._quot,
+    index: 700,
+    handler: Typograf._quot,
     settings: {
         lquot: '“',
         rquot: '”',
@@ -1242,8 +1243,8 @@ Typograf.data('ru/dash', {
 
 Typograf.rule({
     name: 'ru/dash/izpod',
-    sortIndex: 35,
-    func: function(text) {
+    index: 35,
+    handler: function(text) {
         var ruDash = Typograf.data('ru/dash'),
             re = new RegExp(ruDash.before + '(И|и)з под' + ruDash.after, 'g');
 
@@ -1253,8 +1254,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/izza',
-    sortIndex: 33,
-    func: function(text) {
+    index: 33,
+    handler: function(text) {
         var ruDash = Typograf.data('ru/dash'),
             re = new RegExp(ruDash.before + '(И|и)з за' + ruDash.after, 'g');
 
@@ -1264,8 +1265,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/kade',
-    sortIndex: 31,
-    func: function(text) {
+    index: 31,
+    handler: function(text) {
         var re = new RegExp('([a-яё]+)( | ?- ?)(ка|де|кась)' + Typograf.data('ru/dash').after, 'g');
         return text.replace(re, '$1-$3$4');
     }
@@ -1273,8 +1274,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/koe',
-    sortIndex: 38,
-    func: function(text) {
+    index: 38,
+    handler: function(text) {
         var ruDash = Typograf.data('ru/dash'),
             re = new RegExp(ruDash.before + '([Кк]о[ей])\\s([а-яё]{3,})' + ruDash.after, 'g');
 
@@ -1284,18 +1285,23 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/main',
-    sortIndex: 620,
-    func: function(text) {
+    index: 620,
+    handler: function(text) {
         var name = 'ru/dash/main',
+            dash = this.setting(name, 'dash'),
             dashes = '(' + Typograf.data('common/dash') + ')',
+            ruLetter = Typograf.data('ru/letter'),
             reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
             reDirect = new RegExp('(^|' + Typograf._privateLabel + ')' + dashes + '( |\u00A0)', 'gm'),
-            reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g');
+            reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g'),
+            reSurname = new RegExp('([' + Typograf.data('ru/letterUpper') + '][' +
+                ruLetter + ']+)\\s-([' + ruLetter + ']{1,3})(?![^' + ruLetter + ']|$)', 'g');
 
         return text
-            .replace(reMain, '\u00A0' + this.setting(name, 'dash') + '$3')
-            .replace(reDirect, '$1' + this.setting(name, 'dash') + '\u00A0')
-            .replace(reInterval, '$1' + this.setting(name, 'dashInterval') + '$3');
+            .replace(reMain, '\u00A0' + dash + '$3')
+            .replace(reDirect, '$1' + dash + '\u00A0') // Прямая речь
+            .replace(reInterval, '$1' + this.setting(name, 'dashInterval') + '$3') // Интервалы
+            .replace(reSurname, '$1\u00A0' + dash + '$2'); // Сокращения с помощью тире, редкий случай
     },
     settings: {
         dash: '\u2014', // &mdash;
@@ -1305,8 +1311,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/month',
-    sortIndex: 610,
-    func: function(text) {
+    index: 610,
+    handler: function(text) {
         var part = '(' + Typograf.data('ru/month').join('|') + ')',
             re = new RegExp(part + ' ?(' + Typograf.data('common/dash') + ') ?' + part, 'gi');
 
@@ -1316,8 +1322,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/taki',
-    sortIndex: 39,
-    func: function(text) {
+    index: 39,
+    handler: function(text) {
         var re = new RegExp('(верно|довольно|опять|прямо|так|вс[её]|действительно|неужели)\\s(таки)' +
             Typograf.data('ru/dash').after, 'g');
 
@@ -1327,8 +1333,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/to',
-    sortIndex: 30,
-    func: function(text) {
+    index: 30,
+    handler: function(text) {
         var words = [
                 'откуда', 'куда', 'где',
                 'когда', 'зачем', 'почему',
@@ -1345,8 +1351,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/weekday',
-    sortIndex: 600,
-    func: function(text) {
+    index: 600,
+    handler: function(text) {
         var part = '(' + Typograf.data('ru/weekday').join('|') + ')',
             re = new RegExp(part + ' ?(' + Typograf.data('common/dash') + ') ?' + part, 'gi');
 
@@ -1356,8 +1362,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/date/main',
-    sortIndex: 1300,
-    func: function(text) {
+    index: 1300,
+    handler: function(text) {
         var sp1 = '(-|\\.|\\/)',
             sp2 = '(-|\\/)',
             re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
@@ -1371,8 +1377,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/date/weekday',
-    sortIndex: 1310,
-    func: function(text) {
+    index: 1310,
+    handler: function(text) {
         var space = '( |\u00A0)',
             monthCase = Typograf.data('ru/monthCase').join('|'),
             weekday = Typograf.data('ru/weekday').join('|'),
@@ -1387,8 +1393,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/money/dollar',
-    sortIndex: 1140,
-    func: function(text) {
+    index: 1140,
+    handler: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+)', 'g'),
             re2 = new RegExp('(^|[\\D])([\\d.,]+) ?\\$', 'g'),
             rep = '$1$2\u00A0$';
@@ -1401,8 +1407,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/money/euro',
-    sortIndex: 1140,
-    func: function(text) {
+    index: 1140,
+    handler: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})€ ?([\\d.]+)', 'g'),
             re2 = new RegExp('(^|[\\D])([\\d.,]+) ?€', 'g'),
             rep = '$1$2\u00A0€';
@@ -1415,8 +1421,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/money/ruble',
-    sortIndex: 1145,
-    func: function(text) {
+    index: 1145,
+    handler: function(text) {
         var rep = '$1\u00A0₽';
         return text
             .replace(/^(\d+)( |\u00A0)?(р|руб)\.$/, rep)
@@ -1428,8 +1434,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/abbr',
-    sortIndex: 565,
-    func: function(text) {
+    index: 565,
+    handler: function(text) {
         return text.replace(/(^|\s)([а-яё]{1,3}\.){2,}(?![а-яё])/g, function($0, $1) {
             var abbr = $0.split(/\./);
             // Являются ли сокращения ссылкой
@@ -1445,8 +1451,8 @@ Typograf.rule({
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/nbsp/addr',
-    sortIndex: 1115,
-    func: function(text) {
+    index: 1115,
+    handler: function(text) {
         return text
             .replace(/(\s|^)(дом|д\.|кв\.|под\.|п\-д) *(\d+)/gi, '$1$2\u00A0$3')
             .replace(/(\s|^)(мкр-н|мк-н|мкр\.|мкрн)\s/gi, '$1$2\u00A0') // микрорайон
@@ -1465,24 +1471,24 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/afterNumberSign',
-    sortIndex: 610,
-    func: function(text) {
+    index: 610,
+    handler: function(text) {
         return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
     }
 });
 
 Typograf.rule({
     name: 'ru/nbsp/beforeParticle',
-    sortIndex: 570,
-    func: function(text) {
+    index: 570,
+    handler: function(text) {
         return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
     }
 });
 
 Typograf.rule({
     name: 'ru/nbsp/but',
-    sortIndex: 1110,
-    func: function(text) {
+    index: 1110,
+    handler: function(text) {
         var re = new RegExp(',?( |\u00A0|\n)(а|но)( |\u00A0|\n)', 'g');
         return text.replace(re, ',$1$2$3');
     }
@@ -1490,8 +1496,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/cc',
-    sortIndex: 1090,
-    func: function(text) {
+    index: 1090,
+    handler: function(text) {
         text = text.replace(/(^|\d|V|I|X) ?в(в)?( |,|;|\n|$)/g, '$1\u00A0в$2.$3');
 
         return text.replace(/(^|\d|[IVX]) ?в\.? ?в\./g, '$1\u00A0вв.');
@@ -1500,8 +1506,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/dayMonth',
-    sortIndex: 1105,
-    func: function(text) {
+    index: 1105,
+    handler: function(text) {
         var re = new RegExp('(\\d{1,2}) (' + Typograf.data('ru/shortMonth').join('|') + ')', 'gi');
         return text.replace(re, '$1\u00A0$2');
     }
@@ -1509,8 +1515,8 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/m',
-    sortIndex: 1030,
-    func: function(text) {
+    index: 1030,
+    handler: function(text) {
         var m = '(км|м|дм|см|мм)',
             re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
             re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
@@ -1523,40 +1529,40 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/ooo',
-    sortIndex: 1100,
-    func: function(text) {
+    index: 1100,
+    handler: function(text) {
         return text.replace(/(^|[^a-яёA-ЯЁ])(ООО|ОАО|ЗАО|НИИ|ПБОЮЛ) /g, '$1$2\u00A0');
     }
 });
 
 Typograf.rule({
     name: 'ru/nbsp/page',
-    sortIndex: 610,
-    func: function(text) {
+    index: 610,
+    handler: function(text) {
         return text.replace(/ (стр|гл|рис|илл)\./g, '\u00A0$1.');
     }
 });
 
 Typograf.rule({
     name: 'ru/nbsp/xxxx',
-    sortIndex: 1060,
-    func: function(text) {
+    index: 1060,
+    handler: function(text) {
         return text.replace(/(^|\D)(\d{1,4}) ?г(од| |,|;|\.|\n|$)/g, '$1$2\u00A0г$3');
     }
 });
 
 Typograf.rule({
     name: 'ru/nbsp/yy',
-    sortIndex: 1080,
-    func: function(text) {
+    index: 1080,
+    handler: function(text) {
         return text.replace(/(^|\d) ?г\. ?г\./g, '$1\u00A0гг.');
     }
 });
 
 Typograf.rule({
     name: 'ru/number/ordinals',
-    sortIndex: 1300,
-    func: function(text) {
+    index: 1300,
+    handler: function(text) {
         return text
             .replace(/(\d)-(ый|ой)([^а-яё]|$)/g, '$1-й$3')
             .replace(/(\d)-ая([^а-яё]|$)/g, '$1-я$2')
@@ -1572,8 +1578,8 @@ Typograf.rule({
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/bracket',
-    sortIndex: 1001,
-    func: function(text, settings) {
+    index: 1001,
+    handler: function(text, settings) {
         return text
             .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
             .replace(/(^|\n)\(/g, '$1<span class="typograf-oa-n-lbracket">(</span>');
@@ -1582,7 +1588,7 @@ Typograf.rule({
 })
 .innerRule({
     name: 'ru/optalign/bracket',
-    func: function(text) {
+    handler: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для скобки
         return text.replace(/<span class="typograf-oa-(sp-lbracket|lbracket|n-lbracket)">(.*?)<\/span>/g, '$2');
     }
@@ -1591,8 +1597,8 @@ Typograf.rule({
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/comma',
-    sortIndex: 1002,
-    func: function(text, settings) {
+    index: 1002,
+    handler: function(text, settings) {
         var re = new RegExp('([' + this.letters() + '\\d\u0301]+), ', 'gi');
         return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
@@ -1600,7 +1606,7 @@ Typograf.rule({
 })
 .innerRule({
     name: 'ru/optalign/comma',
-    func: function(text) {
+    handler: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для запятой
         return text.replace(/<span class="typograf-oa-(comma|comma-sp)">(.*?)<\/span>/g, '$2');
     }
@@ -1609,8 +1615,8 @@ Typograf.rule({
 /*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/quot',
-    sortIndex: 1000,
-    func: function(text) {
+    index: 1000,
+    handler: function(text) {
         var lquotes = '(["' +
                 this.setting('ru/punctuation/quot', 'lquot') +
                 this.setting('ru/punctuation/quot', 'lquot2') +
@@ -1626,7 +1632,7 @@ Typograf.rule({
 })
 .innerRule({
     name: 'ru/optalign/quot',
-    func: function(text) {
+    handler: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для кавычки
         return text.replace(/<span class="typograf-oa-(sp-lquot|lquot|n-lquot)">(.*?)<\/span>/g, '$2');
     }
@@ -1634,19 +1640,30 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/other/accent',
-    sortIndex: 560,
-    func: function(text) {
+    index: 560,
+    handler: function(text) {
         return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
-           return $1 + $2.toLowerCase() + '\u0301' + $3;
+            return $1 + $2.toLowerCase() + '\u0301' + $3;
         });
     },
     disabled: true
 });
 
 Typograf.rule({
+    name: 'ru/punctuation/hellip', 
+    index: 20, 
+    handler: function(text) {
+        return text
+            .replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2')
+            .replace(/(^|[^.])(\.\.\.|…),/g, '$1…')
+            .replace(/(\!|\?)(\.\.\.|…)([^.]|$)/g, '$1..$3');
+    }
+});
+
+Typograf.rule({
     name: 'ru/punctuation/quot',
-    sortIndex: 700,
-    func: Typograf._quot,
+    index: 700,
+    handler: Typograf._quot,
     settings: {
         lquot: '«',
         rquot: '»',

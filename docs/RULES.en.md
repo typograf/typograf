@@ -5,7 +5,7 @@
 | 1. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Replace non-breaking space to normal space in tags nowrap and nobr | 100 | start | ✓ |
 | 2. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on br tag | 110 | start |  |
 | 3. | [common/sym/copy](../src/rules/common/sym/copy.js) | (c) → ©, (tm) → ©, (r) → ™ | 10 |  | ✓ |
-| 4. | [common/punctuation/hellip](../src/rules/common/punctuation/hellip.js) | Three points on ellipsis | 20 |  | ✓ |
+| 4. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Three points on ellipsis | 20 |  | ✓ |
 | 5. | [ru/dash/to](../src/rules/ru/dash/to.js) | Hyphen before “то, либо, нибудь” | 30 |  | ✓ |
 | 6. | [ru/dash/kade](../src/rules/ru/dash/kade.js) | Hyphen before “ка, де, кась” | 31 |  | ✓ |
 | 7. | [ru/dash/izza](../src/rules/ru/dash/izza.js) | Hyphen between “из-за” | 33 |  | ✓ |
@@ -26,17 +26,17 @@
 | 22. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Non-breaking space before “ли, ль, же, бы, б” | 570 |  | ✓ |
 | 23. | [common/punctuation/delDoublePunctuation](../src/rules/common/punctuation/delDoublePunctuation.js) | Removing double punctuation | 580 |  | ✓ |
 | 24. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.js) | Non-breaking space after short word | 590 |  | ✓ |
-| 25. | [common/space/delBeforePercent](../src/rules/common/space/delBeforePercent.js) | Remove space before %, ‰ and ‱ | 600 |  | ✓ |
-| 26. | [ru/dash/weekday](../src/rules/ru/dash/weekday.js) | Dash between the days of the week | 600 |  | ✓ |
+| 25. | [ru/dash/weekday](../src/rules/ru/dash/weekday.js) | Dash between the days of the week | 600 |  | ✓ |
+| 26. | [common/space/delBeforePercent](../src/rules/common/space/delBeforePercent.js) | Remove space before %, ‰ and ‱ | 600 |  | ✓ |
 | 27. | [common/nbsp/afterPara](../src/rules/common/nbsp/afterPara.js) | Non-breaking space after § | 610 |  | ✓ |
-| 28. | [ru/dash/month](../src/rules/ru/dash/month.js) | Dash between months | 610 |  | ✓ |
+| 28. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Non-breaking space after № | 610 |  | ✓ |
 | 29. | [ru/nbsp/page](../src/rules/ru/nbsp/page.js) | Non-breaking space before “стр., гл., рис., илл.” | 610 |  | ✓ |
-| 30. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Non-breaking space after № | 610 |  | ✓ |
+| 30. | [ru/dash/month](../src/rules/ru/dash/month.js) | Dash between months | 610 |  | ✓ |
 | 31. | [common/nbsp/afterNumber](../src/rules/common/nbsp/afterNumber.js) | Non-breaking space between number and word | 615 |  | ✓ |
 | 32. | [ru/dash/main](../src/rules/ru/dash/main.js) | Replacement hyphen with dash | 620 |  | ✓ |
 | 33. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.js) | Non-breaking space before last short word in sentence | 620 |  | ✓ |
-| 34. | [en/punctuation/quot](../src/rules/en/punctuation/quot.js) | Placement of quotation marks | 700 |  | ✓ |
-| 35. | [ru/punctuation/quot](../src/rules/ru/punctuation/quot.js) | Placement of quotation marks | 700 |  | ✓ |
+| 34. | [ru/punctuation/quot](../src/rules/ru/punctuation/quot.js) | Placement of quotation marks | 700 |  | ✓ |
+| 35. | [en/punctuation/quot](../src/rules/en/punctuation/quot.js) | Placement of quotation marks | 700 |  | ✓ |
 | 36. | [ru/optalign/quot](../src/rules/ru/optalign/quot.js) | for opening quotation marks | 1000 |  |  |
 | 37. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.js) | for opening bracket | 1001 |  |  |
 | 38. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | for comma | 1002 |  |  |
