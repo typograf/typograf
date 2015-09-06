@@ -1,8 +1,0 @@
-Typograf.rule({
-    name: 'common/number/plusMinus',
-    index: 1010,
-    handler: function(text) {
-        var re = new RegExp('(^| |\\>|\u00A0)\\+-(\\d)', 'g');
-        return text.replace(re, '$1±$2').replace(/(^\s*)\+-(\s*$)/g, '$1±$2');
-    }
-});
