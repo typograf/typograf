@@ -1,16 +1,16 @@
 Typograf.rule({
-    name: 'common/nbsp/afterShortWord', 
+    name: 'common/nbsp/afterShortWord',
     index: 590,
     handler: function(text, settings) {
         var len = settings.lengthShortWord,
-            str = '(^| |\u00A0)([' +
-                this.letters() +
-                ']{1,' + len + '})(\\.?) ',
-            re = new RegExp(str, 'gi');
+            before = ' \u00A0(' + Typograf._privateLabel + Typograf.data('common/quot'),
+            subStr = '(^|[' + before + '])([' + this.letters() + ']{1,' + len + '})(\\.?) ',
+            newSubStr = '$1$2$3\u00A0',
+            re = new RegExp(subStr, 'gim');
 
         return text
-            .replace(re, '$1$2$3\u00A0')
-            .replace(re, '$1$2$3\u00A0');
+            .replace(re, newSubStr)
+            .replace(re, newSubStr);
     },
     settings: {
         lengthShortWord: 2
