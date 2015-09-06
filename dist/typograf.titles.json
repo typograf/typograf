@@ -8,8 +8,8 @@
     "ru": "Расстановка ссылок для эл. почты"
   },
   "common/html/nbr": {
-    "en": "Replacement line break on br tag",
-    "ru": "Замена перевода строки на тег br"
+    "en": "Replacement line break on <br/>",
+    "ru": "Замена перевода строки на <br/>"
   },
   "common/html/pbr": {
     "en": "Placement of p and br tags",
@@ -50,11 +50,15 @@
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
   },
-  "common/number/plusMinus": {
-    "common": "+- → ±"
+  "common/number/mathSigns": {
+    "common": "!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±"
   },
   "common/number/times": {
     "common": "x → × (10 x 5 → 10×5)"
+  },
+  "common/other/delBOM": {
+    "en": "Delete character BOM (Byte Order Mark)",
+    "ru": "Удаление символа BOM (Byte Order Mark)"
   },
   "common/other/repeatWord": {
     "en": "Removing repeat words",
@@ -118,7 +122,7 @@
     "ru": "Добавление ° к C и F"
   },
   "common/sym/copy": {
-    "common": "(c) → ©, (tm) → ©, (r) → ™"
+    "common": "(c) → ©, (tm) → ™, (r) → ®"
   },
   "en/punctuation/quot": {
     "en": "Placement of quotation marks",
@@ -192,10 +196,6 @@
     "en": "Non-breaking space before “ли, ль, же, бы, б”",
     "ru": "Нераз. пробел перед ли, ль, же, бы, б"
   },
-  "ru/nbsp/but": {
-    "en": "Placement of commas and non-breaking space before “а” and “но”",
-    "ru": "Расстановка запятых и неразрывного пробела перед а и но"
-  },
   "ru/nbsp/cc": {
     "en": "Remove spaces and extra points in centuries",
     "ru": "Удаление пробелов и лишних точек в вв."
@@ -243,9 +243,13 @@
     "en": "Replacing capital letter and adding accents",
     "ru": "Замена заглавной буквы и добавление знака ударения"
   },
+  "ru/punctuation/ano": {
+    "en": "Placement of commas before “а” and “но”",
+    "ru": "Расстановка запятых перед а и но"
+  },
   "ru/punctuation/hellip": {
     "en": "Three points on ellipsis",
-    "ru": "Три точки на многоточие, ?... -> ?.. и пр."
+    "ru": "Три точки на многоточие, ?... → ?.. и пр."
   },
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",

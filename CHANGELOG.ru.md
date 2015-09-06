@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.1.0
+Добавлены правила:
+- `common/number/mathSign` `!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±` #126 
+- `common/other/delBOM` удаление BOM-символа #121
+- `ru/punctuation/ano` расстановка запятых перед `а` и `но` #119
+
+Доработки:
+- Учесть переносы, скобки и теги в правиле `common/nbsp/afterShortWord` #123
+
+Удалены правила:
+- `ru/nbsp/but`
+- `common/other/plusMinus`
+
 ## v3.0.0
 - Правило `common/punctuation/hellip` переименовано в `ru/punctuation/hellip` и дополнено случаями с `!...`, `?...` и `...,` #116
 - Сокращение с помощью тире #117
