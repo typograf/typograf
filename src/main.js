@@ -108,6 +108,14 @@ Typograf._sortInnerRules = function() {
     });
 };
 
+Typograf._replace = function(text, re) {
+    for(var i = 0; i < re.length; i++) {
+        text = text.replace(re[i][0], re[i][1]);
+    }
+
+    return text;
+};
+
 Typograf._quot = function(text, settings) {
     var letters = '\\d' + this.letters() + '\u0301',
         privateLabel = Typograf._privateLabel,
