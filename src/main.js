@@ -367,8 +367,16 @@ Typograf.prototype = {
             .replace(/\r/g, '\n'); // MacOS
     },
     _prepareRule: function(rule) {
-        var name = rule.name;
-        this._settings[name] = rule.settings || {};
+        var name = rule.name,
+            settings = {};
+
+        if(typeof rule.settings === 'object') {
+            Object.keys(rule.settings).forEach(function(key) {
+                settings[key] = rule.settings[key];
+            });
+        }
+
+        this._settings[name] = settings;
         this._enabledRules[name] = rule.enabled;
     },
     _enable: function(rule, enabled) {
@@ -478,7 +486,7 @@ Typograf.prototype = {
             });
         }
 
-        return text;
+        return text.replace(/&quot;/g, '"');
     },
     _decHexToUtf: function(text) {
         return text

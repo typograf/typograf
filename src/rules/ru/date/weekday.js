@@ -3,7 +3,7 @@ Typograf.rule({
     index: 1310,
     handler: function(text) {
         var space = '( |\u00A0)',
-            monthCase = Typograf.data('ru/monthCase').join('|'),
+            monthCase = Typograf.data('ru/monthGenCase').join('|'),
             weekday = Typograf.data('ru/weekday').join('|'),
             re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
 
