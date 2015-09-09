@@ -383,8 +383,16 @@ Typograf.prototype = {
             .replace(/\r/g, '\n'); // MacOS
     },
     _prepareRule: function(rule) {
-        var name = rule.name;
-        this._settings[name] = rule.settings || {};
+        var name = rule.name,
+            settings = {};
+
+        if(typeof rule.settings === 'object') {
+            Object.keys(rule.settings).forEach(function(key) {
+                settings[key] = rule.settings[key];
+            });
+        }
+
+        this._settings[name] = settings;
         this._enabledRules[name] = rule.enabled;
     },
     _enable: function(rule, enabled) {
@@ -494,7 +502,7 @@ Typograf.prototype = {
             });
         }
 
-        return text;
+        return text.replace(/&quot;/g, '"');
     },
     _decHexToUtf: function(text) {
         return text
@@ -816,7 +824,7 @@ Typograf.data({
         'ноябрь',
         'декабрь'
     ],
-    'ru/monthCase': [
+    'ru/monthGenCase': [
         'января',
         'февраля',
         'марта',
@@ -829,6 +837,20 @@ Typograf.data({
         'октября',
         'ноября',
         'декабря'
+    ],
+    'ru/monthPreCase': [
+        'январе',
+        'феврале',
+        'марте',
+        'апреле',
+        'мае',
+        'июне',
+        'июле',
+        'августе',
+        'сентябре',
+        'октябре',
+        'ноябре',
+        'декабре'
     ],
     'ru/shortMonth': [
         'янв',
@@ -1113,7 +1135,12 @@ Typograf.rule({
     name: 'common/punctuation/delDoublePunctuation',
     index: 580,
     handler: function(text) {
-        return text.replace(/(,|:|;|\?){2,}/g, '$1');
+        return text
+            .replace(/(^|[^,]),,(?!,)/g, '$1,')
+            .replace(/(^|[^:])::(?!:)/g, '$1:')
+            .replace(/(^|[^!?\.])\.\.(?!\.)/g, '$1.')
+            .replace(/(^|[^;]);;(?!;)/g, '$1;')
+            .replace(/(^|[^?])\?\?(?!\?)/g, '$1?');
     }
 });
 
@@ -1141,7 +1168,7 @@ Typograf.rule({
     index: 560,
     handler: function(text) {
         var privateLabel = Typograf._privateLabel,
-            reExcl = new RegExp('(!|;|\\?)([^!;?\\s[)' + privateLabel + Typograf.data('common/quot') + '])', 'g'),
+            reExcl = new RegExp('(!|;|\\?)([^.!;?\\s[)' + privateLabel + Typograf.data('common/quot') + '])', 'g'),
             reComma = new RegExp('(\\D)(,|:)([^,:.?\\s\\/' + privateLabel + '])', 'g');
 
         return text
@@ -1163,8 +1190,8 @@ Typograf.rule({
     index: 550,
     handler: function(text) {
         return text.replace(/ (!|;|,|\?|\.|:)/g, '$1')
-            .replace(/\( /g, '(')
-            .replace(/([^ ])\(/g, '$1 (')
+            .replace(/\( +/g, '(')
+            .replace(/([^ \u00A0])\(/g, '$1 (')
             .replace(/ \)/g, ')')
             .replace(/\)([^!;,\?\.:])/g, ') $1');
     }
@@ -1332,14 +1359,16 @@ Typograf.rule({
             dashes = '(' + Typograf.data('common/dash') + ')',
             ruLetter = Typograf.data('ru/letter'),
             reMain = new RegExp('( |\u00A0)' + dashes + '( |\\n)', 'g'),
-            reDirect = new RegExp('(^|' + Typograf._privateLabel + ')' + dashes + '( |\u00A0)', 'gm'),
-            reInterval = new RegExp('(X|I|V)(?: |\u00A0)?' + dashes + '(?: |\u00A0)?(X|I|V)', 'g'),
+            reDirect1 = new RegExp('(["»‘“,.…?!])[ |\u00A0]?' + dashes + '[ |\u00A0]', 'g'),
+            reDirect2 = new RegExp('(^|' + Typograf._privateLabel + ')' + dashes + '( |\u00A0)', 'gm'),
+            reInterval = new RegExp('(X|I|V)[ |\u00A0]?' + dashes + '[ |\u00A0]?(X|I|V)', 'g'),
             reSurname = new RegExp('([' + Typograf.data('ru/letterUpper') + '][' +
                 ruLetter + ']+)\\s-([' + ruLetter + ']{1,3})(?![^' + ruLetter + ']|$)', 'g');
 
         return text
             .replace(reMain, '\u00A0' + dash + '$3')
-            .replace(reDirect, '$1' + dash + '\u00A0') // Прямая речь
+            .replace(reDirect1, '$1 ' + dash + '\u00A0') // Прямая речь
+            .replace(reDirect2, '$1' + dash + '\u00A0')
             .replace(reInterval, '$1' + this.setting(name, 'dashInterval') + '$3') // Интервалы
             .replace(reSurname, '$1\u00A0' + dash + '$2'); // Сокращения с помощью тире, редкий случай
     },
@@ -1353,10 +1382,16 @@ Typograf.rule({
     name: 'ru/dash/month',
     index: 610,
     handler: function(text) {
-        var part = '(' + Typograf.data('ru/month').join('|') + ')',
-            re = new RegExp(part + ' ?(' + Typograf.data('common/dash') + ') ?' + part, 'gi');
+        var months = '(' + Typograf.data('ru/month').join('|') + ')',
+            monthsPre = '(' + Typograf.data('ru/monthPreCase').join('|') + ')',
+            dashes = Typograf.data('common/dash'),
+            dashInterval = this.setting('ru/dash/main', 'dashInterval'),
+            re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
+            rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi');
 
-        return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
+        return text
+            .replace(re, '$1' + dashInterval + '$3')
+            .replace(rePre, '$1' + dashInterval + '$3');
     }
 });
 
@@ -1420,7 +1455,7 @@ Typograf.rule({
     index: 1310,
     handler: function(text) {
         var space = '( |\u00A0)',
-            monthCase = Typograf.data('ru/monthCase').join('|'),
+            monthCase = Typograf.data('ru/monthGenCase').join('|'),
             weekday = Typograf.data('ru/weekday').join('|'),
             re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
 
@@ -1519,9 +1554,15 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/nbsp/beforeParticle',
-    index: 570,
+    index: 600,
     handler: function(text) {
-        return text.replace(/ (ли|ль|же|ж|бы|б)([^а-яёА-ЯЁ])/g, '\u00A0$1$2');
+        var particles = '(ли|ль|же|ж|бы|б)',
+            re1 = new RegExp(' ' + particles + '(?=[?!,.:;"‘“»])', 'g'),
+            re2 = new RegExp('[ \u00A0]' + particles + '[ \u00A0]', 'g');
+
+        return text
+            .replace(re1, '\u00A0$1')
+            .replace(re2, '\u00A0$1 ');
     }
 });
 
