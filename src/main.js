@@ -130,28 +130,24 @@ Typograf._quot = function(text, settings) {
         reQuotes = new RegExp(quotes, 'g'),
         reFirstQuot = new RegExp('^(\s)?(' + quotes + ')', 'g'),
         reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
-        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g');
+        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g'),
+        count = 0;
 
     text = text
-        .replace(reQuotes, '"')
+        .replace(reQuotes, function() {
+            count++;
+            return '"';
+        })
         .replace(reL, lquot + '$1') // Opening quote
         .replace(reR, '$1' + rquot + '$2') // Closing quote
-        .replace(reOpeningTag, '$1' + lquot + privateLabel)
-        .replace(reClosingTag, privateLabel + rquot + '$1')
+        .replace(reOpeningTag, '$1' + lquot + privateLabel) // Opening quote and tag
+        .replace(reClosingTag, privateLabel + rquot + '$1') // Tag and closing quote
         .replace(reFirstQuot, '$1' + lquot)
         .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
             '$1' + lquot + lquot); // Fixed for the case »« at the beginning of the text
 
-    if(lquot2 && rquot2) {
-        if(lquot === lquot2 && rquot === rquot2) {
-            return text
-                // ««Энергия» Синергия» -> «Энергия» Синергия»
-                .replace(new RegExp(lquot + lquot, 'g'), lquot)
-                // «Энергия «Синергия»» -> «Энергия «Синергия»
-                .replace(new RegExp(rquot + rquot, 'g'), rquot);
-        } else {
-            return Typograf._innerQuot(text, settings);
-        }
+    if(lquot2 && rquot2 && count % 2 === 0) {
+        return Typograf._innerQuot(text, settings);
     }
 
     return text;
@@ -188,13 +184,13 @@ Typograf._innerQuot = function(text, settings) {
         } else if(letter === rquot) {
             if(level <= -1) {
                 level = 0;
-            }
-
-            bufText.push(closingQuotes[level]);
-
-            level--;
-            if(level < -1) {
-                level = -1;
+                bufText.push(openingQuotes[level]);
+            } else {
+                bufText.push(closingQuotes[level]);
+                level--;
+                if(level < -1) {
+                    level = -1;
+                }
             }
         } else {
             bufText.push(letter);
