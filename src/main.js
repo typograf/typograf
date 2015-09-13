@@ -3,11 +3,13 @@
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
+    this._prefs.live = this._prefs.live || false;
 
     this._settings = {};
     this._enabledRules = {};
@@ -31,6 +33,7 @@ function Typograf(prefs) {
  * @param {Function} rule.handler Processing function
  * @param {number} [rule.index] Sorting index for rule
  * @param {boolean} [rule.disabled] Rule is disabled by default
+ * @param {boolean} [rule.live] Live mode
  * @param {Object} [rule.settings] Settings for rule
  * @return {Typograf} this
  */
@@ -223,7 +226,12 @@ Typograf.prototype = {
             innerRulesForQueue = {},
             mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
             iterator = function(rule) {
-                var rlang = rule._lang;
+                var rlang = rule._lang,
+                    live = this._prefs.live;
+
+                if((live === true && rule.live === false) || (live === false && rule.live === true)) {
+                    return;
+                }
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     this._onBeforeRule && this._onBeforeRule(text);
@@ -267,6 +275,8 @@ Typograf.prototype = {
         }
 
         text = this._utfication(text);
+        executeRulesForQueue('utf');
+
         executeRulesForQueue();
         text = this._modification(text, mode);
 
@@ -358,9 +368,7 @@ Typograf.prototype = {
         return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     },
     _fixLineEnd: function(text) {
-        return text
-            .replace(/\r\n/g, '\n') // Windows
-            .replace(/\r/g, '\n'); // MacOS
+        return text.replace(/\r\n/g, '\n'); // Windows
     },
     _prepareRule: function(rule) {
         var name = rule.name,
@@ -405,6 +413,19 @@ Typograf.prototype = {
     },
     _rules: [],
     _innerRules: [],
+    _getRule: function(name) {
+        var rule = null;
+        this._rules.some(function(item) {
+            if(item.name === name) {
+                rule = item;
+                return true;
+            }
+
+            return false;
+        });
+
+        return rule;
+    },
     _initSafeTags: function() {
         this._safeTags = [
             ['<!--', '-->'],
