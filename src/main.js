@@ -266,7 +266,7 @@ Typograf.prototype = {
             rulesForQueue[q].push(rule);
         }, this);
 
-        this._isHTML = text.search(/<[a-z!]/i) !== -1;
+        this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
         executeRulesForQueue('start');
 
@@ -475,7 +475,10 @@ Typograf.prototype = {
         return this._hiddenSafeTags[match];
     },
     _hideHTMLTags: function(text) {
-        return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel);
+        return text
+            .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
+            .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
+            .replace(/&[gl]t;/gi, this._pasteLabel);
     },
     _showSafeTags: function(text) {
         var label = Typograf._privateLabel,
