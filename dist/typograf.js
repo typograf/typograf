@@ -19,11 +19,13 @@ if(typeof define === 'function' && define.amd) {
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
  */
 function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
+    this._prefs.live = this._prefs.live || false;
 
     this._settings = {};
     this._enabledRules = {};
@@ -47,6 +49,7 @@ function Typograf(prefs) {
  * @param {Function} rule.handler Processing function
  * @param {number} [rule.index] Sorting index for rule
  * @param {boolean} [rule.disabled] Rule is disabled by default
+ * @param {boolean} [rule.live] Live mode
  * @param {Object} [rule.settings] Settings for rule
  * @return {Typograf} this
  */
@@ -146,28 +149,24 @@ Typograf._quot = function(text, settings) {
         reQuotes = new RegExp(quotes, 'g'),
         reFirstQuot = new RegExp('^(\s)?(' + quotes + ')', 'g'),
         reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
-        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g');
+        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g'),
+        count = 0;
 
     text = text
-        .replace(reQuotes, '"')
+        .replace(reQuotes, function() {
+            count++;
+            return '"';
+        })
         .replace(reL, lquot + '$1') // Opening quote
         .replace(reR, '$1' + rquot + '$2') // Closing quote
-        .replace(reOpeningTag, '$1' + lquot + privateLabel)
-        .replace(reClosingTag, privateLabel + rquot + '$1')
+        .replace(reOpeningTag, '$1' + lquot + privateLabel) // Opening quote and tag
+        .replace(reClosingTag, privateLabel + rquot + '$1') // Tag and closing quote
         .replace(reFirstQuot, '$1' + lquot)
         .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
             '$1' + lquot + lquot); // Fixed for the case »« at the beginning of the text
 
-    if(lquot2 && rquot2) {
-        if(lquot === lquot2 && rquot === rquot2) {
-            return text
-                // ««Энергия» Синергия» -> «Энергия» Синергия»
-                .replace(new RegExp(lquot + lquot, 'g'), lquot)
-                // «Энергия «Синергия»» -> «Энергия «Синергия»
-                .replace(new RegExp(rquot + rquot, 'g'), rquot);
-        } else {
-            return Typograf._innerQuot(text, settings);
-        }
+    if(lquot2 && rquot2 && count % 2 === 0) {
+        return Typograf._innerQuot(text, settings);
     }
 
     return text;
@@ -204,13 +203,13 @@ Typograf._innerQuot = function(text, settings) {
         } else if(letter === rquot) {
             if(level <= -1) {
                 level = 0;
-            }
-
-            bufText.push(closingQuotes[level]);
-
-            level--;
-            if(level < -1) {
-                level = -1;
+                bufText.push(openingQuotes[level]);
+            } else {
+                bufText.push(closingQuotes[level]);
+                level--;
+                if(level < -1) {
+                    level = -1;
+                }
             }
         } else {
             bufText.push(letter);
@@ -243,7 +242,12 @@ Typograf.prototype = {
             innerRulesForQueue = {},
             mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
             iterator = function(rule) {
-                var rlang = rule._lang;
+                var rlang = rule._lang,
+                    live = this._prefs.live;
+
+                if((live === true && rule.live === false) || (live === false && rule.live === true)) {
+                    return;
+                }
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     this._onBeforeRule && this._onBeforeRule(text);
@@ -278,7 +282,7 @@ Typograf.prototype = {
             rulesForQueue[q].push(rule);
         }, this);
 
-        this._isHTML = text.search(/<[a-z!]/i) !== -1;
+        this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
         executeRulesForQueue('start');
 
@@ -287,6 +291,8 @@ Typograf.prototype = {
         }
 
         text = this._utfication(text);
+        executeRulesForQueue('utf');
+
         executeRulesForQueue();
         text = this._modification(text, mode);
 
@@ -378,9 +384,7 @@ Typograf.prototype = {
         return commonLetter === langLetter || !lang ? commonLetter : commonLetter + langLetter;
     },
     _fixLineEnd: function(text) {
-        return text
-            .replace(/\r\n/g, '\n') // Windows
-            .replace(/\r/g, '\n'); // MacOS
+        return text.replace(/\r\n/g, '\n'); // Windows
     },
     _prepareRule: function(rule) {
         var name = rule.name,
@@ -425,6 +429,19 @@ Typograf.prototype = {
     },
     _rules: [],
     _innerRules: [],
+    _getRule: function(name) {
+        var rule = null;
+        this._rules.some(function(item) {
+            if(item.name === name) {
+                rule = item;
+                return true;
+            }
+
+            return false;
+        });
+
+        return rule;
+    },
     _initSafeTags: function() {
         this._safeTags = [
             ['<!--', '-->'],
@@ -474,7 +491,10 @@ Typograf.prototype = {
         return this._hiddenSafeTags[match];
     },
     _hideHTMLTags: function(text) {
-        return text.replace(/<[a-z\/][^]*?>/gi, this._pasteLabel);
+        return text
+            .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
+            .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
+            .replace(/&[gl]t;/gi, this._pasteLabel);
     },
     _showSafeTags: function(text) {
         var label = Typograf._privateLabel,
@@ -1067,6 +1087,15 @@ Typograf.rule({
 })();
 
 Typograf.rule({
+    name: 'common/nbsp/replaceNbsp',
+    queue: 'utf',
+    live: true,
+    handler: function(text) {
+        return text.replace(/\u00A0/g, ' ');
+    }
+});
+
+Typograf.rule({
     name: 'common/number/fraction',
     index: 1120,
     handler: function(text) {
@@ -1147,6 +1176,7 @@ Typograf.rule({
 Typograf.rule({
     name: 'common/punctuation/exclamation',
     index: 1150,
+    live: false,
     handler: function(text) {
         return text
             .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
@@ -1251,6 +1281,7 @@ Typograf.rule({
 Typograf.rule({
     name: 'common/space/trimRight',
     index: 535,
+    live: false,
     handler: String.prototype.trimRight ? function(text) {
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
@@ -1744,7 +1775,21 @@ Typograf.rule({
 Typograf.rule({
     name: 'ru/punctuation/quot',
     index: 700,
-    handler: Typograf._quot,
+    handler: function(text, settings) {
+        var lquot = settings.lquot,
+            rquot = settings.rquot;
+
+        text = Typograf._quot.call(this, text, settings);
+        if(lquot === settings.lquot2 && rquot === settings.rquot2) {
+            return text
+                // ««Энергия» Синергия» -> «Энергия» Синергия»
+                .replace(new RegExp(lquot + lquot, 'g'), lquot)
+                // «Энергия «Синергия»» -> «Энергия «Синергия»
+                .replace(new RegExp(rquot + rquot, 'g'), rquot);
+        }
+        
+        return text;
+    },
     settings: {
         lquot: '«',
         rquot: '»',

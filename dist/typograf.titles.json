@@ -47,6 +47,10 @@
     "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
+  "common/nbsp/replaceNbsp": {
+    "en": "Replacing non-breaking space in the ordinary",
+    "ru": "Замена неразрывного пробела на обычный"
+  },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
   },

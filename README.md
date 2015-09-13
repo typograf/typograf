@@ -8,14 +8,16 @@
 
 [![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
+## Типограф
+Помогает автоматически расставлять неразрывные пробелы, исправлять мелкие опечатки, приводить кавычки к правильному виду, заменять дефисы на тире в нужных местах и многое другое.
+
 [Типограф в действии](https://typograf.github.io) с [мобильной версией](https://typograf.github.io/mobile.html)
 
 ## Черты:
  + гибкость и расширяемость;
+ + UTF-8;
  + кроссплатформенность;
  + кроссбраузерность;
- + мультиязычность;
- + UTF-8;
  + поддержка Node.js;
  + [типографирование на лету](https://github.com/typograf/jquery-typograf);
  + TDD.
@@ -108,16 +110,12 @@ var tp = new Typograf({lang: 'ru'});
 tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
 ```
 
-### Добавить правило
+### Добавить простое правило
 ```JavaScript
 Typograf.rule({
-    // Язык/группа/правило
-    name: 'common/other/parampampam',
-    // Очередность выполнения правил, чем меньше индекс, тем раньше выполнится правило
-    index: 2000,
-    // Функция обработки правила
-    handler: function(text) {
-        return text.replace(/parampampam/g, 'tryam');
+    name: 'common/other/emoji',
+    handler: function (text) {
+        return text.replace(/:-\)/g, '\uD83D\uDE0A');
     }
 });
 ```
@@ -136,6 +134,14 @@ tpName.execute('...'); // &hellip;
 var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
 tpDigit.execute('...'); // &#8230;
 ```
+
+### Типографика на лету
+```JavaScript
+var tp = new Typograf({lang: 'ru', live: true});
+tp.execute('"Мир"');
+```
+[Подробнее](https://github.com/typograf/jquery-typograf)
+
 
 ### Сжатие с UglifyJS
 Если `typograf.js` сжимается вместе с другими js-файлами в `UglifyJS`,
