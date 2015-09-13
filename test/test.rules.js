@@ -62,13 +62,12 @@ describe('inner rules', function() {
 });
 
 describe('rules', function() {
-    var itTypograf = new Typograf();
     tests.forEach(function(elem) {
         var name = elem[0];
         it(name, function() {
-            itTypograf.disable('*').enable(name);
-
             elem[1].forEach(function(as) {
+                var itTypograf = new Typograf(as[2]);
+                itTypograf.disable('*').enable(name);
                 var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
                 assert.equal(result, as[1], as[0] + ' → ' + as[1]);
             });
@@ -77,15 +76,20 @@ describe('rules', function() {
 });
 
 describe('rules, double execute', function() {
-    var itTypograf = new Typograf();
     tests.forEach(function(elem) {
         var name = elem[0];
         it(name, function() {
-            itTypograf.disable('*').enable(name);
-
             elem[1].forEach(function(as) {
+                var itTypograf = new Typograf(as[2]);
+                itTypograf.disable('*').enable(name);
+
                 var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
                 assert.equal(result, as[1], as[0] + ' → ' + as[1]);
+
+                if(!itTypograf._getRule(name).disabled) {
+                    result = itTypograf.execute(result, {lang: getLang(name, as)});
+                    assert.equal(result, as[1], as[0] + ' → ' + as[1]);
+                }
             });
         });
     });

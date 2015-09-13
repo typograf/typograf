@@ -19,7 +19,6 @@ var assert = require('chai').assert,
         ['  <pre \n class="red">  Hello   world!!  </pre>  ', '<pre \n class="red">  Hello   world!!  </pre>'],
         ['  <pre2>  Hello   world!!  <pre>  Hello   world!!  </pre>  </pre2>  ', '<pre2> Hello world! <pre>  Hello   world!!  </pre> </pre2>'],
         ['1\r\n2\r\n3', '1\n2\n3'], // Windows
-        ['1\r\r2\r3', '1\n\n2\n3'], // MacOS
         [0, '0'],
         [null, 'null'],
         ['', ''],
