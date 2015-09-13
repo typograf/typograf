@@ -8,8 +8,7 @@
 
 [![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf) [![devDependency Status](https://img.shields.io/david/dev/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf#info=devDependencies)
 
-## Типограф
-Помогает автоматически расставлять неразрывные пробелы, исправлять мелкие опечатки, приводить кавычки к правильному виду, заменять дефисы на тире в нужных местах и многое другое.
+Помогает автоматически расставить неразрывные пробелы, исправить мелкие опечатки, привести кавычки к правильному виду, заменить дефисы на тире в нужных местах и многое другое.
 
 [Типограф в действии](https://typograf.github.io) с [мобильной версией](https://typograf.github.io/mobile.html)
 
