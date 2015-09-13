@@ -3,7 +3,7 @@
 ## v3.3.0
 ### Типографирование на лету
 ```JavaScript
-var tp = new Typograf({lang: 'ru', live: true});`
+var tp = new Typograf({lang: 'ru', live: true});
 ```
 
 У правил появилось дополнительное свойство `live` #133, #139.
