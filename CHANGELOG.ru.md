@@ -1,5 +1,15 @@
 # Changelog
 
+## v3.4.0
+Добавлено новое правило «Пробел между числом и словом „год“».
+
+Доработки и исправления в правилах:
+- `common/nbsp/afterShortWord`
+- `common/nbsp/beforeShortLastWord`
+- `ru/nbsp/abbr`
+- `ru/nbsp/page`
+- `ru/nbsp/m`
+
 ## v3.3.0
 ### Типографирование на лету
 ```JavaScript

@@ -1031,8 +1031,8 @@ Typograf.rule({
     handler: function(text, settings) {
         var len = settings.lengthShortWord,
             before = ' \u00A0(' + Typograf._privateLabel + Typograf.data('common/quot'),
-            subStr = '(^|[' + before + '])([' + this.letters() + ']{1,' + len + '})(\\.?) ',
-            newSubStr = '$1$2$3\u00A0',
+            subStr = '(^|[' + before + '])([' + this.letters() + ']{1,' + len + '}) ',
+            newSubStr = '$1$2\u00A0',
             re = new RegExp(subStr, 'gim');
 
         return text
@@ -1050,7 +1050,8 @@ Typograf.rule({
     handler: function(text, settings) {
         var punc = '.,?!:;',
             re = new RegExp('([^' + punc + ']) ([' +
-                this.letters() + ']{1,' + settings.lengthLastWord + '}[' + punc + '])', 'gi');
+                this.letters() + ']{1,' + settings.lengthLastWord +
+                '}[' + punc + '\n])', 'gi');
 
         return text.replace(re, '$1\u00A0$2');
     },
@@ -1542,14 +1543,15 @@ Typograf.rule({
     name: 'ru/nbsp/abbr',
     index: 565,
     handler: function(text) {
-        return text.replace(/(^|\s)([а-яё]{1,3}\.){2,}(?![а-яё])/g, function($0, $1) {
-            var abbr = $0.split(/\./);
+        var re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')(([а-яё]{1,3}\\.){2,})(?![а-яё])', 'g');
+        return text.replace(re, function($0, $1, $2) {
+            var abbr = $2.split(/\./);
             // Являются ли сокращения ссылкой
             if(['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf(abbr[abbr.length - 2]) > -1) {
                 return $0;
             }
 
-            return $1 + $0.split(/\./).join('.\u00A0').trim();
+            return $1 + $2.split(/\./).join('.\u00A0').trim();
         });
     }
 });
@@ -1620,13 +1622,23 @@ Typograf.rule({
     name: 'ru/nbsp/m',
     index: 1030,
     handler: function(text) {
-        var m = '(км|м|дм|см|мм)',
-            re2 = new RegExp('(^|\\D)(\\d+) ?' + m + '2(\\D|$)', 'g'),
-            re3 = new RegExp('(^|\\D)(\\d+) ?' + m + '3(\\D|$)', 'g');
+        var label = Typograf._privateLabel,
+            re = new RegExp('(^|[\\s,.' + label + '])' +
+                '(\\d+)[ \u00A0]?(мм?|см|км|дм|гм|mm?|km|cm|dm)([23²³])?([\\s.!?,;' +
+                label + ']|$)', 'gm');
 
-        return text
-            .replace(re2, '$1$2\u00A0$3²$4')
-            .replace(re3, '$1$2\u00A0$3³$4');
+        // jshint maxparams:6
+        return text.replace(re, function($0, $1, $2, $3, $4, $5) {
+            var pow = {
+                '2': '²',
+                '²': '²',
+                '3': '³',
+                '³': '³',
+                '': ''
+            }[$4 || ''];
+
+            return $1 + $2 + '\u00A0' + $3 + pow + ($5 === '\u00A0' ? ' ': $5);
+        });
     }
 });
 
@@ -1642,7 +1654,10 @@ Typograf.rule({
     name: 'ru/nbsp/page',
     index: 610,
     handler: function(text) {
-        return text.replace(/ (стр|гл|рис|илл)\./g, '\u00A0$1.');
+        var re = new RegExp('(^|[)\\s' + Typograf._privateLabel + '])' +
+            '(стр|гл|рис|илл?|ст|п|c)\\. *(\\d+)([\\s.,?!;:]|$)', 'gim');
+
+        return text.replace(re, '$1$2.\u00A0$3$4');
     }
 });
 
@@ -1797,6 +1812,16 @@ Typograf.rule({
         rquot2: '“',
         lquot3: '‚',
         rquot3: '‘'
+    }
+});
+
+Typograf.rule({
+    name: 'ru/space/year',
+    index: 600,
+    handler: function(text) {
+        var re = new RegExp('(^| |\u00A0)(\\d{3,4})(год([ауе]|ом)?)([^' +
+            this.letters() + ']|$)', 'g');
+        return text.replace(re, '$1$2 $3$5');
     }
 });
 

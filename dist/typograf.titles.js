@@ -210,7 +210,7 @@ Typograf.titles = {
   },
   "ru/nbsp/m": {
     "en": "m2 → м², m3 → м³ and non-breaking space",
-    "ru": "m2 → м², m3 → м³ и нераз. пробел"
+    "ru": "м2 → м², м3 → м³ и нераз. пробел"
   },
   "ru/nbsp/ooo": {
     "en": "Non-breaking space after “OOO, ОАО, ЗАО, НИИ, ПБОЮЛ”",
@@ -258,5 +258,9 @@ Typograf.titles = {
   "ru/punctuation/quot": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
+  },
+  "ru/space/year": {
+    "en": "Space between number and word “год”",
+    "ru": "Пробел между числом и словом «год»"
   }
 };
