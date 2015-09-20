@@ -20,7 +20,7 @@ var assert = require('chai').assert,
         ],
         [
             '  <![CDDATA[  Hello   world!!  ]]>  ',
-            '<![CDDATA[ Hello world! ]]>'
+            '<![CDDATA[Hello world!]]>'
         ],
         [
             '  <!--  Hello   world!!  -->  ',
