@@ -131,9 +131,9 @@ Typograf._quot = function(text, settings) {
         reL = new RegExp('"([…' + letters + '])', 'gi'),
         reR = new RegExp('(' + phrase + ')"(' + phrase + ')', 'gi'),
         reQuotes = new RegExp(quotes, 'g'),
-        reFirstQuot = new RegExp('^(\s)?(' + quotes + ')', 'g'),
+        reFirstQuot = new RegExp('^(\\s)?(' + quotes + ')', 'g'),
         reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
-        reClosingTag = new RegExp(privateLabel + quotes + '([\s!?.:;#*,]|$)', 'g'),
+        reClosingTag = new RegExp(privateLabel + quotes + '([\\s!?.:;#*,]|$)', 'g'),
         count = 0;
 
     text = text
@@ -145,9 +145,7 @@ Typograf._quot = function(text, settings) {
         .replace(reR, '$1' + rquot + '$2') // Closing quote
         .replace(reOpeningTag, '$1' + lquot + privateLabel) // Opening quote and tag
         .replace(reClosingTag, privateLabel + rquot + '$1') // Tag and closing quote
-        .replace(reFirstQuot, '$1' + lquot)
-        .replace(new RegExp('(^|\\w|\\s)' + rquot + lquot, 'g'),
-            '$1' + lquot + lquot); // Fixed for the case »« at the beginning of the text
+        .replace(reFirstQuot, '$1' + lquot);
 
     if(lquot2 && rquot2 && count % 2 === 0) {
         return Typograf._innerQuot(text, settings);
