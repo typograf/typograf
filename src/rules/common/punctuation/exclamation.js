@@ -1,6 +1,6 @@
 Typograf.rule({
     name: 'common/punctuation/exclamation',
-    index: 1150,
+    index: 1140,
     live: false,
     handler: function(text) {
         return text
