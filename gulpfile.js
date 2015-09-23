@@ -85,7 +85,7 @@ gulp.task('minjs', ['js'], function() {
         .pipe(rename('typograf.min.js'))
         .pipe(uglify({
             output: {ascii_only: true},
-            preserveComments: 'some'
+            preserveComments: 'license'
         }))
         .pipe(gulp.dest(destDir));
 });
