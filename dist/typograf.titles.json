@@ -82,6 +82,14 @@
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
   },
+  "common/space/beforeBracket": {
+    "en": "Space before opening bracket",
+    "ru": "Пробел перед открывающей скобкой"
+  },
+  "common/space/bracket": {
+    "en": "Remove spaces inside brackets",
+    "ru": "Удаление лишних пробелов внутри скобок"
+  },
   "common/space/delBeforePercent": {
     "en": "Remove space before %, ‰ and ‱",
     "ru": "Удаление пробела перед %, ‰ и ‱"
@@ -109,6 +117,10 @@
   "common/space/replaceTab": {
     "en": "Replacement of tab to 4 spaces",
     "ru": "Замена таба на 4 пробела"
+  },
+  "common/space/squareBracket": {
+    "en": "Remove spaces inside square brackets",
+    "ru": "Удаление лишних пробелов внутри квадратных скобок"
   },
   "common/space/trimLeft": {
     "en": "Remove spaces and line breaks in beginning of text",
@@ -220,6 +232,10 @@
     "en": "Non-breaking space before “стр., гл., рис., илл.”",
     "ru": "Нераз. пробел перед стр., гл., рис., илл."
   },
+  "ru/nbsp/ps": {
+    "en": "Non-breaking space in P. S. and P. P. S.",
+    "ru": "Нераз. пробел в P. S. и P. P. S."
+  },
   "ru/nbsp/xxxx": {
     "en": "Non-breaking space before XXXX г. (2012 г.)",
     "ru": "Нераз. пробел после XXXX г. (2012 г.)"
@@ -250,6 +266,10 @@
   "ru/punctuation/ano": {
     "en": "Placement of commas before “а” and “но”",
     "ru": "Расстановка запятых перед а и но"
+  },
+  "ru/punctuation/apostrophe": {
+    "en": "Placement of correct apostrophe",
+    "ru": "Расстановка правильного апострофа"
   },
   "ru/punctuation/hellip": {
     "en": "Three points on ellipsis",
