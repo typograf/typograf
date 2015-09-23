@@ -7,6 +7,10 @@ var tests = [
     [
         '<p>"<strong>Hello</strong> World!"</p>\n<p>"<strong>Hello</strong> World!"</p>',
         '<p>«<strong>Hello</strong> World!»</p>\n<p>«<strong>Hello</strong> World!»</p>'
+    ],
+    [
+        'Bob’s',
+        'Bobʼs'
     ]
 ];
 
