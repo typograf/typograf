@@ -12,6 +12,6 @@ Typograf.rule({
     name: 'ru/optalign/comma',
     handler: function(text) {
         // Зачистка HTML-тегов от висячей пунктуации для запятой
-        return text.replace(/<span class="typograf-oa-(comma|comma-sp)">(.*?)<\/span>/g, '$2');
+        return text.replace(/<span class="typograf-oa-comma(-sp)?">(.*?)<\/span>/g, '$2');
     }
 });
