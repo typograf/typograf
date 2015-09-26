@@ -1,4 +1,3 @@
-/*jshint maxlen:1000 */
 tests.push(['ru/space/year', [
     [
         'В 2002году',

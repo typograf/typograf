@@ -1,10 +1,9 @@
 Typograf.rule({
     name: 'ru/dash/weekday',
-    index: 600,
     handler: function(text) {
-        var part = '(' + Typograf.data('ru/weekday').join('|') + ')',
+        var part = '(' + Typograf.data('ru/weekday') + ')',
             re = new RegExp(part + ' ?(' + Typograf.data('common/dash') + ') ?' + part, 'gi');
 
-        return text.replace(re, '$1' + this.setting('ru/dash/main', 'dashInterval') + '$3');
+        return text.replace(re, '$1\u2014$3');
     }
 });

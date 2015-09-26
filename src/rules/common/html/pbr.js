@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'common/html/pbr',
-    index: 90,
     queue: 'end',
     handler: function(text) {
         if(text.search(/<(p|br)[\s\/>]/) === -1) {

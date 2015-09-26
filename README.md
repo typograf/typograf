@@ -33,11 +33,11 @@
 
 ### В браузере
 ```
-bower install typograf
+npm install typograf
 ```
 
 ```HTML
-<script src="dist/typograf.min.js"></script>
+<script src="./node_modules/typograf/dist/typograf.min.js"></script>
 <script>
     var tp = new Typograf({lang: 'ru'});
     alert(tp.execute('     Мир - мой мир!      '));
@@ -60,17 +60,7 @@ console.log(tp.execute(' Мир - мой мир!!   '));
  + [grunt-typograf](https://github.com/typograf/grunt-typograf)
  + [gulp-typograf](https://github.com/typograf/gulp-typograf)
 
-### Командная строка
-```
-npm install typograf -g
-```
-`typograf` — вывод справки
-
-`typograf -l ru my_file.txt` — типографировать текст по русским правилам
-
-`typograf -l en my_file.txt` — типографировать файл по английским правилам
-
-`typograf -l ru -d ru/punctuation/quot -e ru/optaling/* my_file.txt > new_my_file` — типографировать файл с отключенным правилом `ru/punctuation/quot` и включенными правилами `ru/optaling/*`
+### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
 ## API
 ### Висячая пунктуация
@@ -159,7 +149,7 @@ tp.execute('"Мир"');
 Подготовка новой версии:
 `gulp dist`
 
-## [Лицензия](./LICENSE.ru.md)
+## [Лицензия](./LICENSE.md)
 MIT License
 
 

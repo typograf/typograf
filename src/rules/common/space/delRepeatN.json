@@ -1,4 +1,4 @@
 {
-  "en": "Remove duplicate line breaks (no more than two)",
-  "ru": "Удаление повторяющихся переносов строки (не более двух)"
+  "en": "Remove duplicate line breaks (three or more)",
+  "ru": "Удаление повторяющихся переносов строки (от трёх и более)"
 }

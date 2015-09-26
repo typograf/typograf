@@ -1,4 +1,3 @@
-/*jshint maxlen:1000 */
 tests.push(['ru/punctuation/apostrophe', [
     [
         'Жанна д\'Арк, О\'Коннор, д\'Артаньян',

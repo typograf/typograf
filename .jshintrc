@@ -17,7 +17,7 @@
     "unused": "vars",
     "strict": false,
     "trailing": true,
-    "maxparams": 4,
+    "maxparams": 6,
     "maxdepth": 4,
     "maxlen": 120,
 
@@ -27,5 +27,9 @@
     "sub": true,
 
     "nomen": false,
-    "onevar": false
+    "onevar": false,
+    
+    "overrides": {
+      "src/**/*.spec.js": { "maxlen": 1000 }
+    }
 }

@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'common/space/replaceTab',
-    index: 510,
+    index: '-5',
     handler: function(text) {
-        return text.replace(/\t/g, ' ');
+        return text.replace(/\t/g, '    ');
     }
 });

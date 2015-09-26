@@ -1,12 +1,11 @@
 Typograf.rule({
     name: 'common/other/repeatWord',
-    index: 1200,
     handler: function(text) {
-        var re = '([' +
-            this.letters() +
-            '\u0301]+) \\1([;:,.?! \n])';
+        var re = new RegExp('([' +
+            this._data('l') +
+            '\u0301]+) \\1([;:,.?! \n])', 'gi');
 
-        return text.replace(new RegExp(re, 'gi'), '$1$2');
+        return text.replace(re, '$1$2');
     },
     disabled: true
 });

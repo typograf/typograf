@@ -5,15 +5,15 @@ var assert = require('chai').assert,
 
 describe('API', function() {
     it('should disable rule', function() {
-        t.disable('ru/punctuation/quot');
-        assert.ok(t.disabled('ru/punctuation/quot'));
+        t.disable('ru/punctuation/quote');
+        assert.ok(t.disabled('ru/punctuation/quote'));
 
-        t.enable('ru/punctuation/quot');
+        t.enable('ru/punctuation/quote');
     });
 
     it('should disable rule from constructor', function() {
         var typograf = new Typograf({lang: 'ru', disable: '*'});
-        assert.ok(typograf.disabled('ru/punctuation/quot'));
+        assert.ok(typograf.disabled('ru/punctuation/quote'));
     });
 
     it('should set/get data', function() {
@@ -61,12 +61,12 @@ describe('API', function() {
         t.disable(['common/html/pbr', 'common/html/url']);
 
         t.enable('ru/optalign/*');
-        assert.ok(t.enabled('ru/optalign/quot'));
+        assert.ok(t.enabled('ru/optalign/quote'));
         assert.ok(t.enabled('ru/optalign/bracket'));
         assert.ok(t.enabled('ru/optalign/comma'));
 
         t.disable('ru/optalign/*');
-        assert.ok(t.disabled('ru/optalign/quot'));
+        assert.ok(t.disabled('ru/optalign/quote'));
         assert.ok(t.disabled('ru/optalign/bracket'));
         assert.ok(t.disabled('ru/optalign/comma'));
     });

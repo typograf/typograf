@@ -3,7 +3,8 @@ var assert = require('chai').assert,
     tests = r.tests,
     innerTests = r.innerTests,
     Typograf = require('../build/typograf'),
-    t = new Typograf({lang: 'ru'}),
+    lang = 'ru',
+    t = new Typograf({lang: lang}),
     _settings;
 
 function pushSettings(ruleName, settings) {
@@ -22,8 +23,9 @@ function popSettings(ruleName) {
 }
 
 function executeRule(name, text) {
-    var rules = Typograf.prototype._rules;
+    var rules = t._rules;
 
+    t._lang = lang;
     rules.forEach(function(f) {
         if(f.name === name) {
             text = f.handler.call(t, text, t._settings[f.name]);
@@ -34,7 +36,7 @@ function executeRule(name, text) {
 }
 
 function executeInnerRule(name, text) {
-    var rules = Typograf.prototype._innerRules;
+    var rules = t._innerRules;
 
     rules.forEach(function(f) {
         if(f.name === name) {
@@ -127,7 +129,7 @@ describe('common specific tests', function() {
 });
 
 describe('russian specific tests', function() {
-    it('quotes lquot = lquot2 and rquot = rquot2', function() {
+    it('quotes lquote = lquote2 and rquote = rquote2', function() {
         var quotTests = [
             ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
             ['Триллер "Триллер “Закрытая школа” на СТС" Триллер', 'Триллер «Триллер «Закрытая школа» на СТС» Триллер'],
@@ -137,18 +139,18 @@ describe('russian specific tests', function() {
             ['Триллер "Триллер “Закрытая школа" Триллер', 'Триллер «Триллер «Закрытая школа» Триллер']
         ];
 
-        pushSettings('ru/punctuation/quot', {
-            lquot: '«',
-            rquot: '»',
-            lquot2: '«',
-            rquot2: '»'
+        pushSettings('ru/punctuation/quote', {
+            lquote: '«',
+            rquote: '»',
+            lquote2: '«',
+            rquote2: '»'
         });
 
         quotTests.forEach(function(el) {
-            assert.equal(executeRule('ru/punctuation/quot', el[0]), el[1]);
+            assert.equal(executeRule('ru/punctuation/quote', el[0]), el[1]);
         });
 
-        popSettings('ru/quot');
+        popSettings('ru/quote');
     });
 
     it('ru/optalign', function() {
@@ -158,7 +160,7 @@ describe('russian specific tests', function() {
         [
             [
                 '<p>"что-то, где-то!"</p>',
-                '<p><span class="typograf-oa-n-lquot">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
+                '<p><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
             ]
         ].forEach(function(el) {
             assert.equal(tp.execute(el[0]), el[1]);

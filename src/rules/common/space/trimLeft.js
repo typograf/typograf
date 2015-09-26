@@ -1,6 +1,6 @@
 Typograf.rule({
     name: 'common/space/trimLeft',
-    index: 530,
+    index: '-4',
     handler: String.prototype.trimLeft ? function(text) {
         return text.trimLeft();
     } : /* istanbul ignore next */ function(text) {

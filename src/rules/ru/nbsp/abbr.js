@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'ru/nbsp/abbr',
-    index: 565,
     handler: function(text) {
         var re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')(([а-яё]{1,3}\\.){2,})(?![а-яё])', 'g');
         return text.replace(re, function($0, $1, $2) {
