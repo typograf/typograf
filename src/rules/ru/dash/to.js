@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'ru/dash/to',
-    index: 30,
     handler: function(text) {
         var words = [
                 'откуда', 'куда', 'где',
@@ -10,7 +9,7 @@ Typograf.rule({
                 'кто', 'кого', 'кому', 'кем'
             ],
             re = new RegExp('(' + words.join('|') + ')( | ?- ?)(то|либо|нибудь)' +
-                Typograf.data('ru/dash').after, 'gi');
+                Typograf.data('ru/dashAfter'), 'gi');
 
         return text.replace(re, '$1-$3$4');
     }

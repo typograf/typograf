@@ -1,4 +1,3 @@
-/*jshint maxlen:1000 */
 tests.push(['ru/nbsp/addr', [
     [
         'г.Москва, ул. Тверская, д.  12',

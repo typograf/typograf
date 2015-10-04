@@ -1,4 +1,4 @@
 {
-  "en": "Remove spaces inside brackets",
-  "ru": "Удаление лишних пробелов внутри скобок"
+  "en": "Remove extra spaces after opening and before closing bracket",
+  "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобки"
 }

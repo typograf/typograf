@@ -63,7 +63,7 @@ Typograf.groups = [
     }
   },
   {
-    "name": "sym",
+    "name": "symbols",
     "title": {
       "en": "Symbols",
       "ru": "Символы"

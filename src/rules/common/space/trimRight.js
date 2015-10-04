@@ -1,6 +1,6 @@
 Typograf.rule({
     name: 'common/space/trimRight',
-    index: 535,
+    index: '-3',
     live: false,
     handler: String.prototype.trimRight ? function(text) {
         return text.trimRight();

@@ -1,7 +1,8 @@
 Typograf.rule({
     name: 'ru/nbsp/afterNumberSign',
-    index: 610,
     handler: function(text) {
-        return text.replace(/№ ?(\d|п\/п)/g, '№\u00A0$1');
+        // \u2009 - THIN SPACE
+        // \u202F - NARROW NO-BREAK SPACE
+        return text.replace(/№[ \u00A0\u2009]?(\d|п\/п)/g, '№\u202F$1');
     }
 });

@@ -1,4 +1,4 @@
-Typograf.data('ru/dash', {
-    before: '(^| |\\n)',
-    after: '( |,|\\.|\\?|:|!|$)'
+Typograf.data({
+    'ru/dashBefore': '(^| |\\n)',
+    'ru/dashAfter': '([\u00A0 ,.?:!]|$)'
 });

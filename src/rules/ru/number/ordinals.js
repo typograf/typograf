@@ -1,8 +1,7 @@
 Typograf.rule({
     name: 'ru/number/ordinals',
-    index: 1300,
     handler: function(text) {
-        var re = new RegExp('(\\d)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.letters() + '])', 'g');
+        var re = new RegExp('(\\d)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this._data('l') + '])', 'g');
 
         return text.replace(re, function($0, $1, $2) {
             var parts = {

@@ -1,11 +1,11 @@
 Typograf.titles = {
+  "common/html/e-mail": {
+    "en": "Placement of links for e-mail",
+    "ru": "Расстановка ссылок для эл. почты"
+  },
   "common/html/escape": {
     "en": "Escaping HTML",
     "ru": "Экранирование HTML"
-  },
-  "common/html/mail": {
-    "en": "Placement of links for e-mail",
-    "ru": "Расстановка ссылок для эл. почты"
   },
   "common/html/nbr": {
     "en": "Replacement line break on <br/>",
@@ -27,7 +27,7 @@ Typograf.titles = {
     "en": "Non-breaking space between number and word",
     "ru": "Нераз. пробел между числом и словом"
   },
-  "common/nbsp/afterPara": {
+  "common/nbsp/afterParagraph": {
     "en": "Non-breaking space after §",
     "ru": "Нераз. пробел после §"
   },
@@ -40,8 +40,8 @@ Typograf.titles = {
     "ru": "Нераз. пробел перед последним коротким словом в предложении"
   },
   "common/nbsp/dpi": {
-    "en": "Non-breaking space before lpi, dpi",
-    "ru": "Нераз. пробел перед lpi, dpi"
+    "en": "Non-breaking space before lpi and dpi",
+    "ru": "Нераз. пробел перед lpi и dpi"
   },
   "common/nbsp/nowrap": {
     "en": "Replace non-breaking space to normal space in tags nowrap and nobr",
@@ -72,12 +72,6 @@ Typograf.titles = {
     "en": "Removing double punctuation",
     "ru": "Удаление двойной пунктуации"
   },
-  "common/punctuation/exclamation": {
-    "common": "!! → !"
-  },
-  "common/punctuation/exclamationQuestion": {
-    "common": "!? → ?!"
-  },
   "common/space/afterPunctuation": {
     "en": "space after punctuation",
     "ru": "Пробел после знаков пунктуации"
@@ -87,8 +81,8 @@ Typograf.titles = {
     "ru": "Пробел перед открывающей скобкой"
   },
   "common/space/bracket": {
-    "en": "Remove spaces inside brackets",
-    "ru": "Удаление лишних пробелов внутри скобок"
+    "en": "Remove extra spaces after opening and before closing bracket",
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобки"
   },
   "common/space/delBeforePercent": {
     "en": "Remove space before %, ‰ and ‱",
@@ -103,8 +97,8 @@ Typograf.titles = {
     "ru": "Удаление пробелов в начале строки"
   },
   "common/space/delRepeatN": {
-    "en": "Remove duplicate line breaks (no more than two)",
-    "ru": "Удаление повторяющихся переносов строки (не более двух)"
+    "en": "Remove duplicate line breaks (three or more)",
+    "ru": "Удаление повторяющихся переносов строки (от трёх и более)"
   },
   "common/space/delRepeatSpace": {
     "en": "Removing duplicate spaces between characters",
@@ -119,8 +113,8 @@ Typograf.titles = {
     "ru": "Замена таба на 4 пробела"
   },
   "common/space/squareBracket": {
-    "en": "Remove spaces inside square brackets",
-    "ru": "Удаление лишних пробелов внутри квадратных скобок"
+    "en": "Remove extra spaces after opening and before closing square bracket",
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей квадратной скобки"
   },
   "common/space/trimLeft": {
     "en": "Remove spaces and line breaks in beginning of text",
@@ -130,57 +124,85 @@ Typograf.titles = {
     "en": "Remove spaces and line breaks at end of text",
     "ru": "Удаление пробелов и переносов строк в конце текста"
   },
-  "common/sym/arrow": {
+  "common/symbols/arrow": {
     "common": "-> → →, <- → ←"
   },
-  "common/sym/cf": {
+  "common/symbols/cf": {
     "en": "Adding ° to C and F",
     "ru": "Добавление ° к C и F"
   },
-  "common/sym/copy": {
+  "common/symbols/copy": {
     "common": "(c) → ©, (tm) → ™, (r) → ®"
   },
-  "en/punctuation/quot": {
+  "en/punctuation/quote": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
   },
+  "ru/dash/centuries": {
+    "en": "Hyphen to dash in centuries",
+    "ru": "Замена дефиса на тире в веках"
+  },
+  "ru/dash/daysMonth": {
+    "en": "Dash between days of one month",
+    "ru": "Тире между днями одного месяца"
+  },
+  "ru/dash/decade": {
+    "en": "Dash in decade",
+    "ru": "Тире в десятилетиях, 80—90-е гг."
+  },
+  "ru/dash/directSpeech": {
+    "en": "Dash in direct speech",
+    "ru": "Тире в прямой речи"
+  },
   "ru/dash/izpod": {
     "en": "Hyphen between “из-под”",
-    "ru": "Дефис между из-под"
+    "ru": "Дефис между «из-под»"
   },
   "ru/dash/izza": {
     "en": "Hyphen between “из-за”",
-    "ru": "Дефис между из-за"
+    "ru": "Дефис между «из-за»"
   },
   "ru/dash/kade": {
     "en": "Hyphen before “ка, де, кась”",
-    "ru": "Дефис перед ка, де, кась"
+    "ru": "Дефис перед «ка», «де», «кась»"
   },
   "ru/dash/koe": {
     "en": "Hyphen after “кое” and “кой”",
-    "ru": "Дефис после кое и кой"
+    "ru": "Дефис после «кое» и «кой»"
   },
   "ru/dash/main": {
     "en": "Replacement hyphen with dash",
-    "ru": "Дефис на тире"
+    "ru": "Замена дефиса на тире"
   },
   "ru/dash/month": {
     "en": "Dash between months",
     "ru": "Тире между месяцами"
   },
+  "ru/dash/surname": {
+    "en": "Acronyms with a dash",
+    "ru": "Сокращения с помощью тире"
+  },
   "ru/dash/taki": {
     "en": "Hyphen between “верно-таки” and etc.",
-    "ru": "Дефис между верно-таки и т.д."
+    "ru": "Дефис между «верно-таки» и т. д."
+  },
+  "ru/dash/time": {
+    "en": "Dash in time intervals",
+    "ru": "Тире в интервалах времени"
   },
   "ru/dash/to": {
-    "en": "Hyphen before “то, либо, нибудь”",
-    "ru": "Дефис перед то, либо, нибудь"
+    "en": "Hyphen before “то”, “либо”, “нибудь”",
+    "ru": "Дефис перед «то», «либо», «нибудь»"
   },
   "ru/dash/weekday": {
     "en": "Dash between the days of the week",
     "ru": "Тире между днями недели"
   },
-  "ru/date/main": {
+  "ru/dash/years": {
+    "en": "Hyphen to dash in years",
+    "ru": "Замена дефиса на тире в годах"
+  },
+  "ru/date/fromISO": {
     "en": "Converting dates YYYY-MM-DD type DD.MM.YYYY",
     "ru": "Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY"
   },
@@ -198,7 +220,7 @@ Typograf.titles = {
   },
   "ru/nbsp/abbr": {
     "en": "Non-breaking space in abbreviations, e.g. “т. д.”",
-    "ru": "Нераз. пробел в сокращениях, например, в т. д."
+    "ru": "Нераз. пробел в сокращениях, например, в “т. д.”"
   },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
@@ -209,12 +231,12 @@ Typograf.titles = {
     "ru": "Нераз. пробел после №"
   },
   "ru/nbsp/beforeParticle": {
-    "en": "Non-breaking space before “ли, ль, же, бы, б”",
-    "ru": "Нераз. пробел перед ли, ль, же, бы, б"
+    "en": "Non-breaking space before “ли”, “ль”, “же”, “бы”, “б”",
+    "ru": "Нераз. пробел перед «ли», «ль», «же», «бы», «б»"
   },
-  "ru/nbsp/cc": {
-    "en": "Remove spaces and extra points in centuries",
-    "ru": "Удаление пробелов и лишних точек в вв."
+  "ru/nbsp/centuries": {
+    "en": "Remove spaces and extra points in “вв.”",
+    "ru": "Удаление пробелов и лишних точек в «вв.»"
   },
   "ru/nbsp/dayMonth": {
     "en": "Non-breaking space between number and month",
@@ -229,18 +251,22 @@ Typograf.titles = {
     "ru": "Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ"
   },
   "ru/nbsp/page": {
-    "en": "Non-breaking space before “стр., гл., рис., илл.”",
-    "ru": "Нераз. пробел перед стр., гл., рис., илл."
+    "en": "Non-breaking space after “стр.”, “гл.”, “рис.”, “илл.”",
+    "ru": "Нераз. пробел после «стр.», «гл.», «рис.», «илл.»"
   },
   "ru/nbsp/ps": {
     "en": "Non-breaking space in P. S. and P. P. S.",
     "ru": "Нераз. пробел в P. S. и P. P. S."
   },
-  "ru/nbsp/xxxx": {
+  "ru/nbsp/see": {
+    "en": "Non-breaking space after abbreviation «см.» and «им.»",
+    "ru": "Нераз. пробел после сокращений «см.» и «им.»"
+  },
+  "ru/nbsp/year": {
     "en": "Non-breaking space before XXXX г. (2012 г.)",
     "ru": "Нераз. пробел после XXXX г. (2012 г.)"
   },
-  "ru/nbsp/yy": {
+  "ru/nbsp/years": {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
   },
@@ -255,29 +281,39 @@ Typograf.titles = {
     "en": "for comma",
     "ru": "для запятой"
   },
-  "ru/optalign/quot": {
+  "ru/optalign/quote": {
     "en": "for opening quotation marks",
     "ru": "для открывающей кавычки"
   },
   "ru/other/accent": {
-    "en": "Replacing capital letter and adding accents",
-    "ru": "Замена заглавной буквы и добавление знака ударения"
+    "en": "Replacement capital letters to lowercase with addition of accent",
+    "ru": "Замена заглавной буквы на строчную с добавлением ударения"
   },
   "ru/punctuation/ano": {
     "en": "Placement of commas before “а” and “но”",
-    "ru": "Расстановка запятых перед а и но"
+    "ru": "Расстановка запятых перед «а» и «но»"
   },
   "ru/punctuation/apostrophe": {
     "en": "Placement of correct apostrophe",
     "ru": "Расстановка правильного апострофа"
   },
+  "ru/punctuation/exclamation": {
+    "common": "!! → !"
+  },
+  "ru/punctuation/exclamationQuestion": {
+    "common": "!? → ?!"
+  },
   "ru/punctuation/hellip": {
     "en": "Three points on ellipsis",
     "ru": "Три точки на многоточие, ?... → ?.. и пр."
   },
-  "ru/punctuation/quot": {
+  "ru/punctuation/quote": {
     "en": "Placement of quotation marks",
     "ru": "Расстановка кавычек"
+  },
+  "ru/space/afterHellip": {
+    "en": "Space after ..., !.. and ?..",
+    "ru": "Пробел после ..., !.. и ?.."
   },
   "ru/space/year": {
     "en": "Space between number and word “год”",

@@ -1,16 +1,13 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
     "url": "https://github.com/typograf/typograf"
   },
   "main": "dist/typograf.js",
-  "bin": {
-    "typograf": "./bin/cli.js"
-  },
   "homepage": "https://github.com/typograf",
   "license": "MIT",
   "repository": {
@@ -33,10 +30,6 @@
     "bin",
     "LICENSE"
   ],
-  "dependencies": {
-    "commander": "~2.8.1",
-    "isutf8": "~1.0.10"
-  },
   "devDependencies": {
     "chai": "~3.3.0",
     "gulp": "~3.9.0",

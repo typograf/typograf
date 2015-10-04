@@ -1,9 +1,8 @@
 Typograf.rule({
     name: 'ru/space/year',
-    index: 600,
     handler: function(text) {
         var re = new RegExp('(^| |\u00A0)(\\d{3,4})(год([ауе]|ом)?)([^' +
-            this.letters() + ']|$)', 'g');
+            this._data('l') + ']|$)', 'g');
         return text.replace(re, '$1$2 $3$5');
     }
 });

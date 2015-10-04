@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'common/html/url',
-    index: 2010,
     handler: function(text) {
         var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
             pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
@@ -10,7 +9,7 @@ Typograf.rule({
             path = path
                 .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
                 .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
-                
+
             if(protocol === 'http') {
                 path = path.replace(/^([^\/]+)(:80)([^\d]|\/|$)/, '$1$3'); // Remove 80 port
             } else if(protocol === 'https') {

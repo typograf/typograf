@@ -26,6 +26,7 @@ var paths = {
     js: [
         'src/start.js',
         'src/main.js',
+        'src/indexes.js',
         'src/entities.js',
         'src/data/**/*.js',
         'src/rules/**/*.js',

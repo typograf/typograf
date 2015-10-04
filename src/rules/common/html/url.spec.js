@@ -1,4 +1,3 @@
-/*jshint maxlen:1000 */
 tests.push(['common/html/url', [
     ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
     ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],

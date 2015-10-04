@@ -1,6 +1,6 @@
 Typograf.rule({
     name: 'ru/nbsp/beforeParticle',
-    index: 600,
+    index: '+5',
     handler: function(text) {
         var particles = '(ли|ль|же|ж|бы|б)',
             re1 = new RegExp(' ' + particles + '(?=[?!,.:;"‘“»])', 'g'),

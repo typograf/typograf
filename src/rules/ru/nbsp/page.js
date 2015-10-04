@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'ru/nbsp/page',
-    index: 610,
     handler: function(text) {
         var re = new RegExp('(^|[)\\s' + Typograf._privateLabel + '])' +
             '(стр|гл|рис|илл?|ст|п|c)\\. *(\\d+)([\\s.,?!;:]|$)', 'gim');

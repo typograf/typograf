@@ -1,6 +1,5 @@
 Typograf.rule({
     name: 'ru/money/ruble',
-    index: 1145,
     handler: function(text) {
         var rep = '$1\u00A0₽';
         return text

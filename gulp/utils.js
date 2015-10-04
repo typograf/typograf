@@ -1,9 +1,10 @@
 var fs = require('fs');
-
 var queue = {
-    start: 1,
-    'undefined': 2,
-    end: 3
+    'start': 0,
+    'utf': 1,
+    'default': 3,
+    'entity': 5,
+    'end': 10
 };
 
 module.exports = {
@@ -32,7 +33,7 @@ module.exports = {
                 return '| ' + i + '. | [' +
                     rule.name + '](../src/rules/' + rule.name + '.js) | ' +
                     title + ' | ' +
-                    rule.index + ' | ' +
+                    rule._index + ' | ' +
                     (rule.queue || '') + ' | ' +
                     (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
             },
@@ -40,7 +41,7 @@ module.exports = {
                 var template = fs.readFileSync(templateFile).toString();
                 fs.writeFileSync(file, template.replace(/{{content}}/, text));
             },
-            buildDoc = function() {
+            buildDoc = function(prefix) {
                 Typograf._langs.forEach(function(lang) {
                     var text = '';
 
@@ -48,7 +49,11 @@ module.exports = {
                         text += getRow(rule, i + 1, lang);
                     });
 
-                    processTemplate('docs/RULES.' + lang + '.md', 'gulp/templates/RULES.' + lang + '.md', text);
+                    processTemplate(
+                        'docs/RULES' + prefix + '.' + lang + '.md',
+                        'gulp/templates/RULES' + prefix + '.' + lang + '.md',
+                        text
+                    );
                 });
             };
 
@@ -60,15 +65,15 @@ module.exports = {
             }
         });
 
-        buildDoc();
+        buildDoc('');
 
         rules.sort(function(a, b) {
-            var queueA = queue[a.queue],
-                queueB = queue[b.queue];
+            var queueA = queue[a.queue || 'default'],
+                queueB = queue[b.queue || 'default'];
             if(queueA === queueB) {
-                if(a.index > b.index) {
+                if(a._index > b._index) {
                     return 1;
-                } else if(a.index < b.index) {
+                } else if(a._index < b._index) {
                     return -1;
                 } else {
                     return 0;
@@ -80,6 +85,6 @@ module.exports = {
             }
         });
 
-        buildDoc();
+        buildDoc('_SORTED');
     }
 };
