@@ -96,7 +96,7 @@ tp.disable('*'); // Отключить все правила
 ```JavaScript
 var tp = new Typograf({lang: 'ru'});
 // Название правила, название настройки, значение
-tp.setting('common/nbsp/beforeShortLast', 'lengthLastWord', 5);
+tp.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord', 5);
 ```
 
 ### Добавить простое правило
