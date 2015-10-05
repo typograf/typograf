@@ -3,7 +3,7 @@ Typograf.rule({
     handler: function(text) {
         var privateLabel = Typograf._privateLabel,
             reExcl = new RegExp('(!|;|\\?)([^.!;?\\s[\\])' + privateLabel + Typograf.data('common/quote') + '])', 'g'),
-            reComma = new RegExp('(\\D)(,|:)([^,:.?\\s\\/' + privateLabel + '])', 'g');
+            reComma = new RegExp('(\\D)(,|:)([^",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
 
         return text
             .replace(reExcl, '$1 $2')
