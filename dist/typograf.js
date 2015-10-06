@@ -309,8 +309,8 @@ Typograf.prototype = {
             lquote2 = settings.lquote2,
             rquote2 = settings.rquote2,
             quotes = '[' + Typograf.data('common/quote') + ']',
-            phrase = '[' + letters + ')!?.:;#*,]*?',
-            reL = new RegExp('"([…' + letters + '])', 'gi'),
+            phrase = '[' + letters + ')!?.:;#*,…]*?',
+            reL = new RegExp('"([' + letters + '])', 'gi'),
             reR = new RegExp('(' + phrase + ')"(' + phrase + ')', 'gi'),
             reQuotes = new RegExp(quotes, 'g'),
             reFirstQuote = new RegExp('^(\\s)?(' + quotes + ')', 'g'),
@@ -544,6 +544,8 @@ Typograf.prototype = {
         return text;
     }
 };
+
+Typograf.version = '4.1.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -828,6 +830,10 @@ Typograf.prototype.entities = [];
     Typograf.prototype.entities.push(buf);
 }, this);
 
+Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
+
+Typograf.data('common/quote', '«‹»›„‚“‟‘‛”’"');
+
 Typograf.data({
     'en/l': 'a-z',
     'en/L': 'A-Z',
@@ -835,10 +841,6 @@ Typograf.data({
 });
 
 Typograf._langs.push('en');
-
-Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
-
-Typograf.data('common/quote', '«‹»›„‚“‟‘‛”’"');
 
 Typograf.data({
     'ru/dashBefore': '(^| |\\n)',
@@ -1010,7 +1012,7 @@ Typograf.rule({
     handler: function(text, settings) {
         var re = new RegExp('([' + this._data('l') + '\d]) ([' +
                 this._data('lL') + ']{1,' + settings.lengthLastWord +
-                '}[.!?])( [' + this._data('L') + ']|$)', 'g');
+                '}[.!?…])( [' + this._data('L') + ']|$)', 'g');
         return text.replace(re, '$1\u00A0$2$3');
     },
     settings: {
@@ -1072,7 +1074,7 @@ Typograf.rule({
             [/<</g, '≪'],
             [/>>/g, '≫'],
             [/~=/g, '≅'],
-            [/\+-/g, '±']
+            [/(^|[^+])\+-/g, '$1±']
         ]);
     }
 });
@@ -1126,7 +1128,7 @@ Typograf.rule({
     handler: function(text) {
         var privateLabel = Typograf._privateLabel,
             reExcl = new RegExp('(!|;|\\?)([^.!;?\\s[\\])' + privateLabel + Typograf.data('common/quote') + '])', 'g'),
-            reComma = new RegExp('(\\D)(,|:)([^,:.?\\s\\/' + privateLabel + '])', 'g');
+            reComma = new RegExp('(\\D)(,|:)([^",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
 
         return text
             .replace(reExcl, '$1 $2')
@@ -1319,12 +1321,14 @@ Typograf.rule({
     name: 'ru/dash/directSpeech',
     handler: function(text) {
         var dashes = Typograf.data('common/dash'),
-            re1 = new RegExp('(["»‘“,.…?!])[ |\u00A0]?(' + dashes + ')[ |\u00A0]', 'g'),
-            re2 = new RegExp('(^|' + Typograf._privateLabel + ')(' + dashes + ')( |\u00A0)', 'gm');
+            re1 = new RegExp('(["»‘“,])[ |\u00A0]?(' + dashes + ')[ |\u00A0]', 'g'),
+            re2 = new RegExp('(^|' + Typograf._privateLabel + ')(' + dashes + ')( |\u00A0)', 'gm'),
+            re3 = new RegExp('([.…?!])[ \u00A0](' + dashes + ')[ \u00A0]', 'g');
 
         return text
-            .replace(re1, '$1 \u2014\u00A0')
-            .replace(re2, '$1\u2014\u00A0');
+            .replace(re1, '$1\u00A0\u2014 ')
+            .replace(re2, '$1\u2014\u00A0')
+            .replace(re3, '$1 \u2014\u00A0');
     }
 });
 
@@ -1473,6 +1477,35 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/date/fromISO',
+    handler: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    handler: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = Typograf.data('ru/monthGenCase'),
+            weekday = Typograf.data('ru/weekday'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
+});
+
+Typograf.rule({
     name: 'ru/money/dollar',
     handler: function(text) {
         var re1 = new RegExp('(^|[\\D]{2,})\\$ ?([\\d.,]+([ \u00A0\u2009\u202F]\\d{3})*)', 'g'),
@@ -1508,35 +1541,6 @@ Typograf.rule({
             .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
     },
     disabled: true
-});
-
-Typograf.rule({
-    name: 'ru/date/fromISO',
-    handler: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    handler: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = Typograf.data('ru/monthGenCase'),
-            weekday = Typograf.data('ru/weekday'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
 });
 
 Typograf.rule({

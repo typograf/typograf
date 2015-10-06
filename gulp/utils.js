@@ -8,11 +8,10 @@ var queue = {
 };
 
 module.exports = {
-    updateBowerVersion: function() {
-        var pack = require('../package.json'),
-            bower = require('../bower.json');
-        if(pack.version !== bower.version) {
-            bower.version = pack.version;
+    updateBowerVersion: function(version) {
+        var bower = require('../bower.json');
+        if(version !== bower.version) {
+            bower.version = version;
             fs.writeFileSync('./bower.json', JSON.stringify(bower, null, '  '));
         }
     },
