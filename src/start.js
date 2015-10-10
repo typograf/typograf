@@ -1,8 +1,6 @@
 /*! Typograf | © 2015 Denis Seleznev | https://github.com/typograf/typograf/ */
 
 (function(root, factory) {
-'use strict';
-
 if(typeof define === 'function' && define.amd) {
     define('typograf', [], factory);
 } else if (typeof exports === 'object') {
@@ -12,3 +10,4 @@ if(typeof define === 'function' && define.amd) {
 }
 
 }(this, function() {
+'use strict';
