@@ -28,8 +28,8 @@ Typograf.titles = {
     "ru": "Нераз. пробел между числом и словом"
   },
   "common/nbsp/afterParagraph": {
-    "en": "Non-breaking space after §",
-    "ru": "Нераз. пробел после §"
+    "en": "Non-breaking thin space after §",
+    "ru": "Нераз. узкий пробел после §"
   },
   "common/nbsp/afterShortWord": {
     "en": "Non-breaking space after short word",
@@ -227,8 +227,8 @@ Typograf.titles = {
     "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
   },
   "ru/nbsp/afterNumberSign": {
-    "en": "Non-breaking space after №",
-    "ru": "Нераз. пробел после №"
+    "en": "Non-breaking thin space after №",
+    "ru": "Нераз. узкий пробел после №"
   },
   "ru/nbsp/beforeParticle": {
     "en": "Non-breaking space before “ли”, “ль”, “же”, “бы”, “б”",
