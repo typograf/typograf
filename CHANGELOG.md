@@ -1,5 +1,17 @@
 # Changelog
 
+# v4.1.0
+Доработки правил:
+- `common/nbsp/beforeShortLastWord`
+- `common/number/mathSign`
+- `common/space/afterPunctuation`
+- `common/space/delBeforePunctuation`
+- `common/space/delRepeatSpace`
+- `ru/dash/directSpeech`
+- `ru/nbsp/beforeParticle`
+
+Добавлено свойство `Typograf.version`.
+
 ## v4.0.1
 Исправления в правиле `ru/money/dollar` #144.
 
@@ -88,7 +100,7 @@ Typograf.rule({
 
 ## v3.1.0
 Добавлены правила:
-- `common/number/mathSign` `!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±` #126 
+- `common/number/mathSign` `!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±` #126
 - `common/other/delBOM` удаление BOM-символа #121
 - `ru/punctuation/ano` расстановка запятых перед `а` и `но` #119
 
@@ -105,7 +117,7 @@ Typograf.rule({
 - Переименованы свойства при добавлении правила #118
 
 ## v2.14.0
-- Новое правило «Неразрывный пробел в сокращениях» `ru/nbsp/abbr`  #111 @romashamin, #113 
+- Новое правило «Неразрывный пробел в сокращениях» `ru/nbsp/abbr`  #111 @romashamin, #113
 
 ## v2.13.1
 Пересборка
