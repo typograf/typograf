@@ -1,11 +1,16 @@
 Typograf.rule({
     name: 'ru/money/ruble',
     handler: function(text) {
-        var rep = '$1\u00A0₽';
+        var newSubstr = '$1\u00A0₽',
+            commonPart = '(\\d+)( |\u00A0)?(р|руб)\\.',
+            re1 = new RegExp('^' + commonPart + '$', 'g'),
+            re2 = new RegExp(commonPart + '(?=[!?,:;])', 'g'),
+            re3 = new RegExp(commonPart + '(?=\\s+[A-ЯЁ])', 'g');
+            
         return text
-            .replace(/^(\d+)( |\u00A0)?(р|руб)\.$/, rep)
-            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=[!?,:;])/g, rep)
-            .replace(/(\d+)( |\u00A0)?(р|руб)\.(?=\s+[A-ЯЁ])/g, rep + '.');
+            .replace(re1, newSubstr)
+            .replace(re2, newSubstr)
+            .replace(re3, newSubstr + '.');
     },
     disabled: true
 });
