@@ -1,6 +1,6 @@
 Typograf.rule({
     name: 'common/number/times',
     handler: function(text) {
-        return text.replace(/(\d)[ \u00A0]?(x|х)[ \u00A0]?(\d)/g, '$1×$3');
+        return text.replace(/(\d)[ \u00A0]?[xх][ \u00A0]?(\d)/g, '$1×$2');
     }
 });
