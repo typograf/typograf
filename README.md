@@ -154,6 +154,7 @@ MIT License
 
 
 ## Ссылки
++ [Типограф для Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
 + [Букмарклет для типографа](https://github.com/typograf/bookmarklet)
 + [Средство поиска опечаток в текстах](https://github.com/hcodes/yaspeller)
 + [Восстановление буквы «ё» в русских текстах](https://github.com/hcodes/eyo)
