@@ -110,7 +110,7 @@ describe('API', function() {
 
     it('should add safe tag', function() {
         var t2 = new Typograf();
-        t2.addSafeTag('<myTag>', '<\\/myTag>');
+        t2.addSafeTag('<myTag>', '</myTag>');
 
         assert.equal(t2.execute('  <myTag>  Hello world!!  </myTag>  '), '<myTag>  Hello world!!  </myTag>');
     });

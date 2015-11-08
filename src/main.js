@@ -197,9 +197,7 @@ Typograf.prototype = {
 
         executeRulesForQueue('start');
 
-        if(this._isHTML) {
-            text = this._hideSafeTags(text);
-        }
+        text = this._hideSafeTags(text);
 
         text = this._utfication(text);
         executeRulesForQueue('utf');
@@ -209,9 +207,7 @@ Typograf.prototype = {
         text = this._modification(text, mode);
         executeRulesForQueue('entity');
 
-        if(this._isHTML) {
-            text = this._showSafeTags(text);
-        }
+        text = this._showSafeTags(text);
 
         executeRulesForQueue('end');
 
@@ -277,11 +273,23 @@ Typograf.prototype = {
     /**
      * Add safe tag.
      *
-     * @param {string} startTag
-     * @param {string} endTag
-     */
-    addSafeTag: function(startTag, endTag) {
-        this._safeTags.push([startTag, endTag]);
+     * @example
+     * // var t = new Typograf({lang: 'ru'});
+     * // t.addSafeTag('<mytag>', '</mytag>');
+     * // t.addSafeTag('<mytag>', '</mytag>', '.*?');
+     * // t.addSafeTag(/<mytag>.*?</mytag>/gi);
+     *
+     * @param {string|RegExp} startTag
+     * @param {string} [endTag]
+     * @param {string} [middle]
+     * @return {Typograf} this
+    */
+    addSafeTag: function(startTag, endTag, middle) {
+        var tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
+
+        this._safeTags.own.push(this._prepareSafeTag(tag));
+
+        return this;
     },
     _data: function(key) {
         return Typograf.data(this._lang + '/' + key);
@@ -426,7 +434,7 @@ Typograf.prototype = {
         return rule;
     },
     _initSafeTags: function() {
-        this._safeTags = [
+        var html = [
             ['<!--', '-->'],
             ['<!ENTITY', '>'],
             ['<!DOCTYPE', '>'],
@@ -444,20 +452,48 @@ Typograf.prototype = {
             'style',
             'var'
         ].forEach(function(tag) {
-            this._safeTags.push(['<' + tag + '(\\s[^>]*?)?>', '</' + tag + '>']);
+            html.push([
+                '<' + tag + '(\\s[^>]*?)?>',
+                '</' + tag + '>'
+            ]);
         }, this);
+
+        this._safeTags = {
+            html: html.map(this._prepareSafeTag),
+            own: []
+        };
     },
     _hideSafeTags: function(text) {
-        this._hiddenSafeTags = {};
+        var iterator = function(tag) {
+            text = text.replace(this._prepareSafeTag(tag), this._pasteLabel);
+        };
 
+        this._hiddenSafeTags = {};
         this._iLabel = 0;
 
-        this._safeTags.forEach(function(tag) {
-            var re = new RegExp(tag[0] + '[^]*?' + tag[1], 'gi');
-            text = text.replace(re, this._pasteLabel);
-        }, this);
+        this._safeTags.own.forEach(iterator, this);
 
-        return this._hideHTMLTags(text);
+        if(this._isHTML) {
+            this._safeTags.html.forEach(iterator, this);
+            text = this._hideHTMLTags(text);
+        }
+
+        return text;
+    },
+    _prepareSafeTag: function(tag) {
+        var re;
+
+        if(tag instanceof RegExp) {
+            re = tag;
+        } else {
+            var startTag = tag[0],
+                endTag = tag[1],
+                middle = typeof tag[2] === 'undefined' ? '[^]*?' : tag[2];
+
+            re = new RegExp(startTag + middle + endTag, 'gi');
+        }
+
+        return re;
     },
     _getPrivateLabel: function(i) {
         var label = Typograf._privateLabel;
@@ -482,15 +518,21 @@ Typograf.prototype = {
     _showSafeTags: function(text) {
         var label = Typograf._privateLabel,
             reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
-            reSearch = new RegExp(label + 'tf\\d');
-        for(var i = 0; i < this._safeTags.length; i++) {
+            reSearch = new RegExp(label + 'tf\\d'),
+            len = 0;
+
+        Object.keys(this._safeTags).forEach(function(tags) {
+            len += tags.length;
+        });
+
+        for(var i = 0; i < len; i++) {
             text = text.replace(reReplace, this._replaceLabel);
             if(text.search(reSearch) === -1) {
                 break;
             }
         }
 
-        delete this._hiddenSafeTags;
+        this._hiddenSafeTags = {};
 
         return text;
     },
