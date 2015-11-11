@@ -1,5 +1,19 @@
 # Changelog
 
+# v4.2.0
+Новые правила:
+- Замена обычного пробела на неразрывный узкий в группах чисел `ru/nbsp/groupNumbers`
+- Неразрывный пробел перед «руб.» и «коп.» `ru/nbsp/rubleKopek`
+- Неразрывный пробел перед знаками валют `ru/money/currency`
+
+Добавлена возможность указывать блоки текста, где не нужно типографировать:
+```js
+var t = new Typograf({lang: 'ru'});
+t.addSafeTag('<mytag>', '</mytag>');
+t.addSafeTag('<mytag>', '</mytag>', '.*?');
+t.addSafeTag(/<mytag>.*?</mytag>/gi);
+```
+
 # v4.1.0
 Доработки правил:
 - `common/nbsp/beforeShortLastWord`

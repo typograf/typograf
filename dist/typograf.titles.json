@@ -209,11 +209,9 @@
   "ru/date/weekday": {
     "common": "2 Мая, Понедельник → 2 мая, понедельник"
   },
-  "ru/money/dollar": {
-    "common": "$100 → 100 $"
-  },
-  "ru/money/euro": {
-    "common": "€100 → 100 €"
+  "ru/money/currency": {
+    "en": "Currency symbol ($, €, ¥, Ұ, £ and ₤) after the number, $100 → 100 $",
+    "ru": "Символ валюты ($, €, ¥, Ұ, £ и ₤) после числа, $100 → 100 $"
   },
   "ru/money/ruble": {
     "common": "1 руб. → 1 ₽"
@@ -242,6 +240,10 @@
     "en": "Non-breaking space between number and month",
     "ru": "Нераз. пробел между числом и месяцем"
   },
+  "ru/nbsp/groupNumbers": {
+    "en": "Replacement space on a narrow non-breaking space in groups of numbers",
+    "ru": "Замена пробела на неразрывный узкий пробелв группах чисел"
+  },
   "ru/nbsp/m": {
     "en": "m2 → м², m3 → м³ and non-breaking space",
     "ru": "м2 → м², м3 → м³ и нераз. пробел"
@@ -257,6 +259,10 @@
   "ru/nbsp/ps": {
     "en": "Non-breaking space in P. S. and P. P. S.",
     "ru": "Нераз. пробел в P. S. и P. P. S."
+  },
+  "ru/nbsp/rubleKopek": {
+    "en": "Not once. space before the “rub” and “cop.”",
+    "ru": "Нераз. пробел перед «руб.» и «коп.»"
   },
   "ru/nbsp/see": {
     "en": "Non-breaking space after abbreviation «см.» and «им.»",
