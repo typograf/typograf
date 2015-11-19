@@ -218,7 +218,7 @@
   },
   "ru/nbsp/abbr": {
     "en": "Non-breaking space in abbreviations, e.g. “т. д.”",
-    "ru": "Нераз. пробел в сокращениях, например, в “т. д.”"
+    "ru": "Нераз. пробел в сокращениях, например, в «т. д.»"
   },
   "ru/nbsp/addr": {
     "en": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
