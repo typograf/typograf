@@ -11,6 +11,6 @@ Typograf.rule({
             re = new RegExp('(' + words.join('|') + ')( | ?- ?)(то|либо|нибудь)' +
                 Typograf.data('ru/dashAfter'), 'gi');
 
-        return text.replace(re, '$1-$3$4');
+        return text.replace(re, '$1-$3');
     }
 });
