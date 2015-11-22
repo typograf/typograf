@@ -4,9 +4,7 @@ var gulp = require('gulp'),
     replace = require('gulp-replace'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
     jsonlint = require('gulp-jsonlint'),
-    jscs = require('gulp-jscs'),
     gulpFilter = require('gulp-filter'),
     gulpJsonRules = require('./gulp/json-rules'),
     typografUtils = require('./gulp/utils'),
@@ -118,15 +116,7 @@ gulp.task('testRules', function() {
         .pipe(gulp.dest(destDir));
 });
 
-gulp.task('jsLint', function() {
-    return gulp.src(paths.js)
-        .pipe(filter())
-        .pipe(jscs())
-        .pipe(jshint())
-        .pipe(jshint.reporter());
-});
-
-gulp.task('default', ['js', 'minjs', 'testRules', 'jsLint', 'css']);
+gulp.task('default', ['js', 'minjs', 'testRules', 'css']);
 
 gulp.task('dist', ['default', 'jsonRules', 'jsonLintRules', 'jsonGroups', 'jsonLintGroups'], function() {
     return gulp.src(paths.build).pipe(gulp.dest(paths.dist));
