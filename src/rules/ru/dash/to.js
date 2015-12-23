@@ -8,7 +8,7 @@ Typograf.rule({
                 'что', 'чего', 'че[йм]', 'чьим?',
                 'кто', 'кого', 'кому', 'кем'
             ],
-            re = new RegExp('(' + words.join('|') + ')( | ?- ?)(то|либо|нибудь)' +
+            re = new RegExp('(' + words.join('|') + ')( | -|- )(то|либо|нибудь)' +
                 Typograf.data('ru/dashAfter'), 'gi');
 
         return text.replace(re, '$1-$3');
