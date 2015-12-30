@@ -80,7 +80,7 @@ console.log(tp.execute('"Мир"'));
 <link rel="stylesheet" href="dist/typograf.css" />
 ```
 
-### Включить/отключить правило
+### Включить или отключить правила
 ```JavaScript
 var tp = new Typograf({lang: 'ru'});
 tp.enable('ru/money/ruble'); // Включить правило
