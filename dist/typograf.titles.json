@@ -35,6 +35,10 @@
     "en": "Non-breaking space after short word",
     "ru": "Нераз. пробел после короткого слова"
   },
+  "common/nbsp/beforeShortLastNumber": {
+    "en": "Non-breaking space before number (maximum 2 digits) at end of sentence",
+    "ru": "Нераз. пробел перед числом (не более 2 цифр) в конце предложения"
+  },
   "common/nbsp/beforeShortLastWord": {
     "en": "Non-breaking space before last short word in sentence",
     "ru": "Нераз. пробел перед последним коротким словом в предложении"
@@ -135,8 +139,8 @@
     "common": "(c) → ©, (tm) → ™, (r) → ®"
   },
   "en/punctuation/quote": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
+    "en": "Placement of quotation marks in texts in English",
+    "ru": "Расстановка кавычек в текстах на английском"
   },
   "ru/dash/centuries": {
     "en": "Hyphen to dash in centuries",
@@ -244,6 +248,10 @@
     "en": "Replacement space on a narrow non-breaking space in groups of numbers",
     "ru": "Замена пробела на неразрывный узкий пробелв группах чисел"
   },
+  "ru/nbsp/initials": {
+    "en": "Binding of initials to the name",
+    "ru": "Привязка инициалов к фамилии"
+  },
   "ru/nbsp/m": {
     "en": "m2 → м², m3 → м³ and non-breaking space",
     "ru": "м2 → м², м3 → м³ и нераз. пробел"
@@ -314,8 +322,8 @@
     "ru": "Три точки на многоточие, ?... → ?.. и пр."
   },
   "ru/punctuation/quote": {
-    "en": "Placement of quotation marks",
-    "ru": "Расстановка кавычек"
+    "en": "Placement of quotation marks in texts in Russian",
+    "ru": "Расстановка кавычек в текстах на русском"
   },
   "ru/space/afterHellip": {
     "en": "Space after ..., !.. and ?..",
