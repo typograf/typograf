@@ -1,0 +1,1 @@
+Typograf.data('ru/lquote', '«„‚');
