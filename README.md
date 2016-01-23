@@ -130,7 +130,6 @@ tpDigit.execute('...'); // &#8230;
 Данный live-режим необходим, если текст типографируется на каждый ввод символа в текстовых полях.
 ```JavaScript
 var tp = new Typograf({lang: 'ru', live: true});
-tp.execute('"Мир"');
 ```
 [Подробнее](https://github.com/typograf/jquery-typograf)
 
