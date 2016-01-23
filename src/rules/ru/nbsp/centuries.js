@@ -1,7 +1,7 @@
 Typograf.rule({
     name: 'ru/nbsp/centuries',
     handler: function(text) {
-        var dashes = Typograf.data('common/dash'),
+        var dashes = this.data('common/dash'),
             re1 = new RegExp('(^|\\s)([VIX]+)[ \u00A0]?в\\.?(?=[^.]|$)', 'g'),
             re2 = new RegExp('(^|\\s)([VIX]+)(' + dashes + ')([VIX]+)[ \u00A0]?в\\.?([ \u00A0]?в\\.?)?(?=[^.]|$)', 'g');
 

@@ -26,6 +26,16 @@ describe('API', function() {
         Typograf.data('prop', undefined);
     });
 
+    it('should get data with lang', function() {
+        var typograf = new Typograf({lang: 'ru'});
+        assert.equal(typograf.data('ru/l'), Typograf.data('ru/l'));
+    });
+    
+    it('should get data without lang', function() {
+        var typograf = new Typograf({lang: 'ru'});
+        assert.equal(typograf.data('l'), Typograf.data('ru/l'));
+    });
+
     it('should set data as object', function() {
         Typograf.data({
             'prop1': 1,

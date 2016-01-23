@@ -2,7 +2,7 @@ Typograf.rule({
     name: 'ru/dash/years',
     handler: function(text) {
         var dash = this.setting('ru/dash/years', 'dash'),
-            dashes = Typograf.data('common/dash'),
+            dashes = this.data('common/dash'),
             re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
                 dashes + ')[ \u00A0]?(\\d{4})(?=[ \u00A0]?г)', 'g');
 

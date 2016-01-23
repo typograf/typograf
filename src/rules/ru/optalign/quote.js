@@ -8,7 +8,7 @@ Typograf.rule({
                 this.setting(name, 'lquote2') +
                 this.setting(name, 'lquote3') +
                 '])',
-            re = new RegExp('([\\d' + this._data('l') + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
+            re = new RegExp('([\\d' + this.data('l') + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
             re2 = new RegExp('(^|' + Typograf._privateLabel + ')' + lquotes, 'gm');
 
         return text

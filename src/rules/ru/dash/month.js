@@ -1,9 +1,9 @@
 Typograf.rule({
     name: 'ru/dash/month',
     handler: function(text) {
-        var months = '(' + Typograf.data('ru/month') + ')',
-            monthsPre = '(' + Typograf.data('ru/monthPreCase') + ')',
-            dashes = Typograf.data('common/dash'),
+        var months = '(' + this.data('ru/month') + ')',
+            monthsPre = '(' + this.data('ru/monthPreCase') + ')',
+            dashes = this.data('common/dash'),
             re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
             rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi');
 

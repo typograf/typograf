@@ -291,11 +291,22 @@ Typograf.prototype = {
 
         return this;
     },
-    _data: function(key) {
-        return Typograf.data(this._lang + '/' + key);
+    /**
+     * Get data for use in rules.
+     *
+     * @param {string} key
+     * @return {*}
+     */
+    data: function(key) {
+        var lang = '';
+        if(key.search('/') === -1) {
+            lang = (this._lang || this._prefs.lang) + '/';
+        }
+
+        return Typograf.data(lang + key);
     },
     _quote: function(text, settings) {
-        var letters = this._data('l') + '\u0301\\d',
+        var letters = this.data('l') + '\u0301\\d',
             privateLabel = Typograf._privateLabel,
             lquote = settings.lquote,
             rquote = settings.rquote,
