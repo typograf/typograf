@@ -47,10 +47,7 @@ gulp.task('version', function() {
     var file = './src/version.js';
     gulp.src(file, {base: './'})
         .pipe(replace(/'[\d.]+'/, '\'' + version + '\''))
-        .pipe(gulp.dest(''))
-        .on('end', function() {
-            typografUtils.updateBowerVersion(version);
-        });
+        .pipe(gulp.dest(''));
 });
 
 gulp.task('js', ['version'], function() {

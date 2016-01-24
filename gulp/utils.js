@@ -8,13 +8,6 @@ var queue = {
 };
 
 module.exports = {
-    updateBowerVersion: function(version) {
-        var bower = require('../bower.json');
-        if(version !== bower.version) {
-            bower.version = version;
-            fs.writeFileSync('./bower.json', JSON.stringify(bower, null, '  '));
-        }
-    },
     buildTitles: function() {
         var txt = fs.readFileSync('build/typograf.titles.json');
         fs.writeFileSync('build/typograf.titles.js', 'Typograf.titles = ' + txt + ';\n');
