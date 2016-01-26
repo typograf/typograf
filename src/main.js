@@ -47,10 +47,6 @@ Typograf.rule = function(rule) {
 
     Typograf._setIndex(rule);
 
-    if(rule._lang !== 'common' && Typograf._langs.indexOf(rule._lang) !== -1) {
-        Typograf._langs.push(rule._lang);
-    }
-
     Typograf.prototype._rules.push(rule);
 
     if(Typograf._needSortRules) {
@@ -59,6 +55,8 @@ Typograf.rule = function(rule) {
 
     return this;
 };
+
+Typograf._langs = ['en', 'ru'];
 
 Typograf._setIndex = function(rule) {
     var index = rule.index,
@@ -130,7 +128,6 @@ Typograf._replace = function(text, re) {
     return text;
 };
 
-Typograf._langs = [];
 Typograf._privateLabel = '\uDBFF';
 
 Typograf.prototype = {
