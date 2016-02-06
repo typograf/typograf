@@ -2,8 +2,10 @@ Typograf.rule({
     name: 'ru/nbsp/centuries',
     handler: function(text) {
         var dashes = this.data('common/dash'),
-            re1 = new RegExp('(^|\\s)([VIX]+)[ \u00A0]?в\\.?(?=[^.]|$)', 'g'),
-            re2 = new RegExp('(^|\\s)([VIX]+)(' + dashes + ')([VIX]+)[ \u00A0]?в\\.?([ \u00A0]?в\\.?)?(?=[^.]|$)', 'g');
+            before = '(^|\\s)([VIX]+)',
+            after = '(?=[,;:?!"‘“»]|$)',
+            re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm'),
+            re2 = new RegExp(before + '(' + dashes + ')' + '([VIX]+)[ \u00A0]?в\\.?([ \u00A0]?в\\.?)?' + after, 'gm');
 
         return text
             .replace(re1, '$1$2\u00A0в.')
