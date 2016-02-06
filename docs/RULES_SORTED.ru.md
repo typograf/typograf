@@ -62,7 +62,7 @@
 | 58. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.js) | Нераз. пробел в сокращениях, например, в «т. д.» | 510 |  | ✓ |
 | 59. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.js) | Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др. | 510 |  | ✓ |
 | 60. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.js) | Нераз. узкий пробел после № | 510 |  | ✓ |
-| 61. | [ru/nbsp/groupNumbers](../src/rules/ru/nbsp/groupNumbers.js) | Замена пробела на неразрывный узкий пробелв группах чисел | 510 |  | ✓ |
+| 61. | [ru/nbsp/groupNumbers](../src/rules/ru/nbsp/groupNumbers.js) | Замена пробела на неразрывный узкий пробел в группах чисел | 510 |  | ✓ |
 | 62. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.js) | Удаление пробелов и лишних точек в «вв.» | 510 |  | ✓ |
 | 63. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Нераз. пробел между числом и месяцем | 510 |  | ✓ |
 | 64. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.js) | Нераз. пробел перед «ли», «ль», «же», «бы», «б» | 515 |  | ✓ |

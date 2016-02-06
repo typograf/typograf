@@ -246,7 +246,7 @@
   },
   "ru/nbsp/groupNumbers": {
     "en": "Replacement space on a narrow non-breaking space in groups of numbers",
-    "ru": "Замена пробела на неразрывный узкий пробелв группах чисел"
+    "ru": "Замена пробела на неразрывный узкий пробел в группах чисел"
   },
   "ru/nbsp/initials": {
     "en": "Binding of initials to the name",
