@@ -214,7 +214,7 @@ Typograf.prototype = {
         return text;
     },
     /**
-     * Get/set a setting
+     * Get/set a setting.
      *
      * @param {string} ruleName
      * @param {string} setting
