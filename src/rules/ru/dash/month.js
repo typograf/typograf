@@ -1,14 +1,18 @@
 Typograf.rule({
     name: 'ru/dash/month',
-    handler: function(text) {
+    handler: function(text, settings) {
         var months = '(' + this.data('ru/month') + ')',
             monthsPre = '(' + this.data('ru/monthPreCase') + ')',
             dashes = this.data('common/dash'),
             re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
-            rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi');
+            rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi'),
+            newSubStr = '$1' + settings.dash + '$3';
 
         return text
-            .replace(re, '$1\u2014$3')
-            .replace(rePre, '$1\u2014$3');
+            .replace(re, newSubStr)
+            .replace(rePre, newSubStr);
+    },
+    settings: {
+        dash: '\u2014' // &mdash;
     }
 });
