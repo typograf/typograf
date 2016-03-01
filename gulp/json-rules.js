@@ -3,7 +3,7 @@ var through = require('through'),
     sortKeys = require('sort-keys'),
     gutil = require('gulp-util'),
     PluginError = gutil.PluginError,
-    File = gutil.File,
+    GFile = gutil.File,
     Buffer = require('buffer').Buffer;
 
 function getRulePath(file) {
@@ -25,7 +25,7 @@ module.exports = function(file, opt) {
         fileName = file;
     } else if(typeof file.path === 'string') {
         fileName = path.basename(file.path);
-        firstFile = new File(file);
+        firstFile = new GFile(file);
     } else {
         throw new PluginError('gulp-json-rules', 'Missing path in file options for gulp-json-rules');
     }
