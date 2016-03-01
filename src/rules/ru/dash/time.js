@@ -10,6 +10,6 @@ Typograf.rule({
         return text.replace(re, '$1$2' + settings.dash + '$3');
     },
     settings: {
-        dash: '\u2014' // &mdash;
+        dash: '\u2013' // &ndash;
     }
 });

@@ -14,6 +14,6 @@ Typograf.rule({
         });
     },
     settings: {
-        dash: '\u2014' // &mdash;
+        dash: '\u2013' // &ndash;
     }
 });

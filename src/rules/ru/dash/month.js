@@ -13,6 +13,6 @@ Typograf.rule({
             .replace(rePre, newSubStr);
     },
     settings: {
-        dash: '\u2014' // &mdash;
+        dash: '\u2013' // &ndash;
     }
 });
