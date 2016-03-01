@@ -228,7 +228,7 @@ Typograf.prototype = {
         return text;
     },
     /**
-     * Get/set a setting
+     * Get/set a setting.
      *
      * @param {string} ruleName
      * @param {string} setting
@@ -594,7 +594,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.0.0';
+Typograf.version = '5.1.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1358,38 +1358,44 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/centuries',
-    handler: function(text) {
+    handler: function(text, settings) {
         var dashes = '(' + this.data('common/dash') + ')',
             re = new RegExp('(X|I|V)[ |\u00A0]?' + dashes + '[ |\u00A0]?(X|I|V)', 'g');
 
-        return text.replace(re, '$1' + this.setting('ru/dash/centuries', 'dash') + '$3');
+        return text.replace(re, '$1' + settings.dash + '$3');
     },
     settings: {
-        dash: '\u2014' // &mdash;
+        dash: '\u2013' // &ndash;
     }
 });
 
 Typograf.rule({
     name: 'ru/dash/daysMonth',
-    handler: function(text) {
+    handler: function(text, settings) {
         var re = new RegExp('(^|\\s)([123]?\\d)' +
                 '(' + this.data('common/dash') + ')' +
                 '([123]?\\d)[ \u00A0]' +
                 '(' + this.data('ru/monthGenCase') + ')', 'g');
 
-        return text.replace(re, '$1$2\u2014$4\u00A0$5');
+        return text.replace(re, '$1$2' + settings.dash + '$4\u00A0$5');
+    },
+    settings: {
+        dash: '\u2013' // &ndash;
     }
 });
 
 Typograf.rule({
     name: 'ru/dash/decade',
-    handler: function(text) {
+    handler: function(text, settings) {
         var re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
                 '(' + this.data('common/dash') + ')' +
                 '(\\d{3}|\\d)0(-е[ \u00A0])' +
                 '(?=г\\.?[ \u00A0]?г|год)', 'g');
 
-        return text.replace(re, '$1$20\u2014$40$5');
+        return text.replace(re, '$1$20' + settings.dash + '$40$5');
+    },
+    settings: {
+        dash: '\u2013' // &ndash;
     }
 });
 
@@ -1462,16 +1468,20 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/month',
-    handler: function(text) {
+    handler: function(text, settings) {
         var months = '(' + this.data('ru/month') + ')',
             monthsPre = '(' + this.data('ru/monthPreCase') + ')',
             dashes = this.data('common/dash'),
             re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
-            rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi');
+            rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi'),
+            newSubStr = '$1' + settings.dash + '$3';
 
         return text
-            .replace(re, '$1\u2014$3')
-            .replace(rePre, '$1\u2014$3');
+            .replace(re, newSubStr)
+            .replace(rePre, newSubStr);
+    },
+    settings: {
+        dash: '\u2013' // &ndash;
     }
 });
 
@@ -1496,14 +1506,17 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/time',
-    handler: function(text) {
+    handler: function(text, settings) {
         var re = new RegExp(this.data('ru/dashBefore') +
             '(\\d?\\d:[0-5]\\d)' +
             this.data('common/dash') +
             '(\\d?\\d:[0-5]\\d)' +
             this.data('ru/dashAfter'), 'g');
 
-        return text.replace(re, '$1$2\u2014$3');
+        return text.replace(re, '$1$2' + settings.dash + '$3');
+    },
+    settings: {
+        dash: '\u2013' // &ndash;
     }
 });
 
@@ -1526,32 +1539,34 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'ru/dash/weekday',
-    handler: function(text) {
+    handler: function(text, settings) {
         var part = '(' + this.data('ru/weekday') + ')',
             re = new RegExp(part + ' ?(' + this.data('common/dash') + ') ?' + part, 'gi');
 
-        return text.replace(re, '$1\u2014$3');
+        return text.replace(re, '$1' + settings.dash + '$3');
+    },
+    settings: {
+        dash: '\u2013' // &ndash;
     }
 });
 
 Typograf.rule({
     name: 'ru/dash/years',
-    handler: function(text) {
-        var dash = this.setting('ru/dash/years', 'dash'),
-            dashes = this.data('common/dash'),
+    handler: function(text, settings) {
+        var dashes = this.data('common/dash'),
             re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
                 dashes + ')[ \u00A0]?(\\d{4})(?=[ \u00A0]?г)', 'g');
 
         return text.replace(re, function($0, $1, $2, $3, $4) {
             if(parseInt($2, 10) < parseInt($4, 10)) {
-                return $1 + $2 + dash + $4;
+                return $1 + $2 + settings.dash + $4;
             }
 
             return $0;
         });
     },
     settings: {
-        dash: '\u2014' // &mdash;
+        dash: '\u2013' // &ndash;
     }
 });
 
