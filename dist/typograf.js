@@ -594,7 +594,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.1.0';
+Typograf.version = '5.2.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1385,6 +1385,16 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/dash/de',
+    handler: function(text) {
+        var re = new RegExp('([a-яё]+) де' + this.data('ru/dashAfterDe'), 'g');
+
+        return text.replace(re, '$1-де');
+    },
+    disabled: true
+});
+
+Typograf.rule({
     name: 'ru/dash/decade',
     handler: function(text, settings) {
         var re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
@@ -1433,14 +1443,11 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/dash/kade',
+    name: 'ru/dash/ka',
     handler: function(text) {
-        var reKa = new RegExp('([a-яё]+) ка(сь)?' + this.data('ru/dashAfter'), 'g'),
-            reDe = new RegExp('([a-яё]+) де' + this.data('ru/dashAfterDe'), 'g');
+        var re = new RegExp('([a-яё]+) ка(сь)?' + this.data('ru/dashAfter'), 'g');
 
-        return text
-            .replace(reKa, '$1-ка$2')
-            .replace(reDe, '$1-де');
+        return text.replace(re, '$1-ка$2');
     }
 });
 
