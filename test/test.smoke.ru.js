@@ -55,6 +55,21 @@ var ruTests = [
     [
         '<div class="t"><p>"<i>Какой-то текст<a href="/">link</a></i>"</p></div>',
         '<div class="t"><p>«<i>Какой-то текст<a href="/">link</a></i>»</p></div>'
+    ],
+    [
+        'https://www.youtube.com/watch?v=C0DPdy98e4c',
+        'https://www.youtube.com/watch?v=C0DPdy98e4c'
+    ],
+    [
+        'https://www.youtube.com/watch?v=C0DPdy98e4c\nhttps://www.youtube.com/watch?v=C0DPdy98e4c',
+        'https://www.youtube.com/watch?v=C0DPdy98e4c\nhttps://www.youtube.com/watch?v=C0DPdy98e4c'
+    ],
+    [
+        'https://lenta.ru/news/2016/04/12/notes/ 2010-12-11',
+        'https://lenta.ru/news/2016/04/12/notes/ 11.12.2010',
+        {
+            enable: ['ru/date/fromISO']
+        }
     ]
 ];
 

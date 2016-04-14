@@ -468,23 +468,31 @@ Typograf.prototype = {
 
         this._safeTags = {
             html: html.map(this._prepareSafeTag),
-            own: []
+            own: [],
+            url: [this._reUrl]
         };
     },
+    _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
     _hideSafeTags: function(text) {
-        var iterator = function(tag) {
-            text = text.replace(this._prepareSafeTag(tag), this._pasteLabel);
-        };
+        var that = this,
+            iterator = function(tag) {
+                text = text.replace(that._prepareSafeTag(tag), that._pasteLabel);
+            },
+            hide = function(name) {
+                that._safeTags[name].forEach(iterator);
+            };
 
         this._hiddenSafeTags = {};
         this._iLabel = 0;
 
-        this._safeTags.own.forEach(iterator, this);
+        hide('own');
 
         if(this._isHTML) {
-            this._safeTags.html.forEach(iterator, this);
+            hide('html');
             text = this._hideHTMLTags(text);
         }
+
+        hide('url');
 
         return text;
     },
