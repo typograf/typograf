@@ -59,6 +59,7 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 ### Плагины
  + [grunt-typograf](https://github.com/typograf/grunt-typograf)
  + [gulp-typograf](https://github.com/typograf/gulp-typograf)
+ + [typograf-loader](https://github.com/exah/typograf-loader)
 
 ### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
