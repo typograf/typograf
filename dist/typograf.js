@@ -482,23 +482,31 @@ Typograf.prototype = {
 
         this._safeTags = {
             html: html.map(this._prepareSafeTag),
-            own: []
+            own: [],
+            url: [this._reUrl]
         };
     },
+    _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
     _hideSafeTags: function(text) {
-        var iterator = function(tag) {
-            text = text.replace(this._prepareSafeTag(tag), this._pasteLabel);
-        };
+        var that = this,
+            iterator = function(tag) {
+                text = text.replace(that._prepareSafeTag(tag), that._pasteLabel);
+            },
+            hide = function(name) {
+                that._safeTags[name].forEach(iterator);
+            };
 
         this._hiddenSafeTags = {};
         this._iLabel = 0;
 
-        this._safeTags.own.forEach(iterator, this);
+        hide('own');
 
         if(this._isHTML) {
-            this._safeTags.html.forEach(iterator, this);
+            hide('html');
             text = this._hideHTMLTags(text);
         }
+
+        hide('url');
 
         return text;
     },
@@ -594,7 +602,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.2.0';
+Typograf.version = '5.3.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -926,8 +934,9 @@ Typograf.data('ru/weekday', 'понедельник|вторник|среда|ч
 
 Typograf.rule({
     name: 'common/html/e-mail',
+    queue: 'end',
     handler: function(text) {
-        return text.replace(
+        return this._isHTML ? text : text.replace(
             /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
             '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
         );
@@ -996,12 +1005,9 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/html/url',
+    queue: 'end',
     handler: function(text) {
-        var prefix = '(http|https|ftp|telnet|news|gopher|file|wais)://',
-            pureUrl = '([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)',
-            re = new RegExp(prefix + pureUrl, 'g');
-
-        return text.replace(re, function($0, protocol, path) {
+        return this._isHTML ? text : text.replace(this._reUrl, function($0, protocol, path) {
             path = path
                 .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
                 .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /

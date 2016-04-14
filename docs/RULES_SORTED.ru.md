@@ -82,10 +82,10 @@
 | 78. | [ru/optalign/quote](../src/rules/ru/optalign/quote.js) | для открывающей кавычки | 1010 |  |  |
 | 79. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.js) | для открывающей скобки | 1010 |  |  |
 | 80. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | для запятой | 1010 |  |  |
-| 81. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 1110 |  |  |
-| 82. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Расстановка ссылок для эл. почты | 1110 |  |  |
-| 83. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 510 | end | ✓ |
-| 84. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 1110 | end |  |
+| 81. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 510 | end | ✓ |
+| 82. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 1110 | end |  |
+| 83. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 1110 | end |  |
+| 84. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Расстановка ссылок для эл. почты | 1110 | end |  |
 | 85. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на <br/> | 1115 | end |  |
 | 86. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 1209 | end |  |
 | 87. | [common/html/escape](../src/rules/common/html/escape.js) | Экранирование HTML | 1210 | end |  |

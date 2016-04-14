@@ -82,10 +82,10 @@
 | 78. | [ru/optalign/quote](../src/rules/ru/optalign/quote.js) | for opening quotation marks | 1010 |  |  |
 | 79. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.js) | for opening bracket | 1010 |  |  |
 | 80. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | for comma | 1010 |  |  |
-| 81. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1110 |  |  |
-| 82. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1110 |  |  |
-| 83. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
-| 84. | [common/html/pbr](../src/rules/common/html/pbr.js) | Placement of p and br tags | 1110 | end |  |
+| 81. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
+| 82. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1110 | end |  |
+| 83. | [common/html/pbr](../src/rules/common/html/pbr.js) | Placement of p and br tags | 1110 | end |  |
+| 84. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1110 | end |  |
 | 85. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on <br/> | 1115 | end |  |
 | 86. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Removing HTML-tags | 1209 | end |  |
 | 87. | [common/html/escape](../src/rules/common/html/escape.js) | Escaping HTML | 1210 | end |  |

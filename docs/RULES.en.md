@@ -2,12 +2,12 @@
 
 | № | Name ▼ | Title | [Index](./RULES_SORTED.en.md) | Queue | On |
 |--:|--------|-------|------------------------------:|:-----:|:--:|
-| 1. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1110 |  |  |
+| 1. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1110 | end |  |
 | 2. | [common/html/escape](../src/rules/common/html/escape.js) | Escaping HTML | 1210 | end |  |
 | 3. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on <br/> | 1115 | end |  |
 | 4. | [common/html/pbr](../src/rules/common/html/pbr.js) | Placement of p and br tags | 1110 | end |  |
 | 5. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Removing HTML-tags | 1209 | end |  |
-| 6. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1110 |  |  |
+| 6. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1110 | end |  |
 | 7. | [common/nbsp/afterNumber](../src/rules/common/nbsp/afterNumber.js) | Non-breaking space between number and word | 510 |  |  |
 | 8. | [common/nbsp/afterParagraph](../src/rules/common/nbsp/afterParagraph.js) | Non-breaking thin space after § | 510 |  | ✓ |
 | 9. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.js) | Non-breaking space after short word | 510 |  | ✓ |
