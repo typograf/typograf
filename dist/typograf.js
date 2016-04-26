@@ -602,7 +602,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.3.0';
+Typograf.version = '5.3.1';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -892,19 +892,6 @@ Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
 Typograf.data('common/quote', '«‹»›„‚“‟‘‛”’"');
 
 Typograf.data({
-    'en/l': 'a-z',
-    'en/ld': 'a-z\\d',
-    'en/L': 'A-Z',
-    'en/Ld': 'A-Z\\d',
-    'en/lL': 'a-zA-Z',
-    'en/lLd': 'a-zA-Z\\d'
-});
-
-Typograf.data('en/lquote', '“‘');
-
-Typograf.data('en/rquote', '”’');
-
-Typograf.data({
     'ru/dashBefore': '(^| |\\n)',
     'ru/dashAfter': '(?=[\u00A0 ,.?:!]|$)',
     'ru/dashAfterDe': '(?=[,.?:!]|[\u00A0 ][^А-ЯЁ]|$)'
@@ -931,6 +918,19 @@ Typograf.data({
 Typograf.data('ru/rquote', '»“‘');
 
 Typograf.data('ru/weekday', 'понедельник|вторник|среда|четверг|пятница|суббота|воскресенье');
+
+Typograf.data({
+    'en/l': 'a-z',
+    'en/ld': 'a-z\\d',
+    'en/L': 'A-Z',
+    'en/Ld': 'A-Z\\d',
+    'en/lL': 'a-zA-Z',
+    'en/lLd': 'a-zA-Z\\d'
+});
+
+Typograf.data('en/lquote', '“‘');
+
+Typograf.data('en/rquote', '”’');
 
 Typograf.rule({
     name: 'common/html/e-mail',
@@ -1746,7 +1746,7 @@ Typograf.rule({
             re = new RegExp('(^|[' + spaces +
                 lquote +
                 Typograf._privateLabel +
-                '"])([А-ЯЁ])\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +
+                '"])([А-ЯЁ])\\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +
                 ']?([А-ЯЁ][а-яё]+)(?=[\\s.,;:?!"' + rquote + ']|$)', 'gm');
 
         return text.replace(re, '$1$2.\u00A0$3.\u00A0$4');
