@@ -150,6 +150,9 @@ var tp = new Typograf({lang: 'ru', live: true});
 Подготовка новой версии:
 `gulp dist`
 
+Проверка скорости работы правил:
+`cd benchmark && node test.js`
+
 ## [Лицензия](./LICENSE.md)
 MIT License
 
