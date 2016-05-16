@@ -25,6 +25,8 @@
     "lastsemic": true,
     "laxbreak": true,
     "sub": true,
+    
+    "esversion": 6,
 
     "nomen": false,
     "onevar": false,

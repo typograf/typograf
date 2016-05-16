@@ -158,9 +158,9 @@ Typograf.prototype = {
                 }
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
-                    this._onBeforeRule && this._onBeforeRule(text);
+                    this._onBeforeRule && this._onBeforeRule(rule.name, text);
                     text = rule.handler.call(this, text, this._settings[rule.name]);
-                    this._onAfterRule && this._onAfterRule(text);
+                    this._onAfterRule && this._onAfterRule(rule.name, text);
                 }
             },
             executeRulesForQueue = function(queue) {

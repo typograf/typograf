@@ -1,7 +1,6 @@
 {
     "excludeFiles": [
         ".*",
-        "benchmark",
         "build",
         "dist",
         "examples",

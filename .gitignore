@@ -42,4 +42,5 @@ node_modules/
 coverage/
 test/before/*.tmp
 npm-debug.log
-benchmark/
+benchmark/*.txt
+benchmark/*.html
