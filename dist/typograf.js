@@ -172,9 +172,9 @@ Typograf.prototype = {
                 }
 
                 if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
-                    this._onBeforeRule && this._onBeforeRule(text);
+                    this._onBeforeRule && this._onBeforeRule(rule.name, text);
                     text = rule.handler.call(this, text, this._settings[rule.name]);
-                    this._onAfterRule && this._onAfterRule(text);
+                    this._onAfterRule && this._onAfterRule(rule.name, text);
                 }
             },
             executeRulesForQueue = function(queue) {
@@ -602,7 +602,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.3.1';
+Typograf.version = '5.3.2';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -892,6 +892,19 @@ Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
 Typograf.data('common/quote', '«‹»›„‚“‟‘‛”’"');
 
 Typograf.data({
+    'en/l': 'a-z',
+    'en/ld': 'a-z\\d',
+    'en/L': 'A-Z',
+    'en/Ld': 'A-Z\\d',
+    'en/lL': 'a-zA-Z',
+    'en/lLd': 'a-zA-Z\\d'
+});
+
+Typograf.data('en/lquote', '“‘');
+
+Typograf.data('en/rquote', '”’');
+
+Typograf.data({
     'ru/dashBefore': '(^| |\\n)',
     'ru/dashAfter': '(?=[\u00A0 ,.?:!]|$)',
     'ru/dashAfterDe': '(?=[,.?:!]|[\u00A0 ][^А-ЯЁ]|$)'
@@ -918,19 +931,6 @@ Typograf.data({
 Typograf.data('ru/rquote', '»“‘');
 
 Typograf.data('ru/weekday', 'понедельник|вторник|среда|четверг|пятница|суббота|воскресенье');
-
-Typograf.data({
-    'en/l': 'a-z',
-    'en/ld': 'a-z\\d',
-    'en/L': 'A-Z',
-    'en/Ld': 'A-Z\\d',
-    'en/lL': 'a-zA-Z',
-    'en/lLd': 'a-zA-Z\\d'
-});
-
-Typograf.data('en/lquote', '“‘');
-
-Typograf.data('en/rquote', '”’');
 
 Typograf.rule({
     name: 'common/html/e-mail',
@@ -1616,7 +1616,7 @@ Typograf.rule({
     name: 'ru/money/currency',
     handler: function(text) {
         var currency = '([$€¥Ұ£₤₽])',
-            re1 = new RegExp('(^|[\\D]{2,})' + currency + ' ?([\\d.,]+([ \u00A0\u2009\u202F]\\d{3})*)', 'g'),
+            re1 = new RegExp('(^|[\\D]{2})' + currency + ' ?([\\d.,]+([ \u00A0\u2009\u202F]\\d{3})*)', 'g'),
             re2 = new RegExp('(^|[\\D])([\\d.,]+) ?' + currency, 'g'),
             newSubstr1 = '$1$3\u00A0$2',
             newSubstr2 = '$1$2\u00A0$3';
