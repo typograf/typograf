@@ -6,12 +6,17 @@ var fs = require('fs'),
     text = fs.readFileSync('war_and_peace.html').toString();
 
 tp._onBeforeRule = function(name, text) {
-    beforeTimes[name] = Date.now();
+    beforeTimes[name] = now();
 };
 
 tp._onAfterRule = function(name, text) {
-    afterTimes[name] = Date.now();
+    afterTimes[name] = now();
 };
+
+function now() {
+    var hrtime = process.hrtime();
+    return ( hrtime[0] * 1000000 + hrtime[1] / 1000 ) / 1000;
+}
 
 function calcTimes() {
     var times = [],
@@ -46,16 +51,17 @@ function calcTimes() {
 
 console.log(`Text length: ${text.length} symbols`);
 
-var startTime = Date.now();
+var startTime = now();
 var output = tp.execute(text);
-var totalTime = Date.now() - startTime;
+var totalTime = now() - startTime;
 console.log(`Total time: ${totalTime} ms`);
 
 var result = calcTimes();
 console.log(`Total time in rules: ${result.total} ms`);
 result.times.forEach(function(item, i) {
+    var time = Math.floor(item.time * 1000) / 1000;
     if(item.time) {
-        console.log(`${i + 1}. ${item.name}: ${item.time} ms`);
+        console.log(`${i + 1}. ${item.name}: ${time} ms`);
     }
 });
 
