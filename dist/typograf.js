@@ -602,7 +602,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.3.2';
+Typograf.version = '5.3.3';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1183,13 +1183,15 @@ Typograf.rule({
 
 Typograf.rule({
     name: 'common/other/repeatWord',
-    handler: function(text) {
-        var re = new RegExp('([' +
-            this.data('l') +
-            '\u0301]+) \\1([;:,.?! \n])', 'gi');
+    handler: function(text, settings) {
+        var punc = '[;:,.?! \n' + this.data('common/quote') + ']';
+        var re = new RegExp('(' + punc + '|^)' + 
+            '([' + this.data('l') + ']{' + settings.min + ',}) ' + 
+            '\\2(' + punc + '|$)', 'gi');
 
-        return text.replace(re, '$1$2');
+        return text.replace(re, '$1$2$3');
     },
+    settings: {min: 2},
     disabled: true
 });
 
