@@ -61,6 +61,7 @@ console.log(tp.execute(' Мир - мой мир!!   '));
  + [grunt-typograf](https://github.com/typograf/grunt-typograf)
  + [gulp-typograf](https://github.com/typograf/gulp-typograf)
  + [typograf-loader](https://github.com/exah/typograf-loader)
+ + [hexo-typograf](https://github.com/toiletpatrol/hexo-typograf)
 
 ### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
