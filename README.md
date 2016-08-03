@@ -1,6 +1,7 @@
 Типограф на JavaScript
 ======================
 <img align="right" width="200" src="https://avatars0.githubusercontent.com/u/10176019" />
+
 [![NPM version](https://img.shields.io/npm/v/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
 [![NPM downloads](https://img.shields.io/npm/dm/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
 [![Build Status](https://img.shields.io/travis/typograf/typograf.svg?style=flat)](https://travis-ci.org/typograf/typograf)
