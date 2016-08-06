@@ -51,8 +51,8 @@ npm install typograf
 ```
 
 ```JavaScript
-var Typograf = require('typograf'),
-    tp = new Typograf({lang: 'ru'});
+const Typograf = require('typograf');
+const tp = new Typograf({lang: 'ru'});
 
 console.log(tp.execute(' Мир - мой мир!!   '));
 ```
