@@ -1,7 +1,7 @@
-var assert = require('chai').assert,
-    rules = require('../build/rules'),
-    Typograf = require('../build/typograf'),
-    t = new Typograf();
+const assert = require('chai').assert;
+const rules = require('../build/rules');
+const Typograf = require('../build/typograf');
+const t = new Typograf();
 
 describe('API', function() {
     it('should disable rule', function() {

@@ -1,7 +1,7 @@
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-basic.dat
 
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         'я хочу',
         'я\u00A0хочу'

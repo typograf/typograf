@@ -1,5 +1,5 @@
-var helpers = require('./lib/helpers');
-var tests = [
+const helpers = require('./lib/helpers');
+const tests = [
     [
         '<p>"<strong>Hello</strong> World!"</p>',
         '<p>«<strong>Hello</strong> World!»</p>'

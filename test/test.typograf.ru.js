@@ -1,5 +1,5 @@
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         'В	этом   тексте  много пробелов.',
         'В\u00A0этом тексте много пробелов.'

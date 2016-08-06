@@ -1,5 +1,5 @@
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         '    Мир - мой мир!    ',
         'Мир\u00A0— мой\u00A0мир!'

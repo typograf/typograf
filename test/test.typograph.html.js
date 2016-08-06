@@ -1,7 +1,7 @@
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-html.dat
 
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         '<i>О проекте программы "О космической деятельности". </i>',
         '<i>О\u00A0проекте программы «О\u00A0космической деятельности». </i>'

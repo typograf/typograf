@@ -1,11 +1,12 @@
-var assert = require('chai').assert,
-    r = require('../build/rules'),
-    tests = r.tests,
-    innerTests = r.innerTests,
-    Typograf = require('../build/typograf'),
-    lang = 'ru',
-    t = new Typograf({lang: lang}),
-    _settings;
+const assert = require('chai').assert;
+const r = require('../build/rules');
+const tests = r.tests;
+const innerTests = r.innerTests;
+const Typograf = require('../build/typograf');
+const lang = 'ru';
+const t = new Typograf({lang: lang});
+
+var _settings;
 
 function pushSettings(ruleName, settings) {
     _settings = {};

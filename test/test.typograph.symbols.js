@@ -1,7 +1,7 @@
-https://github.com/samdark/Typograph/blob/master/tests/_test.typo-symbols.dat
+// https://github.com/samdark/Typograph/blob/master/tests/_test.typo-symbols.dat
 
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         '1/2 3/4 1/4',
         '½ ¾ ¼'

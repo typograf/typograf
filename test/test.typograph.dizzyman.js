@@ -1,7 +1,7 @@
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-dizzyman.dat
 
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         'Текст  с    множеством пробелов 			и табов.',
         'Текст с\u00A0множеством пробелов и\u00A0табов.'

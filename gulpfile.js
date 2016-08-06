@@ -1,20 +1,18 @@
-var gulp = require('gulp'),
-    fs = require('fs'),
-    concat = require('gulp-concat'),
-    replace = require('gulp-replace'),
-    rename = require('gulp-rename'),
-    uglify = require('gulp-uglify'),
-    jsonlint = require('gulp-jsonlint'),
-    gulpFilter = require('gulp-filter'),
-    gulpJsonRules = require('./gulp/json-rules'),
-    typografUtils = require('./gulp/utils'),
-    filter = function() {
-        return gulpFilter(['**/*.js', '!**/*.spec.js']);
-    },
-    version = require('./package.json').version,
-    destDir = './build/';
+const gulp = require('gulp');
+const fs = require('fs');
+const concat = require('gulp-concat');
+const gulpFilter = require('gulp-filter');
+const jsonlint = require('gulp-jsonlint');
+const rename = require('gulp-rename');
+const replace = require('gulp-replace');
+const uglify = require('gulp-uglify');
+const gulpJsonRules = require('./gulp/json-rules');
+const typografUtils = require('./gulp/utils');
+const filter = function() { return gulpFilter(['**/*.js', '!**/*.spec.js']); };
+const version = require('./package.json').version;
+const destDir = './build/';
 
-var paths = {
+const paths = {
     dist: 'dist/',
     build: 'build/typograf.*',
     jsonRules: [

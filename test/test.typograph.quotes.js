@@ -1,7 +1,7 @@
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-quotes.dat
 
-var helpers = require('./lib/helpers');
-var ruTests = [
+const helpers = require('./lib/helpers');
+const ruTests = [
     [
         'рассказы "Сердце", "Эвакуация" и "Майский жук".',
         'рассказы «Сердце», «Эвакуация» и\u00A0«Майский жук».'

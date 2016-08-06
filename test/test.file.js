@@ -1,8 +1,8 @@
-var chai = require('chai'),
-    assert = chai.assert,
-    Typograf = require('../build/typograf'),
-    t = new Typograf({lang: 'ru', mode: 'digit'}),
-    fs = require('fs');
+const chai = require('chai');
+const fs = require('fs');
+const assert = chai.assert;
+const Typograf = require('../build/typograf');
+const t = new Typograf({lang: 'ru', mode: 'digit'});
     
 chai.config.showDiff = true;
 

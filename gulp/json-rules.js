@@ -1,10 +1,9 @@
-var through = require('through'),
-    path = require('path'),
-    sortKeys = require('sort-keys'),
-    gutil = require('gulp-util'),
-    PluginError = gutil.PluginError,
-    GFile = gutil.File,
-    Buffer = require('buffer').Buffer;
+const gutil = require('gulp-util');
+const GFile = gutil.File;
+const path = require('path');
+const PluginError = gutil.PluginError;
+const sortKeys = require('sort-keys');
+const through = require('through');
 
 function getRulePath(file) {
     var str = file.replace(/\.json$/, '').split(/\/|\\/);

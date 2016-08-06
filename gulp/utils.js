@@ -1,5 +1,5 @@
-var fs = require('fs');
-var queue = {
+const fs = require('fs');
+const queue = {
     'start': 0,
     'utf': 1,
     'default': 3,
