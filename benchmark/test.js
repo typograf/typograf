@@ -3,7 +3,7 @@ var fs = require('fs'),
     tp = new Typograf({lang: 'ru'}),
     beforeTimes = {},
     afterTimes = {},
-    text = fs.readFileSync('war_and_peace.html').toString();
+    text = fs.readFileSync('./benchmark/war_and_peace.html').toString();
 
 tp._onBeforeRule = function(name, text) {
     beforeTimes[name] = now();
@@ -65,4 +65,4 @@ result.times.forEach(function(item, i) {
     }
 });
 
-fs.writeFileSync('output.html', output);
+fs.writeFileSync('./benchmark/output.html', output);

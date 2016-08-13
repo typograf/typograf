@@ -49,12 +49,14 @@
     "yaspeller": "~2.9.1"
   },
   "scripts": {
-    "test": "npm run-script gulp && npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",
-    "gulp": "./node_modules/.bin/gulp",
-    "yaspeller": "./node_modules/.bin/yaspeller .",
+    "benchmark": "node benchmark/test.js",
+    "dist": "./node_modules/.bin/gulp dist",
     "jscs": "./node_modules/.bin/jscs .",
     "jshint": "./node_modules/.bin/jshint .",
+    "rebuild": "./node_modules/.bin/gulp",
+    "test": "npm run-script rebuild && npm run-script jshint && npm run-script jscs && npm run-script unit-test-coverage",
     "unit-test": "./node_modules/.bin/mocha -u bdd -R spec --recursive test",
-    "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test"
+    "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
+    "yaspeller": "./node_modules/.bin/yaspeller ."
   }
 }
