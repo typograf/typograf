@@ -50,7 +50,7 @@ npm install typograf
 npm install typograf
 ```
 
-```JavaScript
+```js
 const Typograf = require('typograf');
 const tp = new Typograf({lang: 'ru'});
 
@@ -70,7 +70,7 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 По умолчанию висячая пунктуация отключена.
 
 Для включения необходимо подключить правила:
-```JavaScript
+```js
 var Typograf = require('typograf'),
     tp = new Typograf({lang: 'ru'});
 
@@ -84,7 +84,7 @@ console.log(tp.execute('"Мир"'));
 ```
 
 ### Включить или отключить правила
-```JavaScript
+```js
 var tp = new Typograf({lang: 'ru'});
 tp.enable('ru/money/ruble'); // Включить правило
 tp.enable('ru/money/*'); // Включить все правила в группе
@@ -96,14 +96,14 @@ tp.disable('*'); // Отключить все правила
 ```
 
 ### Изменить настройку у правила
-```JavaScript
+```js
 var tp = new Typograf({lang: 'ru'});
 // Название правила, название настройки, значение
 tp.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord', 5);
 ```
 
 ### Добавить простое правило
-```JavaScript
+```js
 Typograf.rule({
     name: 'common/other/emoji',
     handler: function (text) {
@@ -113,7 +113,7 @@ Typograf.rule({
 ```
 
 ### Режим работы
-```JavaScript
+```js
 // Режим по умолчанию, HTML-сущности, как UTF-8 символы
 var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
@@ -129,11 +129,22 @@ tpDigit.execute('...'); // &#8230;
 
 ### Типографика на лету
 Данный live-режим необходим, если текст типографируется на каждый ввод символа в текстовых полях.
-```JavaScript
+```js
 var tp = new Typograf({lang: 'ru', live: true});
 ```
 [Подробнее](https://github.com/typograf/jquery-typograf)
 
+### Отключение типографирования в участках текста
+```js
+var tp = new Typograf({lang: 'ru'});
+
+// Отключить типографирование внутри тега <no-typography>
+tp.addSafeTag('<no-typography>', '</no-typography>');
+//...
+// Отключить типографирование внутри управляющих конструкций какого-нибудь шаблонизатора
+tp.addSafeTag('{{', '}}');
+tp.execute(text);
+```
 
 ### Сжатие с UglifyJS
 Если `typograf.js` сжимается вместе с другими js-файлами в `UglifyJS`,
