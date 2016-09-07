@@ -58,5 +58,6 @@
     "unit-test": "./node_modules/.bin/mocha -u bdd -R spec --recursive test",
     "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
     "yaspeller": "./node_modules/.bin/yaspeller ."
-  }
+  },
+  "typings": "./typograf.d.ts"
 }
