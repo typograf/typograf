@@ -81,11 +81,12 @@
 | 77. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | for comma | 1010 |  |  |
 | 78. | [ru/optalign/quote](../src/rules/ru/optalign/quote.js) | for opening quotation marks | 1010 |  |  |
 | 79. | [ru/other/accent](../src/rules/ru/other/accent.js) | Replacement capital letters to lowercase with addition of accent | 910 |  |  |
-| 80. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.js) | Placement of commas before “а” and “но” | 410 |  | ✓ |
-| 81. | [ru/punctuation/apostrophe](../src/rules/ru/punctuation/apostrophe.js) | Placement of correct apostrophe | 405 |  | ✓ |
-| 82. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.js) | !! → ! | 410 |  | ✓ |
-| 83. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.js) | !? → ?! | 415 |  | ✓ |
-| 84. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Three points on ellipsis | 410 |  | ✓ |
-| 85. | [ru/punctuation/quote](../src/rules/ru/punctuation/quote.js) | Placement of quotation marks in texts in Russian | 410 |  | ✓ |
-| 86. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.js) | Space after ..., !.. and ?.. | 210 |  | ✓ |
-| 87. | [ru/space/year](../src/rules/ru/space/year.js) | Space between number and word “год” | 210 |  | ✓ |
+| 80. | [ru/other/phone-number](../src/rules/ru/other/phone-number.js) | Formatting phone numbers | 910 |  | ✓ |
+| 81. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.js) | Placement of commas before “а” and “но” | 410 |  | ✓ |
+| 82. | [ru/punctuation/apostrophe](../src/rules/ru/punctuation/apostrophe.js) | Placement of correct apostrophe | 405 |  | ✓ |
+| 83. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.js) | !! → ! | 410 |  | ✓ |
+| 84. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.js) | !? → ?! | 415 |  | ✓ |
+| 85. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Three points on ellipsis | 410 |  | ✓ |
+| 86. | [ru/punctuation/quote](../src/rules/ru/punctuation/quote.js) | Placement of quotation marks in texts in Russian | 410 |  | ✓ |
+| 87. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.js) | Space after ..., !.. and ?.. | 210 |  | ✓ |
+| 88. | [ru/space/year](../src/rules/ru/space/year.js) | Space between number and word “год” | 210 |  | ✓ |

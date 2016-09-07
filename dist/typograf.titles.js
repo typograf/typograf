@@ -307,6 +307,10 @@ Typograf.titles = {
     "en": "Replacement capital letters to lowercase with addition of accent",
     "ru": "Замена заглавной буквы на строчную с добавлением ударения"
   },
+  "ru/other/phone-number": {
+    "en": "Formatting phone numbers",
+    "ru": "Форматирование телефонных номеров"
+  },
   "ru/punctuation/ano": {
     "en": "Placement of commas before “а” and “но”",
     "ru": "Расстановка запятых перед «а» и «но»"

@@ -81,11 +81,12 @@
 | 77. | [ru/optalign/comma](../src/rules/ru/optalign/comma.js) | для запятой | 1010 |  |  |
 | 78. | [ru/optalign/quote](../src/rules/ru/optalign/quote.js) | для открывающей кавычки | 1010 |  |  |
 | 79. | [ru/other/accent](../src/rules/ru/other/accent.js) | Замена заглавной буквы на строчную с добавлением ударения | 910 |  |  |
-| 80. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.js) | Расстановка запятых перед «а» и «но» | 410 |  | ✓ |
-| 81. | [ru/punctuation/apostrophe](../src/rules/ru/punctuation/apostrophe.js) | Расстановка правильного апострофа | 405 |  | ✓ |
-| 82. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.js) | !! → ! | 410 |  | ✓ |
-| 83. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.js) | !? → ?! | 415 |  | ✓ |
-| 84. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Три точки на многоточие, ?... → ?.. и пр. | 410 |  | ✓ |
-| 85. | [ru/punctuation/quote](../src/rules/ru/punctuation/quote.js) | Расстановка кавычек в текстах на русском | 410 |  | ✓ |
-| 86. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.js) | Пробел после ..., !.. и ?.. | 210 |  | ✓ |
-| 87. | [ru/space/year](../src/rules/ru/space/year.js) | Пробел между числом и словом «год» | 210 |  | ✓ |
+| 80. | [ru/other/phone-number](../src/rules/ru/other/phone-number.js) | Форматирование телефонных номеров | 910 |  | ✓ |
+| 81. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.js) | Расстановка запятых перед «а» и «но» | 410 |  | ✓ |
+| 82. | [ru/punctuation/apostrophe](../src/rules/ru/punctuation/apostrophe.js) | Расстановка правильного апострофа | 405 |  | ✓ |
+| 83. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.js) | !! → ! | 410 |  | ✓ |
+| 84. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.js) | !? → ?! | 415 |  | ✓ |
+| 85. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Три точки на многоточие, ?... → ?.. и пр. | 410 |  | ✓ |
+| 86. | [ru/punctuation/quote](../src/rules/ru/punctuation/quote.js) | Расстановка кавычек в текстах на русском | 410 |  | ✓ |
+| 87. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.js) | Пробел после ..., !.. и ?.. | 210 |  | ✓ |
+| 88. | [ru/space/year](../src/rules/ru/space/year.js) | Пробел между числом и словом «год» | 210 |  | ✓ |
