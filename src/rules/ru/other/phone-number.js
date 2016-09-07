@@ -116,7 +116,7 @@ function phoneBlocks(num){
 }
 
 Typograf.rule({
-    name: 'ru/other/pnone-number',
+    name: 'ru/other/phone-number',
     live: false,
     handler: function(text) {
         return text.replace(
