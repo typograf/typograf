@@ -602,7 +602,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.4.0';
+Typograf.version = '5.4.1';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1208,36 +1208,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'common/symbols/arrow',
-    handler: function(text) {
-        return Typograf._replace(text, [
-            [/(^|[^-])->(?!>)/g, '$1→'],
-            [/(^|[^<])<-(?!-)/g, '$1←']
-        ]);
-    }
-});
-
-Typograf.rule({
-    name: 'common/symbols/cf',
-    handler: function(text) {
-        var re = new RegExp('(^|[^%])(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
-
-        return text.replace(re, '$1$2' + '\u2009' + '°$4$5');
-    }
-});
-
-Typograf.rule({
-    name: 'common/symbols/copy',
-    handler: function(text) {
-        return Typograf._replace(text, [
-            [/\(r\)/gi, '®'],
-            [/(copyright )?\((c|с)\)/gi, '©'],
-            [/\(tm\)/gi, '™']
-        ]);
-    }
-});
-
-Typograf.rule({
     name: 'common/space/afterPunctuation',
     handler: function(text) {
         var privateLabel = Typograf._privateLabel,
@@ -1348,6 +1318,36 @@ Typograf.rule({
         return text.trimRight();
     } : /* istanbul ignore next */ function(text) {
         return text.replace(/[\s\uFEFF\xA0]+$/g, '');
+    }
+});
+
+Typograf.rule({
+    name: 'common/symbols/arrow',
+    handler: function(text) {
+        return Typograf._replace(text, [
+            [/(^|[^-])->(?!>)/g, '$1→'],
+            [/(^|[^<])<-(?!-)/g, '$1←']
+        ]);
+    }
+});
+
+Typograf.rule({
+    name: 'common/symbols/cf',
+    handler: function(text) {
+        var re = new RegExp('(^|[^%])(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
+
+        return text.replace(re, '$1$2' + '\u2009' + '°$4$5');
+    }
+});
+
+Typograf.rule({
+    name: 'common/symbols/copy',
+    handler: function(text) {
+        return Typograf._replace(text, [
+            [/\(r\)/gi, '®'],
+            [/(copyright )?\((c|с)\)/gi, '©'],
+            [/\(tm\)/gi, '™']
+        ]);
     }
 });
 

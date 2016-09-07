@@ -1,5 +1,8 @@
 # Changelog
 
+# v5.4.1
+Добавлен файл `typograf.d.ts` в npm-пакет.
+
 # v5.4.0
 - Новое правило `ru/other/phone-number` для форматирования российских телефонных номеров #162
 - Добавлены typings для TypeScript #164 @trikadin

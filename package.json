@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typographer",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -28,7 +28,8 @@
     "dist",
     "docs",
     "bin",
-    "LICENSE"
+    "LICENSE",
+    "typograf.d.ts"
   ],
   "devDependencies": {
     "chai": "~3.5.0",
