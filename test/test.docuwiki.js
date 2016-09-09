@@ -1,5 +1,6 @@
-// https://www.dokuwiki.org/ru:wiki:syntax
+'use strict';
 
+// https://www.dokuwiki.org/ru:wiki:syntax
 const helpers = require('./lib/helpers');
 const dwTests = [
     /*[

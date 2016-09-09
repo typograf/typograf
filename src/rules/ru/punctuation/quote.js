@@ -5,7 +5,7 @@ Typograf.rule({
             rquote = settings.rquote;
 
         text = this._quote(text, settings);
-        if(lquote === settings.lquote2 && rquote === settings.rquote2) {
+        if (lquote === settings.lquote2 && rquote === settings.rquote2) {
             return text
                 // ««Энергия» Синергия» -> «Энергия» Синергия»
                 .replace(new RegExp(lquote + lquote, 'g'), lquote)

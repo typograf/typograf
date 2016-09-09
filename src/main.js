@@ -49,7 +49,7 @@ Typograf.rule = function(rule) {
 
     Typograf.prototype._rules.push(rule);
 
-    if(Typograf._needSortRules) {
+    if (Typograf._needSortRules) {
         this._sortRules();
     }
 
@@ -63,9 +63,9 @@ Typograf._setIndex = function(rule) {
         t = typeof index,
         groupIndex = Typograf.groupIndexes[rule._group];
 
-    if(t === 'undefined') {
+    if (t === 'undefined') {
         index = groupIndex;
-    } else if(t === 'string') {
+    } else if (t === 'string') {
         index = groupIndex + parseInt(rule.index, 10);
     }
 
@@ -99,13 +99,13 @@ Typograf.innerRule = function(rule) {
  * @return {*}
  */
 Typograf.data = function(key, value) {
-    if(typeof key === 'string') {
-        if(arguments.length === 1) {
+    if (typeof key === 'string') {
+        if (arguments.length === 1) {
             return Typograf._data[key];
         } else {
             Typograf._data[key] = value;
         }
-    } else if(typeof key === 'object') {
+    } else if (typeof key === 'object') {
         Object.keys(key).forEach(function(k) {
             Typograf._data[k] = key[k];
         });
@@ -121,7 +121,7 @@ Typograf._sortRules = function() {
 };
 
 Typograf._replace = function(text, re) {
-    for(var i = 0; i < re.length; i++) {
+    for (var i = 0; i < re.length; i++) {
         text = text.replace(re[i][0], re[i][1]);
     }
 
@@ -153,11 +153,11 @@ Typograf.prototype = {
                 var rlang = rule._lang,
                     live = this._prefs.live;
 
-                if((live === true && rule.live === false) || (live === false && rule.live === true)) {
+                if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
                     return;
                 }
 
-                if((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
+                if ((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
                     this._onBeforeRule && this._onBeforeRule(rule.name, text);
                     text = rule.handler.call(this, text, this._settings[rule.name]);
                     this._onAfterRule && this._onAfterRule(rule.name, text);
@@ -172,7 +172,7 @@ Typograf.prototype = {
 
         text = '' + text;
 
-        if(!text) {
+        if (!text) {
             return '';
         }
 
@@ -222,7 +222,7 @@ Typograf.prototype = {
      * @return {*}
      */
     setting: function(ruleName, setting, value) {
-        if(arguments.length <= 2) {
+        if (arguments.length <= 2) {
             return this._settings[ruleName] && this._settings[ruleName][setting];
         } else {
             this._settings[ruleName] = this._settings[ruleName] || {};
@@ -296,7 +296,7 @@ Typograf.prototype = {
      */
     data: function(key) {
         var lang = '';
-        if(key.search('/') === -1) {
+        if (key.search('/') === -1) {
             lang = (this._lang || this._prefs.lang) + '/';
         }
 
@@ -330,7 +330,7 @@ Typograf.prototype = {
             .replace(reClosingTag, privateLabel + rquote + '$1') // Tag and closing quote
             .replace(reFirstQuote, '$1' + lquote);
 
-        if(lquote2 && rquote2 && count % 2 === 0) {
+        if (lquote2 && rquote2 && count % 2 === 0) {
             return this._innerQuote(text, settings);
         }
 
@@ -343,11 +343,11 @@ Typograf.prototype = {
             rquote = settings.rquote,
             bufText = new Array(text.length);
 
-        if(settings.lquote2 && settings.rquote2) {
+        if (settings.lquote2 && settings.rquote2) {
             openingQuotes.push(settings.lquote2);
             closingQuotes.push(settings.rquote2);
 
-            if(settings.lquote3 && settings.rquote3) {
+            if (settings.lquote3 && settings.rquote3) {
                 openingQuotes.push(settings.lquote3);
                 closingQuotes.push(settings.rquote3);
             }
@@ -356,22 +356,22 @@ Typograf.prototype = {
         var level = -1,
             maxLevel = openingQuotes.length - 1;
 
-        for(var i = 0, len = text.length; i < len; i++) {
+        for (var i = 0, len = text.length; i < len; i++) {
             var letter = text[i];
-            if(letter === lquote) {
+            if (letter === lquote) {
                 level++;
-                if(level > maxLevel) {
+                if (level > maxLevel) {
                     level = maxLevel;
                 }
                 bufText.push(openingQuotes[level]);
-            } else if(letter === rquote) {
-                if(level <= -1) {
+            } else if (letter === rquote) {
+                if (level <= -1) {
                     level = 0;
                     bufText.push(openingQuotes[level]);
                 } else {
                     bufText.push(closingQuotes[level]);
                     level--;
-                    if(level < -1) {
+                    if (level < -1) {
                         level = -1;
                     }
                 }
@@ -389,7 +389,7 @@ Typograf.prototype = {
         var name = rule.name,
             settings = {};
 
-        if(typeof rule.settings === 'object') {
+        if (typeof rule.settings === 'object') {
             Object.keys(rule.settings).forEach(function(key) {
                 settings[key] = rule.settings[key];
             });
@@ -399,7 +399,7 @@ Typograf.prototype = {
         this._enabledRules[name] = rule._enabled;
     },
     _enable: function(rule, enabled) {
-        if(Array.isArray(rule)) {
+        if (Array.isArray(rule)) {
             rule.forEach(function(el) {
                 this._enableByMask(el, enabled);
             }, this);
@@ -411,14 +411,14 @@ Typograf.prototype = {
     },
     _enableByMask: function(rule, enabled) {
         var re;
-        if(rule.search(/\*/) !== -1) {
+        if (rule.search(/\*/) !== -1) {
             re = new RegExp(rule
                 .replace(/\//g, '\\\/')
                 .replace(/\*/g, '.*'));
 
             this._rules.forEach(function(el) {
                 var name = el.name;
-                if(re.test(name)) {
+                if (re.test(name)) {
                     this._enabledRules[name] = enabled;
                 }
             }, this);
@@ -431,7 +431,7 @@ Typograf.prototype = {
     _getRule: function(name) {
         var rule = null;
         this._rules.some(function(item) {
-            if(item.name === name) {
+            if (item.name === name) {
                 rule = item;
                 return true;
             }
@@ -487,7 +487,7 @@ Typograf.prototype = {
 
         hide('own');
 
-        if(this._isHTML) {
+        if (this._isHTML) {
             hide('html');
             text = this._hideHTMLTags(text);
         }
@@ -499,7 +499,7 @@ Typograf.prototype = {
     _prepareSafeTag: function(tag) {
         var re;
 
-        if(tag instanceof RegExp) {
+        if (tag instanceof RegExp) {
             re = tag;
         } else {
             var startTag = tag[0],
@@ -541,9 +541,9 @@ Typograf.prototype = {
             len += tags.length;
         });
 
-        for(var i = 0; i < len; i++) {
+        for (var i = 0; i < len; i++) {
             text = text.replace(reReplace, this._replaceLabel);
-            if(text.search(reSearch) === -1) {
+            if (text.search(reSearch) === -1) {
                 break;
             }
         }
@@ -553,11 +553,11 @@ Typograf.prototype = {
         return text;
     },
     _utfication: function(text) {
-        if(text.search(/&#/) !== -1) {
+        if (text.search(/&#/) !== -1) {
             text = this._decHexToUtf(text);
         }
 
-        if(text.search(/&[a-z]/i) !== -1) {
+        if (text.search(/&[a-z]/i) !== -1) {
             this.entities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
@@ -575,10 +575,10 @@ Typograf.prototype = {
             });
     },
     _modification: function(text, mode) {
-        if(mode === 'name' || mode === 'digit') {
+        if (mode === 'name' || mode === 'digit') {
             var index = mode === 'name' ? 0 : 1;
             this.entities.forEach(function(entity) {
-                if(entity[index]) {
+                if (entity[index]) {
                     text = text.replace(entity[4], entity[index]);
                 }
             });

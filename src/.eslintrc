@@ -1,0 +1,17 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 5
+    },
+    "rules": {
+        "semi": [2, "always"],
+        "quotes": [2, "single"],
+        "no-console": [0]
+    },
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "Typograf": true
+    },
+    "extends": "eslint:recommended"
+}
