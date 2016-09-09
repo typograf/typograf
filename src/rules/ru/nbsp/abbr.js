@@ -5,7 +5,7 @@ Typograf.rule({
         return text.replace(re, function($0, $1, $2) {
             var abbr = $2.split(/\./);
             // Являются ли сокращения ссылкой
-            if(['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf(abbr[abbr.length - 2]) > -1) {
+            if (['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf(abbr[abbr.length - 2]) > -1) {
                 return $0;
             }
 

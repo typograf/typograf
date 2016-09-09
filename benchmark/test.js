@@ -1,26 +1,23 @@
-var fs = require('fs'),
-    Typograf = require('../build/typograf.js'),
-    tp = new Typograf({lang: 'ru'}),
-    beforeTimes = {},
-    afterTimes = {},
-    text = fs.readFileSync('./benchmark/war_and_peace.html').toString();
+'use strict';
 
-tp._onBeforeRule = function(name, text) {
-    beforeTimes[name] = now();
-};
+const fs = require('fs');
+const Typograf = require('../build/typograf.js');
+const tp = new Typograf({lang: 'ru'});
+const beforeTimes = {};
+const afterTimes = {};
+const text = fs.readFileSync('./benchmark/war_and_peace.html').toString();
 
-tp._onAfterRule = function(name, text) {
-    afterTimes[name] = now();
-};
+tp._onBeforeRule = function(name) { beforeTimes[name] = now(); };
+tp._onAfterRule = function(name) { afterTimes[name] = now(); };
 
 function now() {
-    var hrtime = process.hrtime();
+    const hrtime = process.hrtime();
     return ( hrtime[0] * 1000000 + hrtime[1] / 1000 ) / 1000;
 }
 
 function calcTimes() {
-    var times = [],
-        total = 0;
+    const times = [];
+    let total = 0;
 
     Object.keys(afterTimes).forEach(function(name) {
         times.push({
@@ -30,9 +27,9 @@ function calcTimes() {
     });
 
     times.sort(function(a, b) {
-        if(a.time < b.time) {
+        if (a.time < b.time) {
             return 1;
-        } else if(a.time > b.time) {
+        } else if (a.time > b.time) {
             return -1;
         }
 
@@ -51,16 +48,16 @@ function calcTimes() {
 
 console.log(`Text length: ${text.length} symbols`);
 
-var startTime = now();
-var output = tp.execute(text);
-var totalTime = now() - startTime;
+const startTime = now();
+const output = tp.execute(text);
+const totalTime = now() - startTime;
 console.log(`Total time: ${totalTime} ms`);
 
-var result = calcTimes();
+const result = calcTimes();
 console.log(`Total time in rules: ${result.total} ms`);
 result.times.forEach(function(item, i) {
-    var time = Math.floor(item.time * 1000) / 1000;
-    if(item.time) {
+    const time = Math.floor(item.time * 1000) / 1000;
+    if (item.time) {
         console.log(`${i + 1}. ${item.name}: ${time} ms`);
     }
 });

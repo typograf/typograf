@@ -1,3 +1,5 @@
+'use strict';
+
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-dizzyman.dat
 
 const helpers = require('./lib/helpers');

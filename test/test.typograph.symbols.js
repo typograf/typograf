@@ -1,3 +1,5 @@
+'use strict';
+
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-symbols.dat
 
 const helpers = require('./lib/helpers');

@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 const rules = require('../build/rules');
 const Typograf = require('../build/typograf');
@@ -12,7 +14,7 @@ describe('API', function() {
     });
 
     it('should disable rule from constructor', function() {
-        var typograf = new Typograf({lang: 'ru', disable: '*'});
+        const typograf = new Typograf({lang: 'ru', disable: '*'});
         assert.ok(typograf.disabled('ru/punctuation/quote'));
     });
 
@@ -27,12 +29,12 @@ describe('API', function() {
     });
 
     it('should get data with lang', function() {
-        var typograf = new Typograf({lang: 'ru'});
+        const typograf = new Typograf({lang: 'ru'});
         assert.equal(typograf.data('ru/l'), Typograf.data('ru/l'));
     });
     
     it('should get data without lang', function() {
-        var typograf = new Typograf({lang: 'ru'});
+        const typograf = new Typograf({lang: 'ru'});
         assert.equal(typograf.data('l'), Typograf.data('ru/l'));
     });
 
@@ -59,7 +61,7 @@ describe('API', function() {
     });
 
     it('should enable rule from constructor', function() {
-        var typograf = new Typograf({lang: 'ru', enable: '*'});
+        const typograf = new Typograf({lang: 'ru', enable: '*'});
         assert.ok(typograf.enabled('common/html/pbr'));
     });
 
@@ -92,24 +94,24 @@ describe('API', function() {
     });
 
     it('should get entities as name or digit', function() {
-        var t2 = new Typograf({mode: 'name'});
+        const t2 = new Typograf({mode: 'name'});
         assert.equal(t2.execute('1\u00A02'), '1&nbsp;2');
         assert.equal(t2.execute('1&#160;2'), '1&nbsp;2');
 
-        var t3 = new Typograf({mode: 'digit'});
+        const t3 = new Typograf({mode: 'digit'});
         assert.equal(t3.execute('1\u00A02'), '1&#160;2');
         assert.equal(t3.execute('1&nbsp;2'), '1&#160;2');
     });
 
     it('should get entities as name or digit with method "execute"', function() {
-        var t2 = new Typograf();
+        const t2 = new Typograf();
         assert.equal(t2.execute('1\u00A02\u00A03', {mode: 'name'}), '1&nbsp;2&nbsp;3');
         assert.equal(t2.execute('1&#160;2&#160;3', {mode: 'name'}), '1&nbsp;2&nbsp;3');
         assert.equal(t2.execute('1&#xA0;2&#160;3', {mode: 'name'}), '1&nbsp;2&nbsp;3');
         assert.equal(t2.execute('1&#xa0;2&#160;3', {mode: 'name'}), '1&nbsp;2&nbsp;3');
         assert.equal(t2.execute('1&#xa0;2&#xa0;3', {mode: 'name'}), '1&nbsp;2&nbsp;3');
 
-        var t3 = new Typograf();
+        const t3 = new Typograf();
         assert.equal(t3.execute('1\u00A02\u00A03', {mode: 'digit'}), '1&#160;2&#160;3');
         assert.equal(t3.execute('1&nbsp;2&nbsp;3', {mode: 'digit'}), '1&#160;2&#160;3');
         assert.equal(t3.execute('1&#xa0;2&nbsp;3', {mode: 'digit'}), '1&#160;2&#160;3');
@@ -119,7 +121,7 @@ describe('API', function() {
     });
 
     it('should add safe tag', function() {
-        var t2 = new Typograf();
+        const t2 = new Typograf();
         t2.addSafeTag('<myTag>', '</myTag>');
 
         assert.equal(t2.execute('  <myTag>  Hello world!!  </myTag>  '), '<myTag>  Hello world!!  </myTag>');
@@ -140,7 +142,7 @@ describe('API', function() {
                 return text.replace(/inner_example/, '');
             }
         });
-        var t2 = new Typograf();
+        const t2 = new Typograf();
 
         assert.equal(t2.execute('rule abc inner_example'), 'abc');
     });

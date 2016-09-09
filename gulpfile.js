@@ -1,3 +1,5 @@
+'use strict';
+
 const gulp = require('gulp');
 const fs = require('fs');
 const concat = require('gulp-concat');
@@ -42,7 +44,7 @@ const paths = {
 };
 
 gulp.task('version', function() {
-    var file = './src/version.js';
+    const file = './src/version.js';
     gulp.src(file, {base: './'})
         .pipe(replace(/'[\d.]+'/, '\'' + version + '\''))
         .pipe(gulp.dest(''));
@@ -103,7 +105,7 @@ gulp.task('css', function() {
 });
 
 gulp.task('testRules', function() {
-    var filterSpec = gulpFilter(['**/*.spec.js']);
+    const filterSpec = gulpFilter(['**/*.spec.js']);
 
     gulp.src(paths.testRules)
         .pipe(filterSpec)

@@ -1,0 +1,20 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+        "semi": [2, "always"],
+        "quotes": [2, "single"],
+        "no-console": [0]
+    },
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "globals": {
+        "Typograf": true,
+        "tests": true,
+        "innerTests": true
+    },
+    "extends": "eslint:recommended"
+}

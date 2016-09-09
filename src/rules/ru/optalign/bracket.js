@@ -1,7 +1,6 @@
-/*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/optalign/bracket',
-    handler: function(text, settings) {
+    handler: function(text) {
         return text
             .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
             .replace(/^\(/gm, '<span class="typograf-oa-n-lbracket">(</span>');

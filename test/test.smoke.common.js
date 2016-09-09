@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 const Typograf = require('../build/typograf');
 const t = new Typograf();
@@ -80,17 +82,17 @@ describe('common/smoke', function() {
 describe('common/smoke double execute', function() {
     commonTests.forEach(function(item) {
         it(String(item[0]), function() {
-            var result = t.execute(item[0]);
+            const result = t.execute(item[0]);
             assert.equal(t.execute(result), item[1]);
         });
     });
 });
 
 it('enable common/html/escape', function() {
-    var tp = new Typograf();
+    const tp = new Typograf();
     tp.enable('common/html/escape');
 
-    var escapeTests = [
+    const escapeTests = [
         ['<p align="center">\nHello world!\n</p>',
         '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
     ];

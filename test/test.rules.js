@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 const r = require('../build/rules');
 const tests = r.tests;
@@ -6,7 +8,7 @@ const Typograf = require('../build/typograf');
 const lang = 'ru';
 const t = new Typograf({lang: lang});
 
-var _settings;
+let _settings;
 
 function pushSettings(ruleName, settings) {
     _settings = {};
@@ -24,11 +26,11 @@ function popSettings(ruleName) {
 }
 
 function executeRule(name, text) {
-    var rules = t._rules;
+    const rules = t._rules;
 
     t._lang = lang;
     rules.forEach(function(f) {
-        if(f.name === name) {
+        if (f.name === name) {
             text = f.handler.call(t, text, t._settings[f.name]);
         }
     });
@@ -37,10 +39,10 @@ function executeRule(name, text) {
 }
 
 function executeInnerRule(name, text) {
-    var rules = t._innerRules;
+    const rules = t._innerRules;
 
     rules.forEach(function(f) {
-        if(f.name === name) {
+        if (f.name === name) {
             text = f.handler.call(t, text, t._settings[f.name]);
         }
     });
@@ -54,7 +56,7 @@ function getLang(name, item) {
 
 describe('inner rules', function() {
     innerTests.forEach(function(elem) {
-        var name = elem[0];
+        const name = elem[0];
         it(name, function() {
             elem[1].forEach(function(as) {
                 t.enable(name);
@@ -66,12 +68,12 @@ describe('inner rules', function() {
 
 describe('rules', function() {
     tests.forEach(function(elem) {
-        var name = elem[0];
+        const name = elem[0];
         it(name, function() {
             elem[1].forEach(function(as) {
-                var itTypograf = new Typograf(as[2]);
+                const itTypograf = new Typograf(as[2]);
                 itTypograf.disable('*').enable(name);
-                var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
+                const result = itTypograf.execute(as[0], {lang: getLang(name, as)});
                 assert.equal(result, as[1], as[0] + ' → ' + as[1]);
             });
         });
@@ -80,16 +82,16 @@ describe('rules', function() {
 
 describe('rules, double execute', function() {
     tests.forEach(function(elem) {
-        var name = elem[0];
+        const name = elem[0];
         it(name, function() {
             elem[1].forEach(function(as) {
-                var itTypograf = new Typograf(as[2]);
+                const itTypograf = new Typograf(as[2]);
                 itTypograf.disable('*').enable(name);
 
-                var result = itTypograf.execute(as[0], {lang: getLang(name, as)});
+                let result = itTypograf.execute(as[0], {lang: getLang(name, as)});
                 assert.equal(result, as[1], as[0] + ' → ' + as[1]);
 
-                if(!itTypograf._getRule(name).disabled) {
+                if (!itTypograf._getRule(name).disabled) {
                     result = itTypograf.execute(result, {lang: getLang(name, as)});
                     assert.equal(result, as[1], as[0] + ' → ' + as[1]);
                 }
@@ -100,10 +102,10 @@ describe('rules, double execute', function() {
 
 describe('common specific tests', function() {
     it('enable common/html/stripTags', function() {
-        var tp = new Typograf();
+        const tp = new Typograf();
         tp.enable('common/html/stripTags');
 
-        var tagTests = [
+        const tagTests = [
             ['<p align="center">Hello world!</p> <a href="/">Hello world!</a>\n\n<pre>Hello world!</pre>',
             'Hello world! Hello world!\n\nHello world!'],
             ['<p align="center" Hello world!</p>', '']
@@ -115,10 +117,10 @@ describe('common specific tests', function() {
     });
 
     it('should enable common/html/escape', function() {
-        var tp = new Typograf();
+        const tp = new Typograf();
         tp.enable('common/html/escape');
 
-        var escapeTests = [
+        const escapeTests = [
             ['<p align="center">\nHello world!\n</p>',
             '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
         ];
@@ -131,7 +133,7 @@ describe('common specific tests', function() {
 
 describe('russian specific tests', function() {
     it('quotes lquote = lquote2 and rquote = rquote2', function() {
-        var quotTests = [
+        const quotTests = [
             ['"Триллер “Закрытая школа” на СТС"', '«Триллер «Закрытая школа» на СТС»'],
             ['Триллер "Триллер “Закрытая школа” на СТС" Триллер', 'Триллер «Триллер «Закрытая школа» на СТС» Триллер'],
             ['"“Закрытая школа” на СТС"', '«Закрытая школа» на СТС»'],
@@ -155,7 +157,7 @@ describe('russian specific tests', function() {
     });
 
     it('ru/optalign', function() {
-        var tp = new Typograf({lang: 'ru'});
+        const tp = new Typograf({lang: 'ru'});
         tp.enable('ru/optalign/*');
 
         [
@@ -169,7 +171,7 @@ describe('russian specific tests', function() {
     });
 
     it('shoult disable ru/optalign', function() {
-        var tp = new Typograf({lang: 'ru'});
+        const tp = new Typograf({lang: 'ru'});
         tp.disable('*');
 
         [

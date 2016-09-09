@@ -1,3 +1,5 @@
+'use strict';
+
 const helpers = require('./lib/helpers');
 const ruTests = [
     [

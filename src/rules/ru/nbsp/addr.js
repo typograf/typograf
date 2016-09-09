@@ -1,4 +1,3 @@
-/*jshint maxlen:1000 */
 Typograf.rule({
     name: 'ru/nbsp/addr',
     handler: function(text) {

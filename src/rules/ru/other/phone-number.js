@@ -21,9 +21,9 @@ var defaultCityCodeLength = 5,
     '901-934', '936-939', '950-953', 958, '960-969',
     '977-989', '991-997', 999
 ].forEach(function(num) {
-    if(typeof num === 'string') {
+    if (typeof num === 'string') {
         var buf = num.split('-');
-        for(var i = +buf[0]; i <= +buf[1]; i++) {
+        for (var i = +buf[0]; i <= +buf[1]; i++) {
             exceptions.push(i);
         }
     } else {
@@ -37,35 +37,35 @@ function phone(num) {
         hasPlusWithCode,
         hasEight;
 
-    if(num.length < 8) {
+    if (num.length < 8) {
         return phoneBlocks(num);
     }
 
     // 8 495 123-45-67, +7 495 123-45-67
-    if(num.length > 10) {
-        if(firstSym === '+') {
-            if(num[1] === countryCode) {
+    if (num.length > 10) {
+        if (firstSym === '+') {
+            if (num[1] === countryCode) {
                 hasPlusWithCode = true;
                 num = num.substr(2);
             } else {
                 return num;
             }
-        } else if(firstSym === '8') {
+        } else if (firstSym === '8') {
             hasEight = true;
             num = num.substr(1);
         }
     }
 
-    for(var cityCodeLen = exceptionsMax; cityCodeLen >= exceptionsMin; cityCodeLen--) {
+    for (var cityCodeLen = exceptionsMax; cityCodeLen >= exceptionsMin; cityCodeLen--) {
         var code = +num.substr(0, cityCodeLen);
-        if(exceptions.indexOf(code) > -1) {
+        if (exceptions.indexOf(code) > -1) {
             cityCode = num.substr(0, cityCodeLen);
             num = num.substr(cityCodeLen);
             break;
         }
     }
 
-    if(!cityCode) {
+    if (!cityCode) {
         cityCode = num.substr(0, defaultCityCodeLength);
         num = num.substr(defaultCityCodeLength);
     }
@@ -82,8 +82,8 @@ function prepareCode(code) {
       result = [code],
       withoutBrackets = false;
 
-    if(len > 3) {
-        switch(len) {
+    if (len > 3) {
+        switch (len) {
             case 4:
                 result = [code.substr(0, 2), code.substr(2, 4)];
                 break;
@@ -106,7 +106,7 @@ function prepareCode(code) {
 
 function phoneBlocks(num){
     var add = '';
-    if(num.length % 2) {
+    if (num.length % 2) {
         add = num[0];
         add += num.length <= 5 ? '-': '';
         num = num.substr(1, num.length - 1);
@@ -123,7 +123,7 @@ Typograf.rule({
             /(т.|тел.|ф.|моб.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
             function($0, $1, $2, $3) {
                 var buf = $3.replace(/[^\d\+]/g, '');
-                if(buf.length >= 5) {
+                if (buf.length >= 5) {
                     return $1 + $2 + phone(buf);
                 }
 
