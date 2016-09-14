@@ -128,6 +128,10 @@ Typograf._replace = function(text, re) {
     return text;
 };
 
+Typograf._replaceNbsp = function(text) {
+    return text.replace(/\u00A0/g, ' ');
+};
+
 Typograf._privateLabel = '\uDBFF';
 
 Typograf.prototype = {
@@ -142,39 +146,23 @@ Typograf.prototype = {
      * @return {string}
      */
     execute: function(text, prefs) {
-        prefs = prefs || {};
-
-        var that = this,
-            lang = prefs.lang || this._prefs.lang || 'common',
-            rulesForQueue = {},
-            innerRulesForQueue = {},
-            mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
-            iterator = function(rule) {
-                var rlang = rule._lang,
-                    live = this._prefs.live;
-
-                if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
-                    return;
-                }
-
-                if ((rlang === 'common' || rlang === lang) && this.enabled(rule.name)) {
-                    this._onBeforeRule && this._onBeforeRule(rule.name, text);
-                    text = rule.handler.call(this, text, this._settings[rule.name]);
-                    this._onAfterRule && this._onAfterRule(rule.name, text);
-                }
-            },
-            executeRulesForQueue = function(queue) {
-                innerRulesForQueue[queue] && innerRulesForQueue[queue].forEach(iterator, that);
-                rulesForQueue[queue] && rulesForQueue[queue].forEach(iterator, that);
-            };
-
-        this._lang = lang;
-
         text = '' + text;
 
         if (!text) {
             return '';
         }
+
+        prefs = prefs || {};
+
+        var that = this,
+            rulesForQueue = {},
+            innerRulesForQueue = {},
+            mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
+            executeRulesForQueue = function(queue) {
+                text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
+            };
+
+        this._lang = prefs.lang || this._prefs.lang || 'common';
 
         text = this._fixLineEnd(text);
 
@@ -182,13 +170,13 @@ Typograf.prototype = {
             var q = rule.queue;
             innerRulesForQueue[q] = innerRulesForQueue[q] || [];
             innerRulesForQueue[q].push(rule);
-        }, this);
+        });
 
         this._rules.forEach(function(rule) {
             var q = rule.queue;
             rulesForQueue[q] = rulesForQueue[q] || [];
             rulesForQueue[q].push(rule);
-        }, this);
+        });
 
         this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
@@ -197,6 +185,10 @@ Typograf.prototype = {
         text = this._hideSafeTags(text);
 
         text = this._utfication(text);
+
+        if (this._prefs.live) {
+            text = Typograf._replaceNbsp(text);
+        }
         executeRulesForQueue('utf');
 
         executeRulesForQueue();
@@ -381,6 +373,33 @@ Typograf.prototype = {
         }
 
         return bufText.join('');
+    },
+    _executeRules: function(text, rules, innerRules) {
+        innerRules && innerRules.forEach(function(rule) {
+            text = this._ruleIterator(text, rule);
+        }, this);
+
+        rules && rules.forEach(function(rule) {
+            text = this._ruleIterator(text, rule);
+        }, this);
+
+        return text;
+    },
+    _ruleIterator: function(text, rule) {
+        var rlang = rule._lang,
+            live = this._prefs.live;
+
+        if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
+            return text;
+        }
+
+        if ((rlang === 'common' || rlang === this._lang) && this.enabled(rule.name)) {
+            this._onBeforeRule && this._onBeforeRule(rule.name, text);
+            text = rule.handler.call(this, text, this._settings[rule.name]);
+            this._onAfterRule && this._onAfterRule(rule.name, text);
+        }
+
+        return text;
     },
     _fixLineEnd: function(text) {
         return text.replace(/\r\n/g, '\n'); // Windows
