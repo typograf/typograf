@@ -20,10 +20,12 @@ module.exports = function(file) {
     const rules = {};
     let firstFile;
 
-    if (typeof file.path === 'string') {
-        firstFile = new GFile(file);
-    } else {
-        throw new PluginError('gulp-json-rules', 'Missing path in file options for gulp-json-rules');
+    if (typeof file !== 'string') {
+        if (typeof file.path === 'string') {
+            firstFile = new GFile(file);
+        } else {
+            throw new PluginError('gulp-json-rules', 'Missing path in file options for gulp-json-rules');
+        }
     }
 
     function bufferContents(file) {
