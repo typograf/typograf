@@ -9,5 +9,6 @@ Typograf.groupIndexes = {
     date: 810,
     other: 910,
     optalign: 1010,
-    html: 1110
+    typo: 1110,
+    html: 1210
 };
