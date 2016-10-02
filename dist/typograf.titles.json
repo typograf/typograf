@@ -340,5 +340,9 @@
   "ru/space/year": {
     "en": "Space between number and word “год”",
     "ru": "Пробел между числом и словом «год»"
+  },
+  "ru/typo/switchingKeyboardLayout": {
+    "en": "Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts",
+    "ru": "Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки"
   }
 }

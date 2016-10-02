@@ -70,6 +70,13 @@ Typograf.groups = [
     }
   },
   {
+    "name": "typo",
+    "title": {
+      "en": "Typos",
+      "ru": "Опечатки"
+    }
+  },
+  {
     "name": "other",
     "title": {
       "en": "Other",
