@@ -51,14 +51,15 @@
   },
   "scripts": {
     "benchmark": "node benchmark/test.js",
-    "dist": "./node_modules/.bin/gulp dist",
-    "jscs": "./node_modules/.bin/jscs .",
-    "eslint": "./node_modules/.bin/eslint .",
-    "rebuild": "./node_modules/.bin/gulp",
-    "test": "npm run-script rebuild && npm run-script eslint && npm run-script jscs && npm run-script unit-test-coverage",
-    "unit-test": "./node_modules/.bin/mocha -u bdd -R spec --recursive test",
-    "unit-test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
-    "yaspeller": "./node_modules/.bin/yaspeller ."
+    "dist": "gulp dist",
+    "jscs": "jscs .",
+    "eslint": "eslint .",
+    "prepublish": "npm run rebuild && npm run dist",
+    "rebuild": "gulp",
+    "test": "npm run rebuild && npm run eslint && npm run jscs && npm run unit-test-coverage",
+    "unit-test": "mocha -u bdd -R spec --recursive test",
+    "unit-test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
+    "yaspeller": "yaspeller ."
   },
   "typings": "./typograf.d.ts"
 }
