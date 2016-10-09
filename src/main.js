@@ -133,6 +133,7 @@ Typograf._replaceNbsp = function(text) {
 };
 
 Typograf._privateLabel = '\uDBFF';
+Typograf._privateQuote = '\uDBFE';
 
 Typograf.prototype = {
     constructor: Typograf,
@@ -309,9 +310,12 @@ Typograf.prototype = {
             reFirstQuote = new RegExp('^(\\s)?(' + quotes + ')', 'g'),
             reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
             reClosingTag = new RegExp(privateLabel + quotes + '([\\s!?.:;#*,]|$)', 'g'),
-            count = 0;
+            count = 0,
+            symbols = this.data('lLd');
 
         text = text
+            // Hide incorrect quotes.
+            .replace(new RegExp('([' + symbols + '])"(?=[' + symbols + '])', 'g'), '$1' + Typograf._privateQuote)
             .replace(reQuotes, function() {
                 count++;
                 return '"';
@@ -323,17 +327,15 @@ Typograf.prototype = {
             .replace(reFirstQuote, '$1' + lquote);
 
         if (lquote2 && rquote2 && count % 2 === 0) {
-            return this._innerQuote(text, settings);
+            text = this._innerQuote(text, settings);
         }
 
-        return text;
+        // Restore incorrect quotes.
+        return text.replace(new RegExp(Typograf._privateQuote, 'g'), '"');
     },
     _innerQuote: function(text, settings) {
         var openingQuotes = [settings.lquote],
-            closingQuotes = [settings.rquote],
-            lquote = settings.lquote,
-            rquote = settings.rquote,
-            bufText = new Array(text.length);
+            closingQuotes = [settings.rquote];
 
         if (settings.lquote2 && settings.rquote2) {
             openingQuotes.push(settings.lquote2);
@@ -345,11 +347,17 @@ Typograf.prototype = {
             }
         }
 
-        var level = -1,
-            maxLevel = openingQuotes.length - 1;
+        var lquote = settings.lquote,
+            rquote = settings.rquote,
+            bufText = new Array(text.length),
+            privateQuote = Typograf._privateQuote,
+            minLevel = -1,
+            maxLevel = openingQuotes.length - 1,
+            level = minLevel;
 
         for (var i = 0, len = text.length; i < len; i++) {
             var letter = text[i];
+
             if (letter === lquote) {
                 level++;
                 if (level > maxLevel) {
@@ -357,17 +365,21 @@ Typograf.prototype = {
                 }
                 bufText.push(openingQuotes[level]);
             } else if (letter === rquote) {
-                if (level <= -1) {
+                if (level <= minLevel) {
                     level = 0;
                     bufText.push(openingQuotes[level]);
                 } else {
                     bufText.push(closingQuotes[level]);
                     level--;
-                    if (level < -1) {
-                        level = -1;
+                    if (level < minLevel) {
+                        level = minLevel;
                     }
                 }
             } else {
+                if (letter === privateQuote) {
+                    level = minLevel;
+                }
+
                 bufText.push(letter);
             }
         }
