@@ -56,39 +56,40 @@ const paths = {
 
 gulp.task('version', function() {
     const file = './src/version.js';
-    gulp.src(file, {base: './'})
+
+    return gulp.src(file, {base: './'})
         .pipe(replace(/'[\d.]+'/, '\'' + version + '\''))
         .pipe(gulp.dest(''));
 });
 
 gulp.task('js', ['version'], function() {
-    gulp.src(paths.js)
+    return gulp.src(paths.js)
         .pipe(filter())
         .pipe(concat('typograf.js'))
         .pipe(gulp.dest(destDir));
 });
 
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
-    gulp.src(paths.allJs)
+    return gulp.src(paths.allJs)
         .pipe(filter())
         .pipe(concat('typograf.all.js'))
         .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('jsonLintRules', function() {
-    gulp.src(paths.jsonRules)
+    return gulp.src(paths.jsonRules)
         .pipe(jsonlint())
         .pipe(jsonlint.reporter());
 });
 
 gulp.task('jsonLintGroups', function() {
-    gulp.src(paths.jsonGroups)
+    return gulp.src(paths.jsonGroups)
         .pipe(jsonlint())
         .pipe(jsonlint.reporter());
 });
 
 gulp.task('jsonRules', ['js', 'jsonLintRules'], function() {
-    gulp.src(paths.jsonRules)
+    return gulp.src(paths.jsonRules)
         .pipe(gulpJsonRules('typograf.titles.json'))
         .pipe(gulp.dest(destDir))
         .on('end', function() {
@@ -98,7 +99,7 @@ gulp.task('jsonRules', ['js', 'jsonLintRules'], function() {
 });
 
 gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
-    gulp.src(paths.jsonGroups)
+    return gulp.src(paths.jsonGroups)
         .pipe(rename('typograf.groups.json'))
         .pipe(gulp.dest(destDir))
         .on('end', function() {
@@ -107,7 +108,7 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 });
 
 gulp.task('min.js', ['js'], function() {
-    gulp.src(destDir + 'typograf.js')
+    return gulp.src(destDir + 'typograf.js')
         .pipe(rename('typograf.min.js'))
         .pipe(uglify({
             output: {ascii_only: true},
@@ -117,7 +118,7 @@ gulp.task('min.js', ['js'], function() {
 });
 
 gulp.task('all.min.js', ['all.js'], function() {
-    gulp.src(destDir + 'typograf.all.js')
+    return gulp.src(paths.dist + 'typograf.all.js')
         .pipe(rename('typograf.all.min.js'))
         .pipe(uglify({
             output: {ascii_only: true},
@@ -127,28 +128,25 @@ gulp.task('all.min.js', ['all.js'], function() {
 });
 
 gulp.task('css', function() {
-    gulp.src(paths.css)
+    return gulp.src(paths.css)
         .pipe(concat('typograf.css'))
         .pipe(gulp.dest(destDir));
 });
 
-gulp.task('testRules', function() {
+gulp.task('specs', function() {
     const filterSpec = gulpFilter(['**/*.spec.js']);
 
-    gulp.src(paths.testRules)
+    return gulp.src(paths.testRules)
         .pipe(filterSpec)
         .pipe(concat('rules.js'))
         .pipe(gulp.dest(destDir));
 });
 
-gulp.task('default', ['js', 'min.js', 'testRules', 'css']);
+gulp.task('default', ['min.js', 'specs', 'css']);
 
 gulp.task('dist', [
     'default',
     'jsonRules',
-    'jsonLintRules',
     'jsonGroups',
-    'jsonLintGroups',
-    'all.js',
     'all.min.js'
 ], () => gulp.src(paths.build).pipe(gulp.dest(paths.dist)));

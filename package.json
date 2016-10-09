@@ -54,7 +54,7 @@
     "dist": "gulp dist",
     "jscs": "jscs .",
     "eslint": "eslint .",
-    "prepublish": "npm run rebuild && npm run dist",
+    "prepublish": "npm run dist",
     "rebuild": "gulp",
     "test": "npm run rebuild && npm run eslint && npm run jscs && npm run unit-test-coverage",
     "unit-test": "mocha -u bdd -R spec --recursive test",
