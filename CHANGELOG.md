@@ -1,5 +1,8 @@
 # Changelog
 
+# v5.5.1
+Внесены правки по расстановке кавычек при пропуске пробелов #158.
+
 # v5.5.0
 - Новое правило `ru/typo/switchingKeyboardLayout` исправляет опечатки, возникающие при переключении клавиатурной раскладки.
 - `dist/typograf.all.js`, включающий дополнительно `dist/typograf.groups.js` и `dist/typograf.titles.js`.
