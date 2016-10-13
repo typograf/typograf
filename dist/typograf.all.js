@@ -633,7 +633,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.5.1';
+Typograf.version = '5.5.2';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1617,6 +1617,35 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/date/fromISO',
+    handler: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    handler: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data('ru/monthGenCase'),
+            weekday = this.data('ru/weekday'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
+});
+
+Typograf.rule({
     name: 'ru/money/currency',
     handler: function(text) {
         var currency = '([$€¥Ұ£₤₽])',
@@ -1646,35 +1675,6 @@ Typograf.rule({
             .replace(re3, newSubstr + '.');
     },
     disabled: true
-});
-
-Typograf.rule({
-    name: 'ru/date/fromISO',
-    handler: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    handler: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthGenCase'),
-            weekday = this.data('ru/weekday'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
 });
 
 Typograf.rule({
@@ -2208,8 +2208,8 @@ var replacements = {
     H: 'Н',
     O: 'О',
     o: 'о',
-    P: 'р',
-    p: 'Р',
+    P: 'Р',
+    p: 'р',
     C: 'С',
     c: 'с',
     T: 'Т',
