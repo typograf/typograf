@@ -633,7 +633,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.5.1';
+Typograf.version = '5.5.2';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -2208,8 +2208,8 @@ var replacements = {
     H: 'Н',
     O: 'О',
     o: 'о',
-    P: 'р',
-    p: 'Р',
+    P: 'Р',
+    p: 'р',
     C: 'С',
     c: 'с',
     T: 'Т',
