@@ -1,5 +1,14 @@
+(function() {
+
+var classNames = [
+        'typograf-oa-lquote',
+        'typograf-oa-n-lquote',
+        'typograf-oa-sp-lquote'
+    ],
+    name = 'ru/optalign/quote';
+
 Typograf.rule({
-    name: 'ru/optalign/quote',
+    name: name,
     handler: function(text) {
         var name = 'ru/punctuation/quote',
             lquotes = '(["' +
@@ -15,11 +24,18 @@ Typograf.rule({
             .replace(re2, '$1<span class="typograf-oa-n-lquote">$2</span>');
     },
     disabled: true
-})
-.innerRule({
-    name: 'ru/optalign/quote',
+}).innerRule({
+    name: name,
+    queue: 'start',
     handler: function(text) {
-        // Зачистка HTML-тегов от висячей пунктуации для кавычки
-        return text.replace(/<span class="typograf-oa-(n-|sp-)?lquote">(.*?)<\/span>/g, '$2');
+        return Typograf._removeOptAlignTags(text, classNames);
+    }
+}).innerRule({
+    name: name,
+    queue: 'end',
+    handler: function(text) {
+        return Typograf._removeOptAlignTagsFromTitle(text, classNames);
     }
 });
+
+})();

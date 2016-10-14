@@ -18,6 +18,8 @@ function Typograf(prefs) {
     this._pasteLabel = this._pasteLabel.bind(this);
     this._initSafeTags();
 
+    this._innerRules = [].concat(this._innerRules);
+    this._rules = [].concat(this._rules);
     this._rules.forEach(this._prepareRule, this);
 
     this._prefs.disable && this.disable(this._prefs.disable);

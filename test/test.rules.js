@@ -164,13 +164,29 @@ describe('russian specific tests', function() {
             [
                 '<p>"что-то, где-то!"</p>',
                 '<p><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
+            ],
+            [
+                '<p><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma"></span><span class="typograf-oa-comma"></span><span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>',
+                '<p><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
+            ],
+            [
+                '<title>"что-то, где-то!"</title><p>"что-то, где-то!"</p>',
+                '<title>«что-то, где-то!»</title><p><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</p>'
+            ],
+            [
+                '<TITLE>"что-то, где-то!"</TITLE><P>"что-то, где-то!"</P>',
+                '<TITLE>«что-то, где-то!»</TITLE><P><span class="typograf-oa-n-lquote">«</span>что-то<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>где-то!»</P>'
+            ],
+            [
+                '<html><head><title>Большие бинари в моем Rust?<span class="typograf-oa-sp-lbracket"> </span><span class="typograf-oa-lbracket">(</span>Why is a Rust executable large?) | Ржавый ящик</title></head><body></body></html>',
+                '<html><head><title>Большие бинари в\u00A0моем Rust? (Why is\u00A0a\u00A0Rust executable large?) | Ржавый ящик</title></head><body></body></html>'
             ]
         ].forEach(function(el) {
             assert.equal(tp.execute(el[0]), el[1]);
         });
     });
 
-    it('shoult disable ru/optalign', function() {
+    it('should disable ru/optalign', function() {
         const tp = new Typograf({lang: 'ru'});
         tp.disable('*');
 
