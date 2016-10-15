@@ -1,5 +1,8 @@
 # Changelog
 
+# v5.5.3
+Отключена висячая пунктуация в `<title>` #172, #177.
+
 # v5.5.2
 Исправлена опечатка в правиле `ru/typo/switchingKeyboardLayout` #175 @zyulyaev.
 

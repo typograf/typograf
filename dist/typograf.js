@@ -32,6 +32,8 @@ function Typograf(prefs) {
     this._pasteLabel = this._pasteLabel.bind(this);
     this._initSafeTags();
 
+    this._innerRules = [].concat(this._innerRules);
+    this._rules = [].concat(this._rules);
     this._rules.forEach(this._prepareRule, this);
 
     this._prefs.disable && this.disable(this._prefs.disable);
@@ -633,7 +635,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.5.2';
+Typograf.version = '5.5.3';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1067,6 +1069,38 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'common/number/fraction',
+    handler: function(text) {
+        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
+            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
+            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
+    }
+});
+
+Typograf.rule({
+    name: 'common/number/mathSigns',
+    handler: function(text) {
+        return Typograf._replace(text, [
+            [/!=/g, '≠'],
+            [/<=/g, '≤'],
+            [/(^|[^=])>=/g, '$1≥'],
+            [/<=>/g, '⇔'],
+            [/<</g, '≪'],
+            [/>>/g, '≫'],
+            [/~=/g, '≅'],
+            [/(^|[^+])\+-/g, '$1±']
+        ]);
+    }
+});
+
+Typograf.rule({
+    name: 'common/number/times',
+    handler: function(text) {
+        return text.replace(/(\d)[ \u00A0]?[xх][ \u00A0]?(\d)/g, '$1×$2');
+    }
+});
+
+Typograf.rule({
     name: 'common/nbsp/afterNumber',
     handler: function(text) {
         var re = '(^|\\D)(\\d{1,5}) ([' +
@@ -1165,38 +1199,6 @@ Typograf.rule({
     live: false,
     handler: Typograf._replaceNbsp,
     disabled: true
-});
-
-Typograf.rule({
-    name: 'common/number/fraction',
-    handler: function(text) {
-        return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
-            .replace(/(^|\D)1\/4(\D|$)/g, '$1¼$2')
-            .replace(/(^|\D)3\/4(\D|$)/g, '$1¾$2');
-    }
-});
-
-Typograf.rule({
-    name: 'common/number/mathSigns',
-    handler: function(text) {
-        return Typograf._replace(text, [
-            [/!=/g, '≠'],
-            [/<=/g, '≤'],
-            [/(^|[^=])>=/g, '$1≥'],
-            [/<=>/g, '⇔'],
-            [/<</g, '≪'],
-            [/>>/g, '≫'],
-            [/~=/g, '≅'],
-            [/(^|[^+])\+-/g, '$1±']
-        ]);
-    }
-});
-
-Typograf.rule({
-    name: 'common/number/times',
-    handler: function(text) {
-        return text.replace(/(\d)[ \u00A0]?[xх][ \u00A0]?(\d)/g, '$1×$2');
-    }
 });
 
 Typograf.rule({
@@ -1896,41 +1898,92 @@ Typograf.rule({
     }
 });
 
+(function() {
+
+var classNames = [
+        'typograf-oa-lbracket',
+        'typograf-oa-n-lbracket',
+        'typograf-oa-sp-lbracket'
+    ],
+    name = 'ru/optalign/bracket';
+
 Typograf.rule({
-    name: 'ru/optalign/bracket',
+    name: name,
     handler: function(text) {
         return text
             .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
             .replace(/^\(/gm, '<span class="typograf-oa-n-lbracket">(</span>');
     },
     disabled: true
-})
-.innerRule({
-    name: 'ru/optalign/bracket',
+}).innerRule({
+    name: name,
+    queue: 'start',
     handler: function(text) {
-        // Зачистка HTML-тегов от висячей пунктуации для скобки
-        return text.replace(/<span class="typograf-oa-(n-|sp-)?lbracket">(.*?)<\/span>/g, '$2');
+        return Typograf._removeOptAlignTags(text, classNames);
+    }
+}).innerRule({
+    name: name,
+    queue: 'end',
+    handler: function(text) {
+        return Typograf._removeOptAlignTagsFromTitle(text, classNames);
     }
 });
 
+})();
+
+(function() {
+
+var classNames = [
+        'typograf-oa-comma',
+        'typograf-oa-comma-sp'
+    ],
+    name = 'ru/optalign/comma';
+
 Typograf.rule({
-    name: 'ru/optalign/comma',
+    name: name,
     handler: function(text) {
         var re = new RegExp('([' + this.data('l') + '\\d\u0301]+), ', 'gi');
         return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
     },
     disabled: true
-})
-.innerRule({
-    name: 'ru/optalign/comma',
+}).innerRule({
+    name: name,
+    queue: 'start',
     handler: function(text) {
-        // Зачистка HTML-тегов от висячей пунктуации для запятой
-        return text.replace(/<span class="typograf-oa-comma(-sp)?">(.*?)<\/span>/g, '$2');
+        return Typograf._removeOptAlignTags(text, classNames);
+    }
+}).innerRule({
+    name: name,
+    queue: 'end',
+    handler: function(text) {
+        return Typograf._removeOptAlignTagsFromTitle(text, classNames);
     }
 });
 
+})();
+
+Typograf._removeOptAlignTags = function(text, classNames) {
+    var re = new RegExp('<span class="(' + classNames.join('|') + ')">(.*?)</span>', 'g');
+    return text.replace(re, '$2');
+};
+
+Typograf._removeOptAlignTagsFromTitle = function(text, classNames) {
+    return text.replace(/<title>.*?<\/title>/i, function(text) {
+        return Typograf._removeOptAlignTags(text, classNames);
+    });
+};
+
+(function() {
+
+var classNames = [
+        'typograf-oa-lquote',
+        'typograf-oa-n-lquote',
+        'typograf-oa-sp-lquote'
+    ],
+    name = 'ru/optalign/quote';
+
 Typograf.rule({
-    name: 'ru/optalign/quote',
+    name: name,
     handler: function(text) {
         var name = 'ru/punctuation/quote',
             lquotes = '(["' +
@@ -1946,14 +1999,21 @@ Typograf.rule({
             .replace(re2, '$1<span class="typograf-oa-n-lquote">$2</span>');
     },
     disabled: true
-})
-.innerRule({
-    name: 'ru/optalign/quote',
+}).innerRule({
+    name: name,
+    queue: 'start',
     handler: function(text) {
-        // Зачистка HTML-тегов от висячей пунктуации для кавычки
-        return text.replace(/<span class="typograf-oa-(n-|sp-)?lquote">(.*?)<\/span>/g, '$2');
+        return Typograf._removeOptAlignTags(text, classNames);
+    }
+}).innerRule({
+    name: name,
+    queue: 'end',
+    handler: function(text) {
+        return Typograf._removeOptAlignTagsFromTitle(text, classNames);
     }
 });
+
+})();
 
 Typograf.rule({
     name: 'ru/other/accent',
