@@ -147,7 +147,12 @@ var tp = new Typograf({lang: 'ru'});
 tp.addSafeTag('<no-typography>', '</no-typography>');
 //...
 // Отключить типографирование внутри управляющих конструкций какого-нибудь шаблонизатора
-tp.addSafeTag('{{', '}}');
+tp.addSafeTag('\\{\\{', '\\}\\}'); // {{...}}
+tp.addSafeTag('\\[\\[', '\\]\\]'); // [[...]]
+//...
+// Отключить типографирование внутри PHP-кода
+tp.addSafeTag('<\\?php', '\\?>');
+
 tp.execute(text);
 ```
 
