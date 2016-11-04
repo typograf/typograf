@@ -115,21 +115,33 @@ function phoneBlocks(num){
     return add + num.split(/(?=(?:\d\d)+$)/).join('-');
 }
 
+function clearPhone(text) {
+    return text.replace(/[^\d\+]/g, '');
+}
+
 Typograf.rule({
     name: 'ru/other/phone-number',
     live: false,
     handler: function(text) {
-        return text.replace(
-            /(т.|тел.|ф.|моб.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
-            function($0, $1, $2, $3) {
-                var buf = $3.replace(/[^\d\+]/g, '');
-                if (buf.length >= 5) {
-                    return $1 + $2 + phone(buf);
-                }
+        var tag = Typograf._privateLabel,
+            re = new RegExp('(^|,| |' + tag + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + tag + '|$)', 'gm');
 
-                return $0;
-            }
-        );
+        return text
+            .replace(re, function($0, $1, $2) {
+                var buf = clearPhone($2);
+                return buf.length === 12 ? $1 + phone(buf) : $0;
+            })
+            .replace(
+                /(^|[^а-яё])(т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
+                function($0, $1, $2, $3, $4) {
+                    var buf = clearPhone($4);
+                    if (buf.length >= 5) {
+                        return $1 + $2 + $3 + phone(buf);
+                    }
+
+                    return $0;
+                }
+            );
     }
 });
 
