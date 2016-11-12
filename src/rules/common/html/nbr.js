@@ -3,7 +3,7 @@ Typograf.rule({
     index: '+5',
     queue: 'end',
     handler: function(text) {
-        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
+        return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
     },
     disabled: true
 });

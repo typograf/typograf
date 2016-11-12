@@ -62,7 +62,7 @@ describe('API', function() {
 
     it('should enable rule from constructor', function() {
         const typograf = new Typograf({lang: 'ru', enable: '*'});
-        assert.ok(typograf.enabled('common/html/pbr'));
+        assert.ok(typograf.enabled('common/html/p'));
     });
 
     it('should enable some rules', function() {
