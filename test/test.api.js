@@ -32,7 +32,7 @@ describe('API', function() {
         const typograf = new Typograf({lang: 'ru'});
         assert.equal(typograf.data('ru/l'), Typograf.data('ru/l'));
     });
-    
+
     it('should get data without lang', function() {
         const typograf = new Typograf({lang: 'ru'});
         assert.equal(typograf.data('l'), Typograf.data('ru/l'));
@@ -145,5 +145,22 @@ describe('API', function() {
         const t2 = new Typograf();
 
         assert.equal(t2.execute('rule abc inner_example'), 'abc');
+    });
+
+    it('should remove CR', function() {
+        assert.equal(t.execute('Line1\nLine2\nLine3'), 'Line1\nLine2\nLine3');
+        assert.equal(t.execute('Line1\r\nLine2\r\nLine3'), 'Line1\nLine2\nLine3');
+        assert.equal(t.execute('Line1\rLine2\r\nLine3'), 'Line1\nLine2\nLine3');
+        assert.equal(t.execute('Line1\rLine2\rLine3'), 'Line1\nLine2\nLine3');
+    });
+
+    it('should change line endings', function() {
+        var t = new Typograf({lineEnding: 'CRLF'});
+
+        assert.equal(t.execute('Line1\rLine2\rLine3'), 'Line1\r\nLine2\r\nLine3');
+
+        assert.equal(t.execute('Line1\nLine2\nLine3', { lineEnding: 'CR' }), 'Line1\rLine2\rLine3');
+        assert.equal(t.execute('Line1\rLine2\rLine3', { lineEnding: 'LF' }), 'Line1\nLine2\nLine3');
+        assert.equal(t.execute('Line1\rLine2\nLine3', { lineEnding: 'CRLF' }), 'Line1\r\nLine2\r\nLine3');
     });
 });

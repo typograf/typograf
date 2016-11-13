@@ -3,6 +3,7 @@
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
  * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
@@ -146,6 +147,7 @@ Typograf.prototype = {
      * @param {Object} [prefs]
      * @param {string} [prefs.lang] Language rules
      * @param {string} [prefs.mode] Type HTML entities
+     * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
      * @return {string}
      */
     execute: function(text, prefs) {
@@ -160,14 +162,13 @@ Typograf.prototype = {
         var that = this,
             rulesForQueue = {},
             innerRulesForQueue = {},
-            mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
             executeRulesForQueue = function(queue) {
                 text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
             };
 
         this._lang = prefs.lang || this._prefs.lang || 'common';
 
-        text = this._fixLineEnd(text);
+        text = this._removeCR(text);
 
         this._innerRules.forEach(function(rule) {
             var q = rule.queue;
@@ -196,7 +197,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._modification(text, mode);
+        text = this._modification(text, prefs.mode || this._prefs.mode);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -205,6 +206,8 @@ Typograf.prototype = {
 
         this._lang = null;
         this._isHTML = null;
+
+        text = this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
 
         return text;
     },
@@ -415,8 +418,17 @@ Typograf.prototype = {
 
         return text;
     },
-    _fixLineEnd: function(text) {
-        return text.replace(/\r\n/g, '\n'); // Windows
+    _removeCR: function(text) {
+        return text.replace(/\r\n?/g, '\n');
+    },
+    _fixLineEnding: function(text, type) {
+        if (type === 'CRLF') { // Windows
+            return text.replace(/\n/g, '\r\n');
+        } else if (type === 'CR') { // Mac
+            return text.replace(/\n/g, '\r');
+        }
+
+        return text;
     },
     _prepareRule: function(rule) {
         var name = rule.name,
