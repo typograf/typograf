@@ -1,5 +1,6 @@
 declare namespace typograf {
 	type Mode = 'default' | 'digit' | 'name';
+	type LineEnding = 'LF' | 'CRLF' | 'CR';
 
 	interface Typograf {
 		execute(text: string, prefs?: {mode?: Mode, lang?: string}): string;
@@ -14,6 +15,7 @@ declare namespace typograf {
 	interface Options {
 		lang: string;
 		mode?: Mode;
+		lineEnding?: LineEnding;
 		live?: boolean;
 		enable?: string | string[];
 		disable?: string | string[];
@@ -24,6 +26,7 @@ declare namespace typograf {
 		handler: (text: string) => string;
 		index?: number;
 		disabled?: boolean;
+		lineEnding?: LineEnding;
 		live?: boolean;
 		settings?: any;
 	}
