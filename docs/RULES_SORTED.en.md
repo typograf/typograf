@@ -86,7 +86,7 @@
 | 82. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.js) | Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts | 1110 |  | ✓ |
 | 83. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
 | 84. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1210 | end |  |
-| 85. | [common/html/pbr](../src/rules/common/html/pbr.js) | Placement of p and br tags | 1210 | end |  |
+| 85. | [common/html/p](../src/rules/common/html/p.js) | Placement of paragraph | 1210 | end |  |
 | 86. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1210 | end |  |
 | 87. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on <br/> | 1215 | end |  |
 | 88. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Removing HTML-tags | 1309 | end |  |

@@ -17,6 +17,7 @@ if(typeof define === 'function' && define.amd) {
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
  * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
  * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
@@ -160,6 +161,7 @@ Typograf.prototype = {
      * @param {Object} [prefs]
      * @param {string} [prefs.lang] Language rules
      * @param {string} [prefs.mode] Type HTML entities
+     * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
      * @return {string}
      */
     execute: function(text, prefs) {
@@ -174,14 +176,13 @@ Typograf.prototype = {
         var that = this,
             rulesForQueue = {},
             innerRulesForQueue = {},
-            mode = typeof prefs.mode === 'undefined' ? this._prefs.mode : prefs.mode,
             executeRulesForQueue = function(queue) {
                 text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
             };
 
         this._lang = prefs.lang || this._prefs.lang || 'common';
 
-        text = this._fixLineEnd(text);
+        text = this._removeCR(text);
 
         this._innerRules.forEach(function(rule) {
             var q = rule.queue;
@@ -210,7 +211,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._modification(text, mode);
+        text = this._modification(text, prefs.mode || this._prefs.mode);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -219,6 +220,8 @@ Typograf.prototype = {
 
         this._lang = null;
         this._isHTML = null;
+
+        text = this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
 
         return text;
     },
@@ -429,8 +432,17 @@ Typograf.prototype = {
 
         return text;
     },
-    _fixLineEnd: function(text) {
-        return text.replace(/\r\n/g, '\n'); // Windows
+    _removeCR: function(text) {
+        return text.replace(/\r\n?/g, '\n');
+    },
+    _fixLineEnding: function(text, type) {
+        if (type === 'CRLF') { // Windows
+            return text.replace(/\n/g, '\r\n');
+        } else if (type === 'CR') { // Mac
+            return text.replace(/\n/g, '\r');
+        }
+
+        return text;
     },
     _prepareRule: function(rule) {
         var name = rule.name,
@@ -635,7 +647,7 @@ Typograf.prototype = {
     }
 };
 
-Typograf.version = '5.5.3';
+Typograf.version = '5.6.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -1004,21 +1016,20 @@ Typograf.rule({
     index: '+5',
     queue: 'end',
     handler: function(text) {
-        return text.search(/<br/) === -1 ? text.replace(/\n/g, '<br/>\n') : text;
+        return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
     },
     disabled: true
 });
 
 Typograf.rule({
-    name: 'common/html/pbr',
+    name: 'common/html/p',
     queue: 'end',
     handler: function(text) {
-        if (text.search(/<(p|br)[\s\/>]/) === -1) {
+        if (text.search(/<p[\s>]/) === -1) {
             if (text.search(/\n/) === -1) {
                 text = '<p>' + text + '</p>';
             } else {
                 text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-                text = text.replace(/([^>])\n/g, '$1<br/>\n');
             }
         }
 
@@ -1619,35 +1630,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/date/fromISO',
-    handler: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    handler: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthGenCase'),
-            weekday = this.data('ru/weekday'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
-});
-
-Typograf.rule({
     name: 'ru/money/currency',
     handler: function(text) {
         var currency = '([$€¥Ұ£₤₽])',
@@ -1680,18 +1662,52 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/date/fromISO',
+    handler: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    handler: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data('ru/monthGenCase'),
+            weekday = this.data('ru/weekday'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
+});
+
+Typograf.rule({
     name: 'ru/nbsp/abbr',
     handler: function(text) {
-        var re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')(([а-яё]{1,3}\\.){2,})(?![а-яё])', 'g');
-        return text.replace(re, function($0, $1, $2) {
-            var abbr = $2.split(/\./);
+        function abbr($0, $1, $2, $3) {
             // Являются ли сокращения ссылкой
-            if (['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf(abbr[abbr.length - 2]) > -1) {
+            if (['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf($3) > -1) {
                 return $0;
             }
 
-            return $1 + $2.split(/\./).join('.\u00A0').trim();
-        });
+            return $1 + $2 + '.' + '\u00A0' + $3 + '.';
+        }
+
+        var re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')([а-яё]{1,3})\\. ?([а-яё]{1,3})\\.', 'g');
+
+        return text
+            .replace(re, abbr)
+            // Для тройных сокращений - а.е.м.
+            .replace(re, abbr);
     }
 });
 
@@ -1963,12 +1979,12 @@ Typograf.rule({
 })();
 
 Typograf._removeOptAlignTags = function(text, classNames) {
-    var re = new RegExp('<span class="(' + classNames.join('|') + ')">(.*?)</span>', 'g');
+    var re = new RegExp('<span class="(' + classNames.join('|') + ')">([^]*?)</span>', 'g');
     return text.replace(re, '$2');
 };
 
 Typograf._removeOptAlignTagsFromTitle = function(text, classNames) {
-    return text.replace(/<title>.*?<\/title>/i, function(text) {
+    return text.replace(/<title>[^]*?<\/title>/i, function(text) {
         return Typograf._removeOptAlignTags(text, classNames);
     });
 };
@@ -1985,18 +2001,17 @@ var classNames = [
 Typograf.rule({
     name: name,
     handler: function(text) {
-        var name = 'ru/punctuation/quote',
+        var quoteName = 'ru/punctuation/quote',
             lquotes = '(["' +
-                this.setting(name, 'lquote') +
-                this.setting(name, 'lquote2') +
-                this.setting(name, 'lquote3') +
+                this.setting(quoteName, 'lquote') +
+                this.setting(quoteName, 'lquote2') +
                 '])',
-            re = new RegExp('([\\d' + this.data('l') + '\\-\u0301!?.:;,]+)( |\u00A0)(' + lquotes + ')', 'gi'),
-            re2 = new RegExp('(^|' + Typograf._privateLabel + ')' + lquotes, 'gm');
+            reNewLine = new RegExp('(^|\n\n|' + Typograf._privateLabel + ')(' + lquotes + ')', 'g'),
+            reInside = new RegExp('([^\n' + Typograf._privateLabel + '])([ \u00A0\n])(' + lquotes + ')', 'gi');
 
         return text
-            .replace(re, '$1<span class="typograf-oa-sp-lquote">$2</span><span class="typograf-oa-lquote">$3</span>')
-            .replace(re2, '$1<span class="typograf-oa-n-lquote">$2</span>');
+            .replace(reNewLine, '$1<span class="typograf-oa-n-lquote">$2</span>')
+            .replace(reInside, '$1<span class="typograf-oa-sp-lquote">$2</span><span class="typograf-oa-lquote">$3</span>');
     },
     disabled: true
 }).innerRule({
@@ -2142,21 +2157,33 @@ function phoneBlocks(num){
     return add + num.split(/(?=(?:\d\d)+$)/).join('-');
 }
 
+function clearPhone(text) {
+    return text.replace(/[^\d\+]/g, '');
+}
+
 Typograf.rule({
     name: 'ru/other/phone-number',
     live: false,
     handler: function(text) {
-        return text.replace(
-            /(т.|тел.|ф.|моб.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
-            function($0, $1, $2, $3) {
-                var buf = $3.replace(/[^\d\+]/g, '');
-                if (buf.length >= 5) {
-                    return $1 + $2 + phone(buf);
-                }
+        var tag = Typograf._privateLabel,
+            re = new RegExp('(^|,| |' + tag + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + tag + '|$)', 'gm');
 
-                return $0;
-            }
-        );
+        return text
+            .replace(re, function($0, $1, $2) {
+                var buf = clearPhone($2);
+                return buf.length === 12 ? $1 + phone(buf) : $0;
+            })
+            .replace(
+                /(^|[^а-яё])(т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
+                function($0, $1, $2, $3, $4) {
+                    var buf = clearPhone($4);
+                    if (buf.length >= 5) {
+                        return $1 + $2 + $3 + phone(buf);
+                    }
+
+                    return $0;
+                }
+            );
     }
 });
 
@@ -2314,9 +2341,9 @@ Typograf.titles = {
     "en": "Replacement line break on <br/>",
     "ru": "Замена перевода строки на <br/>"
   },
-  "common/html/pbr": {
-    "en": "Placement of p and br tags",
-    "ru": "Расстановка тегов p и br"
+  "common/html/p": {
+    "en": "Placement of paragraph",
+    "ru": "Расстановка абзацев"
   },
   "common/html/stripTags": {
     "en": "Removing HTML-tags",
