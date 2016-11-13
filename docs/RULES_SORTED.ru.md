@@ -86,7 +86,7 @@
 | 82. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.js) | Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки | 1110 |  | ✓ |
 | 83. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 510 | end | ✓ |
 | 84. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 1210 | end |  |
-| 85. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 1210 | end |  |
+| 85. | [common/html/p](../src/rules/common/html/p.js) | Расстановка абзацев | 1210 | end |  |
 | 86. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Расстановка ссылок для эл. почты | 1210 | end |  |
 | 87. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на <br/> | 1215 | end |  |
 | 88. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 1309 | end |  |

@@ -5,7 +5,7 @@
 | 1. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Расстановка ссылок для эл. почты | 1210 | end |  |
 | 2. | [common/html/escape](../src/rules/common/html/escape.js) | Экранирование HTML | 1310 | end |  |
 | 3. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на <br/> | 1215 | end |  |
-| 4. | [common/html/pbr](../src/rules/common/html/pbr.js) | Расстановка тегов p и br | 1210 | end |  |
+| 4. | [common/html/p](../src/rules/common/html/p.js) | Расстановка абзацев | 1210 | end |  |
 | 5. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 1309 | end |  |
 | 6. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 1210 | end |  |
 | 7. | [common/nbsp/afterNumber](../src/rules/common/nbsp/afterNumber.js) | Нераз. пробел между числом и словом | 510 |  |  |

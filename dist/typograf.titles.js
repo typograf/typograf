@@ -11,9 +11,9 @@ Typograf.titles = {
     "en": "Replacement line break on <br/>",
     "ru": "Замена перевода строки на <br/>"
   },
-  "common/html/pbr": {
-    "en": "Placement of p and br tags",
-    "ru": "Расстановка тегов p и br"
+  "common/html/p": {
+    "en": "Placement of paragraph",
+    "ru": "Расстановка абзацев"
   },
   "common/html/stripTags": {
     "en": "Removing HTML-tags",
