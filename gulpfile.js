@@ -19,6 +19,8 @@ const bodyJs = [
     'src/version.js',
     'src/indexes.js',
     'src/entities.js',
+    'src/block_elements.js',
+    'src/inline_elements.js',
     'src/data/**/*.js',
     'src/rules/**/*.js',
     'src/sort.js'
