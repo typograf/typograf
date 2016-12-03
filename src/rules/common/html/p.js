@@ -2,15 +2,19 @@ Typograf.rule({
     name: 'common/html/p',
     queue: 'end',
     handler: function(text) {
-        if (text.search(/<p[\s>]/) === -1) {
-            if (text.search(/\n/) === -1) {
-                text = '<p>' + text + '</p>';
-            } else {
-                text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-            }
-        }
+        var blockRe = new RegExp('<(' + this.blockElements.join('|') + ')[>\s]'),
+            separator = '\n\n',
+            buffer = text.split(separator);
 
-        return text;
+        buffer.forEach(function(text, i, data) {
+            if (!text.trim()) { return; }
+
+            if (!blockRe.test(text)) {
+                data[i] = text.replace(/^(\s*)/, '$1<p>').replace(/(\s*)$/, '</p>$1');
+            }
+        });
+
+        return buffer.join(separator);
     },
     disabled: true
 });
