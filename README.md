@@ -62,6 +62,7 @@ console.log(tp.execute(' Мир - мой мир!!   '));
  + [gulp-typograf](https://github.com/typograf/gulp-typograf)
  + [typograf-loader](https://github.com/exah/typograf-loader)
  + [hexo-typograf](https://github.com/toiletpatrol/hexo-typograf)
+ + [TinyMCE](https://habrahabr.ru/post/266337/)
 
 ### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
@@ -99,8 +100,20 @@ tp.disable('*'); // Отключить все правила
 ### Изменить настройку у правила
 ```js
 var tp = new Typograf({lang: 'ru'});
+
 // Название правила, название настройки, значение
+
+// Неразрывный пробел перед последним словом в предложении, не более 5 символов
 tp.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord', 5);
+
+// Вложенные кавычки тоже «ёлочки»
+tp.setting('ru/punctuation/quote', 'lquote2', '«');
+tp.setting('ru/punctuation/quote', 'rquote2', '»');
+tp.setting('ru/punctuation/quote', 'lquote3', '«');
+tp.setting('ru/punctuation/quote', 'rquote3', '»');
+
+// Неразрывный пробел после короткого слова, не более 3 символов
+tp.setting('common/nbsp/afterShortWord', 'lengthShortWord', 3);
 ```
 
 ### Добавить простое правило
