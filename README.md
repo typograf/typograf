@@ -41,7 +41,7 @@ npm install typograf
 <script src="./node_modules/typograf/dist/typograf.min.js"></script>
 <script>
     var tp = new Typograf({lang: 'ru'});
-    alert(tp.execute('     Мир - мой мир!      '));
+    alert(tp.execute('     Мир - мой мир!!      '));
 </script>
 ```
 
@@ -118,10 +118,11 @@ tp.setting('common/nbsp/afterShortWord', 'lengthShortWord', 3);
 
 ### Добавить простое правило
 ```js
+// Типографический смайлик
 Typograf.rule({
-    name: 'common/other/emoji',
+    name: 'common/other/typographicSmiley',
     handler: function (text) {
-        return text.replace(/:-\)/g, '\uD83D\uDE0A');
+        return text.replace(/:-\)/g, ':—)');
     }
 });
 ```
