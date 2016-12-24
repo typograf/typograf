@@ -620,14 +620,28 @@ Typograf.prototype = {
             });
     },
     _modification: function(text, mode) {
-        if (mode === 'name' || mode === 'digit') {
-            var index = mode === 'name' ? 0 : 1;
-            this.entities.forEach(function(entity) {
-                if (entity[index]) {
-                    text = text.replace(entity[4], entity[index]);
-                }
-            });
+        var index;
+
+        if (mode === 'name' || mode === 'name-invisible') {
+            index = 0;
+        } else if (mode === 'digit' || mode === 'digit-invisible') {
+            index = 1;
         }
+
+        if (mode === 'name' || mode === 'digit') {
+            text = this._modificationEntities(text, index, this.entities);
+        } else if (mode === 'name-invisible' || mode === 'digit-invisible') {
+            text = this._modificationEntities(text, index, this.invisibleEntities);
+        }
+
+        return text;
+    },
+    _modificationEntities: function(text, index, entities) {
+        entities.forEach(function(entity) {
+            if (entity[index]) {
+                text = text.replace(entity[4], entity[index]);
+            }
+        });
 
         return text;
     }

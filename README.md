@@ -132,13 +132,24 @@ Typograf.rule({
 var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
 
-// HTML-сущности, как имена
+// HTML-сущности в виде имён
 var tpName = new Typograf({lang: 'ru', mode: 'name'});
-tpName.execute('...'); // &hellip;
+tpName.execute('12 кг...'); // 12&nbsp;кг&hellip;
 
-// HTML-сущности, как цифры
+// HTML-сущности в виде цифр
 var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
-tpDigit.execute('...'); // &#8230;
+tpDigit.execute('12 кг...'); // 12&#160;кг&#8230;
+
+// HTML-сущности в виде имён только для невидимых символов
+var tpNameInvisible = new Typograf({lang: 'ru', mode: 'name-invisible'});
+tpNameInvisible.execute('12 кг...'); // 12&nbsp;кг…
+
+// HTML-сущности в виде цифр только для невидимых символов
+var tpDigitInvisible = new Typograf({lang: 'ru', mode: 'digit-invisible'});
+tpDigitInvisible.execute('12 кг...'); // 12&#160;кг…
+
+// Невидимые символы — &nbsp; &thinsp; &ensp; &emsp; &shy; &zwnj; &zwj; &lrm; &rlm;
+
 ```
 
 ### Типографика на лету

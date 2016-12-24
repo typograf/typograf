@@ -1,8 +1,5 @@
-Typograf.prototype.entities = [];
-
 // http://www.w3.org/TR/html4/sgml/entities
-[
-    ['nbsp', 160],
+var visibleEntities = [
     ['iexcl', 161],
     ['cent', 162],
     ['pound', 163],
@@ -15,7 +12,6 @@ Typograf.prototype.entities = [];
     ['ordf', 170],
     ['laquo', 171],
     ['not', 172],
-    ['shy', 173],
     ['reg', 174],
     ['macr', 175],
     ['deg', 176],
@@ -229,13 +225,6 @@ Typograf.prototype.entities = [];
     ['Yuml', 376],
     ['circ', 710],
     ['tilde', 732],
-    ['ensp', 8194],
-    ['emsp', 8195],
-    ['thinsp', 8201],
-    ['zwnj', 8204],
-    ['zwj', 8205],
-    ['lrm', 8206],
-    ['rlm', 8207],
     ['ndash', 8211],
     ['mdash', 8212],
     ['lsquo', 8216],
@@ -252,17 +241,40 @@ Typograf.prototype.entities = [];
     ['euro', 8364],
     ['NestedGreaterGreater', 8811],
     ['NestedLessLess', 8810]
-].forEach(function(en) {
-    var name = en[0],
-        num = en[1],
-        sym = String.fromCharCode(num),
-        buf = [
-            '&' + name + ';', // 0 - &nbsp;
-            '&#' + num + ';', // 1 - &#160;
-            sym, // 2 - \u00A0
-            new RegExp('&' + name + ';', 'g'),
-            new RegExp(sym, 'g') // 4
-        ];
+];
 
-    Typograf.prototype.entities.push(buf);
-}, this);
+var invisibleEntities = [
+    ['nbsp', 160],
+    ['thinsp', 8201],
+    ['ensp', 8194],
+    ['emsp', 8195],
+    ['shy', 173],
+    ['zwnj', 8204],
+    ['zwj', 8205],
+    ['lrm', 8206],
+    ['rlm', 8207]
+];
+
+function prepareEntities(entities) {
+    var result = [];
+
+    entities.forEach(function(en) {
+        var name = en[0],
+            num = en[1],
+            sym = String.fromCharCode(num),
+            buf = [
+                '&' + name + ';', // 0 - &nbsp;
+                '&#' + num + ';', // 1 - &#160;
+                sym, // 2 - \u00A0
+                new RegExp('&' + name + ';', 'g'),
+                new RegExp(sym, 'g') // 4
+            ];
+
+        result.push(buf);
+    }, this);
+    
+    return result;
+}
+
+Typograf.prototype.entities = prepareEntities([].concat(visibleEntities, invisibleEntities));
+Typograf.prototype.invisibleEntities = prepareEntities(invisibleEntities);
