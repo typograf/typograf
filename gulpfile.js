@@ -18,7 +18,7 @@ const bodyJs = [
     'src/main.js',
     'src/version.js',
     'src/indexes.js',
-    'src/entities.js',
+    'src/html_entities.js',
     'src/block_elements.js',
     'src/inline_elements.js',
     'src/data/**/*.js',

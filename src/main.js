@@ -2,8 +2,9 @@
  * @constructor
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
- * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
  * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
+ * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+ * @param {HtmlEntity} [prefs.htmlEntity]
  * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
@@ -146,7 +147,8 @@ Typograf.prototype = {
      * @param {string} text
      * @param {Object} [prefs]
      * @param {string} [prefs.lang] Language rules
-     * @param {string} [prefs.mode] Type HTML entities
+     * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+     * @param {HtmlEntity} [prefs.htmlEntity] Type HTML entities
      * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
      * @return {string}
      */
@@ -162,6 +164,10 @@ Typograf.prototype = {
         var that = this,
             rulesForQueue = {},
             innerRulesForQueue = {},
+            htmlEntityParam = this._prepareHtmlEntityParam(
+                prefs.mode || this._prefs.mode,
+                prefs.htmlEntity || this._prefs.htmlEntity
+            ),
             executeRulesForQueue = function(queue) {
                 text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
             };
@@ -188,6 +194,8 @@ Typograf.prototype = {
 
         text = this._hideSafeTags(text);
 
+        executeRulesForQueue('safe-tags');
+
         text = this._utfication(text);
 
         if (this._prefs.live) {
@@ -197,7 +205,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._modification(text, prefs.mode || this._prefs.mode);
+        text = this._restoreHtmlEntities(text, htmlEntityParam);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -603,7 +611,7 @@ Typograf.prototype = {
         }
 
         if (text.search(/&[a-z]/i) !== -1) {
-            this.entities.forEach(function(entity) {
+            this._htmlEntities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
         }
@@ -619,24 +627,48 @@ Typograf.prototype = {
                 return String.fromCharCode(parseInt($1, 16));
             });
     },
-    _modification: function(text, mode) {
-        var index;
+    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
+        return oldFormat ? {type: oldFormat} : newFormat || {};
+    },
+    _restoreHtmlEntities: function(text, param) {
+        var type = param.type,
+            entityList = this._htmlEntities;
 
-        if (mode === 'name' || mode === 'name-invisible') {
-            index = 0;
-        } else if (mode === 'digit' || mode === 'digit-invisible') {
-            index = 1;
-        }
+        if (type === 'name' || type === 'digit') {
+            if (param.onlyInvisible || param.list) {
+                entityList = [];
 
-        if (mode === 'name' || mode === 'digit') {
-            text = this._modificationEntities(text, index, this.entities);
-        } else if (mode === 'name-invisible' || mode === 'digit-invisible') {
-            text = this._modificationEntities(text, index, this.invisibleEntities);
+                if (param.onlyInvisible) {
+                    entityList = entityList.concat(this._invisibleHtmlEntities);
+                }
+
+                if (param.list) {
+                    entityList = entityList.concat(this._prepareListParam(param.list));
+                }
+            }
+
+            text = this._restoreHtmlEntitiesByIndex(
+                text,
+                {name: 0, digit: 1}[type],
+                entityList
+            );
         }
 
         return text;
     },
-    _modificationEntities: function(text, index, entities) {
+    _prepareListParam: function(list) {
+        var result = [];
+
+        list.forEach(function(name) {
+            var entity = this._htmlEntitiesByName[name];
+            if (entity) {
+                result.push(entity);
+            }
+        }, this);
+
+        return result;
+    },
+    _restoreHtmlEntitiesByIndex: function(text, index, entities) {
         entities.forEach(function(entity) {
             if (entity[index]) {
                 text = text.replace(entity[4], entity[index]);
@@ -646,3 +678,11 @@ Typograf.prototype = {
         return text;
     }
 };
+
+/**
+ * @typedef HtmlEntity
+ *
+ * @property {string} type - 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @property {boolean} [onlyInvisible]
+ * @property {string[]} [list]
+ */

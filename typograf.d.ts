@@ -1,9 +1,15 @@
 declare namespace typograf {
-	type Mode = 'default' | 'digit' | 'name';
 	type LineEnding = 'LF' | 'CRLF' | 'CR';
+	type Mode = 'default' | 'digit' | 'name';
+
+	interface HtmlEntity {
+		type: Mode;
+		onlyInvisible?: string;
+		list?: string[];
+	}
 
 	interface Typograf {
-		execute(text: string, prefs?: {mode?: Mode, lang?: string}): string;
+		execute(text: string, prefs?: {htmlEntity?: HtmlEntity, lang?: string, lineEnding: LineEnding, mode?: Mode}): string;
 		enable(rule: string | string[]): Typograf;
 		disable(rule: string | string[]): Typograf;
 		enabled(rule: string): boolean;
@@ -14,8 +20,9 @@ declare namespace typograf {
 
 	interface Options {
 		lang: string;
-		mode?: Mode;
+		htmlEntity?: HtmlEntity;
 		lineEnding?: LineEnding;
+		mode?: Mode;
 		live?: boolean;
 		enable?: string | string[];
 		disable?: string | string[];
@@ -26,7 +33,6 @@ declare namespace typograf {
 		handler: (text: string) => string;
 		index?: number;
 		disabled?: boolean;
-		lineEnding?: LineEnding;
 		live?: boolean;
 		settings?: any;
 	}
