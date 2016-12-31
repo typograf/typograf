@@ -127,11 +127,11 @@ Typograf.rule({
 });
 ```
 
-### Режим работы
+### HTML-сущности
 ```js
 // Режим по умолчанию, HTML-сущности, как UTF-8 символы
 var tp = new Typograf({lang: 'ru'});
-tp.execute('...'); // …
+tp.execute('12 кг...'); // 12 кг…
 
 // HTML-сущности в виде имён
 var tpName = new Typograf({
