@@ -272,9 +272,16 @@ function prepareEntities(entities) {
 
         result.push(buf);
     }, this);
-    
+
     return result;
 }
 
-Typograf.prototype.entities = prepareEntities([].concat(visibleEntities, invisibleEntities));
-Typograf.prototype.invisibleEntities = prepareEntities(invisibleEntities);
+Typograf.prototype._htmlEntities = prepareEntities([].concat(visibleEntities, invisibleEntities));
+
+Typograf.prototype._htmlEntitiesByName = Typograf.prototype._htmlEntities.reduce(function(acc, value) {
+    acc[value[0].replace(/&|;/g, '')] = value;
+
+    return acc;
+}, {});
+
+Typograf.prototype._invisibleHtmlEntities = prepareEntities(invisibleEntities);

@@ -134,22 +134,39 @@ var tp = new Typograf({lang: 'ru'});
 tp.execute('...'); // …
 
 // HTML-сущности в виде имён
-var tpName = new Typograf({lang: 'ru', mode: 'name'});
+var tpName = new Typograf({
+    lang: 'ru',
+    htmlEntity: {type: 'name'}
+});
 tpName.execute('12 кг...'); // 12&nbsp;кг&hellip;
 
 // HTML-сущности в виде цифр
-var tpDigit = new Typograf({lang: 'ru', mode: 'digit'});
+var tpDigit = new Typograf({
+    lang: 'ru',
+    htmlEntity: {type: 'digit'}
+});
 tpDigit.execute('12 кг...'); // 12&#160;кг&#8230;
 
-// HTML-сущности в виде имён только для невидимых символов
-var tpNameInvisible = new Typograf({lang: 'ru', mode: 'name-invisible'});
+// Все HTML-сущности в UTF-8, а невидимые сущности в виде цифр
+// Невидимые сущности — &nbsp; &thinsp; &ensp; &emsp; &shy; &zwnj; &zwj; &lrm; &rlm;
+var tpNameInvisible = new Typograf({
+    lang: 'ru',
+    htmlEntity: {
+        type: 'name',
+        onlyInvisible: true
+    }
+});
 tpNameInvisible.execute('12 кг...'); // 12&nbsp;кг…
 
-// HTML-сущности в виде цифр только для невидимых символов
-var tpDigitInvisible = new Typograf({lang: 'ru', mode: 'digit-invisible'});
+// Все HTML-сущности в UTF-8, а заданные в списке в виде цифр
+var tpDigitInvisible = new Typograf({
+    lang: 'ru',
+    htmlEntity: {
+        type: 'digit',
+        list: ['nbsp', 'shy', 'mdash', 'ndash']
+    }
+});
 tpDigitInvisible.execute('12 кг...'); // 12&#160;кг…
-
-// Невидимые символы — &nbsp; &thinsp; &ensp; &emsp; &shy; &zwnj; &zwj; &lrm; &rlm;
 
 ```
 
