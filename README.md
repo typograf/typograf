@@ -159,14 +159,14 @@ var tpNameInvisible = new Typograf({
 tpNameInvisible.execute('12 кг...'); // 12&nbsp;кг…
 
 // Все HTML-сущности в UTF-8, а заданные в списке в виде цифр
-var tpDigitInvisible = new Typograf({
+var tpDigit = new Typograf({
     lang: 'ru',
     htmlEntity: {
         type: 'digit',
         list: ['nbsp', 'shy', 'mdash', 'ndash']
     }
 });
-tpDigitInvisible.execute('12 кг...'); // 12&#160;кг…
+tpDigit.execute('12 кг...'); // 12&#160;кг…
 
 ```
 

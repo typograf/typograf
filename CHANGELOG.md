@@ -1,14 +1,27 @@
 # Changelog
 
+#v5.7.0
+Новые правила:
+- Замена №№ на № `ru/symbols/NN` #205
+- Замена точки на запятую в числах `ru/number/comma` #207
+
+Доработки в правилах:
+- `common/html/p` #195
+- `common/number/fraction` #197 @greyevil
+- `ru/number/ordinals` #206
+
+Добавлено новое свойство `htmlEntity`, аналог `mode` #200, #208. Теперь можно [гибко настроить](https://github.com/typograf/typograf#html-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8) какие HTML-сущности будут в UTF-8, а какие необходимо заменить на именной или цифровой вид.  
+В следующей мажорной версии свойство `mode` будет удалено.
+
 # v5.6.0
 - Добавлена настройка переносов строк #190.
 - Правило `common/html/pbr` переименовано в `common/html/p`, удалена расстановка тега `<br/>` внутри правила #185.
 
 Доработки в правилах:
-`ru/nsbp/abbr` #181, #188
-`ru/optalign/quote` #184, #189
-`ru/other/phone` #183
-`common/html/nbr` #185
+- `ru/nsbp/abbr` #181, #188
+- `ru/optalign/quote` #184, #189
+- `ru/other/phone` #183
+- `common/html/nbr` #185
 
 # v5.5.3
 Отключена висячая пунктуация в `<title>` #172, #177.
