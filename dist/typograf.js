@@ -16,8 +16,9 @@ if(typeof define === 'function' && define.amd) {
  * @constructor
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
- * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
  * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
+ * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+ * @param {HtmlEntity} [prefs.htmlEntity]
  * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
@@ -160,7 +161,8 @@ Typograf.prototype = {
      * @param {string} text
      * @param {Object} [prefs]
      * @param {string} [prefs.lang] Language rules
-     * @param {string} [prefs.mode] Type HTML entities
+     * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+     * @param {HtmlEntity} [prefs.htmlEntity] Type HTML entities
      * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
      * @return {string}
      */
@@ -176,6 +178,10 @@ Typograf.prototype = {
         var that = this,
             rulesForQueue = {},
             innerRulesForQueue = {},
+            htmlEntityParam = this._prepareHtmlEntityParam(
+                prefs.mode || this._prefs.mode,
+                prefs.htmlEntity || this._prefs.htmlEntity
+            ),
             executeRulesForQueue = function(queue) {
                 text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
             };
@@ -202,6 +208,8 @@ Typograf.prototype = {
 
         text = this._hideSafeTags(text);
 
+        executeRulesForQueue('safe-tags');
+
         text = this._utfication(text);
 
         if (this._prefs.live) {
@@ -211,7 +219,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._modification(text, prefs.mode || this._prefs.mode);
+        text = this._restoreHtmlEntities(text, htmlEntityParam);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -617,7 +625,7 @@ Typograf.prototype = {
         }
 
         if (text.search(/&[a-z]/i) !== -1) {
-            this.entities.forEach(function(entity) {
+            this._htmlEntities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
         }
@@ -633,21 +641,67 @@ Typograf.prototype = {
                 return String.fromCharCode(parseInt($1, 16));
             });
     },
-    _modification: function(text, mode) {
-        if (mode === 'name' || mode === 'digit') {
-            var index = mode === 'name' ? 0 : 1;
-            this.entities.forEach(function(entity) {
-                if (entity[index]) {
-                    text = text.replace(entity[4], entity[index]);
+    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
+        return oldFormat ? {type: oldFormat} : newFormat || {};
+    },
+    _restoreHtmlEntities: function(text, param) {
+        var type = param.type,
+            entityList = this._htmlEntities;
+
+        if (type === 'name' || type === 'digit') {
+            if (param.onlyInvisible || param.list) {
+                entityList = [];
+
+                if (param.onlyInvisible) {
+                    entityList = entityList.concat(this._invisibleHtmlEntities);
                 }
-            });
+
+                if (param.list) {
+                    entityList = entityList.concat(this._prepareListParam(param.list));
+                }
+            }
+
+            text = this._restoreHtmlEntitiesByIndex(
+                text,
+                {name: 0, digit: 1}[type],
+                entityList
+            );
         }
+
+        return text;
+    },
+    _prepareListParam: function(list) {
+        var result = [];
+
+        list.forEach(function(name) {
+            var entity = this._htmlEntitiesByName[name];
+            if (entity) {
+                result.push(entity);
+            }
+        }, this);
+
+        return result;
+    },
+    _restoreHtmlEntitiesByIndex: function(text, index, entities) {
+        entities.forEach(function(entity) {
+            if (entity[index]) {
+                text = text.replace(entity[4], entity[index]);
+            }
+        });
 
         return text;
     }
 };
 
-Typograf.version = '5.6.0';
+/**
+ * @typedef HtmlEntity
+ *
+ * @property {string} type - 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @property {boolean} [onlyInvisible]
+ * @property {string[]} [list]
+ */
+
+Typograf.version = '5.7.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -664,11 +718,8 @@ Typograf.groupIndexes = {
     html: 1210
 };
 
-Typograf.prototype.entities = [];
-
 // http://www.w3.org/TR/html4/sgml/entities
-[
-    ['nbsp', 160],
+var visibleEntities = [
     ['iexcl', 161],
     ['cent', 162],
     ['pound', 163],
@@ -681,7 +732,6 @@ Typograf.prototype.entities = [];
     ['ordf', 170],
     ['laquo', 171],
     ['not', 172],
-    ['shy', 173],
     ['reg', 174],
     ['macr', 175],
     ['deg', 176],
@@ -895,13 +945,6 @@ Typograf.prototype.entities = [];
     ['Yuml', 376],
     ['circ', 710],
     ['tilde', 732],
-    ['ensp', 8194],
-    ['emsp', 8195],
-    ['thinsp', 8201],
-    ['zwnj', 8204],
-    ['zwj', 8205],
-    ['lrm', 8206],
-    ['rlm', 8207],
     ['ndash', 8211],
     ['mdash', 8212],
     ['lsquo', 8216],
@@ -918,20 +961,123 @@ Typograf.prototype.entities = [];
     ['euro', 8364],
     ['NestedGreaterGreater', 8811],
     ['NestedLessLess', 8810]
-].forEach(function(en) {
-    var name = en[0],
-        num = en[1],
-        sym = String.fromCharCode(num),
-        buf = [
-            '&' + name + ';', // 0 - &nbsp;
-            '&#' + num + ';', // 1 - &#160;
-            sym, // 2 - \u00A0
-            new RegExp('&' + name + ';', 'g'),
-            new RegExp(sym, 'g') // 4
-        ];
+];
 
-    Typograf.prototype.entities.push(buf);
-}, this);
+var invisibleEntities = [
+    ['nbsp', 160],
+    ['thinsp', 8201],
+    ['ensp', 8194],
+    ['emsp', 8195],
+    ['shy', 173],
+    ['zwnj', 8204],
+    ['zwj', 8205],
+    ['lrm', 8206],
+    ['rlm', 8207]
+];
+
+function prepareEntities(entities) {
+    var result = [];
+
+    entities.forEach(function(en) {
+        var name = en[0],
+            num = en[1],
+            sym = String.fromCharCode(num),
+            buf = [
+                '&' + name + ';', // 0 - &nbsp;
+                '&#' + num + ';', // 1 - &#160;
+                sym, // 2 - \u00A0
+                new RegExp('&' + name + ';', 'g'),
+                new RegExp(sym, 'g') // 4
+            ];
+
+        result.push(buf);
+    }, this);
+
+    return result;
+}
+
+Typograf.prototype._htmlEntities = prepareEntities([].concat(visibleEntities, invisibleEntities));
+
+Typograf.prototype._htmlEntitiesByName = Typograf.prototype._htmlEntities.reduce(function(acc, value) {
+    acc[value[0].replace(/&|;/g, '')] = value;
+
+    return acc;
+}, {});
+
+Typograf.prototype._invisibleHtmlEntities = prepareEntities(invisibleEntities);
+
+Typograf.prototype.blockElements = [
+    'address',
+    'article',
+    'aside',
+    'blockquote',
+    'canvas',
+    'dd',
+    'div',
+    'dl',
+    'fieldset',
+    'figcaption',
+    'figure',
+    'footer',
+    'form',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'header',
+    'hgroup',
+    'hr',
+    'li',
+    'main',
+    'nav',
+    'noscript',
+    'ol',
+    'output',
+    'p',
+    'pre',
+    'section',
+    'table',
+    'tfoot',
+    'ul',
+    'video'
+];
+
+Typograf.prototype.inlineElements = [
+    'a',
+    'abbr',
+    'acronym',
+    'b',
+    'bdo',
+    'big',
+    'br',
+    'button',
+    'cite',
+    'code',
+    'dfn',
+    'em',
+    'i',
+    'img',
+    'input',
+    'kbd',
+    'label',
+    'map',
+    'object',
+    'q',
+    'samp',
+    'script',
+    'select',
+    'small',
+    'span',
+    'strong',
+    'sub',
+    'sup',
+    'textarea',
+    'time',
+    'tt',
+    'var'
+];
 
 Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
 
@@ -1025,15 +1171,19 @@ Typograf.rule({
     name: 'common/html/p',
     queue: 'end',
     handler: function(text) {
-        if (text.search(/<p[\s>]/) === -1) {
-            if (text.search(/\n/) === -1) {
-                text = '<p>' + text + '</p>';
-            } else {
-                text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-            }
-        }
+        var blockRe = new RegExp('<(' + this.blockElements.join('|') + ')[>\s]'),
+            separator = '\n\n',
+            buffer = text.split(separator);
 
-        return text;
+        buffer.forEach(function(text, i, data) {
+            if (!text.trim()) { return; }
+
+            if (!blockRe.test(text)) {
+                data[i] = text.replace(/^(\s*)/, '$1<p>').replace(/(\s*)$/, '</p>$1');
+            }
+        });
+
+        return buffer.join(separator);
     },
     disabled: true
 });
@@ -1890,9 +2040,19 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/number/comma',
+    handler: function(text) {
+        // \u00A0 - NO-BREAK SPACE
+        // \u2009 - THIN SPACE
+        // \u202F - NARROW NO-BREAK SPACE
+        return text.replace(/(^|\s)(\d+)\.(\d+[\u00A0\u2009\u202F ]*?[%‰°×x])/gim, '$1$2,$3');
+    }
+});
+
+Typograf.rule({
     name: 'ru/number/ordinals',
     handler: function(text) {
-        var re = new RegExp('(\\d)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.data('l') + '])', 'g');
+        var re = new RegExp('(\\d[%‰]?)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.data('l') + '])', 'g');
 
         return text.replace(re, function($0, $1, $2) {
             var parts = {
@@ -2279,6 +2439,13 @@ Typograf.rule({
         var re = new RegExp('(^| |\u00A0)(\\d{3,4})(год([ауе]|ом)?)([^' +
             this.data('l') + ']|$)', 'g');
         return text.replace(re, '$1$2 $3$5');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/symbols/NN',
+    handler: function(text) {
+        return text.replace(/№№/g, '№');
     }
 });
 

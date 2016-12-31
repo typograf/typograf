@@ -16,8 +16,9 @@ if(typeof define === 'function' && define.amd) {
  * @constructor
  * @param {Object} [prefs]
  * @param {string} [prefs.lang] Language rules
- * @param {string} [prefs.mode] HTML entities as: 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
  * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
+ * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+ * @param {HtmlEntity} [prefs.htmlEntity]
  * @param {boolean} [prefs.live] Live mode
  * @param {string|string[]} [prefs.enable] Enable rules
  * @param {string|string[]} [prefs.disable] Disable rules
@@ -160,7 +161,8 @@ Typograf.prototype = {
      * @param {string} text
      * @param {Object} [prefs]
      * @param {string} [prefs.lang] Language rules
-     * @param {string} [prefs.mode] Type HTML entities
+     * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
+     * @param {HtmlEntity} [prefs.htmlEntity] Type HTML entities
      * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
      * @return {string}
      */
@@ -176,6 +178,10 @@ Typograf.prototype = {
         var that = this,
             rulesForQueue = {},
             innerRulesForQueue = {},
+            htmlEntityParam = this._prepareHtmlEntityParam(
+                prefs.mode || this._prefs.mode,
+                prefs.htmlEntity || this._prefs.htmlEntity
+            ),
             executeRulesForQueue = function(queue) {
                 text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
             };
@@ -202,6 +208,8 @@ Typograf.prototype = {
 
         text = this._hideSafeTags(text);
 
+        executeRulesForQueue('safe-tags');
+
         text = this._utfication(text);
 
         if (this._prefs.live) {
@@ -211,7 +219,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._modification(text, prefs.mode || this._prefs.mode);
+        text = this._restoreHtmlEntities(text, htmlEntityParam);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -617,7 +625,7 @@ Typograf.prototype = {
         }
 
         if (text.search(/&[a-z]/i) !== -1) {
-            this.entities.forEach(function(entity) {
+            this._htmlEntities.forEach(function(entity) {
                 text = text.replace(entity[3], entity[2]);
             });
         }
@@ -633,21 +641,67 @@ Typograf.prototype = {
                 return String.fromCharCode(parseInt($1, 16));
             });
     },
-    _modification: function(text, mode) {
-        if (mode === 'name' || mode === 'digit') {
-            var index = mode === 'name' ? 0 : 1;
-            this.entities.forEach(function(entity) {
-                if (entity[index]) {
-                    text = text.replace(entity[4], entity[index]);
+    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
+        return oldFormat ? {type: oldFormat} : newFormat || {};
+    },
+    _restoreHtmlEntities: function(text, param) {
+        var type = param.type,
+            entityList = this._htmlEntities;
+
+        if (type === 'name' || type === 'digit') {
+            if (param.onlyInvisible || param.list) {
+                entityList = [];
+
+                if (param.onlyInvisible) {
+                    entityList = entityList.concat(this._invisibleHtmlEntities);
                 }
-            });
+
+                if (param.list) {
+                    entityList = entityList.concat(this._prepareListParam(param.list));
+                }
+            }
+
+            text = this._restoreHtmlEntitiesByIndex(
+                text,
+                {name: 0, digit: 1}[type],
+                entityList
+            );
         }
+
+        return text;
+    },
+    _prepareListParam: function(list) {
+        var result = [];
+
+        list.forEach(function(name) {
+            var entity = this._htmlEntitiesByName[name];
+            if (entity) {
+                result.push(entity);
+            }
+        }, this);
+
+        return result;
+    },
+    _restoreHtmlEntitiesByIndex: function(text, index, entities) {
+        entities.forEach(function(entity) {
+            if (entity[index]) {
+                text = text.replace(entity[4], entity[index]);
+            }
+        });
 
         return text;
     }
 };
 
-Typograf.version = '5.6.0';
+/**
+ * @typedef HtmlEntity
+ *
+ * @property {string} type - 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
+ * @property {boolean} [onlyInvisible]
+ * @property {string[]} [list]
+ */
+
+Typograf.version = '5.7.0';
 
 Typograf.groupIndexes = {
     symbols: 110,
@@ -664,11 +718,8 @@ Typograf.groupIndexes = {
     html: 1210
 };
 
-Typograf.prototype.entities = [];
-
 // http://www.w3.org/TR/html4/sgml/entities
-[
-    ['nbsp', 160],
+var visibleEntities = [
     ['iexcl', 161],
     ['cent', 162],
     ['pound', 163],
@@ -681,7 +732,6 @@ Typograf.prototype.entities = [];
     ['ordf', 170],
     ['laquo', 171],
     ['not', 172],
-    ['shy', 173],
     ['reg', 174],
     ['macr', 175],
     ['deg', 176],
@@ -895,13 +945,6 @@ Typograf.prototype.entities = [];
     ['Yuml', 376],
     ['circ', 710],
     ['tilde', 732],
-    ['ensp', 8194],
-    ['emsp', 8195],
-    ['thinsp', 8201],
-    ['zwnj', 8204],
-    ['zwj', 8205],
-    ['lrm', 8206],
-    ['rlm', 8207],
     ['ndash', 8211],
     ['mdash', 8212],
     ['lsquo', 8216],
@@ -918,20 +961,123 @@ Typograf.prototype.entities = [];
     ['euro', 8364],
     ['NestedGreaterGreater', 8811],
     ['NestedLessLess', 8810]
-].forEach(function(en) {
-    var name = en[0],
-        num = en[1],
-        sym = String.fromCharCode(num),
-        buf = [
-            '&' + name + ';', // 0 - &nbsp;
-            '&#' + num + ';', // 1 - &#160;
-            sym, // 2 - \u00A0
-            new RegExp('&' + name + ';', 'g'),
-            new RegExp(sym, 'g') // 4
-        ];
+];
 
-    Typograf.prototype.entities.push(buf);
-}, this);
+var invisibleEntities = [
+    ['nbsp', 160],
+    ['thinsp', 8201],
+    ['ensp', 8194],
+    ['emsp', 8195],
+    ['shy', 173],
+    ['zwnj', 8204],
+    ['zwj', 8205],
+    ['lrm', 8206],
+    ['rlm', 8207]
+];
+
+function prepareEntities(entities) {
+    var result = [];
+
+    entities.forEach(function(en) {
+        var name = en[0],
+            num = en[1],
+            sym = String.fromCharCode(num),
+            buf = [
+                '&' + name + ';', // 0 - &nbsp;
+                '&#' + num + ';', // 1 - &#160;
+                sym, // 2 - \u00A0
+                new RegExp('&' + name + ';', 'g'),
+                new RegExp(sym, 'g') // 4
+            ];
+
+        result.push(buf);
+    }, this);
+
+    return result;
+}
+
+Typograf.prototype._htmlEntities = prepareEntities([].concat(visibleEntities, invisibleEntities));
+
+Typograf.prototype._htmlEntitiesByName = Typograf.prototype._htmlEntities.reduce(function(acc, value) {
+    acc[value[0].replace(/&|;/g, '')] = value;
+
+    return acc;
+}, {});
+
+Typograf.prototype._invisibleHtmlEntities = prepareEntities(invisibleEntities);
+
+Typograf.prototype.blockElements = [
+    'address',
+    'article',
+    'aside',
+    'blockquote',
+    'canvas',
+    'dd',
+    'div',
+    'dl',
+    'fieldset',
+    'figcaption',
+    'figure',
+    'footer',
+    'form',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'header',
+    'hgroup',
+    'hr',
+    'li',
+    'main',
+    'nav',
+    'noscript',
+    'ol',
+    'output',
+    'p',
+    'pre',
+    'section',
+    'table',
+    'tfoot',
+    'ul',
+    'video'
+];
+
+Typograf.prototype.inlineElements = [
+    'a',
+    'abbr',
+    'acronym',
+    'b',
+    'bdo',
+    'big',
+    'br',
+    'button',
+    'cite',
+    'code',
+    'dfn',
+    'em',
+    'i',
+    'img',
+    'input',
+    'kbd',
+    'label',
+    'map',
+    'object',
+    'q',
+    'samp',
+    'script',
+    'select',
+    'small',
+    'span',
+    'strong',
+    'sub',
+    'sup',
+    'textarea',
+    'time',
+    'tt',
+    'var'
+];
 
 Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
 
@@ -977,107 +1123,6 @@ Typograf.data({
 Typograf.data('ru/rquote', '»“‘');
 
 Typograf.data('ru/weekday', 'понедельник|вторник|среда|четверг|пятница|суббота|воскресенье');
-
-Typograf.rule({
-    name: 'common/html/e-mail',
-    queue: 'end',
-    handler: function(text) {
-        return this._isHTML ? text : text.replace(
-            /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
-            '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
-        );
-    },
-    disabled: true
-});
-
-Typograf.rule({
-    name: 'common/html/escape',
-    index: '+100',
-    queue: 'end',
-    handler: function(text) {
-        var entityMap = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            '\'': '&#39;',
-            '/': '&#x2F;'
-        };
-
-        return text.replace(/[&<>"'\/]/g, function(s) {
-            return entityMap[s];
-        });
-    },
-    disabled: true
-});
-
-Typograf.rule({
-    name: 'common/html/nbr',
-    index: '+5',
-    queue: 'end',
-    handler: function(text) {
-        return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
-    },
-    disabled: true
-});
-
-Typograf.rule({
-    name: 'common/html/p',
-    queue: 'end',
-    handler: function(text) {
-        if (text.search(/<p[\s>]/) === -1) {
-            if (text.search(/\n/) === -1) {
-                text = '<p>' + text + '</p>';
-            } else {
-                text = '<p>' + text.replace(/\n\n/g, '</p>\n<p>') + '<\/p>';
-            }
-        }
-
-        return text;
-    },
-    disabled: true
-});
-
-Typograf.rule({
-    name: 'common/html/stripTags',
-    index: '+99',
-    queue: 'end',
-    handler: function(text) {
-        return text.replace(/<[^>]+>/g, '');
-    },
-    disabled: true
-});
-
-Typograf.rule({
-    name: 'common/html/url',
-    queue: 'end',
-    handler: function(text) {
-        return this._isHTML ? text : text.replace(this._reUrl, function($0, protocol, path) {
-            path = path
-                .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
-                .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
-
-            if (protocol === 'http') {
-                path = path.replace(/^([^\/]+)(:80)([^\d]|\/|$)/, '$1$3'); // Remove 80 port
-            } else if (protocol === 'https') {
-                path = path.replace(/^([^\/]+)(:443)([^\d]|\/|$)/, '$1$3'); // Remove 443 port
-            }
-
-            var url = path,
-                fullUrl = protocol + '://' + path,
-                firstPart = '<a href="' + fullUrl + '">';
-
-            if (protocol === 'http' || protocol === 'https') {
-                url = url.replace(/^www\./, '');
-
-                return firstPart + (protocol === 'http' ? url : protocol + '://' + url) + '</a>';
-            }
-
-            return firstPart + fullUrl + '</a>';
-        });
-    },
-    disabled: true
-});
 
 Typograf.rule({
     name: 'common/nbsp/afterNumber',
@@ -1177,6 +1222,111 @@ Typograf.rule({
     queue: 'utf',
     live: false,
     handler: Typograf._replaceNbsp,
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/e-mail',
+    queue: 'end',
+    handler: function(text) {
+        return this._isHTML ? text : text.replace(
+            /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
+            '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
+        );
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/escape',
+    index: '+100',
+    queue: 'end',
+    handler: function(text) {
+        var entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            '\'': '&#39;',
+            '/': '&#x2F;'
+        };
+
+        return text.replace(/[&<>"'\/]/g, function(s) {
+            return entityMap[s];
+        });
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/nbr',
+    index: '+5',
+    queue: 'end',
+    handler: function(text) {
+        return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/p',
+    queue: 'end',
+    handler: function(text) {
+        var blockRe = new RegExp('<(' + this.blockElements.join('|') + ')[>\s]'),
+            separator = '\n\n',
+            buffer = text.split(separator);
+
+        buffer.forEach(function(text, i, data) {
+            if (!text.trim()) { return; }
+
+            if (!blockRe.test(text)) {
+                data[i] = text.replace(/^(\s*)/, '$1<p>').replace(/(\s*)$/, '</p>$1');
+            }
+        });
+
+        return buffer.join(separator);
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/stripTags',
+    index: '+99',
+    queue: 'end',
+    handler: function(text) {
+        return text.replace(/<[^>]+>/g, '');
+    },
+    disabled: true
+});
+
+Typograf.rule({
+    name: 'common/html/url',
+    queue: 'end',
+    handler: function(text) {
+        return this._isHTML ? text : text.replace(this._reUrl, function($0, protocol, path) {
+            path = path
+                .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
+                .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
+
+            if (protocol === 'http') {
+                path = path.replace(/^([^\/]+)(:80)([^\d]|\/|$)/, '$1$3'); // Remove 80 port
+            } else if (protocol === 'https') {
+                path = path.replace(/^([^\/]+)(:443)([^\d]|\/|$)/, '$1$3'); // Remove 443 port
+            }
+
+            var url = path,
+                fullUrl = protocol + '://' + path,
+                firstPart = '<a href="' + fullUrl + '">';
+
+            if (protocol === 'http' || protocol === 'https') {
+                url = url.replace(/^www\./, '');
+
+                return firstPart + (protocol === 'http' ? url : protocol + '://' + url) + '</a>';
+            }
+
+            return firstPart + fullUrl + '</a>';
+        });
+    },
     disabled: true
 });
 
@@ -1630,6 +1780,35 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/date/fromISO',
+    handler: function(text) {
+        var sp1 = '(-|\\.|\\/)',
+            sp2 = '(-|\\/)',
+            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+
+        return text
+            .replace(re1, '$1$6.$4.$2$7')
+            .replace(re2, '$1$4.$2.$6$7');
+    }
+});
+
+Typograf.rule({
+    name: 'ru/date/weekday',
+    handler: function(text) {
+        var space = '( |\u00A0)',
+            monthCase = this.data('ru/monthGenCase'),
+            weekday = this.data('ru/weekday'),
+            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
+
+        return text.replace(re, function() {
+            var a = arguments;
+            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        });
+    }
+});
+
+Typograf.rule({
     name: 'ru/money/currency',
     handler: function(text) {
         var currency = '([$€¥Ұ£₤₽])',
@@ -1659,35 +1838,6 @@ Typograf.rule({
             .replace(re3, newSubstr + '.');
     },
     disabled: true
-});
-
-Typograf.rule({
-    name: 'ru/date/fromISO',
-    handler: function(text) {
-        var sp1 = '(-|\\.|\\/)',
-            sp2 = '(-|\\/)',
-            re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-            re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
-    }
-});
-
-Typograf.rule({
-    name: 'ru/date/weekday',
-    handler: function(text) {
-        var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthGenCase'),
-            weekday = this.data('ru/weekday'),
-            re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-
-        return text.replace(re, function() {
-            var a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-        });
-    }
 });
 
 Typograf.rule({
@@ -1890,9 +2040,19 @@ Typograf.rule({
 });
 
 Typograf.rule({
+    name: 'ru/number/comma',
+    handler: function(text) {
+        // \u00A0 - NO-BREAK SPACE
+        // \u2009 - THIN SPACE
+        // \u202F - NARROW NO-BREAK SPACE
+        return text.replace(/(^|\s)(\d+)\.(\d+[\u00A0\u2009\u202F ]*?[%‰°×x])/gim, '$1$2,$3');
+    }
+});
+
+Typograf.rule({
     name: 'ru/number/ordinals',
     handler: function(text) {
-        var re = new RegExp('(\\d)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.data('l') + '])', 'g');
+        var re = new RegExp('(\\d[%‰]?)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.data('l') + '])', 'g');
 
         return text.replace(re, function($0, $1, $2) {
             var parts = {
@@ -2282,6 +2442,13 @@ Typograf.rule({
     }
 });
 
+Typograf.rule({
+    name: 'ru/symbols/NN',
+    handler: function(text) {
+        return text.replace(/№№/g, '№');
+    }
+});
+
 (function() {
 
 var replacements = {
@@ -2386,7 +2553,7 @@ Typograf.titles = {
     "ru": "Замена неразрывного пробела на обычный"
   },
   "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+    "common": "1/2 → ½, 1/4 → ¼, 3/4 → ¾"
   },
   "common/number/mathSigns": {
     "common": "!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±"
@@ -2618,6 +2785,10 @@ Typograf.titles = {
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
   },
+  "ru/number/comma": {
+    "en": "Commas in numbers",
+    "ru": "Замена точки на запятую в числах"
+  },
   "ru/number/ordinals": {
     "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
@@ -2670,6 +2841,9 @@ Typograf.titles = {
   "ru/space/year": {
     "en": "Space between number and word “год”",
     "ru": "Пробел между числом и словом «год»"
+  },
+  "ru/symbols/NN": {
+    "common": "№№ → №"
   },
   "ru/typo/switchingKeyboardLayout": {
     "en": "Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts",
@@ -2744,8 +2918,8 @@ Typograf.groups = [
   {
     "name": "symbols",
     "title": {
-      "en": "Symbols",
-      "ru": "Символы"
+      "en": "Symbols and signs",
+      "ru": "Символы и знаки"
     }
   },
   {

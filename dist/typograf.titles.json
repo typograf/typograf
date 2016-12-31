@@ -56,7 +56,7 @@
     "ru": "Замена неразрывного пробела на обычный"
   },
   "common/number/fraction": {
-    "common": "1/2 → ½, 1/4 → ¼, 3/3 → ¾"
+    "common": "1/2 → ½, 1/4 → ¼, 3/4 → ¾"
   },
   "common/number/mathSigns": {
     "common": "!= → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ±"
@@ -288,6 +288,10 @@
     "en": "г.г. → гг. and non-breaking space",
     "ru": "г.г. → гг. и нераз. пробел"
   },
+  "ru/number/comma": {
+    "en": "Commas in numbers",
+    "ru": "Замена точки на запятую в числах"
+  },
   "ru/number/ordinals": {
     "common": "N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й)"
   },
@@ -340,6 +344,9 @@
   "ru/space/year": {
     "en": "Space between number and word “год”",
     "ru": "Пробел между числом и словом «год»"
+  },
+  "ru/symbols/NN": {
+    "common": "№№ → №"
   },
   "ru/typo/switchingKeyboardLayout": {
     "en": "Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts",
