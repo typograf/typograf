@@ -196,7 +196,7 @@ Typograf.prototype = {
 
         executeRulesForQueue('safe-tags');
 
-        text = this._utfication(text);
+        text = HtmlEntities.toUtf(text);
 
         if (this._prefs.live) {
             text = Typograf._replaceNbsp(text);
@@ -205,7 +205,7 @@ Typograf.prototype = {
 
         executeRulesForQueue();
 
-        text = this._restoreHtmlEntities(text, htmlEntityParam);
+        text = HtmlEntities.restore(text, htmlEntityParam);
         executeRulesForQueue('entity');
 
         text = this._showSafeTags(text);
@@ -605,84 +605,8 @@ Typograf.prototype = {
 
         return text;
     },
-    _utfication: function(text) {
-        if (text.search(/&#/) !== -1) {
-            text = this._decHexToUtf(text);
-        }
-
-        if (text.search(/&[a-z]/i) !== -1) {
-            this._htmlEntities.forEach(function(entity) {
-                text = text.replace(entity[3], entity[2]);
-            });
-        }
-
-        return text.replace(/&quot;/g, '"');
-    },
-    _decHexToUtf: function(text) {
-        return text
-            .replace(/&#(\d{1,6});/gi, function($0, $1) {
-                return String.fromCharCode(parseInt($1, 10));
-            })
-            .replace(/&#x([\da-f]{1,6});/gi, function($0, $1) {
-                return String.fromCharCode(parseInt($1, 16));
-            });
-    },
     _prepareHtmlEntityParam: function(oldFormat, newFormat) {
         return oldFormat ? {type: oldFormat} : newFormat || {};
-    },
-    _restoreHtmlEntities: function(text, param) {
-        var type = param.type,
-            entityList = this._htmlEntities;
-
-        if (type === 'name' || type === 'digit') {
-            if (param.onlyInvisible || param.list) {
-                entityList = [];
-
-                if (param.onlyInvisible) {
-                    entityList = entityList.concat(this._invisibleHtmlEntities);
-                }
-
-                if (param.list) {
-                    entityList = entityList.concat(this._prepareListParam(param.list));
-                }
-            }
-
-            text = this._restoreHtmlEntitiesByIndex(
-                text,
-                {name: 0, digit: 1}[type],
-                entityList
-            );
-        }
-
-        return text;
-    },
-    _prepareListParam: function(list) {
-        var result = [];
-
-        list.forEach(function(name) {
-            var entity = this._htmlEntitiesByName[name];
-            if (entity) {
-                result.push(entity);
-            }
-        }, this);
-
-        return result;
-    },
-    _restoreHtmlEntitiesByIndex: function(text, index, entities) {
-        entities.forEach(function(entity) {
-            if (entity[index]) {
-                text = text.replace(entity[4], entity[index]);
-            }
-        });
-
-        return text;
     }
 };
 
-/**
- * @typedef HtmlEntity
- *
- * @property {string} type - 'default' - UTF-8, 'digit' - &#160;, 'name' - &nbsp;
- * @property {boolean} [onlyInvisible]
- * @property {string[]} [list]
- */

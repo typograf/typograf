@@ -13,6 +13,7 @@
     },
     "globals": {
         "Typograf": true,
+        "HtmlEntities": true,
         "tests": true,
         "innerTests": true
     },
