@@ -72,6 +72,10 @@ Typograf.titles = {
     "en": "Removing repeat words",
     "ru": "Удаление повтора слова"
   },
+  "common/punctuation/apostrophe": {
+    "en": "Placement of correct apostrophe",
+    "ru": "Расстановка правильного апострофа"
+  },
   "common/punctuation/delDoublePunctuation": {
     "en": "Removing double punctuation",
     "ru": "Удаление двойной пунктуации"
@@ -318,10 +322,6 @@ Typograf.titles = {
   "ru/punctuation/ano": {
     "en": "Placement of commas before “а” and “но”",
     "ru": "Расстановка запятых перед «а» и «но»"
-  },
-  "ru/punctuation/apostrophe": {
-    "en": "Placement of correct apostrophe",
-    "ru": "Расстановка правильного апострофа"
   },
   "ru/punctuation/exclamation": {
     "common": "!! → !"
