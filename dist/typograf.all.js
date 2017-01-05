@@ -27,16 +27,27 @@ function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
     this._prefs.live = this._prefs.live || false;
 
+    this._safeTags = new SafeTags();
+
     this._settings = {};
     this._enabledRules = {};
 
-    this._replaceLabel = this._replaceLabel.bind(this);
-    this._pasteLabel = this._pasteLabel.bind(this);
-    this._initSafeTags();
-
+    this._innerRulesByQueues = {};
     this._innerRules = [].concat(this._innerRules);
+    this._innerRules.forEach(function(rule) {
+        var q = rule.queue || 'default';
+        this._innerRulesByQueues[q] = this._innerRulesByQueues[q] || [];
+        this._innerRulesByQueues[q].push(rule);
+    }, this);
+
+    this._rulesByQueues = {};
     this._rules = [].concat(this._rules);
-    this._rules.forEach(this._prepareRule, this);
+    this._rules.forEach(function(rule) {
+        var q = rule.queue || 'default';
+        this._prepareRule(rule);
+        this._rulesByQueues[q] = this._rulesByQueues[q] || [];
+        this._rulesByQueues[q].push(rule);
+    }, this);
 
     this._prefs.disable && this.disable(this._prefs.disable);
     this._prefs.enable && this.enable(this._prefs.enable);
@@ -73,6 +84,8 @@ Typograf.rule = function(rule) {
 
     return this;
 };
+
+Typograf._reUrl = new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g');
 
 Typograf._langs = ['en', 'ru'];
 
@@ -169,69 +182,52 @@ Typograf.prototype = {
     execute: function(text, prefs) {
         text = '' + text;
 
-        if (!text) {
-            return '';
-        }
+        if (!text) { return ''; }
 
         prefs = prefs || {};
 
         var that = this,
-            rulesForQueue = {},
-            innerRulesForQueue = {},
             htmlEntityParam = this._prepareHtmlEntityParam(
                 prefs.mode || this._prefs.mode,
                 prefs.htmlEntity || this._prefs.htmlEntity
-            ),
-            executeRulesForQueue = function(queue) {
-                text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
-            };
+            );
 
         this._lang = prefs.lang || this._prefs.lang || 'common';
 
         text = this._removeCR(text);
 
-        this._innerRules.forEach(function(rule) {
-            var q = rule.queue;
-            innerRulesForQueue[q] = innerRulesForQueue[q] || [];
-            innerRulesForQueue[q].push(rule);
-        });
-
-        this._rules.forEach(function(rule) {
-            var q = rule.queue;
-            rulesForQueue[q] = rulesForQueue[q] || [];
-            rulesForQueue[q].push(rule);
-        });
-
         this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
-        executeRulesForQueue('start');
+        text = this._executeRules(text, 'start');
 
-        text = this._hideSafeTags(text);
+        text = this._safeTags.hide(text, this._isHTML, function(t, group) {
+            return that._executeRules(t, 'hide-safe-tags-' + group);
+        });
 
-        executeRulesForQueue('safe-tags');
+        text = this._executeRules(text, 'hide-safe-tags');
 
-        text = this._utfication(text);
+        text = HtmlEntities.toUtf(text);
 
-        if (this._prefs.live) {
-            text = Typograf._replaceNbsp(text);
-        }
-        executeRulesForQueue('utf');
+        if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
 
-        executeRulesForQueue();
+        text = this._executeRules(text, 'utf');
 
-        text = this._restoreHtmlEntities(text, htmlEntityParam);
-        executeRulesForQueue('entity');
+        text = this._executeRules(text);
 
-        text = this._showSafeTags(text);
+        text = HtmlEntities.restore(text, htmlEntityParam);
 
-        executeRulesForQueue('end');
+        text = this._executeRules(text, 'entity');
+
+        text = this._safeTags.show(text, function(t, group) {
+            return that._executeRules(t, 'show-safe-tags-' + group);
+        });
+
+        text = this._executeRules(text, 'end');
 
         this._lang = null;
         this._isHTML = null;
 
-        text = this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
-
-        return text;
+        return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
     },
     /**
      * Get/set a setting.
@@ -304,7 +300,7 @@ Typograf.prototype = {
     addSafeTag: function(startTag, endTag, middle) {
         var tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
 
-        this._safeTags.own.push(this._prepareSafeTag(tag));
+        this._safeTags.add(tag);
 
         return this;
     },
@@ -413,7 +409,12 @@ Typograf.prototype = {
 
         return bufText.join('');
     },
-    _executeRules: function(text, rules, innerRules) {
+    _executeRules: function(text, queue) {
+        queue = queue || 'default';
+
+        var rules = this._rulesByQueues[queue],
+            innerRules = this._innerRulesByQueues[queue];
+
         innerRules && innerRules.forEach(function(rule) {
             text = this._ruleIterator(text, rule);
         }, this);
@@ -508,62 +509,144 @@ Typograf.prototype = {
 
         return rule;
     },
-    _initSafeTags: function() {
-        var html = [
-            ['<!--', '-->'],
-            ['<!ENTITY', '>'],
-            ['<!DOCTYPE', '>'],
-            ['<\\?xml', '\\?>'],
-            ['<!\\[CDATA\\[', '\\]\\]>']
-        ];
+    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
+        return oldFormat ? {type: oldFormat} : newFormat || {};
+    }
+};
 
-        [
-            'code',
-            'kbd',
-            'object',
-            'pre',
-            'samp',
-            'script',
-            'style',
-            'var'
-        ].forEach(function(tag) {
-            html.push([
-                '<' + tag + '(\\s[^>]*?)?>',
-                '</' + tag + '>'
-            ]);
+Typograf.version = '5.8.0';
+
+Typograf.groupIndexes = {
+    symbols: 110,
+    space: 210,
+    dash: 310,
+    punctuation: 410,
+    nbsp: 510,
+    'number': 610,
+    money: 710,
+    date: 810,
+    other: 910,
+    optalign: 1010,
+    typo: 1110,
+    html: 1210
+};
+
+function SafeTags() {
+    var html = [
+        ['<!--', '-->'],
+        ['<!ENTITY', '>'],
+        ['<!DOCTYPE', '>'],
+        ['<\\?xml', '\\?>'],
+        ['<!\\[CDATA\\[', '\\]\\]>']
+    ];
+
+    [
+        'code',
+        'kbd',
+        'object',
+        'pre',
+        'samp',
+        'script',
+        'style',
+        'var'
+    ].forEach(function(tag) {
+        html.push([
+            '<' + tag + '(\\s[^>]*?)?>',
+            '</' + tag + '>'
+        ]);
+    }, this);
+
+    this._tags = {
+        own: [],
+        html: html.map(this._prepareRegExp),
+        url: [Typograf._reUrl]
+    };
+
+    this._pasteLabel = this._pasteLabel.bind(this);
+    this._replaceLabel = this._replaceLabel.bind(this);
+
+    this._groups = ['own', 'html', 'url'];
+    this._reservedGroups = [].concat(this._groups).reverse();
+}
+
+SafeTags.prototype = {
+    constructor: SafeTags,
+    /**
+     * Add own safe tag.
+     *
+     * @param {RegExp|string[]} tag
+     */
+    add: function(tag) {
+        this._tags.own.push(this._prepareRegExp(tag));
+    },
+    /**
+     * Show safe tags.
+     *
+     * @param {string} text
+     * @param {Function} callback
+     * @return {string}
+     */
+    show: function(text, callback) {
+        var label = Typograf._privateLabel,
+            reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
+            reSearch = new RegExp(label + 'tf\\d');
+
+        this._reservedGroups.forEach(function(group) {
+            this._currentGroup = group;
+
+            for (var i = 0, len = this._tags[group].length; i < len; i++) {
+                text = text.replace(reReplace, this._replaceLabel);
+                if (text.search(reSearch) === -1) { break; }
+            }
+
+            text = callback(text, group);
         }, this);
 
-        this._safeTags = {
-            html: html.map(this._prepareSafeTag),
-            own: [],
-            url: [this._reUrl]
-        };
-    },
-    _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
-    _hideSafeTags: function(text) {
-        var that = this,
-            iterator = function(tag) {
-                text = text.replace(that._prepareSafeTag(tag), that._pasteLabel);
-            },
-            hide = function(name) {
-                that._safeTags[name].forEach(iterator);
-            };
-
-        this._hiddenSafeTags = {};
-        this._iLabel = 0;
-
-        hide('own');
-
-        if (this._isHTML) {
-            hide('html');
-            text = this._hideHTMLTags(text);
-        }
-
-        hide('url');
+        this._hiddenTags = null;
 
         return text;
     },
-    _prepareSafeTag: function(tag) {
+    /**
+     * Hide safe tags.
+     *
+     * @param {string} text
+     * @param {boolean} isHTML
+     * @param {Function} callback
+     * @return {string}
+     */
+    hide: function(text, isHTML, callback) {
+        this._isHTML = isHTML;
+
+        this._hiddenTags = {};
+        this._groups.forEach(function(group) {
+            this._hiddenTags[group] = {};
+        }, this);
+        this._iLabel = 0;
+
+        this._groups.forEach(function(group) {
+            text = this._hide(text, group);
+            text = callback(text, group);
+        }, this);
+
+        return text;
+    },
+    _hide: function(text, group) {
+        this._currentGroup = group;
+
+        this._tags[group].forEach(function(tag) {
+            text = text.replace(this._prepareRegExp(tag), this._pasteLabel);
+        }, this);
+
+        if (group === 'html' && this._isHTML) {
+            text = text
+                .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
+                .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
+                .replace(/&[gl]t;/gi, this._pasteLabel);
+        }
+
+        return text;
+    },
+    _prepareRegExp: function(tag) {
         var re;
 
         if (tag instanceof RegExp) {
@@ -584,55 +667,311 @@ Typograf.prototype = {
     },
     _pasteLabel: function(match) {
         var key = this._getPrivateLabel(this._iLabel);
-        this._hiddenSafeTags[key] = match;
+        this._hiddenTags[this._currentGroup][key] = match;
         this._iLabel++;
 
         return key;
     },
     _replaceLabel: function(match) {
-        return this._hiddenSafeTags[match];
+        return this._hiddenTags[this._currentGroup][match] || match;
+    }
+};
+
+var HtmlEntities = {
+    init: function() {
+        // http://www.w3.org/TR/html4/sgml/entities
+        var visibleEntities = [
+            ['iexcl', 161],
+            ['cent', 162],
+            ['pound', 163],
+            ['curren', 164],
+            ['yen', 165],
+            ['brvbar', 166],
+            ['sect', 167],
+            ['uml', 168],
+            ['copy', 169],
+            ['ordf', 170],
+            ['laquo', 171],
+            ['not', 172],
+            ['reg', 174],
+            ['macr', 175],
+            ['deg', 176],
+            ['plusmn', 177],
+            ['sup2', 178],
+            ['sup3', 179],
+            ['acute', 180],
+            ['micro', 181],
+            ['para', 182],
+            ['middot', 183],
+            ['cedil', 184],
+            ['sup1', 185],
+            ['ordm', 186],
+            ['raquo', 187],
+            ['frac14', 188],
+            ['frac12', 189],
+            ['frac34', 190],
+            ['iquest', 191],
+            ['Agrave', 192],
+            ['Aacute', 193],
+            ['Acirc', 194],
+            ['Atilde', 195],
+            ['Auml', 196],
+            ['Aring', 197],
+            ['AElig', 198],
+            ['Ccedil', 199],
+            ['Egrave', 200],
+            ['Eacute', 201],
+            ['Ecirc', 202],
+            ['Euml', 203],
+            ['Igrave', 204],
+            ['Iacute', 205],
+            ['Icirc', 206],
+            ['Iuml', 207],
+            ['ETH', 208],
+            ['Ntilde', 209],
+            ['Ograve', 210],
+            ['Oacute', 211],
+            ['Ocirc', 212],
+            ['Otilde', 213],
+            ['Ouml', 214],
+            ['times', 215],
+            ['Oslash', 216],
+            ['Ugrave', 217],
+            ['Uacute', 218],
+            ['Ucirc', 219],
+            ['Uuml', 220],
+            ['Yacute', 221],
+            ['THORN', 222],
+            ['szlig', 223],
+            ['agrave', 224],
+            ['aacute', 225],
+            ['acirc', 226],
+            ['atilde', 227],
+            ['auml', 228],
+            ['aring', 229],
+            ['aelig', 230],
+            ['ccedil', 231],
+            ['egrave', 232],
+            ['eacute', 233],
+            ['ecirc', 234],
+            ['euml', 235],
+            ['igrave', 236],
+            ['iacute', 237],
+            ['icirc', 238],
+            ['iuml', 239],
+            ['eth', 240],
+            ['ntilde', 241],
+            ['ograve', 242],
+            ['oacute', 243],
+            ['ocirc', 244],
+            ['otilde', 245],
+            ['ouml', 246],
+            ['divide', 247],
+            ['oslash', 248],
+            ['ugrave', 249],
+            ['uacute', 250],
+            ['ucirc', 251],
+            ['uuml', 252],
+            ['yacute', 253],
+            ['thorn', 254],
+            ['yuml', 255],
+            ['fnof', 402],
+            ['Alpha', 913],
+            ['Beta', 914],
+            ['Gamma', 915],
+            ['Delta', 916],
+            ['Epsilon', 917],
+            ['Zeta', 918],
+            ['Eta', 919],
+            ['Theta', 920],
+            ['Iota', 921],
+            ['Kappa', 922],
+            ['Lambda', 923],
+            ['Mu', 924],
+            ['Nu', 925],
+            ['Xi', 926],
+            ['Omicron', 927],
+            ['Pi', 928],
+            ['Rho', 929],
+            ['Sigma', 931],
+            ['Tau', 932],
+            ['Upsilon', 933],
+            ['Phi', 934],
+            ['Chi', 935],
+            ['Psi', 936],
+            ['Omega', 937],
+            ['alpha', 945],
+            ['beta', 946],
+            ['gamma', 947],
+            ['delta', 948],
+            ['epsilon', 949],
+            ['zeta', 950],
+            ['eta', 951],
+            ['theta', 952],
+            ['iota', 953],
+            ['kappa', 954],
+            ['lambda', 955],
+            ['mu', 956],
+            ['nu', 957],
+            ['xi', 958],
+            ['omicron', 959],
+            ['pi', 960],
+            ['rho', 961],
+            ['sigmaf', 962],
+            ['sigma', 963],
+            ['tau', 964],
+            ['upsilon', 965],
+            ['phi', 966],
+            ['chi', 967],
+            ['psi', 968],
+            ['omega', 969],
+            ['thetasym', 977],
+            ['upsih', 978],
+            ['piv', 982],
+            ['bull', 8226],
+            ['hellip', 8230],
+            ['prime', 8242],
+            ['Prime', 8243],
+            ['oline', 8254],
+            ['frasl', 8260],
+            ['weierp', 8472],
+            ['image', 8465],
+            ['real', 8476],
+            ['trade', 8482],
+            ['alefsym', 8501],
+            ['larr', 8592],
+            ['uarr', 8593],
+            ['rarr', 8594],
+            ['darr', 8595],
+            ['harr', 8596],
+            ['crarr', 8629],
+            ['lArr', 8656],
+            ['uArr', 8657],
+            ['rArr', 8658],
+            ['dArr', 8659],
+            ['hArr', 8660],
+            ['forall', 8704],
+            ['part', 8706],
+            ['exist', 8707],
+            ['empty', 8709],
+            ['nabla', 8711],
+            ['isin', 8712],
+            ['notin', 8713],
+            ['ni', 8715],
+            ['prod', 8719],
+            ['sum', 8721],
+            ['minus', 8722],
+            ['lowast', 8727],
+            ['radic', 8730],
+            ['prop', 8733],
+            ['infin', 8734],
+            ['ang', 8736],
+            ['and', 8743],
+            ['or', 8744],
+            ['cap', 8745],
+            ['cup', 8746],
+            ['int', 8747],
+            ['there4', 8756],
+            ['sim', 8764],
+            ['cong', 8773],
+            ['asymp', 8776],
+            ['ne', 8800],
+            ['equiv', 8801],
+            ['le', 8804],
+            ['ge', 8805],
+            ['sub', 8834],
+            ['sup', 8835],
+            ['nsub', 8836],
+            ['sube', 8838],
+            ['supe', 8839],
+            ['oplus', 8853],
+            ['otimes', 8855],
+            ['perp', 8869],
+            ['sdot', 8901],
+            ['lceil', 8968],
+            ['rceil', 8969],
+            ['lfloor', 8970],
+            ['rfloor', 8971],
+            ['lang', 9001],
+            ['rang', 9002],
+            ['spades', 9824],
+            ['clubs', 9827],
+            ['hearts', 9829],
+            ['diams', 9830],
+            ['loz', 9674],
+            ['OElig', 338],
+            ['oelig', 339],
+            ['Scaron', 352],
+            ['scaron', 353],
+            ['Yuml', 376],
+            ['circ', 710],
+            ['tilde', 732],
+            ['ndash', 8211],
+            ['mdash', 8212],
+            ['lsquo', 8216],
+            ['rsquo', 8217],
+            ['sbquo', 8218],
+            ['ldquo', 8220],
+            ['rdquo', 8221],
+            ['bdquo', 8222],
+            ['dagger', 8224],
+            ['Dagger', 8225],
+            ['permil', 8240],
+            ['lsaquo', 8249],
+            ['rsaquo', 8250],
+            ['euro', 8364],
+            ['NestedGreaterGreater', 8811],
+            ['NestedLessLess', 8810]
+        ];
+
+        var invisibleEntities = [
+            ['nbsp', 160],
+            ['thinsp', 8201],
+            ['ensp', 8194],
+            ['emsp', 8195],
+            ['shy', 173],
+            ['zwnj', 8204],
+            ['zwj', 8205],
+            ['lrm', 8206],
+            ['rlm', 8207]
+        ];
+
+        this._entities = this._prepareEntities([].concat(visibleEntities, invisibleEntities));
+
+        this._entitiesByName = this._entities.reduce(function(acc, entity) {
+            acc[entity.name] = entity;
+
+            return acc;
+        }, {});
+
+        this._invisibleEntities = this._prepareEntities(invisibleEntities);
     },
-    _hideHTMLTags: function(text) {
-        return text
-            .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
-            .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
-            .replace(/&[gl]t;/gi, this._pasteLabel);
-    },
-    _showSafeTags: function(text) {
-        var label = Typograf._privateLabel,
-            reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
-            reSearch = new RegExp(label + 'tf\\d'),
-            len = 0;
-
-        Object.keys(this._safeTags).forEach(function(tags) {
-            len += tags.length;
-        });
-
-        for (var i = 0; i < len; i++) {
-            text = text.replace(reReplace, this._replaceLabel);
-            if (text.search(reSearch) === -1) {
-                break;
-            }
-        }
-
-        this._hiddenSafeTags = {};
-
-        return text;
-    },
-    _utfication: function(text) {
+    /**
+     * Entities as name or digit to UTF-8.
+     *
+     * @param {string} text
+     * @return {string}
+     */
+    toUtf: function(text) {
         if (text.search(/&#/) !== -1) {
-            text = this._decHexToUtf(text);
+            text = this.decHexToUtf(text);
         }
 
         if (text.search(/&[a-z]/i) !== -1) {
-            this._htmlEntities.forEach(function(entity) {
-                text = text.replace(entity[3], entity[2]);
+            this._entities.forEach(function(entity) {
+                text = text.replace(entity.reName, entity.utf);
             });
         }
 
         return text.replace(/&quot;/g, '"');
     },
-    _decHexToUtf: function(text) {
+    /**
+     * Entities in decimal or hexadecimal form to UTF-8.
+     *
+     * @param {string} text
+     * @return {string}
+     */
+    decHexToUtf: function(text) {
         return text
             .replace(/&#(\d{1,6});/gi, function($0, $1) {
                 return String.fromCharCode(parseInt($1, 10));
@@ -641,40 +980,65 @@ Typograf.prototype = {
                 return String.fromCharCode(parseInt($1, 16));
             });
     },
-    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
-        return oldFormat ? {type: oldFormat} : newFormat || {};
-    },
-    _restoreHtmlEntities: function(text, param) {
-        var type = param.type,
-            entityList = this._htmlEntities;
+    /**
+     * Restore HTML entities in text.
+     *
+     * @param {string} text
+     * @param {HtmlEntity} params
+     * @returns {string}
+     */
+    restore: function(text, params) {
+        var type = params.type,
+            entities = this._entities;
 
         if (type === 'name' || type === 'digit') {
-            if (param.onlyInvisible || param.list) {
-                entityList = [];
+            if (params.onlyInvisible || params.list) {
+                entities = [];
 
-                if (param.onlyInvisible) {
-                    entityList = entityList.concat(this._invisibleHtmlEntities);
+                if (params.onlyInvisible) {
+                    entities = entities.concat(this._invisibleEntities);
                 }
 
-                if (param.list) {
-                    entityList = entityList.concat(this._prepareListParam(param.list));
+                if (params.list) {
+                    entities = entities.concat(this._prepareListParam(params.list));
                 }
             }
 
-            text = this._restoreHtmlEntitiesByIndex(
+            text = this._restoreEntitiesByIndex(
                 text,
-                {name: 0, digit: 1}[type],
-                entityList
+                type + 'Entity',
+                entities
             );
         }
 
         return text;
     },
+    _prepareEntities: function(entities) {
+        var result = [];
+
+        entities.forEach(function(entity) {
+            var name = entity[0],
+                digit = entity[1],
+                utf = String.fromCharCode(digit),
+                item = {
+                    name: name,
+                    nameEntity: '&' + name + ';', // &nbsp;
+                    digitEntity: '&#' + digit + ';', // &#160;
+                    utf: utf, // \u00A0
+                    reName: new RegExp('&' + name + ';', 'g'),
+                    reUtf: new RegExp(utf, 'g')
+                };
+
+            result.push(item);
+        }, this);
+
+        return result;
+    },
     _prepareListParam: function(list) {
         var result = [];
 
         list.forEach(function(name) {
-            var entity = this._htmlEntitiesByName[name];
+            var entity = this._entitiesByName[name];
             if (entity) {
                 result.push(entity);
             }
@@ -682,16 +1046,16 @@ Typograf.prototype = {
 
         return result;
     },
-    _restoreHtmlEntitiesByIndex: function(text, index, entities) {
+    _restoreEntitiesByIndex: function(text, type, entities) {
         entities.forEach(function(entity) {
-            if (entity[index]) {
-                text = text.replace(entity[4], entity[index]);
-            }
+            text = text.replace(entity.reUtf, entity[type]);
         });
 
         return text;
     }
 };
+
+HtmlEntities.init();
 
 /**
  * @typedef HtmlEntity
@@ -700,311 +1064,6 @@ Typograf.prototype = {
  * @property {boolean} [onlyInvisible]
  * @property {string[]} [list]
  */
-
-Typograf.version = '5.7.0';
-
-Typograf.groupIndexes = {
-    symbols: 110,
-    space: 210,
-    dash: 310,
-    punctuation: 410,
-    nbsp: 510,
-    'number': 610,
-    money: 710,
-    date: 810,
-    other: 910,
-    optalign: 1010,
-    typo: 1110,
-    html: 1210
-};
-
-// http://www.w3.org/TR/html4/sgml/entities
-var visibleEntities = [
-    ['iexcl', 161],
-    ['cent', 162],
-    ['pound', 163],
-    ['curren', 164],
-    ['yen', 165],
-    ['brvbar', 166],
-    ['sect', 167],
-    ['uml', 168],
-    ['copy', 169],
-    ['ordf', 170],
-    ['laquo', 171],
-    ['not', 172],
-    ['reg', 174],
-    ['macr', 175],
-    ['deg', 176],
-    ['plusmn', 177],
-    ['sup2', 178],
-    ['sup3', 179],
-    ['acute', 180],
-    ['micro', 181],
-    ['para', 182],
-    ['middot', 183],
-    ['cedil', 184],
-    ['sup1', 185],
-    ['ordm', 186],
-    ['raquo', 187],
-    ['frac14', 188],
-    ['frac12', 189],
-    ['frac34', 190],
-    ['iquest', 191],
-    ['Agrave', 192],
-    ['Aacute', 193],
-    ['Acirc', 194],
-    ['Atilde', 195],
-    ['Auml', 196],
-    ['Aring', 197],
-    ['AElig', 198],
-    ['Ccedil', 199],
-    ['Egrave', 200],
-    ['Eacute', 201],
-    ['Ecirc', 202],
-    ['Euml', 203],
-    ['Igrave', 204],
-    ['Iacute', 205],
-    ['Icirc', 206],
-    ['Iuml', 207],
-    ['ETH', 208],
-    ['Ntilde', 209],
-    ['Ograve', 210],
-    ['Oacute', 211],
-    ['Ocirc', 212],
-    ['Otilde', 213],
-    ['Ouml', 214],
-    ['times', 215],
-    ['Oslash', 216],
-    ['Ugrave', 217],
-    ['Uacute', 218],
-    ['Ucirc', 219],
-    ['Uuml', 220],
-    ['Yacute', 221],
-    ['THORN', 222],
-    ['szlig', 223],
-    ['agrave', 224],
-    ['aacute', 225],
-    ['acirc', 226],
-    ['atilde', 227],
-    ['auml', 228],
-    ['aring', 229],
-    ['aelig', 230],
-    ['ccedil', 231],
-    ['egrave', 232],
-    ['eacute', 233],
-    ['ecirc', 234],
-    ['euml', 235],
-    ['igrave', 236],
-    ['iacute', 237],
-    ['icirc', 238],
-    ['iuml', 239],
-    ['eth', 240],
-    ['ntilde', 241],
-    ['ograve', 242],
-    ['oacute', 243],
-    ['ocirc', 244],
-    ['otilde', 245],
-    ['ouml', 246],
-    ['divide', 247],
-    ['oslash', 248],
-    ['ugrave', 249],
-    ['uacute', 250],
-    ['ucirc', 251],
-    ['uuml', 252],
-    ['yacute', 253],
-    ['thorn', 254],
-    ['yuml', 255],
-    ['fnof', 402],
-    ['Alpha', 913],
-    ['Beta', 914],
-    ['Gamma', 915],
-    ['Delta', 916],
-    ['Epsilon', 917],
-    ['Zeta', 918],
-    ['Eta', 919],
-    ['Theta', 920],
-    ['Iota', 921],
-    ['Kappa', 922],
-    ['Lambda', 923],
-    ['Mu', 924],
-    ['Nu', 925],
-    ['Xi', 926],
-    ['Omicron', 927],
-    ['Pi', 928],
-    ['Rho', 929],
-    ['Sigma', 931],
-    ['Tau', 932],
-    ['Upsilon', 933],
-    ['Phi', 934],
-    ['Chi', 935],
-    ['Psi', 936],
-    ['Omega', 937],
-    ['alpha', 945],
-    ['beta', 946],
-    ['gamma', 947],
-    ['delta', 948],
-    ['epsilon', 949],
-    ['zeta', 950],
-    ['eta', 951],
-    ['theta', 952],
-    ['iota', 953],
-    ['kappa', 954],
-    ['lambda', 955],
-    ['mu', 956],
-    ['nu', 957],
-    ['xi', 958],
-    ['omicron', 959],
-    ['pi', 960],
-    ['rho', 961],
-    ['sigmaf', 962],
-    ['sigma', 963],
-    ['tau', 964],
-    ['upsilon', 965],
-    ['phi', 966],
-    ['chi', 967],
-    ['psi', 968],
-    ['omega', 969],
-    ['thetasym', 977],
-    ['upsih', 978],
-    ['piv', 982],
-    ['bull', 8226],
-    ['hellip', 8230],
-    ['prime', 8242],
-    ['Prime', 8243],
-    ['oline', 8254],
-    ['frasl', 8260],
-    ['weierp', 8472],
-    ['image', 8465],
-    ['real', 8476],
-    ['trade', 8482],
-    ['alefsym', 8501],
-    ['larr', 8592],
-    ['uarr', 8593],
-    ['rarr', 8594],
-    ['darr', 8595],
-    ['harr', 8596],
-    ['crarr', 8629],
-    ['lArr', 8656],
-    ['uArr', 8657],
-    ['rArr', 8658],
-    ['dArr', 8659],
-    ['hArr', 8660],
-    ['forall', 8704],
-    ['part', 8706],
-    ['exist', 8707],
-    ['empty', 8709],
-    ['nabla', 8711],
-    ['isin', 8712],
-    ['notin', 8713],
-    ['ni', 8715],
-    ['prod', 8719],
-    ['sum', 8721],
-    ['minus', 8722],
-    ['lowast', 8727],
-    ['radic', 8730],
-    ['prop', 8733],
-    ['infin', 8734],
-    ['ang', 8736],
-    ['and', 8743],
-    ['or', 8744],
-    ['cap', 8745],
-    ['cup', 8746],
-    ['int', 8747],
-    ['there4', 8756],
-    ['sim', 8764],
-    ['cong', 8773],
-    ['asymp', 8776],
-    ['ne', 8800],
-    ['equiv', 8801],
-    ['le', 8804],
-    ['ge', 8805],
-    ['sub', 8834],
-    ['sup', 8835],
-    ['nsub', 8836],
-    ['sube', 8838],
-    ['supe', 8839],
-    ['oplus', 8853],
-    ['otimes', 8855],
-    ['perp', 8869],
-    ['sdot', 8901],
-    ['lceil', 8968],
-    ['rceil', 8969],
-    ['lfloor', 8970],
-    ['rfloor', 8971],
-    ['lang', 9001],
-    ['rang', 9002],
-    ['spades', 9824],
-    ['clubs', 9827],
-    ['hearts', 9829],
-    ['diams', 9830],
-    ['loz', 9674],
-    ['OElig', 338],
-    ['oelig', 339],
-    ['Scaron', 352],
-    ['scaron', 353],
-    ['Yuml', 376],
-    ['circ', 710],
-    ['tilde', 732],
-    ['ndash', 8211],
-    ['mdash', 8212],
-    ['lsquo', 8216],
-    ['rsquo', 8217],
-    ['sbquo', 8218],
-    ['ldquo', 8220],
-    ['rdquo', 8221],
-    ['bdquo', 8222],
-    ['dagger', 8224],
-    ['Dagger', 8225],
-    ['permil', 8240],
-    ['lsaquo', 8249],
-    ['rsaquo', 8250],
-    ['euro', 8364],
-    ['NestedGreaterGreater', 8811],
-    ['NestedLessLess', 8810]
-];
-
-var invisibleEntities = [
-    ['nbsp', 160],
-    ['thinsp', 8201],
-    ['ensp', 8194],
-    ['emsp', 8195],
-    ['shy', 173],
-    ['zwnj', 8204],
-    ['zwj', 8205],
-    ['lrm', 8206],
-    ['rlm', 8207]
-];
-
-function prepareEntities(entities) {
-    var result = [];
-
-    entities.forEach(function(en) {
-        var name = en[0],
-            num = en[1],
-            sym = String.fromCharCode(num),
-            buf = [
-                '&' + name + ';', // 0 - &nbsp;
-                '&#' + num + ';', // 1 - &#160;
-                sym, // 2 - \u00A0
-                new RegExp('&' + name + ';', 'g'),
-                new RegExp(sym, 'g') // 4
-            ];
-
-        result.push(buf);
-    }, this);
-
-    return result;
-}
-
-Typograf.prototype._htmlEntities = prepareEntities([].concat(visibleEntities, invisibleEntities));
-
-Typograf.prototype._htmlEntitiesByName = Typograf.prototype._htmlEntities.reduce(function(acc, value) {
-    acc[value[0].replace(/&|;/g, '')] = value;
-
-    return acc;
-}, {});
-
-Typograf.prototype._invisibleHtmlEntities = prepareEntities(invisibleEntities);
 
 Typograf.prototype.blockElements = [
     'address',
@@ -1081,7 +1140,7 @@ Typograf.prototype.inlineElements = [
 
 Typograf.data('common/dash', '--?|‒|–|—'); // --, &#8210, &ndash, &mdash
 
-Typograf.data('common/quote', '«‹»›„‚“‟‘‛”’"');
+Typograf.data('common/quote', '«‹»›„“‟”"');
 
 Typograf.data({
     'en/l': 'a-z',
@@ -1303,7 +1362,7 @@ Typograf.rule({
     name: 'common/html/url',
     queue: 'end',
     handler: function(text) {
-        return this._isHTML ? text : text.replace(this._reUrl, function($0, protocol, path) {
+        return this._isHTML ? text : text.replace(Typograf._reUrl, function($0, protocol, path) {
             path = path
                 .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
                 .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
@@ -1387,6 +1446,16 @@ Typograf.rule({
     },
     settings: {min: 2},
     disabled: true
+});
+
+Typograf.rule({
+    name: 'common/punctuation/apostrophe',
+    handler: function(text) {
+        var letters = '([' + this.data('l') + '])',
+            re = new RegExp(letters + '\'' + letters, 'gi');
+
+        return text.replace(re, '$1’$2');
+    }
 });
 
 Typograf.rule({
@@ -2358,17 +2427,6 @@ Typograf.rule({
 });
 
 Typograf.rule({
-    name: 'ru/punctuation/apostrophe',
-    index: '-5',
-    handler: function(text) {
-        var letters = '([' + this.data('l') + '])',
-            re = new RegExp(letters + '[\'’]' + letters, 'gi');
-
-        return text.replace(re, '$1ʼ$2');
-    }
-});
-
-Typograf.rule({
     name: 'ru/punctuation/exclamation',
     live: false,
     handler: function(text) {
@@ -2568,6 +2626,10 @@ Typograf.titles = {
   "common/other/repeatWord": {
     "en": "Removing repeat words",
     "ru": "Удаление повтора слова"
+  },
+  "common/punctuation/apostrophe": {
+    "en": "Placement of correct apostrophe",
+    "ru": "Расстановка правильного апострофа"
   },
   "common/punctuation/delDoublePunctuation": {
     "en": "Removing double punctuation",
@@ -2815,10 +2877,6 @@ Typograf.titles = {
   "ru/punctuation/ano": {
     "en": "Placement of commas before “а” and “но”",
     "ru": "Расстановка запятых перед «а» и «но»"
-  },
-  "ru/punctuation/apostrophe": {
-    "en": "Placement of correct apostrophe",
-    "ru": "Расстановка правильного апострофа"
   },
   "ru/punctuation/exclamation": {
     "common": "!! → !"
