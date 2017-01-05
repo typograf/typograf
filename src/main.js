@@ -13,16 +13,27 @@ function Typograf(prefs) {
     this._prefs = typeof prefs === 'object' ? prefs : {};
     this._prefs.live = this._prefs.live || false;
 
+    this._safeTags = new SafeTags();
+
     this._settings = {};
     this._enabledRules = {};
 
-    this._replaceLabel = this._replaceLabel.bind(this);
-    this._pasteLabel = this._pasteLabel.bind(this);
-    this._initSafeTags();
-
+    this._innerRulesByQueues = {};
     this._innerRules = [].concat(this._innerRules);
+    this._innerRules.forEach(function(rule) {
+        var q = rule.queue || 'default';
+        this._innerRulesByQueues[q] = this._innerRulesByQueues[q] || [];
+        this._innerRulesByQueues[q].push(rule);
+    }, this);
+
+    this._rulesByQueues = {};
     this._rules = [].concat(this._rules);
-    this._rules.forEach(this._prepareRule, this);
+    this._rules.forEach(function(rule) {
+        var q = rule.queue || 'default';
+        this._prepareRule(rule);
+        this._rulesByQueues[q] = this._rulesByQueues[q] || [];
+        this._rulesByQueues[q].push(rule);
+    }, this);
 
     this._prefs.disable && this.disable(this._prefs.disable);
     this._prefs.enable && this.enable(this._prefs.enable);
@@ -59,6 +70,8 @@ Typograf.rule = function(rule) {
 
     return this;
 };
+
+Typograf._reUrl = new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g');
 
 Typograf._langs = ['en', 'ru'];
 
@@ -155,69 +168,52 @@ Typograf.prototype = {
     execute: function(text, prefs) {
         text = '' + text;
 
-        if (!text) {
-            return '';
-        }
+        if (!text) { return ''; }
 
         prefs = prefs || {};
 
         var that = this,
-            rulesForQueue = {},
-            innerRulesForQueue = {},
             htmlEntityParam = this._prepareHtmlEntityParam(
                 prefs.mode || this._prefs.mode,
                 prefs.htmlEntity || this._prefs.htmlEntity
-            ),
-            executeRulesForQueue = function(queue) {
-                text = that._executeRules(text, rulesForQueue[queue], innerRulesForQueue[queue]);
-            };
+            );
 
         this._lang = prefs.lang || this._prefs.lang || 'common';
 
         text = this._removeCR(text);
 
-        this._innerRules.forEach(function(rule) {
-            var q = rule.queue;
-            innerRulesForQueue[q] = innerRulesForQueue[q] || [];
-            innerRulesForQueue[q].push(rule);
-        });
-
-        this._rules.forEach(function(rule) {
-            var q = rule.queue;
-            rulesForQueue[q] = rulesForQueue[q] || [];
-            rulesForQueue[q].push(rule);
-        });
-
         this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
-        executeRulesForQueue('start');
+        text = this._executeRules(text, 'start');
 
-        text = this._hideSafeTags(text);
+        text = this._safeTags.hide(text, this._isHTML, function(t, group) {
+            return that._executeRules(t, 'hide-safe-tags-' + group);
+        });
 
-        executeRulesForQueue('safe-tags');
+        text = this._executeRules(text, 'hide-safe-tags');
 
         text = HtmlEntities.toUtf(text);
 
-        if (this._prefs.live) {
-            text = Typograf._replaceNbsp(text);
-        }
-        executeRulesForQueue('utf');
+        if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
 
-        executeRulesForQueue();
+        text = this._executeRules(text, 'utf');
+
+        text = this._executeRules(text);
 
         text = HtmlEntities.restore(text, htmlEntityParam);
-        executeRulesForQueue('entity');
 
-        text = this._showSafeTags(text);
+        text = this._executeRules(text, 'entity');
 
-        executeRulesForQueue('end');
+        text = this._safeTags.show(text, function(t, group) {
+            return that._executeRules(t, 'show-safe-tags-' + group);
+        });
+
+        text = this._executeRules(text, 'end');
 
         this._lang = null;
         this._isHTML = null;
 
-        text = this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
-
-        return text;
+        return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
     },
     /**
      * Get/set a setting.
@@ -290,7 +286,7 @@ Typograf.prototype = {
     addSafeTag: function(startTag, endTag, middle) {
         var tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
 
-        this._safeTags.own.push(this._prepareSafeTag(tag));
+        this._safeTags.add(tag);
 
         return this;
     },
@@ -399,7 +395,12 @@ Typograf.prototype = {
 
         return bufText.join('');
     },
-    _executeRules: function(text, rules, innerRules) {
+    _executeRules: function(text, queue) {
+        queue = queue || 'default';
+
+        var rules = this._rulesByQueues[queue],
+            innerRules = this._innerRulesByQueues[queue];
+
         innerRules && innerRules.forEach(function(rule) {
             text = this._ruleIterator(text, rule);
         }, this);
@@ -494,119 +495,7 @@ Typograf.prototype = {
 
         return rule;
     },
-    _initSafeTags: function() {
-        var html = [
-            ['<!--', '-->'],
-            ['<!ENTITY', '>'],
-            ['<!DOCTYPE', '>'],
-            ['<\\?xml', '\\?>'],
-            ['<!\\[CDATA\\[', '\\]\\]>']
-        ];
-
-        [
-            'code',
-            'kbd',
-            'object',
-            'pre',
-            'samp',
-            'script',
-            'style',
-            'var'
-        ].forEach(function(tag) {
-            html.push([
-                '<' + tag + '(\\s[^>]*?)?>',
-                '</' + tag + '>'
-            ]);
-        }, this);
-
-        this._safeTags = {
-            html: html.map(this._prepareSafeTag),
-            own: [],
-            url: [this._reUrl]
-        };
-    },
-    _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
-    _hideSafeTags: function(text) {
-        var that = this,
-            iterator = function(tag) {
-                text = text.replace(that._prepareSafeTag(tag), that._pasteLabel);
-            },
-            hide = function(name) {
-                that._safeTags[name].forEach(iterator);
-            };
-
-        this._hiddenSafeTags = {};
-        this._iLabel = 0;
-
-        hide('own');
-
-        if (this._isHTML) {
-            hide('html');
-            text = this._hideHTMLTags(text);
-        }
-
-        hide('url');
-
-        return text;
-    },
-    _prepareSafeTag: function(tag) {
-        var re;
-
-        if (tag instanceof RegExp) {
-            re = tag;
-        } else {
-            var startTag = tag[0],
-                endTag = tag[1],
-                middle = typeof tag[2] === 'undefined' ? '[^]*?' : tag[2];
-
-            re = new RegExp(startTag + middle + endTag, 'gi');
-        }
-
-        return re;
-    },
-    _getPrivateLabel: function(i) {
-        var label = Typograf._privateLabel;
-        return label + 'tf' + i + label;
-    },
-    _pasteLabel: function(match) {
-        var key = this._getPrivateLabel(this._iLabel);
-        this._hiddenSafeTags[key] = match;
-        this._iLabel++;
-
-        return key;
-    },
-    _replaceLabel: function(match) {
-        return this._hiddenSafeTags[match];
-    },
-    _hideHTMLTags: function(text) {
-        return text
-            .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
-            .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
-            .replace(/&[gl]t;/gi, this._pasteLabel);
-    },
-    _showSafeTags: function(text) {
-        var label = Typograf._privateLabel,
-            reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
-            reSearch = new RegExp(label + 'tf\\d'),
-            len = 0;
-
-        Object.keys(this._safeTags).forEach(function(tags) {
-            len += tags.length;
-        });
-
-        for (var i = 0; i < len; i++) {
-            text = text.replace(reReplace, this._replaceLabel);
-            if (text.search(reSearch) === -1) {
-                break;
-            }
-        }
-
-        this._hiddenSafeTags = {};
-
-        return text;
-    },
     _prepareHtmlEntityParam: function(oldFormat, newFormat) {
         return oldFormat ? {type: oldFormat} : newFormat || {};
     }
 };
-

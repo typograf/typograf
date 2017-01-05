@@ -2,7 +2,7 @@ Typograf.rule({
     name: 'common/html/url',
     queue: 'end',
     handler: function(text) {
-        return this._isHTML ? text : text.replace(this._reUrl, function($0, protocol, path) {
+        return this._isHTML ? text : text.replace(Typograf._reUrl, function($0, protocol, path) {
             path = path
                 .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
                 .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /

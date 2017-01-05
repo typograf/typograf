@@ -11,7 +11,9 @@
         "browser": true
     },
     "globals": {
-        "Typograf": true
+        "Typograf": true,
+        "HtmlEntities": true,
+        "SafeTags": true
     },
     "extends": "eslint:recommended"
 }
