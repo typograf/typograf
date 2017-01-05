@@ -12,7 +12,7 @@ const tests = [
     ],
     [
         'Bob’s',
-        'Bobʼs'
+        'Bob’s'
     ]
 ];
 
