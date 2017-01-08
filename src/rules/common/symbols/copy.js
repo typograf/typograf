@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/symbols/copy',
     handler: function(text) {
         return Typograf._replace(text, [

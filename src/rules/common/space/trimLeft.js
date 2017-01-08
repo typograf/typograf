@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/space/trimLeft',
     index: '-4',
     handler: String.prototype.trimLeft ? function(text) {

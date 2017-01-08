@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/afterNumberSign',
     handler: function(text) {
         // \u2009 - THIN SPACE

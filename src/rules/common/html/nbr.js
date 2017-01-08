@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/html/nbr',
     index: '+5',
     queue: 'end',

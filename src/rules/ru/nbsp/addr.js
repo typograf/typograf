@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/addr',
     handler: function(text) {
         return text

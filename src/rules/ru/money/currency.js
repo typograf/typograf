@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/money/currency',
     handler: function(text) {
         var currency = '([$€¥Ұ£₤₽])',

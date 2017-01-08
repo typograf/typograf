@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/number/fraction',
     handler: function(text) {
         return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')

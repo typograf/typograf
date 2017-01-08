@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/date/fromISO',
     handler: function(text) {
         var sp1 = '(-|\\.|\\/)',

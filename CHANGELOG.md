@@ -1,5 +1,48 @@
 # Changelog
 
+#v6.0.0
+
+Переименованы методы:
+- `Typograf.rule()` → `Typograf.addRule()`
+- `Typograf.innerRule()` → `Typograf.addInnerRule()`
+- `Typograf.data()` → `Typograf.getData()` и `Typograf.setData()`
+- `Typograf.setting()` → `Typograf.getSetting()` и `Typograf.setSetting()`
+- `Typograf.prototype.data()` → `Typograf.prototype.getData()`
+- `Typograf.prototype.disable()` → `Typograf.prototype.disableRule()`
+- `Typograf.prototype.disabled()` → `Typograf.prototype.isDisabledRule()`
+- `Typograf.prototype.enable()` → `Typograf.prototype.enableRule()`
+- `Typograf.prototype.enabled()` → `Typograf.prototype.isEnabledRule()`
+
+Переименованы свойства в параметрах конструктора:
+- `disable` → `disableRule`
+- `enable` → `enableRule`
+- `lang` → `locale`
+- `mode` → `htmlEntity`
+
+```js
+// Было:
+var tp = new Typograf({
+    enable: 'ru/optalign/*',
+    lang: 'ru',
+    mode: 'digit'
+});
+
+// Стало:
+var tp = new Typograf({
+    enableRule: 'ru/optalign/*',
+    locale: ['ru', 'en-US'],
+    htmlEntity: {type: 'digit'}
+});
+```
+
+Добавлена поддержка начальной типографики для [нескольких десятков локалей](LOCALES.en-US.md). Добавлены методы по работе с локалями: `Typograf.addLocale()`, `Typograf.hasLocale()` и `Typograf.getLocales()`.
+
+Добавлено правило `common/punctuation/quoteLink` для выноса кавычек из ссылки.
+
+Правило по расстановке кавычек стало общим `common/punctuation/quote`. Правила `ru/punctuation/quote` и `en/punctuation/quote` удалены.
+
+Переработана сборка с помощью `gulp-include`, упрощены тесты и пр.
+
 # v5.8.0
 Доработки по расстановке кавычек и апострофа #143, #214. Правило `ru/punctuation/apostrophe` переименовано в `common/punctuation/apostrophe`.
 
@@ -146,7 +189,7 @@ t.addSafeTag(/<mytag>.*?</mytag>/gi);
 
 ### Прочее
 - Неразрывный тонкий пробел после № и §
-- Командный интерфейс перенесен в [отдельный репозитарий](https://github.com/typograf/typograf-cli)
+- Командный интерфейс перенесен в [отдельный репозиторий](https://github.com/typograf/typograf-cli)
 - Удалено свойство `index` у большинства правил
 - Рефакторинг регулярных выражений в правилах
 - Исправлены неточности в описаниях правил

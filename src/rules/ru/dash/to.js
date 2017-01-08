@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/dash/to',
     handler: function(text) {
         var words = [
@@ -9,7 +9,7 @@ Typograf.rule({
                 'кто', 'кого', 'кому', 'кем'
             ],
             re = new RegExp('(' + words.join('|') + ')( | -|- )(то|либо|нибудь)' +
-                this.data('ru/dashAfter'), 'gi');
+                this.getData('ru/dashAfter'), 'gi');
 
         return text.replace(re, '$1-$3');
     }

@@ -75,5 +75,5 @@ const ruTests = [
     ]
 ];
 
-helpers.ruTests('ru smoke', ruTests);
-helpers.ruDoubleTests('ru smoke, double execute', ruTests);
+helpers.test('ru smoke', ruTests, {locale: ['ru', 'en-US']});
+helpers.doubleTest('ru smoke, double execute', ruTests, {locale: ['ru', 'en-US']});

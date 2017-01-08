@@ -1,9 +1,9 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/date/weekday',
     handler: function(text) {
         var space = '( |\u00A0)',
-            monthCase = this.data('ru/monthGenCase'),
-            weekday = this.data('ru/weekday'),
+            monthCase = this.getData('ru/monthGenCase'),
+            weekday = this.getData('ru/weekday'),
             re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
 
         return text.replace(re, function() {

@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/other/delBOM',
     queue: 'start',
     index: -1,

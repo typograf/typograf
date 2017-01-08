@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/html/escape',
     index: '+100',
     queue: 'end',

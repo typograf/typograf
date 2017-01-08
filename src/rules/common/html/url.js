@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/html/url',
     queue: 'end',
     handler: function(text) {

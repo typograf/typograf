@@ -2,7 +2,7 @@
 
 const assert = require('chai').assert;
 const Typograf = require('../build/typograf');
-const t = new Typograf();
+const t = new Typograf({locale: 'en-US'});
 const commonTests = [
     [
         '  start  <script>  var a = 10;  \n\n\n</script>  end  ',
@@ -89,8 +89,8 @@ describe('common/smoke double execute', function() {
 });
 
 it('enable common/html/escape', function() {
-    const tp = new Typograf();
-    tp.enable('common/html/escape');
+    const tp = new Typograf({locale: 'en-US'});
+    tp.enableRule('common/html/escape');
 
     const escapeTests = [
         ['<p align="center">\nHello world!\n</p>',

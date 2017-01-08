@@ -1,1 +1,1 @@
-Typograf.data('common/quote', '«‹»›„“‟”"');
+Typograf.setData('common/quote', '«‹»›„“‟”"');

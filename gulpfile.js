@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const fs = require('fs');
 const concat = require('gulp-concat');
 const gulpFilter = require('gulp-filter');
+const include = require('gulp-include');
 const jsonlint = require('gulp-jsonlint');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
@@ -12,69 +13,62 @@ const gulpJsonRules = require('./gulp/json-rules');
 const typografUtils = require('./gulp/utils');
 const filter = function() { return gulpFilter(['**/*.js', '!**/*.spec.js']); };
 const version = require('./package.json').version;
+const srcDir = './src/';
 const destDir = './build/';
-
-const bodyJs = [
-    'src/main.js',
-    'src/version.js',
-    'src/indexes.js',
-    'src/safe_tags.js',
-    'src/html_entities.js',
-    'src/block_elements.js',
-    'src/inline_elements.js',
-    'src/data/**/*.js',
-    'src/rules/**/*.js',
-    'src/sort.js'
-];
 
 const paths = {
     dist: 'dist/',
     build: 'build/typograf.*',
+    js: [
+        'src/main.js'
+    ],
+    jsRules: [
+        'src/rules/**/*.js'
+    ],
     jsonRules: [
         'src/rules/**/*.json'
     ],
     jsonGroups: [
         'src/groups.json'
     ],
-    js: [].concat(
-        'src/start.js',
-        bodyJs,
-        'src/end.js'
-    ),
-    allJs: [].concat(
-        'src/start.js',
-        bodyJs,
+    allJs: [
+        'dist/typograf.js',
         'dist/typograf.titles.js',
-        'dist/typograf.groups.js',
-        'src/end.js'
-    ),
+        'dist/typograf.groups.js'
+    ],
     css: [
         'src/**/*.css'
     ],
-    testRules: [
+    specRules: [
         'src/main.spec.js',
-        'src/rules/**/*.js'
+        'src/rules/**/*.spec.js'
     ]
 };
 
 gulp.task('version', function() {
-    const file = './src/version.js';
+    const file = srcDir + 'version.js';
 
     return gulp.src(file, {base: './'})
         .pipe(replace(/'[\d.]+'/, '\'' + version + '\''))
         .pipe(gulp.dest(''));
 });
 
-gulp.task('js', ['version'], function() {
-    return gulp.src(paths.js)
+gulp.task('rules', function() {
+    return gulp.src(paths.jsRules)
         .pipe(filter())
-        .pipe(concat('typograf.js'))
+        .pipe(concat('_rules.js'))
+        .pipe(gulp.dest(destDir));
+});
+
+gulp.task('js', ['version', 'rules'], function() {
+    return gulp.src(paths.js)
+        .pipe(include())
+        .pipe(rename('typograf.js'))
         .pipe(gulp.dest(destDir));
 });
 
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
     return gulp.src(paths.allJs)
-        .pipe(filter())
         .pipe(concat('typograf.all.js'))
         .pipe(gulp.dest(paths.dist));
 });
@@ -137,11 +131,8 @@ gulp.task('css', function() {
 });
 
 gulp.task('specs', function() {
-    const filterSpec = gulpFilter(['**/*.spec.js']);
-
-    return gulp.src(paths.testRules)
-        .pipe(filterSpec)
-        .pipe(concat('rules.js'))
+    return gulp.src(paths.specRules)
+        .pipe(concat('specs.js'))
         .pipe(gulp.dest(destDir));
 });
 

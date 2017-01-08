@@ -40,7 +40,7 @@ npm install typograf
 ```HTML
 <script src="./node_modules/typograf/dist/typograf.min.js"></script>
 <script>
-    var tp = new Typograf({lang: 'ru'});
+    var tp = new Typograf({locale: ['ru', 'en-US']});
     alert(tp.execute('     Мир - мой мир!!      '));
 </script>
 ```
@@ -52,7 +52,7 @@ npm install typograf
 
 ```js
 const Typograf = require('typograf');
-const tp = new Typograf({lang: 'ru'});
+const tp = new Typograf({locale: ['ru', 'en-US']});
 
 console.log(tp.execute(' Мир - мой мир!!   '));
 ```
@@ -66,6 +66,30 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 
 ### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
+## Локализация
+Типограф поддерживает [несколько десятков локалей](./docs/LOCALES.en-US.md).
+
+Задать локаль можно как одну, так и несколько. Первая локаль является основной, по ней выбирается какие будут выполнены правила и вид кавычек.
+```js
+// Выполняются правила "common/*" и "ru/*".
+// Кавычки русские.
+// Расставка неразрывных пробелов только между русскими словами.
+var tpRu = new Typograf({locale: 'ru'});
+```
+
+```js
+// Выполняются правила "common/*" и "ru/*".
+// Кавычки русские.
+// Расставка неразрывных пробелов между русскими и английскими словами.
+var tpRuEn = new Typograf({locale: ['ru', 'en-US']});
+```
+
+// Выполняются правила "common/*" и "en-US/*".
+// Кавычки английские.
+// Расставка неразрывных пробелов между русскими и английскими словами.
+var tpEnRu = new Typograf({locale: ['en-US', 'ru']});
+```
+
 ## API
 ### Висячая пунктуация
 По умолчанию висячая пунктуация отключена.
@@ -73,9 +97,9 @@ console.log(tp.execute(' Мир - мой мир!!   '));
 Для включения необходимо подключить правила:
 ```js
 var Typograf = require('typograf'),
-    tp = new Typograf({lang: 'ru'});
+    tp = new Typograf({locale: ['ru', 'en-US']});
 
-tp.enable('ru/optalign/*');
+tp.enableRule('ru/optalign/*');
 console.log(tp.execute('"Мир"'));
 ```
 
@@ -87,39 +111,36 @@ console.log(tp.execute('"Мир"'));
 
 ### Включить или отключить правила
 ```js
-var tp = new Typograf({lang: 'ru'});
-tp.enable('ru/money/ruble'); // Включить правило
-tp.enable('ru/money/*'); // Включить все правила в группе
-tp.enable('*'); // Включить все правила
+var tp = new Typograf({locale: ['ru', 'en-US']});
+tp.enableRule('ru/money/ruble'); // Включить правило
+tp.enableRule('ru/money/*'); // Включить все правила в группе
+tp.enableRule('*'); // Включить все правила
 //...
-tp.disable('ru/money/ruble'); // Отключить правило
-tp.disable('ru/money/*'); // Отключить все правила в группе
-tp.disable('*'); // Отключить все правила
+tp.disableRule('ru/money/ruble'); // Отключить правило
+tp.disableRule('ru/money/*'); // Отключить все правила в группе
+tp.disableRule('*'); // Отключить все правила
 ```
 
 ### Изменить настройку у правила
 ```js
-var tp = new Typograf({lang: 'ru'});
+var tp = new Typograf({locale: ['ru', 'en-US']});
 
 // Название правила, название настройки, значение
 
 // Неразрывный пробел перед последним словом в предложении, не более 5 символов
-tp.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord', 5);
+tp.setSetting('common/nbsp/beforeShortLastWord', 'lengthLastWord', 5);
 
-// Вложенные кавычки тоже «ёлочки»
-tp.setting('ru/punctuation/quote', 'lquote2', '«');
-tp.setting('ru/punctuation/quote', 'rquote2', '»');
-tp.setting('ru/punctuation/quote', 'lquote3', '«');
-tp.setting('ru/punctuation/quote', 'rquote3', '»');
+// Вложенные кавычки тоже «ёлочки» для русской типографики
+tp.setSetting('common/punctuation/quote', 'ru', {left: '«', right: '»', removeDuplicateQuotes: true});
 
 // Неразрывный пробел после короткого слова, не более 3 символов
-tp.setting('common/nbsp/afterShortWord', 'lengthShortWord', 3);
+tp.setSetting('common/nbsp/afterShortWord', 'lengthShortWord', 3);
 ```
 
 ### Добавить простое правило
 ```js
 // Типографический смайлик
-Typograf.rule({
+Typograf.addRule({
     name: 'common/other/typographicSmiley',
     handler: function (text) {
         return text.replace(/:-\)/g, ':—)');
@@ -130,19 +151,19 @@ Typograf.rule({
 ### HTML-сущности
 ```js
 // Режим по умолчанию, HTML-сущности, как UTF-8 символы
-var tp = new Typograf({lang: 'ru'});
+var tp = new Typograf({locale: ['ru', 'en-US']});
 tp.execute('12 кг...'); // 12 кг…
 
 // HTML-сущности в виде имён
 var tpName = new Typograf({
-    lang: 'ru',
+    locale: ['ru', 'en-US'],
     htmlEntity: {type: 'name'}
 });
 tpName.execute('12 кг...'); // 12&nbsp;кг&hellip;
 
 // HTML-сущности в виде цифр
 var tpDigit = new Typograf({
-    lang: 'ru',
+    locale: ['ru', 'en-US'],
     htmlEntity: {type: 'digit'}
 });
 tpDigit.execute('12 кг...'); // 12&#160;кг&#8230;
@@ -150,7 +171,7 @@ tpDigit.execute('12 кг...'); // 12&#160;кг&#8230;
 // Все HTML-сущности в UTF-8, а невидимые сущности в виде цифр
 // Невидимые сущности — &nbsp; &thinsp; &ensp; &emsp; &shy; &zwnj; &zwj; &lrm; &rlm;
 var tpNameInvisible = new Typograf({
-    lang: 'ru',
+    locale: ['ru', 'en-US'],
     htmlEntity: {
         type: 'name',
         onlyInvisible: true
@@ -160,7 +181,7 @@ tpNameInvisible.execute('12 кг...'); // 12&nbsp;кг…
 
 // Все HTML-сущности в UTF-8, а заданные в списке в виде цифр
 var tpDigit = new Typograf({
-    lang: 'ru',
+    locale: ['ru', 'en-US'],
     htmlEntity: {
         type: 'digit',
         list: ['nbsp', 'shy', 'mdash', 'ndash']
@@ -173,7 +194,7 @@ tpDigit.execute('12 кг...'); // 12&#160;кг…
 ### Типографика на лету
 Данный live-режим необходим, если текст типографируется на каждый ввод символа в текстовых полях.
 ```js
-var tp = new Typograf({lang: 'ru', live: true});
+var tp = new Typograf({locale: ['ru', 'en-US'], live: true});
 ```
 [Подробнее](https://github.com/typograf/jquery-typograf)
 
@@ -184,7 +205,7 @@ var tp = new Typograf({lang: 'ru', live: true});
 
 ### Отключение типографирования в участках текста
 ```js
-var tp = new Typograf({lang: 'ru'});
+var tp = new Typograf({locale: ['ru', 'en-US']});
 
 // Отключить типографирование внутри тега <no-typography>
 tp.addSafeTag('<no-typography>', '</no-typography>');

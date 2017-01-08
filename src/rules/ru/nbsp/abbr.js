@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/abbr',
     handler: function(text) {
         function abbr($0, $1, $2, $3) {

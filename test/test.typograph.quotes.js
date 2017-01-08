@@ -50,5 +50,4 @@ const ruTests = [
     ]
 ];
 
-helpers.ruTests('typograph quotes', ruTests);
-helpers.ruDoubleTests('typograph quotes, double execute', ruTests);
+helpers.doubleTest('typograph quotes, double execute', ruTests, {locale: ['ru', 'en-US']});

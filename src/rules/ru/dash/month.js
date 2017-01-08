@@ -1,9 +1,9 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/dash/month',
     handler: function(text, settings) {
-        var months = '(' + this.data('ru/month') + ')',
-            monthsPre = '(' + this.data('ru/monthPreCase') + ')',
-            dashes = this.data('common/dash'),
+        var months = '(' + this.getData('ru/month') + ')',
+            monthsPre = '(' + this.getData('ru/monthPreCase') + ')',
+            dashes = this.getData('common/dash'),
             re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
             rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi'),
             newSubStr = '$1' + settings.dash + '$3';

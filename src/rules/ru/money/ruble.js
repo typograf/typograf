@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/money/ruble',
     handler: function(text) {
         var newSubstr = '$1\u00A0₽',

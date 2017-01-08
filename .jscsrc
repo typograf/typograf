@@ -3,14 +3,9 @@
         ".*",
         "build",
         "dist",
-        "examples",
         "coverage",
-        "libs",
         "node_modules",
-        "test",
-        "site",
-        "src/start.js",
-        "src/end.js"
+        "test"
     ],
     "requireCurlyBraces": ["if", "else", "for", "while", "do"],
     "requireSpaceAfterKeywords": ["if", "else", "for", "while", "switch", "do"],

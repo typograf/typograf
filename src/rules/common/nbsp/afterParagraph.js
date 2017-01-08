@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/nbsp/afterParagraph',
     handler: function(text) {
         // \u2009 - THIN SPACE
