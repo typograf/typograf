@@ -35,7 +35,7 @@ var tp = new Typograf({
 });
 ```
 
-Добавлена поддержка начальной типографики для [нескольких десятков локалей](LOCALES.en-US.md). Добавлены методы по работе с локалями: `Typograf.addLocale()`, `Typograf.hasLocale()` и `Typograf.getLocales()`.
+Добавлена поддержка начальной типографики для [нескольких десятков локалей](https://github.com/typograf/typograf/blob/dev/docs/LOCALES.en-US.md). Добавлены методы по работе с локалями: `Typograf.addLocale()`, `Typograf.hasLocale()` и `Typograf.getLocales()`.
 
 Добавлено правило `common/punctuation/quoteLink` для выноса кавычек из ссылки.
 
