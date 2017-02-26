@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/space/replaceTab',
     index: '-5',
     handler: function(text) {

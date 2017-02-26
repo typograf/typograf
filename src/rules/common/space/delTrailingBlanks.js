@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/space/delTrailingBlanks',
     index: '-3',
     handler: function(text) {

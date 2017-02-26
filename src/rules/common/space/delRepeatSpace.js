@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/space/delRepeatSpace',
     index: '-1',
     handler: function(text) {

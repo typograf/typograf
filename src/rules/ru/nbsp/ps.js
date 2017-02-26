@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/ps',
     handler: function(text) {
         var re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')[pз]\\.[ \u00A0]?([pз]\\.[ \u00A0]?)?[sы]\\.:? ', 'gim');

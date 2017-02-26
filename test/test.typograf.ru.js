@@ -10,14 +10,14 @@ const ruTests = [
         'При при проверке текста обнаружились обнаружились повторяющиеся слова слова. Слова убраны.',
         'При проверке текста обнаружились повторяющиеся слова. Слова убраны.',
         {
-            enable: ['common/other/repeatWord']
+            enableRule: ['common/other/repeatWord']
         }
     ],
     [
         'Возьми ка детка молока.  А коль увижу де, что казнь ему мала, повешу тут же всех судей вокруг стола. Поди кась так.',
         'Возьми-ка детка молока. А\u00A0коль увижу-де, что казнь ему мала, повешу тут\u00A0же всех судей вокруг стола. Поди-кась\u00A0так.',
         {
-            enable: ['ru/dash/de']
+            enableRule: ['ru/dash/de']
         }
     ],
     [
@@ -222,5 +222,4 @@ const ruTests = [
     ]*/
 ];
 
-helpers.ruTests('typograf.ru', ruTests);
-helpers.ruDoubleTests('typograf.ru, double execute', ruTests);
+helpers.doubleTest('typograf.ru, double execute', ruTests, {locale: ['ru', 'en-US']});

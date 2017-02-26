@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/punctuation/ano',
     handler: function(text) {
         var re = new RegExp('([^!?,:;\\-‒–—])([ \u00A0\\n])(а|но)(?= |\u00A0|\\n)', 'g');

@@ -4,7 +4,7 @@ const chai = require('chai');
 const fs = require('fs');
 const assert = chai.assert;
 const Typograf = require('../build/typograf');
-const t = new Typograf({lang: 'ru', htmlEntity: {type: 'digit'}});
+const t = new Typograf({locale: 'ru', htmlEntity: {type: 'digit'}});
     
 chai.config.showDiff = true;
 

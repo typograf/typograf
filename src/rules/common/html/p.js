@@ -1,8 +1,8 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/html/p',
     queue: 'end',
     handler: function(text) {
-        var blockRe = new RegExp('<(' + this.blockElements.join('|') + ')[>\s]'),
+        var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\s]'),
             separator = '\n\n',
             buffer = text.split(separator);
 

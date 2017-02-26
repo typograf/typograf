@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/html/stripTags',
     index: '+99',
     queue: 'end',

@@ -1,501 +1,441 @@
-/**
- * @constructor
- * @param {Object} [prefs]
- * @param {string} [prefs.lang] Language rules
- * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
- * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
- * @param {HtmlEntity} [prefs.htmlEntity]
- * @param {boolean} [prefs.live] Live mode
- * @param {string|string[]} [prefs.enable] Enable rules
- * @param {string|string[]} [prefs.disable] Disable rules
- */
-function Typograf(prefs) {
-    this._prefs = typeof prefs === 'object' ? prefs : {};
-    this._prefs.live = this._prefs.live || false;
+/*! Typograf | © 2017 Denis Seleznev | https://github.com/typograf/typograf/ */
 
-    this._safeTags = new SafeTags();
-
-    this._settings = {};
-    this._enabledRules = {};
-
-    this._innerRulesByQueues = {};
-    this._innerRules = [].concat(this._innerRules);
-    this._innerRules.forEach(function(rule) {
-        var q = rule.queue || 'default';
-        this._innerRulesByQueues[q] = this._innerRulesByQueues[q] || [];
-        this._innerRulesByQueues[q].push(rule);
-    }, this);
-
-    this._rulesByQueues = {};
-    this._rules = [].concat(this._rules);
-    this._rules.forEach(function(rule) {
-        var q = rule.queue || 'default';
-        this._prepareRule(rule);
-        this._rulesByQueues[q] = this._rulesByQueues[q] || [];
-        this._rulesByQueues[q].push(rule);
-    }, this);
-
-    this._prefs.disable && this.disable(this._prefs.disable);
-    this._prefs.enable && this.enable(this._prefs.enable);
-}
-
-/**
- * Add a rule.
- *
- * @static
- * @param {Object} rule
- * @param {string} rule.name Name of rule
- * @param {Function} rule.handler Processing function
- * @param {number} [rule.index] Sorting index for rule
- * @param {boolean} [rule.disabled] Rule is disabled by default
- * @param {boolean} [rule.live] Live mode
- * @param {Object} [rule.settings] Settings for rule
- * @return {Typograf} this
- */
-Typograf.rule = function(rule) {
-    var parts = rule.name.split('/');
-
-    rule._enabled = rule.disabled === true ? false : true;
-    rule._lang = parts[0];
-    rule._group = parts[1];
-    rule._name = parts[2];
-
-    Typograf._setIndex(rule);
-
-    Typograf.prototype._rules.push(rule);
-
-    if (Typograf._needSortRules) {
-        this._sortRules();
+(function(root, factory) {
+    /* istanbul ignore next */
+    if (typeof define === 'function' && define.amd) {
+        define('typograf', [], factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory();
+    } else {
+        root.Typograf = factory();
     }
+}(this, function() {
+    'use strict';
 
-    return this;
-};
-
-Typograf._reUrl = new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g');
-
-Typograf._langs = ['en', 'ru'];
-
-Typograf._setIndex = function(rule) {
-    var index = rule.index,
-        t = typeof index,
-        groupIndex = Typograf.groupIndexes[rule._group];
-
-    if (t === 'undefined') {
-        index = groupIndex;
-    } else if (t === 'string') {
-        index = groupIndex + parseInt(rule.index, 10);
-    }
-
-    rule._index = index;
-};
-
-/**
- * Add internal rule.
- * Internal rules are executed before main.
- *
- * @static
- * @param {Object} rule
- * @param {string} rule.name Name of rule
- * @param {Function} rule.handler Processing function
- * @return {Typograf} this
- */
-Typograf.innerRule = function(rule) {
-    Typograf.prototype._innerRules.push(rule);
-
-    rule._lang = rule.name.split('/')[0];
-
-    return this;
-};
-
-/**
- * Get/set data for use in rules.
- *
- * @static
- * @param {string|Object} key
- * @param {*} [value]
- * @return {*}
- */
-Typograf.data = function(key, value) {
-    if (typeof key === 'string') {
-        if (arguments.length === 1) {
-            return Typograf._data[key];
-        } else {
-            Typograf._data[key] = value;
-        }
-    } else if (typeof key === 'object') {
-        Object.keys(key).forEach(function(k) {
-            Typograf._data[k] = key[k];
-        });
-    }
-};
-
-Typograf._data = {};
-
-Typograf._sortRules = function() {
-    Typograf.prototype._rules.sort(function(a, b) {
-        return a._index > b._index ? 1 : -1;
-    });
-};
-
-Typograf._replace = function(text, re) {
-    for (var i = 0; i < re.length; i++) {
-        text = text.replace(re[i][0], re[i][1]);
-    }
-
-    return text;
-};
-
-Typograf._replaceNbsp = function(text) {
-    return text.replace(/\u00A0/g, ' ');
-};
-
-Typograf._privateLabel = '\uDBFF';
-Typograf._privateQuote = '\uDBFE';
-
-Typograf.prototype = {
-    constructor: Typograf,
     /**
-     * Execute typographical rules for text.
-     *
-     * @param {string} text
+     * @constructor
      * @param {Object} [prefs]
-     * @param {string} [prefs.lang] Language rules
-     * @param {string} [prefs.mode] - Deprecated. Use prefs.htmlEntity
-     * @param {HtmlEntity} [prefs.htmlEntity] Type HTML entities
+     * @param {string} [prefs.locale] Locale
      * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
-     * @return {string}
+     * @param {HtmlEntity} [prefs.htmlEntity]
+     * @param {boolean} [prefs.live] Live mode
+     * @param {string|string[]} [prefs.enableRule] Enable a rule
+     * @param {string|string[]} [prefs.disableRule] Disable a rule
      */
-    execute: function(text, prefs) {
-        text = '' + text;
+    function Typograf(prefs) {
+        this._prefs = typeof prefs === 'object' ? prefs : {};
+        this._prefs.live = this._prefs.live || false;
 
-        if (!text) { return ''; }
+        this._locale = Typograf._prepareLocale(this._prefs.locale);
 
-        prefs = prefs || {};
+        this._safeTags = new SafeTags();
 
-        var that = this,
-            htmlEntityParam = this._prepareHtmlEntityParam(
-                prefs.mode || this._prefs.mode,
-                prefs.htmlEntity || this._prefs.htmlEntity
-            );
+        this._settings = {};
+        this._enabledRules = {};
 
-        this._lang = prefs.lang || this._prefs.lang || 'common';
+        this._innerRulesByQueues = {};
+        this._innerRules = [].concat(this._innerRules);
+        this._innerRules.forEach(function(rule) {
+            var q = rule.queue || 'default';
+            this._innerRulesByQueues[q] = this._innerRulesByQueues[q] || [];
+            this._innerRulesByQueues[q].push(rule);
+        }, this);
 
-        text = this._removeCR(text);
+        this._rulesByQueues = {};
+        this._rules = [].concat(this._rules);
+        this._rules.forEach(function(rule) {
+            var q = rule.queue || 'default';
+            this._prepareRule(rule);
+            this._rulesByQueues[q] = this._rulesByQueues[q] || [];
+            this._rulesByQueues[q].push(rule);
+        }, this);
 
-        this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
+        this._prefs.disableRule && this.disableRule(this._prefs.disableRule);
+        this._prefs.enableRule && this.enableRule(this._prefs.enableRule);
+    }
 
-        text = this._executeRules(text, 'start');
-
-        text = this._safeTags.hide(text, this._isHTML, function(t, group) {
-            return that._executeRules(t, 'hide-safe-tags-' + group);
+    Typograf._mix = function(dest, props) {
+        Object.keys(props).forEach(function(key) {
+            dest[key] = props[key];
         });
+    };
 
-        text = this._executeRules(text, 'hide-safe-tags');
+    Typograf._mix(Typograf, {
+        /**
+         * Add a rule.
+         *
+         * @static
+         * @param {Object} rule
+         * @param {string} rule.name Name of rule
+         * @param {Function} rule.handler Processing function
+         * @param {number} [rule.index] Sorting index for rule
+         * @param {boolean} [rule.disabled] Rule is disabled by default
+         * @param {boolean} [rule.live] Live mode
+         * @param {Object} [rule.settings] Settings for rule
+         *
+         * @returns {Typograf} this
+         */
+        addRule: function(rule) {
+            var parts = rule.name.split('/');
 
-        text = HtmlEntities.toUtf(text);
+            rule._enabled = rule.disabled === true ? false : true;
+            rule._locale = parts[0];
+            rule._group = parts[1];
+            rule._name = parts[2];
 
-        if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
+            this.addLocale(rule._locale);
 
-        text = this._executeRules(text, 'utf');
+            this._setIndex(rule);
 
-        text = this._executeRules(text);
+            this.prototype._rules.push(rule);
 
-        text = HtmlEntities.restore(text, htmlEntityParam);
+            this._sortRules(this.prototype._rules);
 
-        text = this._executeRules(text, 'entity');
+            return this;
+        },
+        /**
+         * Add internal rule.
+         * Internal rules are executed before main.
+         *
+         * @static
+         * @param {Object} rule
+         * @param {string} rule.name Name of rule
+         * @param {Function} rule.handler Processing function
+         *
+         * @returns {Typograf} this
+         */
+        addInnerRule: function(rule) {
+            this.prototype._innerRules.push(rule);
 
-        text = this._safeTags.show(text, function(t, group) {
-            return that._executeRules(t, 'show-safe-tags-' + group);
-        });
+            rule._locale = rule.name.split('/')[0];
 
-        text = this._executeRules(text, 'end');
+            return this;
+        },
+        /**
+         * Get a deep copy of a object.
+         *
+         * @param {*} obj
+         *
+         * @returns {*}
+         */
+        deepCopy: function(obj) {
+            return typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj;
+        },
+        _privateLabel: '\uDBFF',
+        _repeat: function(symbol, count) {
+            var result = '';
+            for (;;) {
+                if ((count & 1) === 1) {
+                    result += symbol;
+                }
+                count >>>= 1;
+                if (count === 0) {
+                    break;
+                }
+                symbol += symbol;
+            }
 
-        this._lang = null;
-        this._isHTML = null;
+            return result;
+        },
+        _replace: function(text, re) {
+            for (var i = 0; i < re.length; i++) {
+                text = text.replace(re[i][0], re[i][1]);
+            }
 
-        return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
-    },
-    /**
-     * Get/set a setting.
-     *
-     * @param {string} ruleName
-     * @param {string} setting
-     * @param {*} [value]
-     * @return {*}
-     */
-    setting: function(ruleName, setting, value) {
-        if (arguments.length <= 2) {
+            return text;
+        },
+        _replaceNbsp: function(text) {
+            return text.replace(/\u00A0/g, ' ');
+        },
+        _setIndex: function(rule) {
+            var index = rule.index,
+                t = typeof index,
+                groupIndex = this.groupIndexes[rule._group];
+
+            if (t === 'undefined') {
+                index = groupIndex;
+            } else if (t === 'string') {
+                index = groupIndex + parseInt(rule.index, 10);
+            }
+
+            rule._index = index;
+        },
+        _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
+        _sortRules: function(rules) {
+            rules.sort(function(a, b) {
+                return a._index > b._index ? 1 : -1;
+            });
+        }
+    });
+
+    Typograf.prototype = {
+        constructor: Typograf,
+        /**
+         * Execute typographical rules for text.
+         *
+         * @param {string} text
+         * @param {Object} [prefs]
+         * @param {string} [prefs.locale] Locale
+         * @param {HtmlEntity} [prefs.htmlEntity] Type of HTML entities
+         * @param {string} [prefs.lineEnding] Line ending. 'LF' (Unix), 'CR' (Mac) or 'CRLF' (Windows). Default: 'LF'.
+         *
+         * @returns {string}
+         */
+        execute: function(text, prefs) {
+            text = '' + text;
+
+            if (!text) { return ''; }
+
+            prefs = prefs || {};
+
+            var that = this;
+
+            this._locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+
+            if (!this._locale.length || !this._locale[0]) {
+                throw Error('Not defined the property "locale".');
+            }
+
+            if (!Typograf.hasLocale(this._locale[0])) {
+                throw Error('"' + this._locale[0] + '" is not supported locale.');
+            }
+
+            text = this._removeCR(text);
+
+            this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
+
+            text = this._executeRules(text, 'start');
+
+            text = this._safeTags.hide(text, this._isHTML, function(t, group) {
+                return that._executeRules(t, 'hide-safe-tags-' + group);
+            });
+
+            text = this._executeRules(text, 'hide-safe-tags');
+
+            text = Typograf.HtmlEntities.toUtf(text);
+
+            if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
+
+            text = this._executeRules(text, 'utf');
+
+            text = this._executeRules(text);
+
+            text = Typograf.HtmlEntities.restore(text, prefs.htmlEntity || this._prefs.htmlEntity || {});
+
+            text = this._executeRules(text, 'html-entities');
+
+            text = this._safeTags.show(text, function(t, group) {
+                return that._executeRules(t, 'show-safe-tags-' + group);
+            });
+
+            text = this._executeRules(text, 'end');
+
+            this._isHTML = null;
+            this._locale = Typograf._prepareLocale(this._prefs.locale);
+
+            return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
+        },
+        /**
+         * Get a setting.
+         *
+         * @param {string} ruleName
+         * @param {string} setting
+         *
+         * @returns {*}
+         */
+        getSetting: function(ruleName, setting) {
             return this._settings[ruleName] && this._settings[ruleName][setting];
-        } else {
+        },
+        /**
+         * Set a setting.
+         *
+         * @param {string} ruleName
+         * @param {string} setting
+         * @param {*} [value]
+         *
+         * @returns {Typograf}
+         */
+        setSetting: function(ruleName, setting, value) {
             this._settings[ruleName] = this._settings[ruleName] || {};
             this._settings[ruleName][setting] = value;
 
             return this;
-        }
-    },
-    /**
-     * Is enabled a rule.
-     *
-     * @param {string} ruleName
-     * @return {boolean}
-     */
-    enabled: function(ruleName) {
-        return this._enabledRules[ruleName];
-    },
-    /**
-     * Is disabled a rule.
-     *
-     * @param {string} ruleName
-     * @return {boolean}
-     */
-    disabled: function(ruleName) {
-        return !this._enabledRules[ruleName];
-    },
-    /**
-     * Enable a rule.
-     *
-     * @param {string|string[]} ruleName
-     * @return {Typograf} this
-     */
-    enable: function(ruleName) {
-        return this._enable(ruleName, true);
-    },
-    /**
-     * Disable a rule.
-     *
-     * @param {string|string[]} ruleName
-     * @return {Typograf} this
-     */
-    disable: function(ruleName) {
-        return this._enable(ruleName, false);
-    },
-    /**
-     * Add safe tag.
-     *
-     * @example
-     * // var t = new Typograf({lang: 'ru'});
-     * // t.addSafeTag('<mytag>', '</mytag>');
-     * // t.addSafeTag('<mytag>', '</mytag>', '.*?');
-     * // t.addSafeTag(/<mytag>.*?</mytag>/gi);
-     *
-     * @param {string|RegExp} startTag
-     * @param {string} [endTag]
-     * @param {string} [middle]
-     * @return {Typograf} this
-    */
-    addSafeTag: function(startTag, endTag, middle) {
-        var tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
+        },
+        /**
+         * Is enabled a rule.
+         *
+         * @param {string} ruleName
+         *
+         * @returns {boolean}
+         */
+        isEnabledRule: function(ruleName) {
+            return this._enabledRules[ruleName];
+        },
+        /**
+         * Is disabled a rule.
+         *
+         * @param {string} ruleName
+         *
+         * @returns {boolean}
+         */
+        isDisabledRule: function(ruleName) {
+            return !this._enabledRules[ruleName];
+        },
+        /**
+         * Enable a rule.
+         *
+         * @param {string|string[]} ruleName
+         *
+         * @returns {Typograf} this
+         */
+        enableRule: function(ruleName) {
+            return this._enable(ruleName, true);
+        },
+        /**
+         * Disable a rule.
+         *
+         * @param {string|string[]} ruleName
+         *
+         * @returns {Typograf} this
+         */
+        disableRule: function(ruleName) {
+            return this._enable(ruleName, false);
+        },
+        /**
+         * Add safe tag.
+         *
+         * @example
+         * // var t = new Typograf({locale: 'ru'});
+         * // t.addSafeTag('<mytag>', '</mytag>');
+         * // t.addSafeTag('<mytag>', '</mytag>', '.*?');
+         * // t.addSafeTag(/<mytag>.*?</mytag>/gi);
+         *
+         * @param {string|RegExp} startTag
+         * @param {string} [endTag]
+         * @param {string} [middle]
+         *
+         * @returns {Typograf} this
+        */
+        addSafeTag: function(startTag, endTag, middle) {
+            var tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
 
-        this._safeTags.add(tag);
+            this._safeTags.add(tag);
 
-        return this;
-    },
-    /**
-     * Get data for use in rules.
-     *
-     * @param {string} key
-     * @return {*}
-     */
-    data: function(key) {
-        var lang = '';
-        if (key.search('/') === -1) {
-            lang = (this._lang || this._prefs.lang) + '/';
-        }
+            return this;
+        },
+        _executeRules: function(text, queue) {
+            queue = queue || 'default';
 
-        return Typograf.data(lang + key);
-    },
-    _quote: function(text, settings) {
-        var letters = this.data('l') + '\u0301\\d',
-            privateLabel = Typograf._privateLabel,
-            lquote = settings.lquote,
-            rquote = settings.rquote,
-            lquote2 = settings.lquote2,
-            rquote2 = settings.rquote2,
-            quotes = '[' + Typograf.data('common/quote') + ']',
-            phrase = '[' + letters + ')!?.:;#*,…]*?',
-            reL = new RegExp('"([' + letters + '])', 'gi'),
-            reR = new RegExp('(' + phrase + ')"(' + phrase + ')', 'gi'),
-            reQuotes = new RegExp(quotes, 'g'),
-            reFirstQuote = new RegExp('^(\\s)?(' + quotes + ')', 'g'),
-            reOpeningTag = new RegExp('(^|\\s)' + quotes + privateLabel, 'g'),
-            reClosingTag = new RegExp(privateLabel + quotes + '([\\s!?.:;#*,]|$)', 'g'),
-            count = 0,
-            symbols = this.data('lLd');
+            var rules = this._rulesByQueues[queue],
+                innerRules = this._innerRulesByQueues[queue];
 
-        text = text
-            // Hide incorrect quotes.
-            .replace(new RegExp('([' + symbols + '])"(?=[' + symbols + '])', 'g'), '$1' + Typograf._privateQuote)
-            .replace(reQuotes, function() {
-                count++;
-                return '"';
-            })
-            .replace(reL, lquote + '$1') // Opening quote
-            .replace(reR, '$1' + rquote + '$2') // Closing quote
-            .replace(reOpeningTag, '$1' + lquote + privateLabel) // Opening quote and tag
-            .replace(reClosingTag, privateLabel + rquote + '$1') // Tag and closing quote
-            .replace(reFirstQuote, '$1' + lquote);
+            innerRules && innerRules.forEach(function(rule) {
+                text = this._ruleIterator(text, rule);
+            }, this);
 
-        if (lquote2 && rquote2 && count % 2 === 0) {
-            text = this._innerQuote(text, settings);
-        }
+            rules && rules.forEach(function(rule) {
+                text = this._ruleIterator(text, rule);
+            }, this);
 
-        // Restore incorrect quotes.
-        return text.replace(new RegExp(Typograf._privateQuote, 'g'), '"');
-    },
-    _innerQuote: function(text, settings) {
-        var openingQuotes = [settings.lquote],
-            closingQuotes = [settings.rquote];
-
-        if (settings.lquote2 && settings.rquote2) {
-            openingQuotes.push(settings.lquote2);
-            closingQuotes.push(settings.rquote2);
-
-            if (settings.lquote3 && settings.rquote3) {
-                openingQuotes.push(settings.lquote3);
-                closingQuotes.push(settings.rquote3);
-            }
-        }
-
-        var lquote = settings.lquote,
-            rquote = settings.rquote,
-            bufText = new Array(text.length),
-            privateQuote = Typograf._privateQuote,
-            minLevel = -1,
-            maxLevel = openingQuotes.length - 1,
-            level = minLevel;
-
-        for (var i = 0, len = text.length; i < len; i++) {
-            var letter = text[i];
-
-            if (letter === lquote) {
-                level++;
-                if (level > maxLevel) {
-                    level = maxLevel;
-                }
-                bufText.push(openingQuotes[level]);
-            } else if (letter === rquote) {
-                if (level <= minLevel) {
-                    level = 0;
-                    bufText.push(openingQuotes[level]);
-                } else {
-                    bufText.push(closingQuotes[level]);
-                    level--;
-                    if (level < minLevel) {
-                        level = minLevel;
-                    }
-                }
-            } else {
-                if (letter === privateQuote) {
-                    level = minLevel;
-                }
-
-                bufText.push(letter);
-            }
-        }
-
-        return bufText.join('');
-    },
-    _executeRules: function(text, queue) {
-        queue = queue || 'default';
-
-        var rules = this._rulesByQueues[queue],
-            innerRules = this._innerRulesByQueues[queue];
-
-        innerRules && innerRules.forEach(function(rule) {
-            text = this._ruleIterator(text, rule);
-        }, this);
-
-        rules && rules.forEach(function(rule) {
-            text = this._ruleIterator(text, rule);
-        }, this);
-
-        return text;
-    },
-    _ruleIterator: function(text, rule) {
-        var rlang = rule._lang,
-            live = this._prefs.live;
-
-        if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
             return text;
-        }
+        },
+        _ruleIterator: function(text, rule) {
+            var rlocale = rule._locale,
+                live = this._prefs.live;
 
-        if ((rlang === 'common' || rlang === this._lang) && this.enabled(rule.name)) {
-            this._onBeforeRule && this._onBeforeRule(rule.name, text);
-            text = rule.handler.call(this, text, this._settings[rule.name]);
-            this._onAfterRule && this._onAfterRule(rule.name, text);
-        }
-
-        return text;
-    },
-    _removeCR: function(text) {
-        return text.replace(/\r\n?/g, '\n');
-    },
-    _fixLineEnding: function(text, type) {
-        if (type === 'CRLF') { // Windows
-            return text.replace(/\n/g, '\r\n');
-        } else if (type === 'CR') { // Mac
-            return text.replace(/\n/g, '\r');
-        }
-
-        return text;
-    },
-    _prepareRule: function(rule) {
-        var name = rule.name,
-            settings = {};
-
-        if (typeof rule.settings === 'object') {
-            Object.keys(rule.settings).forEach(function(key) {
-                settings[key] = rule.settings[key];
-            });
-        }
-
-        this._settings[name] = settings;
-        this._enabledRules[name] = rule._enabled;
-    },
-    _enable: function(rule, enabled) {
-        if (Array.isArray(rule)) {
-            rule.forEach(function(el) {
-                this._enableByMask(el, enabled);
-            }, this);
-        } else {
-            this._enableByMask(rule, enabled);
-        }
-
-        return this;
-    },
-    _enableByMask: function(rule, enabled) {
-        var re;
-        if (rule.search(/\*/) !== -1) {
-            re = new RegExp(rule
-                .replace(/\//g, '\\\/')
-                .replace(/\*/g, '.*'));
-
-            this._rules.forEach(function(el) {
-                var name = el.name;
-                if (re.test(name)) {
-                    this._enabledRules[name] = enabled;
-                }
-            }, this);
-        } else {
-            this._enabledRules[rule] = enabled;
-        }
-    },
-    _rules: [],
-    _innerRules: [],
-    _getRule: function(name) {
-        var rule = null;
-        this._rules.some(function(item) {
-            if (item.name === name) {
-                rule = item;
-                return true;
+            if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
+                return text;
             }
 
-            return false;
-        });
+            if ((rlocale === 'common' || rlocale === this._locale[0]) && this.isEnabledRule(rule.name)) {
+                this._onBeforeRule && this._onBeforeRule(rule.name, text);
+                text = rule.handler.call(this, text, this._settings[rule.name]);
+                this._onAfterRule && this._onAfterRule(rule.name, text);
+            }
 
-        return rule;
-    },
-    _prepareHtmlEntityParam: function(oldFormat, newFormat) {
-        return oldFormat ? {type: oldFormat} : newFormat || {};
-    }
-};
+            return text;
+        },
+        _removeCR: function(text) {
+            return text.replace(/\r\n?/g, '\n');
+        },
+        _fixLineEnding: function(text, type) {
+            if (type === 'CRLF') { // Windows
+                return text.replace(/\n/g, '\r\n');
+            } else if (type === 'CR') { // Mac
+                return text.replace(/\n/g, '\r');
+            }
+
+            return text;
+        },
+        _prepareRule: function(rule) {
+            var name = rule.name,
+                t = typeof rule.settings,
+                settings = {};
+
+            if (t === 'object') {
+                settings = Typograf.deepCopy(rule.settings);
+            } else if (t === 'function') {
+                settings = rule.settings(rule);
+            }
+
+            this._settings[name] = settings;
+            this._enabledRules[name] = rule._enabled;
+        },
+        _enable: function(rule, enabled) {
+            if (Array.isArray(rule)) {
+                rule.forEach(function(el) {
+                    this._enableByMask(el, enabled);
+                }, this);
+            } else {
+                this._enableByMask(rule, enabled);
+            }
+
+            return this;
+        },
+        _enableByMask: function(rule, enabled) {
+            var re;
+            if (rule.search(/\*/) !== -1) {
+                re = new RegExp(rule
+                    .replace(/\//g, '\\\/')
+                    .replace(/\*/g, '.*'));
+
+                this._rules.forEach(function(el) {
+                    var name = el.name;
+                    if (re.test(name)) {
+                        this._enabledRules[name] = enabled;
+                    }
+                }, this);
+            } else {
+                this._enabledRules[rule] = enabled;
+            }
+        },
+        _rules: [],
+        _innerRules: [],
+        _getRule: function(name) {
+            var rule = null;
+            this._rules.some(function(item) {
+                if (item.name === name) {
+                    rule = item;
+                    return true;
+                }
+
+                return false;
+            });
+
+            return rule;
+        }
+    };
+
+    //=include version.js
+    //=include data.js
+    //=include locale.js
+    //=include safe-tags.js
+    //=include inline-elements.js
+    //=include block-elements.js
+    //=include html-entities.js
+    //=include group-indexes.js
+    //=include data/**/*.js
+    //=include ../build/_rules.js
+
+    return Typograf;
+}));

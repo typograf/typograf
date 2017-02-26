@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const Typograf = require('../build/typograf.js');
-const tp = new Typograf({lang: 'ru'});
+const tp = new Typograf({locale: 'ru'});
 const beforeTimes = {};
 const afterTimes = {};
 const text = fs.readFileSync('./benchmark/war_and_peace.html').toString();

@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/punctuation/delDoublePunctuation',
     handler: function(text) {
         return text

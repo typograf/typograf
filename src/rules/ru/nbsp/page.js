@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/page',
     handler: function(text) {
         var re = new RegExp('(^|[)\\s' + Typograf._privateLabel + '])' +

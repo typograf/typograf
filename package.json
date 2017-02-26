@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "5.8.0",
+  "version": "6.0.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -22,7 +22,7 @@
     "typography"
   ],
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 4"
   },
   "files": [
     "dist",
@@ -33,18 +33,20 @@
   ],
   "devDependencies": {
     "chai": "~3.5.0",
+    "eslint": "~3.16.1",
     "gulp": "~3.9.1",
     "gulp-concat": "~2.6.1",
-    "gulp-filter": "~4.0.0",
+    "gulp-filter": "~5.0.0",
+    "gulp-include": "^2.3.1",
     "gulp-jsonlint": "^1.2.0",
     "gulp-rename": "~1.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-uglify": "~2.0.0",
     "gulp-util": "~3.0.8",
     "istanbul": "~0.4.4",
-    "eslint": "~3.12.2",
     "jscs": "~3.0.7",
     "mocha": "~3.2.0",
+    "sinon": "^1.17.7",
     "sort-keys": "~1.1.2",
     "through": "~2.3.6",
     "yaspeller": "~3.0.0"

@@ -4,35 +4,40 @@ const assert = require('chai').assert;
 const Typograf = require('../../build/typograf');
 
 module.exports = {
-    ruTests: function(name, tests) {
+    test: function(name, tests, mainPrefs) {
         describe(name, function() {
             tests.forEach(function(item) {
                 it(item[0], function() {
-                    const prefs = item[2] || {};
-                    const tp = new Typograf({
-                        lang: 'ru',
-                        enable: prefs.enable,
-                        disable: prefs.disable
-                    });
+                    const [before, after, localPrefs] = item;
+                    const prefs = Object.assign({}, mainPrefs, localPrefs);
 
-                    assert.equal(tp.execute(item[0]), item[1]);
+                    if (!prefs.locale) {
+                        prefs.locale = ['ru', 'en-US'];
+                    }
+
+                    const tp = new Typograf(prefs);
+                    assert.equal(tp.execute(before), after);
                 });
             });
         });
     },
-    ruDoubleTests: function(name, tests) {
+    doubleTest: function(name, tests, mainPrefs) {
         describe(name, function() {
             tests.forEach(function(item) {
                 it(item[0], function() {
-                    const prefs = item[2] || {};
-                    const tp = new Typograf({
-                        lang: 'ru',
-                        enable: prefs.enable,
-                        disable: prefs.disable
-                    });
-                    const result = tp.execute(item[0], prefs);
+                    const [before, after, localPrefs] = item;
+                    const prefs = Object.assign({}, mainPrefs, localPrefs);
 
-                    assert.equal(tp.execute(result), item[1]);
+                    if (!prefs.locale) {
+                        prefs.locale = ['ru', 'en-US'];
+                    }
+
+                    const tp = new Typograf(prefs);
+                    const result = tp.execute(before, prefs);
+                    assert.equal(result, after, 'first step');
+
+                    const result2 = tp.execute(result, prefs);
+                    assert.equal(result2, after, 'second step');
                 });
             });
         });

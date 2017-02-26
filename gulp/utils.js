@@ -8,6 +8,7 @@ const queue = {
     'entity': 5,
     'end': 10
 };
+const langs = ['ru', 'en-US'];
 
 module.exports = {
     buildTitles() {
@@ -25,8 +26,8 @@ module.exports = {
         const titles = require('../build/typograf.titles.json');
         const rules = Typograf.prototype._rules;
         
-        function getRow(rule, i, lang) {
-            const title = titles[rule.name][lang] || titles[rule.name].common;
+        function getRow(rule, i, locale) {
+            const title = titles[rule.name][locale] || titles[rule.name].common;
             return '| ' + i + '. | [' +
                 rule.name + '](../src/rules/' + rule.name + '.js) | ' +
                 title + ' | ' +
@@ -41,16 +42,16 @@ module.exports = {
         }
         
         function buildDoc(prefix) {
-            Typograf._langs.forEach(function(lang) {
+            langs.forEach(function(locale) {
                 let text = '';
 
                 rules.forEach(function(rule, i) {
-                    text += getRow(rule, i + 1, lang);
+                    text += getRow(rule, i + 1, locale);
                 });
 
                 processTemplate(
-                    'docs/RULES' + prefix + '.' + lang + '.md',
-                    'gulp/templates/RULES' + prefix + '.' + lang + '.md',
+                    'docs/RULES' + prefix + '.' + locale + '.md',
+                    'gulp/templates/RULES' + prefix + '.' + locale + '.md',
                     text
                 );
             });

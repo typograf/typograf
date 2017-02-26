@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/punctuation/hellip',
     handler: function(text) {
         return text

@@ -1,7 +1,7 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/nbsp/centuries',
     handler: function(text) {
-        var dashes = this.data('common/dash'),
+        var dashes = this.getData('common/dash'),
             before = '(^|\\s)([VIX]+)',
             after = '(?=[,;:?!"‘“»]|$)',
             re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm'),

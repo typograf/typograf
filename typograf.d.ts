@@ -9,23 +9,23 @@ declare namespace typograf {
 	}
 
 	interface Typograf {
-		execute(text: string, prefs?: {htmlEntity?: HtmlEntity, lang?: string, lineEnding: LineEnding, mode?: Mode}): string;
-		enable(rule: string | string[]): Typograf;
-		disable(rule: string | string[]): Typograf;
-		enabled(rule: string): boolean;
-		disabled(rule: string): boolean;
-		setting(rule: string, setting: string, value: any);
+		execute(text: string, prefs?: {htmlEntity?: HtmlEntity, locale?: string | string[], lineEnding: LineEnding}): string;
+		enableRule(rule: string | string[]): Typograf;
+		disableRule(rule: string | string[]): Typograf;
+		isEnabledRule(rule: string): boolean;
+		isDisabledRule(rule: string): boolean;
+		getSetting(rule: string, setting: string) : any;
+		setSetting(rule: string, setting: string, value: any) : Typograf;
 		addSafeTag(startTag: string | RegExp, endTag?: string, middle?: string): Typograf;
 	}
 
 	interface Options {
-		lang: string;
+		locale: string;
 		htmlEntity?: HtmlEntity;
 		lineEnding?: LineEnding;
-		mode?: Mode;
 		live?: boolean;
-		enable?: string | string[];
-		disable?: string | string[];
+		enableRule?: string | string[];
+		disableRule?: string | string[];
 	}
 
 	interface AddRuleOptions {
@@ -39,7 +39,8 @@ declare namespace typograf {
 
 	interface TypografStatic {
 		new (options: Options): Typograf;
-		rule: (options: AddRuleOptions) => TypografStatic;
+		addRule: (options: AddRuleOptions) => TypografStatic;
+		addInnerRule: (options: AddRuleOptions) => TypografStatic;
 	}
 }
 

@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/number/mathSigns',
     handler: function(text) {
         return Typograf._replace(text, [

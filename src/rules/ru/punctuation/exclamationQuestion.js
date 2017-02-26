@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/punctuation/exclamationQuestion',
     index: '+5',
     handler: function(text) {

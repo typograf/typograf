@@ -1,107 +1,103 @@
 'use strict';
 
 const assert = require('chai').assert;
-const rules = require('../build/rules');
+const sinon = require('sinon');
+const rules = require('../build/specs');
 const Typograf = require('../build/typograf');
-const t = new Typograf();
+const t = new Typograf({locale: 'en-US'});
 
 describe('API', function() {
     it('should disable rule', function() {
-        t.disable('ru/punctuation/quote');
-        assert.ok(t.disabled('ru/punctuation/quote'));
+        t.disableRule('common/punctuation/quote');
+        assert.ok(t.isDisabledRule('common/punctuation/quote'));
 
-        t.enable('ru/punctuation/quote');
+        t.enableRule('common/punctuation/quote');
     });
 
     it('should disable rule from constructor', function() {
-        const typograf = new Typograf({lang: 'ru', disable: '*'});
-        assert.ok(typograf.disabled('ru/punctuation/quote'));
+        const typograf = new Typograf({locale: 'ru', disableRule: '*'});
+        assert.ok(typograf.isDisabledRule('common/punctuation/quote'));
     });
 
     it('should set/get data', function() {
-        Typograf.data('prop', 10);
-        assert.equal(Typograf.data('prop'), 10);
+        Typograf.setData('prop', 10);
+        assert.equal(Typograf.getData('prop'), 10);
 
-        Typograf.data('prop', 20);
-        assert.equal(Typograf.data('prop'), 20);
-
-        Typograf.data('prop', undefined);
+        Typograf.setData('prop', 20);
+        assert.equal(Typograf.getData('prop'), 20);
     });
 
-    it('should get data with lang', function() {
-        const typograf = new Typograf({lang: 'ru'});
-        assert.equal(typograf.data('ru/l'), Typograf.data('ru/l'));
+    it('should get data with locale', function() {
+        const typograf = new Typograf({locale: 'ru'});
+        assert.equal(typograf.getData('ru/l'), Typograf.getData('ru/l'));
     });
 
-    it('should get data without lang', function() {
-        const typograf = new Typograf({lang: 'ru'});
-        assert.equal(typograf.data('l'), Typograf.data('ru/l'));
+    it('should get data without locale', function() {
+        const typograf = new Typograf({locale: 'ru'});
+        assert.equal(typograf.getData('l'), Typograf.getData('ru/l'));
     });
 
     it('should set data as object', function() {
-        Typograf.data({
+        Typograf.setData({
             'prop1': 1,
             'prop2': 2
         });
 
-        assert.equal(Typograf.data('prop1'), 1);
-        assert.equal(Typograf.data('prop2'), 2);
-
-        Typograf.data('prop1', undefined);
-        Typograf.data('prop2', undefined);
+        assert.equal(Typograf.getData('prop1'), 1);
+        assert.equal(Typograf.getData('prop2'), 2);
     });
 
     it('should enable rule', function() {
-        assert.ok(t.disabled('common/html/pbr'));
+        assert.ok(t.isDisabledRule('common/html/pbr'));
 
-        t.enable('common/html/pbr');
-        assert.ok(t.enabled('common/html/pbr'));
+        t.enableRule('common/html/pbr');
+        assert.ok(t.isEnabledRule('common/html/pbr'));
 
-        t.disable('common/html/pbr');
+        t.disableRule('common/html/pbr');
     });
 
     it('should enable rule from constructor', function() {
-        const typograf = new Typograf({lang: 'ru', enable: '*'});
-        assert.ok(typograf.enabled('common/html/p'));
+        const typograf = new Typograf({locale: 'ru', enableRule: '*'});
+        assert.ok(typograf.isEnabledRule('common/html/p'));
     });
 
     it('should enable some rules', function() {
-        t.enable(['common/html/pbr', 'common/html/url']);
-        assert.ok(t.enabled('common/html/pbr'));
-        assert.ok(t.enabled('common/html/url'));
+        t.enableRule(['common/html/pbr', 'common/html/url']);
+        assert.ok(t.isEnabledRule('common/html/pbr'));
+        assert.ok(t.isEnabledRule('common/html/url'));
 
-        t.disable(['common/html/pbr', 'common/html/url']);
+        t.disableRule(['common/html/pbr', 'common/html/url']);
 
-        t.enable('ru/optalign/*');
-        assert.ok(t.enabled('ru/optalign/quote'));
-        assert.ok(t.enabled('ru/optalign/bracket'));
-        assert.ok(t.enabled('ru/optalign/comma'));
+        t.enableRule('ru/optalign/*');
+        assert.ok(t.isEnabledRule('ru/optalign/quote'));
+        assert.ok(t.isEnabledRule('ru/optalign/bracket'));
+        assert.ok(t.isEnabledRule('ru/optalign/comma'));
 
-        t.disable('ru/optalign/*');
-        assert.ok(t.disabled('ru/optalign/quote'));
-        assert.ok(t.disabled('ru/optalign/bracket'));
-        assert.ok(t.disabled('ru/optalign/comma'));
+        t.disableRule('ru/optalign/*');
+        assert.ok(t.isDisabledRule('ru/optalign/quote'));
+        assert.ok(t.isDisabledRule('ru/optalign/bracket'));
+        assert.ok(t.isDisabledRule('ru/optalign/comma'));
     });
 
     it('should get/set a setting', function() {
-        t.setting('fake', 'value', 10);
+        t.setSetting('fake', 'value', 10);
 
-        assert.equal(t.setting('fake', 'value'), 10);
+        assert.equal(t.getSetting('fake', 'value'), 10);
 
-        assert.equal(t.setting('common/nbsp/beforeShortLastWord', 'lengthLastWord'), 3);
+        assert.equal(t.getSetting('common/nbsp/beforeShortLastWord', 'lengthLastWord'), 3);
 
-        assert.equal(t.setting('fake'), undefined);
+        assert.equal(t.getSetting('fake'), undefined);
     });
 
     it('should add safe tag', function() {
-        const t2 = new Typograf();
+        const t2 = new Typograf({locale: 'en-US'});
         t2.addSafeTag('<myTag>', '</myTag>');
 
         assert.equal(t2.execute('  <myTag>  Hello world!!  </myTag>  '), '<myTag>  Hello world!!  </myTag>');
     });
 
     it('should add rule', function() {
-        Typograf.rule({
+        Typograf.addRule({
             name: 'common/example',
             index: 100,
             handler: function(text) {
@@ -109,15 +105,29 @@ describe('API', function() {
             }
         });
 
-        Typograf.innerRule({
+        Typograf.addInnerRule({
             name: 'common/example',
             handler: function(text) {
                 return text.replace(/inner_example/, '');
             }
         });
-        const t2 = new Typograf();
+        const t2 = new Typograf({locale: 'en-US'});
 
         assert.equal(t2.execute('rule abc inner_example'), 'abc');
+    });
+
+    it('should throw error without locale', function() {
+        assert.throws(function() {
+            const t = new Typograf();
+            const result = t.execute('text');
+        }, Error, /Not defined/);
+    });
+
+    it('should throw error with unknown locale', function() {
+        assert.throws(function() {
+            const t = new Typograf();
+            const result = t.execute('text', {locale: 'unknow'});
+        }, Error, /not supported/);
     });
 
     it('should remove CR', function() {
@@ -128,7 +138,7 @@ describe('API', function() {
     });
 
     it('should change line endings', function() {
-        var t = new Typograf({lineEnding: 'CRLF'});
+        const t = new Typograf({locale: 'en-US', lineEnding: 'CRLF'});
 
         assert.equal(t.execute('Line1\rLine2\rLine3'), 'Line1\r\nLine2\r\nLine3');
 
@@ -136,4 +146,19 @@ describe('API', function() {
         assert.equal(t.execute('Line1\rLine2\rLine3', { lineEnding: 'LF' }), 'Line1\nLine2\nLine3');
         assert.equal(t.execute('Line1\rLine2\nLine3', { lineEnding: 'CRLF' }), 'Line1\r\nLine2\r\nLine3');
     });
+
+    it('should remove unnecessary nbsp for live mode', function() {
+        const t = new Typograf({locale: 'en-US', live: true});
+        assert.equal(t.execute('Test&nbsp;test&nbsp;test.'), 'Test test test.');
+    });
+    
+    it('should execute specific methods before and after a rule', function() {
+        const t = new Typograf({locale: 'en-US'});
+        t._onBeforeRule = sinon.spy();
+        t._onAfterRule = sinon.spy();
+        t.execute('test');
+
+        assert.isOk(t._onBeforeRule.called);
+        assert.isOk(t._onAfterRule.called);
+    })
 });

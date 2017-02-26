@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'ru/number/comma',
     handler: function(text) {
         // \u00A0 - NO-BREAK SPACE

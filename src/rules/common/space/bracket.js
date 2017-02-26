@@ -1,4 +1,4 @@
-Typograf.rule({
+Typograf.addRule({
     name: 'common/space/bracket',
     handler: function(text) {
         return text
