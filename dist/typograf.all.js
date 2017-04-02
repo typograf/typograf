@@ -426,7 +426,7 @@
         }
     };
 
-    Typograf.version = '6.0.0';
+    Typograf.version = '6.0.1';
     
     Typograf._mix(Typograf, {
         /**
@@ -1823,6 +1823,7 @@
     Typograf.addRule({
         name: 'common/punctuation/quoteLink',
         queue: 'show-safe-tags-html',
+        index: '+5',
         handler: function(text) {
             var quotes = this.getSetting('common/punctuation/quote', this._locale[0]);
     
