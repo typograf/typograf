@@ -1,5 +1,8 @@
 # Changelog
 
+#v6.0.1
+Правило `common/punctuation/quoteLink` теперь выполняется после `common/punctuation/quote`.
+
 #v6.0.0
 
 Переименованы методы:
