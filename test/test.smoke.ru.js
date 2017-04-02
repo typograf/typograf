@@ -72,6 +72,17 @@ const ruTests = [
         {
             enable: ['ru/date/fromISO']
         }
+    ],
+    [
+        '   <p>Перевод статьи <a href="https://pascalhertleif.de">Pascal Hertleif</a>\n\
+<a href="https://pascalhertleif.de/artikel/good-practices-for-writing-rust-libraries">“Good Practices for Writing Rust Libraries”</a>\n\
+(2015.10.24).</p>',
+        '<p>Перевод статьи <a href="https://pascalhertleif.de">Pascal Hertleif</a>\n\
+«<a href="https://pascalhertleif.de/artikel/good-practices-for-writing-rust-libraries">Good Practices for Writing Rust Libraries</a>»\n\
+(24.10.2015).</p>',
+        {
+            enable: ['ru/optalign/*']
+        }
     ]
 ];
 

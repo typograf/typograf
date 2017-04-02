@@ -1,6 +1,7 @@
 Typograf.addRule({
     name: 'common/punctuation/quoteLink',
     queue: 'show-safe-tags-html',
+    index: '+5',
     handler: function(text) {
         var quotes = this.getSetting('common/punctuation/quote', this._locale[0]);
 
