@@ -14,7 +14,8 @@
                 .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
                 .replace(/^\(/gm, '<span class="typograf-oa-n-lbracket">(</span>');
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     }).addInnerRule({
         name: name,
         queue: 'start',

@@ -197,4 +197,26 @@ describe('russian specific tests', function() {
             assert.equal(tp.execute(item), item);
         });
     });
+
+    it('should processing HTML attributes', function() {
+        const tp = new Typograf({locale: ['ru', 'en-US']});
+        tp.enableRule('common/html/processingAttrs');
+
+        [
+            [
+                '<p title="    Hello world!!    " placeholder="    Hello world!!    ">     Hello world!!     </p>',
+                '<p title="Hello world!" placeholder="Hello world!"> Hello world! </p>'
+            ],
+            [
+                '<p data-title="    Hello world!!    ">     Hello world!!     </p>',
+                '<p data-title="    Hello world!!    "> Hello world! </p>'
+            ],
+            [
+                '<p title="    Hello world!!    ">     Hello world!!     </p>\n<p title="    Hello world!!    ">     Hello world!!     </p>',
+                '<p title="Hello world!"> Hello world! </p>\n<p title="Hello world!"> Hello world! </p>'
+            ]        
+        ].forEach(function(item) {
+            assert.equal(tp.execute(item[0]), item[1]);
+        });
+    });
 });

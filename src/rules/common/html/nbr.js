@@ -5,5 +5,6 @@ Typograf.addRule({
     handler: function(text) {
         return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
     },
-    disabled: true
+    disabled: true,
+    htmlAttrs: false
 });

@@ -24,9 +24,8 @@
      */
     function Typograf(prefs) {
         this._prefs = typeof prefs === 'object' ? prefs : {};
+        this._prefs.locale = Typograf._prepareLocale(this._prefs.locale);
         this._prefs.live = this._prefs.live || false;
-
-        this._locale = Typograf._prepareLocale(this._prefs.locale);
 
         this._safeTags = new SafeTags();
 
@@ -182,22 +181,25 @@
          * @returns {string}
          */
         execute: function(text, prefs) {
+            var that = this;
+
             text = '' + text;
 
             if (!text) { return ''; }
 
             prefs = prefs || {};
+            this._sessionPrefs = Typograf.deepCopy(this._prefs);
+            this._sessionPrefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
+            this._sessionPrefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+            this._sessionPrefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
 
-            var that = this;
-
-            this._locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
-
-            if (!this._locale.length || !this._locale[0]) {
+            var locale = this._sessionPrefs.locale;
+            if (!locale.length || !locale[0]) {
                 throw Error('Not defined the property "locale".');
             }
 
-            if (!Typograf.hasLocale(this._locale[0])) {
-                throw Error('"' + this._locale[0] + '" is not supported locale.');
+            if (!Typograf.hasLocale(locale[0])) {
+                throw Error('"' + locale[0] + '" is not supported locale.');
             }
 
             text = this._removeCR(text);
@@ -220,7 +222,7 @@
 
             text = this._executeRules(text);
 
-            text = Typograf.HtmlEntities.restore(text, prefs.htmlEntity || this._prefs.htmlEntity || {});
+            text = Typograf.HtmlEntities.restore(text, this._sessionPrefs.htmlEntity);
 
             text = this._executeRules(text, 'html-entities');
 
@@ -230,10 +232,12 @@
 
             text = this._executeRules(text, 'end');
 
-            this._isHTML = null;
-            this._locale = Typograf._prepareLocale(this._prefs.locale);
+            text = this._fixLineEnding(text, this._sessionPrefs.lineEnding);
 
-            return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
+            this._isHTML = null;
+            this._sessionPrefs = null;
+
+            return text;
         },
         /**
          * Get a setting.
@@ -323,6 +327,24 @@
 
             return this;
         },
+        _cloneInstance: function(ruleFilter) {
+            var tp = new Typograf(this._sessionPrefs || this._prefs);
+            this._rules.forEach(function(rule) {
+                var ruleName = rule.name;
+                if (ruleFilter && !ruleFilter(rule)) {
+                    tp.disableRule(ruleName);
+                    return;
+                }
+
+                if (this.isEnabledRule(ruleName)) {
+                    tp.enableRule(ruleName);
+                } else {
+                    tp.disableRule(ruleName);
+                }
+            }, this);
+
+            return tp;
+        },
         _executeRules: function(text, queue) {
             queue = queue || 'default';
 
@@ -347,7 +369,7 @@
                 return text;
             }
 
-            if ((rlocale === 'common' || rlocale === this._locale[0]) && this.isEnabledRule(rule.name)) {
+            if ((rlocale === 'common' || rlocale === this._sessionPrefs.locale[0]) && this.isEnabledRule(rule.name)) {
                 this._onBeforeRule && this._onBeforeRule(rule.name, text);
                 text = rule.handler.call(this, text, this._settings[rule.name]);
                 this._onAfterRule && this._onAfterRule(rule.name, text);

@@ -217,6 +217,17 @@ tp.addSafeTag('<\\?php', '\\?>');
 tp.execute(text);
 ```
 
+
+### Типографирование HTML-атрибутов
+Для типографирования HTML-атрибутов необходимо включить правило `common/html/processingAttrs`.
+В правиле, по умолчанию, обрабатываются атрибуты `title` и `placeholder`.
+```js
+var tp = new Typograf({locale: ['ru', 'en-US']});
+tp.enableRule('common/html/processingAttrs');
+tp.setSetting('common/html/processingAttrs', 'attrs', ['title', 'placeholder', 'alt', 'data-attr', 'my-attr']);
+```
+
+
 ### Сжатие с UglifyJS
 Если `typograf.js` сжимается вместе с другими js-файлами в `UglifyJS`,
 то необходимо использовать [опцию](http://lisperator.net/uglifyjs/compress) `ascii_only: false`, иначе типограф будет работать некорректно.

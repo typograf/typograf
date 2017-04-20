@@ -7,5 +7,6 @@ Typograf.addRule({
             '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
         );
     },
-    disabled: true
+    disabled: true,
+    htmlAttrs: false
 });
