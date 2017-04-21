@@ -224,7 +224,7 @@ tp.execute(text);
 ```js
 var tp = new Typograf({locale: ['ru', 'en-US']});
 tp.enableRule('common/html/processingAttrs');
-tp.setSetting('common/html/processingAttrs', 'attrs', ['title', 'placeholder', 'alt', 'data-attr', 'my-attr']);
+tp.setSetting('common/html/processingAttrs', 'attrs', ['title', 'placeholder', 'alt', 'my-attr']);
 ```
 
 

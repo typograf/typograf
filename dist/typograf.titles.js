@@ -15,6 +15,10 @@ Typograf.titles = {
     "en-US": "Placement of paragraph",
     "ru": "Расстановка абзацев"
   },
+  "common/html/processingAttrs": {
+    "en-US": "Processing HTML attributes",
+    "ru": "Типографирование HTML-атрибутов"
+  },
   "common/html/stripTags": {
     "en-US": "Removing HTML-tags",
     "ru": "Удаление HTML-тегов"
