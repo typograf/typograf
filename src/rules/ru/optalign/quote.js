@@ -19,7 +19,8 @@
                 .replace(reNewLine, '$1<span class="typograf-oa-n-lquote">$2</span>')
                 .replace(reInside, '$1<span class="typograf-oa-sp-lquote">$2</span><span class="typograf-oa-lquote">$3</span>');
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     }).addInnerRule({
         name: name,
         queue: 'start',

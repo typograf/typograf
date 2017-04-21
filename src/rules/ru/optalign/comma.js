@@ -12,7 +12,8 @@
             var re = new RegExp('([' + this.getData('char') + '\\d\u0301]+), ', 'gi');
             return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     }).addInnerRule({
         name: name,
         queue: 'start',

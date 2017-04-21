@@ -16,5 +16,6 @@ Typograf.addRule({
 
         return buffer.join(separator);
     },
-    disabled: true
+    disabled: true,
+    htmlAttrs: false
 });

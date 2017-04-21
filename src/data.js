@@ -39,16 +39,15 @@ Typograf._mix(Typograf, {
  * @returns {*}
  */
 Typograf.prototype.getData = function(key) {
-    var str = '';
+    var locale = this._sessionPrefs ? this._sessionPrefs.locale : this._prefs.locale;
+
     if (key.search('/') === -1) {
         if (key === 'char') {
-            this._locale.forEach(function(item) {
-                str += Typograf.getData(item + '/' + key);
-            }, this);
-
-            return str;
+            return locale.map(function(item) {
+                return Typograf.getData(item + '/' + key);
+            }).join('');
         } else {
-            return Typograf.getData(this._locale[0] + '/' + key);
+            return Typograf.getData(locale[0] + '/' + key);
         }
     } else {
         return Typograf.getData(key);
