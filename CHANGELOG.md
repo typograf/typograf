@@ -1,13 +1,13 @@
 # Changelog
 
-#v6.1.0
+# v6.1.0
 - Появилась возможность [типографировать HTML-атрибуты](https://github.com/typograf/typograf#%D0%A2%D0%B8%D0%BF%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-html-%D0%B0%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%82%D0%BE%D0%B2) #227.
 - Для `en-GB` исправлен вид кавычек #226.
 
-#v6.0.1
+# v6.0.1
 Правило `common/punctuation/quoteLink` теперь выполняется после `common/punctuation/quote`.
 
-#v6.0.0
+# v6.0.0
 
 Переименованы методы:
 - `Typograf.rule()` → `Typograf.addRule()`
