@@ -24,9 +24,8 @@
      */
     function Typograf(prefs) {
         this._prefs = typeof prefs === 'object' ? prefs : {};
+        this._prefs.locale = Typograf._prepareLocale(this._prefs.locale);
         this._prefs.live = this._prefs.live || false;
-
-        this._locale = Typograf._prepareLocale(this._prefs.locale);
 
         this._safeTags = new SafeTags();
 
@@ -182,22 +181,25 @@
          * @returns {string}
          */
         execute: function(text, prefs) {
+            var that = this;
+
             text = '' + text;
 
             if (!text) { return ''; }
 
             prefs = prefs || {};
+            this._sessionPrefs = Typograf.deepCopy(this._prefs);
+            this._sessionPrefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
+            this._sessionPrefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+            this._sessionPrefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
 
-            var that = this;
-
-            this._locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
-
-            if (!this._locale.length || !this._locale[0]) {
+            var locale = this._sessionPrefs.locale;
+            if (!locale.length || !locale[0]) {
                 throw Error('Not defined the property "locale".');
             }
 
-            if (!Typograf.hasLocale(this._locale[0])) {
-                throw Error('"' + this._locale[0] + '" is not supported locale.');
+            if (!Typograf.hasLocale(locale[0])) {
+                throw Error('"' + locale[0] + '" is not supported locale.');
             }
 
             text = this._removeCR(text);
@@ -220,7 +222,7 @@
 
             text = this._executeRules(text);
 
-            text = Typograf.HtmlEntities.restore(text, prefs.htmlEntity || this._prefs.htmlEntity || {});
+            text = Typograf.HtmlEntities.restore(text, this._sessionPrefs.htmlEntity);
 
             text = this._executeRules(text, 'html-entities');
 
@@ -230,10 +232,12 @@
 
             text = this._executeRules(text, 'end');
 
-            this._isHTML = null;
-            this._locale = Typograf._prepareLocale(this._prefs.locale);
+            text = this._fixLineEnding(text, this._sessionPrefs.lineEnding);
 
-            return this._fixLineEnding(text, prefs.lineEnding || this._prefs.lineEnding);
+            this._isHTML = null;
+            this._sessionPrefs = null;
+
+            return text;
         },
         /**
          * Get a setting.
@@ -323,6 +327,24 @@
 
             return this;
         },
+        _cloneInstance: function(ruleFilter) {
+            var tp = new Typograf(this._sessionPrefs || this._prefs);
+            this._rules.forEach(function(rule) {
+                var ruleName = rule.name;
+                if (ruleFilter && !ruleFilter(rule)) {
+                    tp.disableRule(ruleName);
+                    return;
+                }
+
+                if (this.isEnabledRule(ruleName)) {
+                    tp.enableRule(ruleName);
+                } else {
+                    tp.disableRule(ruleName);
+                }
+            }, this);
+
+            return tp;
+        },
         _executeRules: function(text, queue) {
             queue = queue || 'default';
 
@@ -347,7 +369,7 @@
                 return text;
             }
 
-            if ((rlocale === 'common' || rlocale === this._locale[0]) && this.isEnabledRule(rule.name)) {
+            if ((rlocale === 'common' || rlocale === this._sessionPrefs.locale[0]) && this.isEnabledRule(rule.name)) {
                 this._onBeforeRule && this._onBeforeRule(rule.name, text);
                 text = rule.handler.call(this, text, this._settings[rule.name]);
                 this._onAfterRule && this._onAfterRule(rule.name, text);
@@ -426,7 +448,7 @@
         }
     };
 
-    Typograf.version = '6.0.1';
+    Typograf.version = '6.1.0';
     
     Typograf._mix(Typograf, {
         /**
@@ -469,16 +491,15 @@
      * @returns {*}
      */
     Typograf.prototype.getData = function(key) {
-        var str = '';
+        var locale = this._sessionPrefs ? this._sessionPrefs.locale : this._prefs.locale;
+    
         if (key.search('/') === -1) {
             if (key === 'char') {
-                this._locale.forEach(function(item) {
-                    str += Typograf.getData(item + '/' + key);
-                }, this);
-    
-                return str;
+                return locale.map(function(item) {
+                    return Typograf.getData(item + '/' + key);
+                }).join('');
             } else {
-                return Typograf.getData(this._locale[0] + '/' + key);
+                return Typograf.getData(locale[0] + '/' + key);
             }
         } else {
             return Typograf.getData(key);
@@ -1243,8 +1264,8 @@
         Typograf.setData('en-GB/char', 'a-z');
     
         Typograf.setData('en-GB/quote', {
-        left: '“‘',
-        right: '”’'
+        left: '‘“',
+        right: '’”'
     });
     
         Typograf.setData('en-US/char', 'a-z');
@@ -1424,7 +1445,8 @@
                 '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
             );
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     });
     
     Typograf.addRule({
@@ -1455,7 +1477,8 @@
         handler: function(text) {
             return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     });
     
     Typograf.addRule({
@@ -1476,7 +1499,39 @@
     
             return buffer.join(separator);
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
+    });
+    
+    Typograf.addRule({
+        name: 'common/html/processingAttrs',
+        queue: 'hide-safe-tags-own', // After "hide-safe-tags-own", before "hide-safe-tags-html".
+        handler: function(text, settings) {
+            var that = this,
+                tp = null,
+                reAttrs = new RegExp('(^|\\s)(' + settings.attrs.join('|') + ')=("[^"]*?"|\'[^\']*?\')', 'gi');
+    
+            return text.replace(/(<[-\w]+\s)([^>]+?)>/g, function(match, tagName, attrs) {
+                var resultAttrs = attrs.replace(reAttrs, function(submatch, space, attrName, attrValue) {
+                    tp = tp || that._cloneInstance(function(rule) {
+                        return rule.htmlAttrs !== false;
+                    });
+    
+                    var lquote = attrValue[0],
+                        rquote = attrValue[attrValue.length - 1],
+                        value = attrValue.slice(1, -1);
+    
+                    return space + attrName + '=' + lquote + tp.execute(value) + rquote;
+                });
+    
+                return tagName + resultAttrs + '>';
+            });
+        },
+        settings: {
+            attrs: ['title', 'placeholder']
+        },
+        disabled: true,
+        htmlAttrs: false
     });
     
     Typograf.addRule({
@@ -1517,7 +1572,8 @@
                 return firstPart + fullUrl + '</a>';
             });
         },
-        disabled: true
+        disabled: true,
+        htmlAttrs: false
     });
     
     Typograf.addRule({
@@ -1709,7 +1765,7 @@
     Typograf.addRule({
         name: 'common/punctuation/quote',
         handler: function(text, commonSettings) {
-            var locale = this._locale[0],
+            var locale = this._sessionPrefs.locale[0],
                 localeSettings = commonSettings[locale];
     
             if (!localeSettings) { return text; }
@@ -1825,7 +1881,7 @@
         queue: 'show-safe-tags-html',
         index: '+5',
         handler: function(text) {
-            var quotes = this.getSetting('common/punctuation/quote', this._locale[0]);
+            var quotes = this.getSetting('common/punctuation/quote', this._sessionPrefs.locale[0]);
     
             if (!quotes) { return text; }
             var entities = Typograf.HtmlEntities,
@@ -2518,7 +2574,8 @@
                     .replace(/( |\u00A0)\(/g, '<span class="typograf-oa-sp-lbracket">$1</span><span class="typograf-oa-lbracket">(</span>')
                     .replace(/^\(/gm, '<span class="typograf-oa-n-lbracket">(</span>');
             },
-            disabled: true
+            disabled: true,
+            htmlAttrs: false
         }).addInnerRule({
             name: name,
             queue: 'start',
@@ -2549,7 +2606,8 @@
                 var re = new RegExp('([' + this.getData('char') + '\\d\u0301]+), ', 'gi');
                 return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
             },
-            disabled: true
+            disabled: true,
+            htmlAttrs: false
         }).addInnerRule({
             name: name,
             queue: 'start',
@@ -2598,7 +2656,8 @@
                     .replace(reNewLine, '$1<span class="typograf-oa-n-lquote">$2</span>')
                     .replace(reInside, '$1<span class="typograf-oa-sp-lquote">$2</span><span class="typograf-oa-lquote">$3</span>');
             },
-            disabled: true
+            disabled: true,
+            htmlAttrs: false
         }).addInnerRule({
             name: name,
             queue: 'start',
@@ -2787,8 +2846,8 @@
         live: false,
         handler: function(text) {
             return text
-                .replace(/(^|[^!])!{2}($|[^!])/, '$1!$2')
-                .replace(/(^|[^!])!{4}($|[^!])/, '$1!!!$2');
+                .replace(/(^|[^!])!{2}($|[^!])/gm, '$1!$2')
+                .replace(/(^|[^!])!{4}($|[^!])/gm, '$1!!!$2');
         }
     });
     
