@@ -20,5 +20,6 @@ tests.push(['common/html/url', [
     ['Ссылка http://www.example.com:443', 'Ссылка <a href="http://www.example.com:443">example.com:443</a>'],
     ['Ссылка https://www.example.com:443/?', 'Ссылка <a href="https://www.example.com">https://example.com</a>'],
     ['Ссылка https://www.example.com:443/?query=hello', 'Ссылка <a href="https://www.example.com/?query=hello">https://example.com/?query=hello</a>'],
-    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>']
+    ['Ссылка https://www.example.com:4434/?query=hello', 'Ссылка <a href="https://www.example.com:4434/?query=hello">https://example.com:4434/?query=hello</a>'],
+    ['<a href="https://www.example.com">https://www.example.com</a>', '<a href="https://www.example.com">https://www.example.com</a>']
 ]]);

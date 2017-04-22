@@ -188,12 +188,27 @@
             if (!text) { return ''; }
 
             prefs = prefs || {};
-            this._sessionPrefs = Typograf.deepCopy(this._prefs);
-            this._sessionPrefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
-            this._sessionPrefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
-            this._sessionPrefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
 
-            var locale = this._sessionPrefs.locale;
+            var context = {
+                text: text,
+                prefs: Typograf.deepCopy(this._prefs),
+                getData: function(key) {
+                    if (key === 'char') {
+                        return this.prefs.locale.map(function(item) {
+                            return Typograf.getData(item + '/' + key);
+                        }).join('');
+                    } else {
+                        return Typograf.getData(this.prefs.locale[0] + '/' + key);
+                    }
+                }
+            };
+
+            context.prefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
+            context.prefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+            context.prefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
+            context.prefs.ruleFilter = prefs.ruleFilter || this._prefs.ruleFilter;
+
+            var locale = context.prefs.locale;
             if (!locale.length || !locale[0]) {
                 throw Error('Not defined the property "locale".');
             }
@@ -202,42 +217,37 @@
                 throw Error('"' + locale[0] + '" is not supported locale.');
             }
 
-            text = this._removeCR(text);
+            context.text = this._removeCR(context.text);
 
-            this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
+            context.isHTML = context.text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
-            text = this._executeRules(text, 'start');
+            this._executeRules(context, 'start');
 
-            text = this._safeTags.hide(text, this._isHTML, function(t, group) {
-                return that._executeRules(t, 'hide-safe-tags-' + group);
+            this._safeTags.hide(context, function(c, group) {
+                that._executeRules(c, 'hide-safe-tags-' + group);
             });
 
-            text = this._executeRules(text, 'hide-safe-tags');
+            this._executeRules(context, 'hide-safe-tags');
 
-            text = Typograf.HtmlEntities.toUtf(text);
+            Typograf.HtmlEntities.toUtf(context);
 
-            if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
+            if (this._prefs.live) { context.text = Typograf._replaceNbsp(context.text); }
 
-            text = this._executeRules(text, 'utf');
+            this._executeRules(context, 'utf');
 
-            text = this._executeRules(text);
+            this._executeRules(context);
 
-            text = Typograf.HtmlEntities.restore(text, this._sessionPrefs.htmlEntity);
+            Typograf.HtmlEntities.restore(context);
 
-            text = this._executeRules(text, 'html-entities');
+            this._executeRules(context, 'html-entities');
 
-            text = this._safeTags.show(text, function(t, group) {
-                return that._executeRules(t, 'show-safe-tags-' + group);
+            this._safeTags.show(context, function(c, group) {
+                that._executeRules(c, 'show-safe-tags-' + group);
             });
 
-            text = this._executeRules(text, 'end');
+            this._executeRules(context, 'end');
 
-            text = this._fixLineEnding(text, this._sessionPrefs.lineEnding);
-
-            this._isHTML = null;
-            this._sessionPrefs = null;
-
-            return text;
+            return this._fixLineEnding(context.text, context.prefs.lineEnding);
         },
         /**
          * Get a setting.
@@ -327,55 +337,37 @@
 
             return this;
         },
-        _cloneInstance: function(ruleFilter) {
-            var tp = new Typograf(this._sessionPrefs || this._prefs);
-            this._rules.forEach(function(rule) {
-                var ruleName = rule.name;
-                if (ruleFilter && !ruleFilter(rule)) {
-                    tp.disableRule(ruleName);
-                    return;
-                }
-
-                if (this.isEnabledRule(ruleName)) {
-                    tp.enableRule(ruleName);
-                } else {
-                    tp.disableRule(ruleName);
-                }
-            }, this);
-
-            return tp;
-        },
-        _executeRules: function(text, queue) {
+        _executeRules: function(context, queue) {
             queue = queue || 'default';
 
             var rules = this._rulesByQueues[queue],
                 innerRules = this._innerRulesByQueues[queue];
 
             innerRules && innerRules.forEach(function(rule) {
-                text = this._ruleIterator(text, rule);
+                this._ruleIterator(context, rule);
             }, this);
 
             rules && rules.forEach(function(rule) {
-                text = this._ruleIterator(text, rule);
+                this._ruleIterator(context, rule);
             }, this);
-
-            return text;
         },
-        _ruleIterator: function(text, rule) {
+        _ruleIterator: function(context, rule) {
             var rlocale = rule._locale,
                 live = this._prefs.live;
 
             if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
-                return text;
+                return;
             }
 
-            if ((rlocale === 'common' || rlocale === this._sessionPrefs.locale[0]) && this.isEnabledRule(rule.name)) {
-                this._onBeforeRule && this._onBeforeRule(rule.name, text);
-                text = rule.handler.call(this, text, this._settings[rule.name]);
-                this._onAfterRule && this._onAfterRule(rule.name, text);
-            }
+            if ((rlocale === 'common' || rlocale === context.prefs.locale[0]) && this.isEnabledRule(rule.name)) {
+                if (context.prefs.ruleFilter && !context.prefs.ruleFilter(rule)) {
+                    return;
+                }
 
-            return text;
+                this._onBeforeRule && this._onBeforeRule(rule.name, context.text, context);
+                context.text = rule.handler.call(this, context.text, this._settings[rule.name], context);
+                this._onAfterRule && this._onAfterRule(rule.name, context.text, context);
+            }
         },
         _removeCR: function(text) {
             return text.replace(/\r\n?/g, '\n');

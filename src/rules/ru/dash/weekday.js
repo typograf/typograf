@@ -1,8 +1,8 @@
 Typograf.addRule({
     name: 'ru/dash/weekday',
     handler: function(text, settings) {
-        var part = '(' + this.getData('ru/weekday') + ')',
-            re = new RegExp(part + ' ?(' + this.getData('common/dash') + ') ?' + part, 'gi');
+        var part = '(' + Typograf.getData('ru/weekday') + ')',
+            re = new RegExp(part + ' ?(' + Typograf.getData('common/dash') + ') ?' + part, 'gi');
 
         return text.replace(re, '$1' + settings.dash + '$3');
     },

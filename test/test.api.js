@@ -27,16 +27,6 @@ describe('API', function() {
         assert.equal(Typograf.getData('prop'), 20);
     });
 
-    it('should get data with locale', function() {
-        const typograf = new Typograf({locale: 'ru'});
-        assert.equal(typograf.getData('ru/l'), Typograf.getData('ru/l'));
-    });
-
-    it('should get data without locale', function() {
-        const typograf = new Typograf({locale: 'ru'});
-        assert.equal(typograf.getData('l'), Typograf.getData('ru/l'));
-    });
-
     it('should set data as object', function() {
         Typograf.setData({
             'prop1': 1,

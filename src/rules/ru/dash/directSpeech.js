@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'ru/dash/directSpeech',
     handler: function(text) {
-        var dashes = this.getData('common/dash'),
+        var dashes = Typograf.getData('common/dash'),
             re1 = new RegExp('(["»‘“,])[ |\u00A0]?(' + dashes + ')[ |\u00A0]', 'g'),
             re2 = new RegExp('(^|' + Typograf._privateLabel + ')(' + dashes + ')( |\u00A0)', 'gm'),
             re3 = new RegExp('([.…?!])[ \u00A0](' + dashes + ')[ \u00A0]', 'g');

@@ -1,11 +1,11 @@
 Typograf.addRule({
     name: 'ru/dash/time',
     handler: function(text, settings) {
-        var re = new RegExp(this.getData('ru/dashBefore') +
+        var re = new RegExp(Typograf.getData('ru/dashBefore') +
             '(\\d?\\d:[0-5]\\d)' +
-            this.getData('common/dash') +
+            Typograf.getData('common/dash') +
             '(\\d?\\d:[0-5]\\d)' +
-            this.getData('ru/dashAfter'), 'g');
+            Typograf.getData('ru/dashAfter'), 'g');
 
         return text.replace(re, '$1$2' + settings.dash + '$3');
     },

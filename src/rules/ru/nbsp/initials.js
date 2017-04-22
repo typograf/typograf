@@ -2,7 +2,7 @@ Typograf.addRule({
     name: 'ru/nbsp/initials',
     handler: function(text) {
         var spaces = '\u00A0\u202F ', // nbsp, thinsp
-            quote = this.getData('ru/quote'),
+            quote = Typograf.getData('ru/quote'),
             re = new RegExp('(^|[' + spaces +
                 quote.left +
                 Typograf._privateLabel +
