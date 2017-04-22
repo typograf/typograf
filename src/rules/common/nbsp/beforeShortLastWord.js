@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'common/nbsp/beforeShortLastWord',
-    handler: function(text, settings) {
-        var ch = this.getData('char'),
+    handler: function(text, settings, context) {
+        var ch = context.getData('char'),
             CH = ch.toUpperCase(),
             re = new RegExp('([' + ch + '\\d]) ([' +
                 ch + CH + ']{1,' + settings.lengthLastWord +

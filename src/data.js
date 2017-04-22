@@ -30,26 +30,3 @@ Typograf._mix(Typograf, {
     },
     _data: {}
 });
-
-/**
- * Get data for use in rules.
- *
- * @param {string} key
- *
- * @returns {*}
- */
-Typograf.prototype.getData = function(key) {
-    var locale = this._sessionPrefs ? this._sessionPrefs.locale : this._prefs.locale;
-
-    if (key.search('/') === -1) {
-        if (key === 'char') {
-            return locale.map(function(item) {
-                return Typograf.getData(item + '/' + key);
-            }).join('');
-        } else {
-            return Typograf.getData(locale[0] + '/' + key);
-        }
-    } else {
-        return Typograf.getData(key);
-    }
-};

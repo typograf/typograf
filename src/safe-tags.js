@@ -29,9 +29,6 @@ function SafeTags() {
         url: [Typograf._reUrl]
     };
 
-    this._pasteLabel = this._pasteLabel.bind(this);
-    this._replaceLabel = this._replaceLabel.bind(this);
-
     this._groups = ['own', 'html', 'url'];
     this._reservedGroups = [].concat(this._groups).reverse();
 }
@@ -49,69 +46,72 @@ SafeTags.prototype = {
     /**
      * Show safe tags.
      *
-     * @param {string} text
+     * @param {Object} context
      * @param {Function} callback
-     * @return {string}
      */
-    show: function(text, callback) {
+    show: function(context, callback) {
         var label = Typograf._privateLabel,
             reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
-            reSearch = new RegExp(label + 'tf\\d');
+            reSearch = new RegExp(label + 'tf\\d'),
+            replaceLabel = function(match) {
+                return context.safeTags.hidden[context.safeTags.group][match] || match;
+            };
 
         this._reservedGroups.forEach(function(group) {
-            this._currentGroup = group;
+            context.safeTags.group = group;
 
             for (var i = 0, len = this._tags[group].length; i < len; i++) {
-                text = text.replace(reReplace, this._replaceLabel);
-                if (text.search(reSearch) === -1) { break; }
+                context.text = context.text.replace(reReplace, replaceLabel);
+                if (context.text.search(reSearch) === -1) { break; }
             }
 
-            text = callback(text, group);
+            callback(context, group);
         }, this);
 
-        this._hiddenTags = null;
-
-        return text;
+        context.safeTags = null;
     },
     /**
      * Hide safe tags.
      *
-     * @param {string} text
-     * @param {boolean} isHTML
+     * @param {Object} context
      * @param {Function} callback
-     * @return {string}
      */
-    hide: function(text, isHTML, callback) {
-        this._isHTML = isHTML;
-
-        this._hiddenTags = {};
+    hide: function(context, callback) {
+        context.safeTags = {
+            hidden: {},
+            i: 0
+        };
+        
         this._groups.forEach(function(group) {
-            this._hiddenTags[group] = {};
-        }, this);
-        this._iLabel = 0;
-
-        this._groups.forEach(function(group) {
-            text = this._hide(text, group);
-            text = callback(text, group);
+            context.safeTags.hidden[group] = {};
         }, this);
 
-        return text;
+        this._groups.forEach(function(group) {
+            this._hide(context, group);
+            callback(context, group);
+        }, this);
     },
-    _hide: function(text, group) {
-        this._currentGroup = group;
+    _hide: function(context, group) {
+        var pasteLabel = function(match) {
+            var key = Typograf._privateLabel + 'tf' + context.safeTags.i + Typograf._privateLabel;
+            context.safeTags.hidden[context.safeTags.group][key] = match;
+            context.safeTags.i++;
+
+            return key;
+        };
+
+        context.safeTags.group = group;
 
         this._tags[group].forEach(function(tag) {
-            text = text.replace(this._prepareRegExp(tag), this._pasteLabel);
+            context.text = context.text.replace(this._prepareRegExp(tag), pasteLabel);
         }, this);
 
-        if (group === 'html' && this._isHTML) {
-            text = text
-                .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
-                .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
-                .replace(/&[gl]t;/gi, this._pasteLabel);
+        if (group === 'html' && context.isHTML) {
+            context.text = context.text
+                .replace(/<\/?[a-z][^]*?>/gi, pasteLabel) // Tags
+                .replace(/&lt;\/?[a-z][^]*?&gt;/gi, pasteLabel) // Escaping tags
+                .replace(/&[gl]t;/gi, pasteLabel);
         }
-
-        return text;
     },
     _prepareRegExp: function(tag) {
         var re;
@@ -127,19 +127,5 @@ SafeTags.prototype = {
         }
 
         return re;
-    },
-    _getPrivateLabel: function(i) {
-        var label = Typograf._privateLabel;
-        return label + 'tf' + i + label;
-    },
-    _pasteLabel: function(match) {
-        var key = this._getPrivateLabel(this._iLabel);
-        this._hiddenTags[this._currentGroup][key] = match;
-        this._iLabel++;
-
-        return key;
-    },
-    _replaceLabel: function(match) {
-        return this._hiddenTags[this._currentGroup][match] || match;
     }
 };

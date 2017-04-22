@@ -2,7 +2,7 @@ Typograf.addRule({
     name: 'common/space/afterPunctuation',
     handler: function(text) {
         var privateLabel = Typograf._privateLabel,
-            reExcl = new RegExp('(!|;|\\?)([^).!;?\\s[\\])' + privateLabel + this.getData('common/quote') + '])', 'g'),
+            reExcl = new RegExp('(!|;|\\?)([^).!;?\\s[\\])' + privateLabel + Typograf.getData('common/quote') + '])', 'g'),
             reComma = new RegExp('(\\D)(,|:)([^)",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
 
         return text

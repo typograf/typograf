@@ -1,4 +1,5 @@
 Typograf.setData('fr/quote', {
-    left: '«“',
-    right: '»”'
+    left: '«‹',
+    right: '»›',
+    spacing: true
 });

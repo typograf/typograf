@@ -2,9 +2,9 @@ Typograf.addRule({
     name: 'ru/dash/daysMonth',
     handler: function(text, settings) {
         var re = new RegExp('(^|\\s)([123]?\\d)' +
-                '(' + this.getData('common/dash') + ')' +
+                '(' + Typograf.getData('common/dash') + ')' +
                 '([123]?\\d)[ \u00A0]' +
-                '(' + this.getData('ru/monthGenCase') + ')', 'g');
+                '(' + Typograf.getData('ru/monthGenCase') + ')', 'g');
 
         return text.replace(re, '$1$2' + settings.dash + '$4\u00A0$5');
     },

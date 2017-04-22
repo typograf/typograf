@@ -2,8 +2,8 @@ Typograf.addRule({
     name: 'common/punctuation/quoteLink',
     queue: 'show-safe-tags-html',
     index: '+5',
-    handler: function(text) {
-        var quotes = this.getSetting('common/punctuation/quote', this._sessionPrefs.locale[0]);
+    handler: function(text, settings, context) {
+        var quotes = this.getSetting('common/punctuation/quote', context.prefs.locale[0]);
 
         if (!quotes) { return text; }
         var entities = Typograf.HtmlEntities,

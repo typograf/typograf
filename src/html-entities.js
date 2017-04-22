@@ -276,21 +276,20 @@ Typograf.HtmlEntities = {
     /**
      * Entities as name or digit to UTF-8.
      *
-     * @param {string} text
-     * @return {string}
+     * @param {Object} context
      */
-    toUtf: function(text) {
-        if (text.search(/&#/) !== -1) {
-            text = this.decHexToUtf(text);
+    toUtf: function(context) {
+        if (context.text.search(/&#/) !== -1) {
+            context.text = this.decHexToUtf(context.text);
         }
 
-        if (text.search(/&[a-z]/i) !== -1) {
+        if (context.text.search(/&[a-z]/i) !== -1) {
             this._entities.forEach(function(entity) {
-                text = text.replace(entity.reName, entity.utf);
+                context.text = context.text.replace(entity.reName, entity.utf);
             });
         }
 
-        return text.replace(/&quot;/g, '"');
+        context.text = context.text.replace(/&quot;/g, '"');
     },
     /**
      * Entities in decimal or hexadecimal form to UTF-8.
@@ -310,12 +309,11 @@ Typograf.HtmlEntities = {
     /**
      * Restore HTML entities in text.
      *
-     * @param {string} text
-     * @param {HtmlEntity} params
-     * @returns {string}
+     * @param {Object} context
      */
-    restore: function(text, params) {
-        var type = params.type,
+    restore: function(context) {
+        var params = context.prefs.htmlEntity,
+            type = params.type,
             entities = this._entities;
 
         if (type === 'name' || type === 'digit') {
@@ -331,14 +329,12 @@ Typograf.HtmlEntities = {
                 }
             }
 
-            text = this._restoreEntitiesByIndex(
-                text,
+            context.text = this._restoreEntitiesByIndex(
+                context.text,
                 type + 'Entity',
                 entities
             );
         }
-
-        return text;
     },
     /**
      * Get a entity by utf using the type.
