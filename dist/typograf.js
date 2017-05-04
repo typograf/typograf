@@ -188,12 +188,27 @@
             if (!text) { return ''; }
 
             prefs = prefs || {};
-            this._sessionPrefs = Typograf.deepCopy(this._prefs);
-            this._sessionPrefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
-            this._sessionPrefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
-            this._sessionPrefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
 
-            var locale = this._sessionPrefs.locale;
+            var context = {
+                text: text,
+                prefs: Typograf.deepCopy(this._prefs),
+                getData: function(key) {
+                    if (key === 'char') {
+                        return this.prefs.locale.map(function(item) {
+                            return Typograf.getData(item + '/' + key);
+                        }).join('');
+                    } else {
+                        return Typograf.getData(this.prefs.locale[0] + '/' + key);
+                    }
+                }
+            };
+
+            context.prefs.htmlEntity = prefs.htmlEntity || this._prefs.htmlEntity || {};
+            context.prefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+            context.prefs.lineEnding = prefs.lineEnding || this._prefs.lineEnding;
+            context.prefs.ruleFilter = prefs.ruleFilter || this._prefs.ruleFilter;
+
+            var locale = context.prefs.locale;
             if (!locale.length || !locale[0]) {
                 throw Error('Not defined the property "locale".');
             }
@@ -202,42 +217,37 @@
                 throw Error('"' + locale[0] + '" is not supported locale.');
             }
 
-            text = this._removeCR(text);
+            context.text = this._removeCR(context.text);
 
-            this._isHTML = text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
+            context.isHTML = context.text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
 
-            text = this._executeRules(text, 'start');
+            this._executeRules(context, 'start');
 
-            text = this._safeTags.hide(text, this._isHTML, function(t, group) {
-                return that._executeRules(t, 'hide-safe-tags-' + group);
+            this._safeTags.hide(context, function(c, group) {
+                that._executeRules(c, 'hide-safe-tags-' + group);
             });
 
-            text = this._executeRules(text, 'hide-safe-tags');
+            this._executeRules(context, 'hide-safe-tags');
 
-            text = Typograf.HtmlEntities.toUtf(text);
+            Typograf.HtmlEntities.toUtf(context);
 
-            if (this._prefs.live) { text = Typograf._replaceNbsp(text); }
+            if (this._prefs.live) { context.text = Typograf._replaceNbsp(context.text); }
 
-            text = this._executeRules(text, 'utf');
+            this._executeRules(context, 'utf');
 
-            text = this._executeRules(text);
+            this._executeRules(context);
 
-            text = Typograf.HtmlEntities.restore(text, this._sessionPrefs.htmlEntity);
+            Typograf.HtmlEntities.restore(context);
 
-            text = this._executeRules(text, 'html-entities');
+            this._executeRules(context, 'html-entities');
 
-            text = this._safeTags.show(text, function(t, group) {
-                return that._executeRules(t, 'show-safe-tags-' + group);
+            this._safeTags.show(context, function(c, group) {
+                that._executeRules(c, 'show-safe-tags-' + group);
             });
 
-            text = this._executeRules(text, 'end');
+            this._executeRules(context, 'end');
 
-            text = this._fixLineEnding(text, this._sessionPrefs.lineEnding);
-
-            this._isHTML = null;
-            this._sessionPrefs = null;
-
-            return text;
+            return this._fixLineEnding(context.text, context.prefs.lineEnding);
         },
         /**
          * Get a setting.
@@ -327,55 +337,37 @@
 
             return this;
         },
-        _cloneInstance: function(ruleFilter) {
-            var tp = new Typograf(this._sessionPrefs || this._prefs);
-            this._rules.forEach(function(rule) {
-                var ruleName = rule.name;
-                if (ruleFilter && !ruleFilter(rule)) {
-                    tp.disableRule(ruleName);
-                    return;
-                }
-
-                if (this.isEnabledRule(ruleName)) {
-                    tp.enableRule(ruleName);
-                } else {
-                    tp.disableRule(ruleName);
-                }
-            }, this);
-
-            return tp;
-        },
-        _executeRules: function(text, queue) {
+        _executeRules: function(context, queue) {
             queue = queue || 'default';
 
             var rules = this._rulesByQueues[queue],
                 innerRules = this._innerRulesByQueues[queue];
 
             innerRules && innerRules.forEach(function(rule) {
-                text = this._ruleIterator(text, rule);
+                this._ruleIterator(context, rule);
             }, this);
 
             rules && rules.forEach(function(rule) {
-                text = this._ruleIterator(text, rule);
+                this._ruleIterator(context, rule);
             }, this);
-
-            return text;
         },
-        _ruleIterator: function(text, rule) {
+        _ruleIterator: function(context, rule) {
             var rlocale = rule._locale,
                 live = this._prefs.live;
 
             if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
-                return text;
+                return;
             }
 
-            if ((rlocale === 'common' || rlocale === this._sessionPrefs.locale[0]) && this.isEnabledRule(rule.name)) {
-                this._onBeforeRule && this._onBeforeRule(rule.name, text);
-                text = rule.handler.call(this, text, this._settings[rule.name]);
-                this._onAfterRule && this._onAfterRule(rule.name, text);
-            }
+            if ((rlocale === 'common' || rlocale === context.prefs.locale[0]) && this.isEnabledRule(rule.name)) {
+                if (context.prefs.ruleFilter && !context.prefs.ruleFilter(rule)) {
+                    return;
+                }
 
-            return text;
+                this._onBeforeRule && this._onBeforeRule(rule.name, context.text, context);
+                context.text = rule.handler.call(this, context.text, this._settings[rule.name], context);
+                this._onAfterRule && this._onAfterRule(rule.name, context.text, context);
+            }
         },
         _removeCR: function(text) {
             return text.replace(/\r\n?/g, '\n');
@@ -448,7 +440,7 @@
         }
     };
 
-    Typograf.version = '6.1.0';
+    Typograf.version = '6.2.0';
     
     Typograf._mix(Typograf, {
         /**
@@ -482,29 +474,6 @@
         },
         _data: {}
     });
-    
-    /**
-     * Get data for use in rules.
-     *
-     * @param {string} key
-     *
-     * @returns {*}
-     */
-    Typograf.prototype.getData = function(key) {
-        var locale = this._sessionPrefs ? this._sessionPrefs.locale : this._prefs.locale;
-    
-        if (key.search('/') === -1) {
-            if (key === 'char') {
-                return locale.map(function(item) {
-                    return Typograf.getData(item + '/' + key);
-                }).join('');
-            } else {
-                return Typograf.getData(locale[0] + '/' + key);
-            }
-        } else {
-            return Typograf.getData(key);
-        }
-    };
     
     Typograf._mix(Typograf, {
         /**
@@ -585,9 +554,6 @@
             url: [Typograf._reUrl]
         };
     
-        this._pasteLabel = this._pasteLabel.bind(this);
-        this._replaceLabel = this._replaceLabel.bind(this);
-    
         this._groups = ['own', 'html', 'url'];
         this._reservedGroups = [].concat(this._groups).reverse();
     }
@@ -605,69 +571,72 @@
         /**
          * Show safe tags.
          *
-         * @param {string} text
+         * @param {Object} context
          * @param {Function} callback
-         * @return {string}
          */
-        show: function(text, callback) {
+        show: function(context, callback) {
             var label = Typograf._privateLabel,
                 reReplace = new RegExp(label + 'tf\\d+' + label, 'g'),
-                reSearch = new RegExp(label + 'tf\\d');
+                reSearch = new RegExp(label + 'tf\\d'),
+                replaceLabel = function(match) {
+                    return context.safeTags.hidden[context.safeTags.group][match] || match;
+                };
     
             this._reservedGroups.forEach(function(group) {
-                this._currentGroup = group;
+                context.safeTags.group = group;
     
                 for (var i = 0, len = this._tags[group].length; i < len; i++) {
-                    text = text.replace(reReplace, this._replaceLabel);
-                    if (text.search(reSearch) === -1) { break; }
+                    context.text = context.text.replace(reReplace, replaceLabel);
+                    if (context.text.search(reSearch) === -1) { break; }
                 }
     
-                text = callback(text, group);
+                callback(context, group);
             }, this);
     
-            this._hiddenTags = null;
-    
-            return text;
+            context.safeTags = null;
         },
         /**
          * Hide safe tags.
          *
-         * @param {string} text
-         * @param {boolean} isHTML
+         * @param {Object} context
          * @param {Function} callback
-         * @return {string}
          */
-        hide: function(text, isHTML, callback) {
-            this._isHTML = isHTML;
-    
-            this._hiddenTags = {};
+        hide: function(context, callback) {
+            context.safeTags = {
+                hidden: {},
+                i: 0
+            };
+            
             this._groups.forEach(function(group) {
-                this._hiddenTags[group] = {};
-            }, this);
-            this._iLabel = 0;
-    
-            this._groups.forEach(function(group) {
-                text = this._hide(text, group);
-                text = callback(text, group);
+                context.safeTags.hidden[group] = {};
             }, this);
     
-            return text;
+            this._groups.forEach(function(group) {
+                this._hide(context, group);
+                callback(context, group);
+            }, this);
         },
-        _hide: function(text, group) {
-            this._currentGroup = group;
+        _hide: function(context, group) {
+            var pasteLabel = function(match) {
+                var key = Typograf._privateLabel + 'tf' + context.safeTags.i + Typograf._privateLabel;
+                context.safeTags.hidden[context.safeTags.group][key] = match;
+                context.safeTags.i++;
+    
+                return key;
+            };
+    
+            context.safeTags.group = group;
     
             this._tags[group].forEach(function(tag) {
-                text = text.replace(this._prepareRegExp(tag), this._pasteLabel);
+                context.text = context.text.replace(this._prepareRegExp(tag), pasteLabel);
             }, this);
     
-            if (group === 'html' && this._isHTML) {
-                text = text
-                    .replace(/<\/?[a-z][^]*?>/gi, this._pasteLabel) // Tags
-                    .replace(/&lt;\/?[a-z][^]*?&gt;/gi, this._pasteLabel) // Escaping tags
-                    .replace(/&[gl]t;/gi, this._pasteLabel);
+            if (group === 'html' && context.isHTML) {
+                context.text = context.text
+                    .replace(/<\/?[a-z][^]*?>/gi, pasteLabel) // Tags
+                    .replace(/&lt;\/?[a-z][^]*?&gt;/gi, pasteLabel) // Escaping tags
+                    .replace(/&[gl]t;/gi, pasteLabel);
             }
-    
-            return text;
         },
         _prepareRegExp: function(tag) {
             var re;
@@ -683,20 +652,6 @@
             }
     
             return re;
-        },
-        _getPrivateLabel: function(i) {
-            var label = Typograf._privateLabel;
-            return label + 'tf' + i + label;
-        },
-        _pasteLabel: function(match) {
-            var key = this._getPrivateLabel(this._iLabel);
-            this._hiddenTags[this._currentGroup][key] = match;
-            this._iLabel++;
-    
-            return key;
-        },
-        _replaceLabel: function(match) {
-            return this._hiddenTags[this._currentGroup][match] || match;
         }
     };
     
@@ -1051,21 +1006,20 @@
         /**
          * Entities as name or digit to UTF-8.
          *
-         * @param {string} text
-         * @return {string}
+         * @param {Object} context
          */
-        toUtf: function(text) {
-            if (text.search(/&#/) !== -1) {
-                text = this.decHexToUtf(text);
+        toUtf: function(context) {
+            if (context.text.search(/&#/) !== -1) {
+                context.text = this.decHexToUtf(context.text);
             }
     
-            if (text.search(/&[a-z]/i) !== -1) {
+            if (context.text.search(/&[a-z]/i) !== -1) {
                 this._entities.forEach(function(entity) {
-                    text = text.replace(entity.reName, entity.utf);
+                    context.text = context.text.replace(entity.reName, entity.utf);
                 });
             }
     
-            return text.replace(/&quot;/g, '"');
+            context.text = context.text.replace(/&quot;/g, '"');
         },
         /**
          * Entities in decimal or hexadecimal form to UTF-8.
@@ -1085,12 +1039,11 @@
         /**
          * Restore HTML entities in text.
          *
-         * @param {string} text
-         * @param {HtmlEntity} params
-         * @returns {string}
+         * @param {Object} context
          */
-        restore: function(text, params) {
-            var type = params.type,
+        restore: function(context) {
+            var params = context.prefs.htmlEntity,
+                type = params.type,
                 entities = this._entities;
     
             if (type === 'name' || type === 'digit') {
@@ -1106,14 +1059,12 @@
                     }
                 }
     
-                text = this._restoreEntitiesByIndex(
-                    text,
+                context.text = this._restoreEntitiesByIndex(
+                    context.text,
                     type + 'Entity',
                     entities
                 );
             }
-    
-            return text;
         },
         /**
          * Get a entity by utf using the type.
@@ -1306,8 +1257,9 @@
         Typograf.setData('fr/char', 'a-zàâçèéêëîïôûüœæ');
     
         Typograf.setData('fr/quote', {
-        left: '«“',
-        right: '»”'
+        left: '«‹',
+        right: '»›',
+        spacing: true
     });
     
         Typograf.setData('ga/char', 'abcdefghilmnoprstuvwxyzáéíóú');
@@ -1439,8 +1391,8 @@
     Typograf.addRule({
         name: 'common/html/e-mail',
         queue: 'end',
-        handler: function(text) {
-            return this._isHTML ? text : text.replace(
+        handler: function(text, settings, context) {
+            return context.isHTML ? text : text.replace(
                 /(^|[\s;(])([\w\-.]{2,})@([\w\-.]{2,})\.([a-z]{2,6})([)\s.,!?]|$)/gi,
                 '$1<a href="mailto:$2@$3.$4">$2@$3.$4</a>$5'
             );
@@ -1506,25 +1458,25 @@
     Typograf.addRule({
         name: 'common/html/processingAttrs',
         queue: 'hide-safe-tags-own', // After "hide-safe-tags-own", before "hide-safe-tags-html".
-        handler: function(text, settings) {
+        handler: function(text, settings, context) {
             var that = this,
-                tp = null,
-                reAttrs = new RegExp('(^|\\s)(' + settings.attrs.join('|') + ')=("[^"]*?"|\'[^\']*?\')', 'gi');
+                reAttrs = new RegExp('(^|\\s)(' + settings.attrs.join('|') + ')=("[^"]*?"|\'[^\']*?\')', 'gi'),
+                prefs = Typograf.deepCopy(context.prefs);
     
-            return text.replace(/(<[-\w]+\s)([^>]+?)>/g, function(match, tagName, attrs) {
+            prefs.ruleFilter = function(rule) {
+                return rule.htmlAttrs !== false;
+            };
+    
+            return text.replace(/(<[-\w]+\s)([^>]+?)(?=>)/g, function(match, tagName, attrs) {
                 var resultAttrs = attrs.replace(reAttrs, function(submatch, space, attrName, attrValue) {
-                    tp = tp || that._cloneInstance(function(rule) {
-                        return rule.htmlAttrs !== false;
-                    });
-    
                     var lquote = attrValue[0],
                         rquote = attrValue[attrValue.length - 1],
                         value = attrValue.slice(1, -1);
     
-                    return space + attrName + '=' + lquote + tp.execute(value) + rquote;
+                    return space + attrName + '=' + lquote + that.execute(value, prefs) + rquote;
                 });
     
-                return tagName + resultAttrs + '>';
+                return tagName + resultAttrs;
             });
         },
         settings: {
@@ -1547,8 +1499,8 @@
     Typograf.addRule({
         name: 'common/html/url',
         queue: 'end',
-        handler: function(text) {
-            return this._isHTML ? text : text.replace(Typograf._reUrl, function($0, protocol, path) {
+        handler: function(text, settings, context) {
+            return context.isHTML ? text : text.replace(Typograf._reUrl, function($0, protocol, path) {
                 path = path
                     .replace(/([^\/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
                     .replace(/^([^\/]+)\/$/, '$1'); // Remove ending /
@@ -1578,9 +1530,9 @@
     
     Typograf.addRule({
         name: 'common/nbsp/afterNumber',
-        handler: function(text) {
+        handler: function(text, settings, context) {
             var re = '(^|\\D)(\\d{1,5}) ([' +
-                this.getData('char') +
+                context.getData('char') +
                 ']{2,})';
     
             return text.replace(new RegExp(re, 'gi'), '$1$2\u00A0$3');
@@ -1599,10 +1551,10 @@
     
     Typograf.addRule({
         name: 'common/nbsp/afterShortWord',
-        handler: function(text, settings) {
+        handler: function(text, settings, context) {
             var len = settings.lengthShortWord,
-                before = ' \u00A0(' + Typograf._privateLabel + this.getData('common/quote'),
-                subStr = '(^|[' + before + '])([' + this.getData('char') + ']{1,' + len + '}) ',
+                before = ' \u00A0(' + Typograf._privateLabel + Typograf.getData('common/quote'),
+                subStr = '(^|[' + before + '])([' + context.getData('char') + ']{1,' + len + '}) ',
                 newSubStr = '$1$2\u00A0',
                 re = new RegExp(subStr, 'gim');
     
@@ -1617,12 +1569,12 @@
     
     Typograf.addRule({
         name: 'common/nbsp/beforeShortLastNumber',
-        handler: function(text, settings) {
-            var ch = this.getData('char'),
+        handler: function(text, settings, context) {
+            var ch = context.getData('char'),
                 CH = ch.toUpperCase(),
                 re = new RegExp('([' + ch + CH +
                 ']) (?=\\d{1,' + settings.lengthLastNumber +
-                '}[-+−%\'"' + this.getData('quote').right + ']?([.!?…]( [' +
+                '}[-+−%\'"' + context.getData('quote').right + ']?([.!?…]( [' +
                 CH + ']|$)|$))', 'gm');
     
             return text.replace(re, '$1\u00A0');
@@ -1635,8 +1587,8 @@
     
     Typograf.addRule({
         name: 'common/nbsp/beforeShortLastWord',
-        handler: function(text, settings) {
-            var ch = this.getData('char'),
+        handler: function(text, settings, context) {
+            var ch = context.getData('char'),
                 CH = ch.toUpperCase(),
                 re = new RegExp('([' + ch + '\\d]) ([' +
                     ch + CH + ']{1,' + settings.lengthLastWord +
@@ -1728,10 +1680,10 @@
     
     Typograf.addRule({
         name: 'common/other/repeatWord',
-        handler: function(text, settings) {
-            var punc = '[;:,.?! \n' + this.getData('common/quote') + ']';
+        handler: function(text, settings, context) {
+            var punc = '[;:,.?! \n' + Typograf.getData('common/quote') + ']';
             var re = new RegExp('(' + punc + '|^)' + 
-                '([' + this.getData('char') + ']{' + settings.min + ',}) ' + 
+                '([' + context.getData('char') + ']{' + settings.min + ',}) ' + 
                 '\\2(' + punc + '|$)', 'gi');
     
             return text.replace(re, '$1$2$3');
@@ -1742,8 +1694,8 @@
     
     Typograf.addRule({
         name: 'common/punctuation/apostrophe',
-        handler: function(text) {
-            var letters = '([' + this.getData('char') + '])',
+        handler: function(text, settings, context) {
+            var letters = '([' + context.getData('char') + '])',
                 re = new RegExp(letters + '\'' + letters, 'gi');
     
             return text.replace(re, '$1’$2');
@@ -1764,8 +1716,8 @@
     
     Typograf.addRule({
         name: 'common/punctuation/quote',
-        handler: function(text, commonSettings) {
-            var locale = this._sessionPrefs.locale[0],
+        handler: function(text, commonSettings, context) {
+            var locale = context.prefs.locale[0],
                 localeSettings = commonSettings[locale];
     
             if (!localeSettings) { return text; }
@@ -1796,92 +1748,126 @@
         }
     });
     
-    Typograf.prototype._setQuotes = function(text, settings) {
-        var privateLabel = Typograf._privateLabel,
-            lquote = settings.left[0],
-            rquote = settings.right[0],
-            lquote2 = settings.left[1] || lquote,
-            quotes = '[' + Typograf.getData('common/quote') + ']',
-            reL = new RegExp('(^|[\\s[(])("{1,3})(?=\\S)', 'gim'),
-            reR = new RegExp('(\\S)("{1,3})(?=[!?.:;#*,…)\\s' + privateLabel + ']|$)', 'gim'),
-            reQuotes = new RegExp(quotes, 'g'),
-            reClosingTag = new RegExp('(' + privateLabel + ')"(?=[^\\s' + privateLabel + ']|$)', 'gm'),
-            count = 0;
+    Typograf._mix(Typograf.prototype, {
+        _setQuotes: function(text, settings) {
+            var privateLabel = Typograf._privateLabel,
+                lquote = settings.left[0],
+                rquote = settings.right[0],
+                lquote2 = settings.left[1] || lquote,
+                quotes = '[' + Typograf.getData('common/quote') + ']',
+                reL = new RegExp('(^|[ \\t\\n\u00A0[(])("{1,3})(?=[^ \\t\\n\u00A0])', 'gim'),
+                reR = new RegExp('([^ \\t\\n\u00A0])("{1,3})(?=[!?.:;#*,…)\\s' + privateLabel + ']|$)', 'gim'),
+                reQuotes = new RegExp(quotes, 'g'),
+                reClosingTag = new RegExp('(' + privateLabel + ')"(?=[^ \\t\\n' + privateLabel + ']|$)', 'gm'),
+                count = 0;
     
-        text = text
+            if (settings.spacing) {
+                text = this._removeQuoteSpacing(text, settings);
+            }
+    
             // Hide incorrect quotes.
-            .replace(reQuotes, function() {
+            text = text.replace(reQuotes, function() {
                 count++;
                 return '"';
-            })
-            // Opening quote
-            .replace(reL, function($0, $1, $2) { return $1 + Typograf._repeat(lquote, $2.length); })
-            // Closing quote
-            .replace(reR, function($0, $1, $2) { return $1 + Typograf._repeat(rquote, $2.length); })
-            // Tag and closing quote
-            .replace(reClosingTag, '$1' + rquote);
+            });
     
-        if (lquote !== lquote2 && (count % 2) === 0) {
-            text = this._setInnerQuotes(text, settings);
-        }
+            text = text
+                // Opening quote
+                .replace(reL, function($0, $1, $2) { return $1 + Typograf._repeat(lquote, $2.length); })
+                // Closing quote
+                .replace(reR, function($0, $1, $2) { return $1 + Typograf._repeat(rquote, $2.length); })
+                // Tag and closing quote
+                .replace(reClosingTag, '$1' + rquote);
     
-        return text;
-    };
+            if (lquote !== lquote2 && (count % 2) === 0) {
+                text = this._setInnerQuotes(text, settings);
+            }
     
-    Typograf.prototype._setInnerQuotes = function(text, settings) {
-        var leftQuotes = [],
-            rightQuotes = [];
+            if (settings.spacing) {
+                text = this._setQuoteSpacing(text, settings);
+            }
     
-        for (var k = 0; k < settings.left.length; k++) {
-            leftQuotes.push(settings.left[k]);
-            rightQuotes.push(settings.right[k]);
-        }
+            return text;
+        },
+        _removeQuoteSpacing: function(text, settings) {
+            for (var i = 0, len = settings.left.length; i < len; i++) {
+                var lquote = settings.left[i];
+                var rquote = settings.right[i];
     
-        var lquote = settings.left[0],
-            rquote = settings.right[0],
-            bufText = new Array(text.length),
-            minLevel = -1,
-            maxLevel = leftQuotes.length - 1,
-            level = minLevel;
+                text = text
+                    .replace(new RegExp(lquote + '([ \u202F\u00A0])', 'g'), lquote)
+                    .replace(new RegExp('([ \u202F\u00A0])' + rquote, 'g'), rquote);
+            }
     
-        for (var i = 0, len = text.length; i < len; i++) {
-            var letter = text[i];
+            return text;
+        },
+        _setQuoteSpacing: function(text, settings) {
+            for (var i = 0, len = settings.left.length; i < len; i++) {
+                var lquote = settings.left[i];
+                var rquote = settings.right[i];
     
-            if (letter === lquote) {
-                level++;
-                if (level > maxLevel) {
-                    level = maxLevel;
-                }
-                bufText.push(leftQuotes[level]);
-            } else if (letter === rquote) {
-                if (level <= minLevel) {
-                    level = 0;
+                text = text
+                    .replace(new RegExp(lquote + '([^\u202F])', 'g'), lquote + '\u202F$1')
+                    .replace(new RegExp('([^\u202F])' + rquote, 'g'), '$1\u202F' + rquote);
+            }
+    
+            return text;
+        },
+        _setInnerQuotes: function(text, settings) {
+            var leftQuotes = [],
+                rightQuotes = [];
+    
+            for (var k = 0; k < settings.left.length; k++) {
+                leftQuotes.push(settings.left[k]);
+                rightQuotes.push(settings.right[k]);
+            }
+    
+            var lquote = settings.left[0],
+                rquote = settings.right[0],
+                bufText = new Array(text.length),
+                minLevel = -1,
+                maxLevel = leftQuotes.length - 1,
+                level = minLevel;
+    
+            for (var i = 0, len = text.length; i < len; i++) {
+                var letter = text[i];
+    
+                if (letter === lquote) {
+                    level++;
+                    if (level > maxLevel) {
+                        level = maxLevel;
+                    }
                     bufText.push(leftQuotes[level]);
+                } else if (letter === rquote) {
+                    if (level <= minLevel) {
+                        level = 0;
+                        bufText.push(leftQuotes[level]);
+                    } else {
+                        bufText.push(rightQuotes[level]);
+                        level--;
+                        if (level < minLevel) {
+                            level = minLevel;
+                        }
+                    }
                 } else {
-                    bufText.push(rightQuotes[level]);
-                    level--;
-                    if (level < minLevel) {
+                    if (letter === '"') {
                         level = minLevel;
                     }
-                }
-            } else {
-                if (letter === '"') {
-                    level = minLevel;
-                }
     
-                bufText.push(letter);
+                    bufText.push(letter);
+                }
             }
-        }
     
-        return bufText.join('');
-    };
+            return bufText.join('');
+        }
+    });
     
     Typograf.addRule({
         name: 'common/punctuation/quoteLink',
         queue: 'show-safe-tags-html',
         index: '+5',
-        handler: function(text) {
-            var quotes = this.getSetting('common/punctuation/quote', this._sessionPrefs.locale[0]);
+        handler: function(text, settings, context) {
+            var quotes = this.getSetting('common/punctuation/quote', context.prefs.locale[0]);
     
             if (!quotes) { return text; }
             var entities = Typograf.HtmlEntities,
@@ -1903,7 +1889,7 @@
         name: 'common/space/afterPunctuation',
         handler: function(text) {
             var privateLabel = Typograf._privateLabel,
-                reExcl = new RegExp('(!|;|\\?)([^).!;?\\s[\\])' + privateLabel + this.getData('common/quote') + '])', 'g'),
+                reExcl = new RegExp('(!|;|\\?)([^).!;?\\s[\\])' + privateLabel + Typograf.getData('common/quote') + '])', 'g'),
                 reComma = new RegExp('(\\D)(,|:)([^)",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
     
             return text
@@ -1914,8 +1900,8 @@
     
     Typograf.addRule({
         name: 'common/space/beforeBracket',
-        handler: function(text) {
-            var re = new RegExp('([' + this.getData('char') + '.!?,;…)])\\(', 'gi');
+        handler: function(text, settings, context) {
+            var re = new RegExp('([' + context.getData('char') + '.!?,;…)])\\(', 'gi');
             return text.replace(re, '$1 (');
         }
     });
@@ -2046,7 +2032,7 @@
     Typograf.addRule({
         name: 'ru/dash/centuries',
         handler: function(text, settings) {
-            var dashes = '(' + this.getData('common/dash') + ')',
+            var dashes = '(' + Typograf.getData('common/dash') + ')',
                 re = new RegExp('(X|I|V)[ |\u00A0]?' + dashes + '[ |\u00A0]?(X|I|V)', 'g');
     
             return text.replace(re, '$1' + settings.dash + '$3');
@@ -2060,9 +2046,9 @@
         name: 'ru/dash/daysMonth',
         handler: function(text, settings) {
             var re = new RegExp('(^|\\s)([123]?\\d)' +
-                    '(' + this.getData('common/dash') + ')' +
+                    '(' + Typograf.getData('common/dash') + ')' +
                     '([123]?\\d)[ \u00A0]' +
-                    '(' + this.getData('ru/monthGenCase') + ')', 'g');
+                    '(' + Typograf.getData('ru/monthGenCase') + ')', 'g');
     
             return text.replace(re, '$1$2' + settings.dash + '$4\u00A0$5');
         },
@@ -2074,7 +2060,7 @@
     Typograf.addRule({
         name: 'ru/dash/de',
         handler: function(text) {
-            var re = new RegExp('([a-яё]+) де' + this.getData('ru/dashAfterDe'), 'g');
+            var re = new RegExp('([a-яё]+) де' + Typograf.getData('ru/dashAfterDe'), 'g');
     
             return text.replace(re, '$1-де');
         },
@@ -2085,7 +2071,7 @@
         name: 'ru/dash/decade',
         handler: function(text, settings) {
             var re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
-                    '(' + this.getData('common/dash') + ')' +
+                    '(' + Typograf.getData('common/dash') + ')' +
                     '(\\d{3}|\\d)0(-е[ \u00A0])' +
                     '(?=г\\.?[ \u00A0]?г|год)', 'g');
     
@@ -2099,7 +2085,7 @@
     Typograf.addRule({
         name: 'ru/dash/directSpeech',
         handler: function(text) {
-            var dashes = this.getData('common/dash'),
+            var dashes = Typograf.getData('common/dash'),
                 re1 = new RegExp('(["»‘“,])[ |\u00A0]?(' + dashes + ')[ |\u00A0]', 'g'),
                 re2 = new RegExp('(^|' + Typograf._privateLabel + ')(' + dashes + ')( |\u00A0)', 'gm'),
                 re3 = new RegExp('([.…?!])[ \u00A0](' + dashes + ')[ \u00A0]', 'g');
@@ -2114,7 +2100,7 @@
     Typograf.addRule({
         name: 'ru/dash/izpod',
         handler: function(text) {
-            var re = new RegExp(this.getData('ru/dashBefore') + '(И|и)з под' + this.getData('ru/dashAfter'), 'g');
+            var re = new RegExp(Typograf.getData('ru/dashBefore') + '(И|и)з под' + Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1$2з-под');
         }
@@ -2123,7 +2109,7 @@
     Typograf.addRule({
         name: 'ru/dash/izza',
         handler: function(text) {
-            var re = new RegExp(this.getData('ru/dashBefore') + '(И|и)з за' + this.getData('ru/dashAfter'), 'g');
+            var re = new RegExp(Typograf.getData('ru/dashBefore') + '(И|и)з за' + Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1$2з-за');
         }
@@ -2132,7 +2118,7 @@
     Typograf.addRule({
         name: 'ru/dash/ka',
         handler: function(text) {
-            var re = new RegExp('([a-яё]+) ка(сь)?' + this.getData('ru/dashAfter'), 'g');
+            var re = new RegExp('([a-яё]+) ка(сь)?' + Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1-ка$2');
         }
@@ -2141,9 +2127,9 @@
     Typograf.addRule({
         name: 'ru/dash/koe',
         handler: function(text) {
-            var re = new RegExp(this.getData('ru/dashBefore') +
+            var re = new RegExp(Typograf.getData('ru/dashBefore') +
                 '([Кк]о[ей])\\s([а-яё]{3,})' +
-                this.getData('ru/dashAfter'), 'g');
+                Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1$2-$3');
         }
@@ -2153,7 +2139,7 @@
         name: 'ru/dash/main',
         index: '-5',
         handler: function(text) {
-            var dashes = this.getData('common/dash'),
+            var dashes = Typograf.getData('common/dash'),
                 re = new RegExp('([ \u00A0])(' + dashes + ')([ \u00A0\\n])', 'g');
     
             return text.replace(re, '\u00A0\u2014$3');
@@ -2163,9 +2149,9 @@
     Typograf.addRule({
         name: 'ru/dash/month',
         handler: function(text, settings) {
-            var months = '(' + this.getData('ru/month') + ')',
-                monthsPre = '(' + this.getData('ru/monthPreCase') + ')',
-                dashes = this.getData('common/dash'),
+            var months = '(' + Typograf.getData('ru/month') + ')',
+                monthsPre = '(' + Typograf.getData('ru/monthPreCase') + ')',
+                dashes = Typograf.getData('common/dash'),
                 re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi'),
                 rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi'),
                 newSubStr = '$1' + settings.dash + '$3';
@@ -2192,7 +2178,7 @@
         name: 'ru/dash/taki',
         handler: function(text) {
             var re = new RegExp('(верно|довольно|опять|прямо|так|вс[её]|действительно|неужели)\\s(таки)' +
-                this.getData('ru/dashAfter'), 'g');
+                Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1-$2');
         }
@@ -2201,11 +2187,11 @@
     Typograf.addRule({
         name: 'ru/dash/time',
         handler: function(text, settings) {
-            var re = new RegExp(this.getData('ru/dashBefore') +
+            var re = new RegExp(Typograf.getData('ru/dashBefore') +
                 '(\\d?\\d:[0-5]\\d)' +
-                this.getData('common/dash') +
+                Typograf.getData('common/dash') +
                 '(\\d?\\d:[0-5]\\d)' +
-                this.getData('ru/dashAfter'), 'g');
+                Typograf.getData('ru/dashAfter'), 'g');
     
             return text.replace(re, '$1$2' + settings.dash + '$3');
         },
@@ -2225,7 +2211,7 @@
                     'кто', 'кого', 'кому', 'кем'
                 ],
                 re = new RegExp('(' + words.join('|') + ')( | -|- )(то|либо|нибудь)' +
-                    this.getData('ru/dashAfter'), 'gi');
+                    Typograf.getData('ru/dashAfter'), 'gi');
     
             return text.replace(re, '$1-$3');
         }
@@ -2234,8 +2220,8 @@
     Typograf.addRule({
         name: 'ru/dash/weekday',
         handler: function(text, settings) {
-            var part = '(' + this.getData('ru/weekday') + ')',
-                re = new RegExp(part + ' ?(' + this.getData('common/dash') + ') ?' + part, 'gi');
+            var part = '(' + Typograf.getData('ru/weekday') + ')',
+                re = new RegExp(part + ' ?(' + Typograf.getData('common/dash') + ') ?' + part, 'gi');
     
             return text.replace(re, '$1' + settings.dash + '$3');
         },
@@ -2247,7 +2233,7 @@
     Typograf.addRule({
         name: 'ru/dash/years',
         handler: function(text, settings) {
-            var dashes = this.getData('common/dash'),
+            var dashes = Typograf.getData('common/dash'),
                 re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
                     dashes + ')[ \u00A0]?(\\d{4})(?=[ \u00A0]?г)', 'g');
     
@@ -2282,8 +2268,8 @@
         name: 'ru/date/weekday',
         handler: function(text) {
             var space = '( |\u00A0)',
-                monthCase = this.getData('ru/monthGenCase'),
-                weekday = this.getData('ru/weekday'),
+                monthCase = Typograf.getData('ru/monthGenCase'),
+                weekday = Typograf.getData('ru/weekday'),
                 re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
     
             return text.replace(re, function() {
@@ -2393,7 +2379,7 @@
     Typograf.addRule({
         name: 'ru/nbsp/centuries',
         handler: function(text) {
-            var dashes = this.getData('common/dash'),
+            var dashes = Typograf.getData('common/dash'),
                 before = '(^|\\s)([VIX]+)',
                 after = '(?=[,;:?!"‘“»]|$)',
                 re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm'),
@@ -2408,7 +2394,7 @@
     Typograf.addRule({
         name: 'ru/nbsp/dayMonth',
         handler: function(text) {
-            var re = new RegExp('(\\d{1,2}) (' + this.getData('ru/shortMonth') + ')', 'gi');
+            var re = new RegExp('(\\d{1,2}) (' + Typograf.getData('ru/shortMonth') + ')', 'gi');
             return text.replace(re, '$1\u00A0$2');
         }
     });
@@ -2426,7 +2412,7 @@
         name: 'ru/nbsp/initials',
         handler: function(text) {
             var spaces = '\u00A0\u202F ', // nbsp, thinsp
-                quote = this.getData('ru/quote'),
+                quote = Typograf.getData('ru/quote'),
                 re = new RegExp('(^|[' + spaces +
                     quote.left +
                     Typograf._privateLabel +
@@ -2515,7 +2501,7 @@
         name: 'ru/nbsp/years',
         index: '+5',
         handler: function(text) {
-            var dashes = this.getData('common/dash'),
+            var dashes = Typograf.getData('common/dash'),
                 re = new RegExp('(^|\\D)(\\d{4})(' +
                     dashes + ')(\\d{4})[ \u00A0]?г\\.?([ \u00A0]?г\\.)?(?=[,;:?!"‘“»\\s]|$)', 'gm');
     
@@ -2535,8 +2521,8 @@
     
     Typograf.addRule({
         name: 'ru/number/ordinals',
-        handler: function(text) {
-            var re = new RegExp('(\\d[%‰]?)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + this.getData('char') + '])', 'g');
+        handler: function(text, settings, context) {
+            var re = new RegExp('(\\d[%‰]?)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + context.getData('char') + '])', 'g');
     
             return text.replace(re, function($0, $1, $2) {
                 var parts = {
@@ -2602,8 +2588,8 @@
     
         Typograf.addRule({
             name: name,
-            handler: function(text) {
-                var re = new RegExp('([' + this.getData('char') + '\\d\u0301]+), ', 'gi');
+            handler: function(text, settings, context) {
+                var re = new RegExp('([' + context.getData('char') + '\\d\u0301]+), ', 'gi');
                 return text.replace(re, '$1<span class="typograf-oa-comma">,</span><span class="typograf-oa-comma-sp"> </span>');
             },
             disabled: true,
@@ -2881,9 +2867,9 @@
     
     Typograf.addRule({
         name: 'ru/space/year',
-        handler: function(text) {
+        handler: function(text, settings, context) {
             var re = new RegExp('(^| |\u00A0)(\\d{3,4})(год([ауе]|ом)?)([^' +
-                this.getData('char') + ']|$)', 'g');
+                context.getData('char') + ']|$)', 'g');
             return text.replace(re, '$1$2 $3$5');
         }
     });
