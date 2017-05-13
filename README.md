@@ -29,6 +29,17 @@
  + HTML
  + XML
  + SVG
+ 
+## Дополнения для браузеров
++ [Google Chrome](https://chrome.google.com/webstore/detail/red-typography/dgmmkhdeghobfcedlnmgbncknnfjhnmo)
++ [Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
+
+## Плагины
+ + [grunt-typograf](https://github.com/typograf/grunt-typograf)
+ + [gulp-typograf](https://github.com/typograf/gulp-typograf)
+ + [typograf-loader](https://github.com/exah/typograf-loader)
+ + [hexo-typograf](https://github.com/toiletpatrol/hexo-typograf)
+ + [TinyMCE](https://habrahabr.ru/post/266337/)
 
 ## Использование
 
@@ -56,13 +67,6 @@ const tp = new Typograf({locale: ['ru', 'en-US']});
 
 console.log(tp.execute(' Мир - мой мир!!   '));
 ```
-
-### Плагины
- + [grunt-typograf](https://github.com/typograf/grunt-typograf)
- + [gulp-typograf](https://github.com/typograf/gulp-typograf)
- + [typograf-loader](https://github.com/exah/typograf-loader)
- + [hexo-typograf](https://github.com/toiletpatrol/hexo-typograf)
- + [TinyMCE](https://habrahabr.ru/post/266337/)
 
 ### [Командный интерфейс](https://github.com/typograf/typograf-cli)
 
@@ -253,7 +257,6 @@ MIT License
 
 
 ## Ссылки
-+ [Типограф для Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
 + [Букмарклет для типографа](https://github.com/typograf/bookmarklet)
 + [Средство поиска опечаток в текстах](https://github.com/hcodes/yaspeller)
 + [Восстановление буквы «ё» в русских текстах](https://github.com/hcodes/eyo)
