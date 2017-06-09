@@ -33,6 +33,7 @@
 ## Дополнения для браузеров
 + [Google Chrome](https://chrome.google.com/webstore/detail/red-typography/dgmmkhdeghobfcedlnmgbncknnfjhnmo)
 + [Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
++ [Opera и Яндекс.Браузер](https://addons.opera.com/ru/extensions/details/red-typography/)
 
 ## Плагины
  + [grunt-typograf](https://github.com/typograf/grunt-typograf)
