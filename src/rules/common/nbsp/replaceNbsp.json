@@ -1,4 +1,4 @@
 ﻿{
-  "en-US": "Replacing non-breaking space in the ordinary",
-  "ru": "Замена неразрывного пробела на обычный"
+  "en-US": "Replacing non-breaking space on normal before text correction",
+  "ru": "Замена неразрывного пробела на обычный перед типографированием"
 }
