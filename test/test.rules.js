@@ -76,15 +76,15 @@ describe('rules, double execute', function() {
 
 describe('common specific tests', function() {
     function check(data) {
-        const tp = new Typograf({locale: 'en-US', enableRule: data.enableRule});
+        const tp = new Typograf({locale: data.locale || 'en-US', enableRule: data.enableRule});
 
         data.tests.forEach(function(item) {
             assert.equal(tp.execute(item[0]), item[1]);
         });
     }
 
-    it('enable common/html/stripTags', function() {
-        check({
+    const tests = [
+        {
             enableRule: 'common/html/stripTags',
             tests: [
                 [
@@ -96,11 +96,8 @@ describe('common specific tests', function() {
                     ''
                 ]
             ]
-        });
-    });
-
-    it('should enable common/html/escape', function() {
-        check({
+        },
+        {
             enableRule: 'common/html/escape',
             tests: [
                 [
@@ -108,6 +105,43 @@ describe('common specific tests', function() {
                     '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;'
                 ]
             ]
+        },
+        {
+            enableRule: ['common/html/p', 'common/html/url'],
+            tests: [
+                [
+                    'http://example.com',
+                    '<p><a href="http://example.com">example.com</a></p>'
+                ],
+                [
+                    'https://example.com',
+                    '<p><a href="https://example.com">https://example.com</a></p>'
+                ]
+            ]
+        },
+        {
+            locale: ['ru', 'en-US'],
+            enableRule: 'common/html/processingAttrs',
+            tests: [
+                [
+                    '<p title="    Hello world!!    " placeholder="    Hello world!!    ">     Hello world!!     </p>',
+                    '<p title="Hello world!" placeholder="Hello world!"> Hello world! </p>'
+                ],
+                [
+                    '<p data-title="    Hello world!!    ">     Hello world!!     </p>',
+                    '<p data-title="    Hello world!!    "> Hello world! </p>'
+                ],
+                [
+                    '<p title="    Hello world!!    ">     Hello world!!     </p>\n<p title="    Hello world!!    ">     Hello world!!     </p>',
+                    '<p title="Hello world!"> Hello world! </p>\n<p title="Hello world!"> Hello world! </p>'
+                ]
+            ]
+        }
+    ];
+    
+    tests.forEach(function(t) {
+        it(t.enableRule.toString(), function() {
+            check(t);
         });
     });
 });
@@ -195,28 +229,6 @@ describe('russian specific tests', function() {
             '<span class="typograf-oa-sp-lbracket"> </span>'
         ].forEach(function(item) {
             assert.equal(tp.execute(item), item);
-        });
-    });
-
-    it('should processing HTML attributes', function() {
-        const tp = new Typograf({locale: ['ru', 'en-US']});
-        tp.enableRule('common/html/processingAttrs');
-
-        [
-            [
-                '<p title="    Hello world!!    " placeholder="    Hello world!!    ">     Hello world!!     </p>',
-                '<p title="Hello world!" placeholder="Hello world!"> Hello world! </p>'
-            ],
-            [
-                '<p data-title="    Hello world!!    ">     Hello world!!     </p>',
-                '<p data-title="    Hello world!!    "> Hello world! </p>'
-            ],
-            [
-                '<p title="    Hello world!!    ">     Hello world!!     </p>\n<p title="    Hello world!!    ">     Hello world!!     </p>',
-                '<p title="Hello world!"> Hello world! </p>\n<p title="Hello world!"> Hello world! </p>'
-            ]        
-        ].forEach(function(item) {
-            assert.equal(tp.execute(item[0]), item[1]);
         });
     });
 });
