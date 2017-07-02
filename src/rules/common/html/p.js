@@ -1,5 +1,6 @@
 Typograf.addRule({
     name: 'common/html/p',
+    index: '+5',
     queue: 'end',
     handler: function(text) {
         var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\s]'),
