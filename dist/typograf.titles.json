@@ -56,8 +56,8 @@
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
   "common/nbsp/replaceNbsp": {
-    "en-US": "Replacing non-breaking space in the ordinary",
-    "ru": "Замена неразрывного пробела на обычный"
+    "en-US": "Replacing non-breaking space on normal before text correction",
+    "ru": "Замена неразрывного пробела на обычный перед типографированием"
   },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/4 → ¾"
@@ -86,7 +86,7 @@
   },
   "common/punctuation/quote": {
     "en-US": "Placement of quotation marks in texts",
-    "ru": "Расстановка кавычек в текстах"
+    "ru": "Расстановка кавычек правильного вида"
   },
   "common/punctuation/quoteLink": {
     "en-US": "Removal quotes outside a link",
@@ -102,7 +102,7 @@
   },
   "common/space/bracket": {
     "en-US": "Remove extra spaces after opening and before closing bracket",
-    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобки"
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобкой"
   },
   "common/space/delBeforePercent": {
     "en-US": "Remove space before %, ‰ and ‱",
@@ -134,7 +134,7 @@
   },
   "common/space/squareBracket": {
     "en-US": "Remove extra spaces after opening and before closing square bracket",
-    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей квадратной скобки"
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей квадратной скобкой"
   },
   "common/space/trimLeft": {
     "en-US": "Remove spaces and line breaks in beginning of text",
@@ -242,7 +242,7 @@
   },
   "ru/nbsp/addr": {
     "en-US": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
-    "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
+    "ru": "Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
   },
   "ru/nbsp/afterNumberSign": {
     "en-US": "Non-breaking thin space after №",
@@ -262,7 +262,7 @@
   },
   "ru/nbsp/groupNumbers": {
     "en-US": "Replacement space on a narrow non-breaking space in groups of numbers",
-    "ru": "Замена пробела на неразрывный узкий пробел в группах чисел"
+    "ru": "Замена пробела на нераз. узкий пробел в группах чисел"
   },
   "ru/nbsp/initials": {
     "en-US": "Binding of initials to the name",
@@ -338,8 +338,8 @@
     "common": "!? → ?!"
   },
   "ru/punctuation/hellip": {
-    "en-US": "Three points on ellipsis",
-    "ru": "Три точки на многоточие, ?... → ?.. и пр."
+    "en-US": "Replacement of three points by ellipsis",
+    "ru": "Замена трёх точек на многоточие, ?... → ?.. и пр."
   },
   "ru/space/afterHellip": {
     "en-US": "Space after ..., !.. and ?..",

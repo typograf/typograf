@@ -440,7 +440,7 @@
         }
     };
 
-    Typograf.version = '6.2.0';
+    Typograf.version = '6.2.1';
     
     Typograf._mix(Typograf, {
         /**
@@ -1424,7 +1424,7 @@
     
     Typograf.addRule({
         name: 'common/html/nbr',
-        index: '+5',
+        index: '+10',
         queue: 'end',
         handler: function(text) {
             return text.replace(/([^\n>])\n(?=[^\n])/g, '$1<br/>\n');
@@ -1435,6 +1435,7 @@
     
     Typograf.addRule({
         name: 'common/html/p',
+        index: '+5',
         queue: 'end',
         handler: function(text) {
             var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\s]'),
@@ -1634,6 +1635,33 @@
     });
     
     Typograf.addRule({
+        name: 'common/other/delBOM',
+        queue: 'start',
+        index: -1,
+        handler: function(text) {
+            if (text.charCodeAt(0) === 0xFEFF) {
+                return text.slice(1);
+            }
+    
+            return text;
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'common/other/repeatWord',
+        handler: function(text, settings, context) {
+            var punc = '[;:,.?! \n' + Typograf.getData('common/quote') + ']';
+            var re = new RegExp('(' + punc + '|^)' + 
+                '([' + context.getData('char') + ']{' + settings.min + ',}) ' + 
+                '\\2(' + punc + '|$)', 'gi');
+    
+            return text.replace(re, '$1$2$3');
+        },
+        settings: {min: 2},
+        disabled: true
+    });
+    
+    Typograf.addRule({
         name: 'common/number/fraction',
         handler: function(text) {
             return text.replace(/(^|\D)1\/2(\D|$)/g, '$1½$2')
@@ -1663,33 +1691,6 @@
         handler: function(text) {
             return text.replace(/(\d)[ \u00A0]?[xх][ \u00A0]?(\d)/g, '$1×$2');
         }
-    });
-    
-    Typograf.addRule({
-        name: 'common/other/delBOM',
-        queue: 'start',
-        index: -1,
-        handler: function(text) {
-            if (text.charCodeAt(0) === 0xFEFF) {
-                return text.slice(1);
-            }
-    
-            return text;
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'common/other/repeatWord',
-        handler: function(text, settings, context) {
-            var punc = '[;:,.?! \n' + Typograf.getData('common/quote') + ']';
-            var re = new RegExp('(' + punc + '|^)' + 
-                '([' + context.getData('char') + ']{' + settings.min + ',}) ' + 
-                '\\2(' + punc + '|$)', 'gi');
-    
-            return text.replace(re, '$1$2$3');
-        },
-        settings: {min: 2},
-        disabled: true
     });
     
     Typograf.addRule({
@@ -1886,6 +1887,36 @@
     });
     
     Typograf.addRule({
+        name: 'common/symbols/arrow',
+        handler: function(text) {
+            return Typograf._replace(text, [
+                [/(^|[^-])->(?!>)/g, '$1→'],
+                [/(^|[^<])<-(?!-)/g, '$1←']
+            ]);
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'common/symbols/cf',
+        handler: function(text) {
+            var re = new RegExp('(^|[^%])(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
+    
+            return text.replace(re, '$1$2' + '\u2009' + '°$4$5');
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'common/symbols/copy',
+        handler: function(text) {
+            return Typograf._replace(text, [
+                [/\(r\)/gi, '®'],
+                [/(copyright )?\((c|с)\)/gi, '©'],
+                [/\(tm\)/gi, '™']
+            ]);
+        }
+    });
+    
+    Typograf.addRule({
         name: 'common/space/afterPunctuation',
         handler: function(text) {
             var privateLabel = Typograf._privateLabel,
@@ -2000,33 +2031,64 @@
     });
     
     Typograf.addRule({
-        name: 'common/symbols/arrow',
+        name: 'ru/date/fromISO',
         handler: function(text) {
-            return Typograf._replace(text, [
-                [/(^|[^-])->(?!>)/g, '$1→'],
-                [/(^|[^<])<-(?!-)/g, '$1←']
-            ]);
+            var sp1 = '(-|\\.|\\/)',
+                sp2 = '(-|\\/)',
+                re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
+                re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+    
+            return text
+                .replace(re1, '$1$6.$4.$2$7')
+                .replace(re2, '$1$4.$2.$6$7');
         }
     });
     
     Typograf.addRule({
-        name: 'common/symbols/cf',
+        name: 'ru/date/weekday',
         handler: function(text) {
-            var re = new RegExp('(^|[^%])(\\d+)( |\u00A0)?(C|F)([\\W \\.,:!\\?"\\]\\)]|$)', 'g');
+            var space = '( |\u00A0)',
+                monthCase = Typograf.getData('ru/monthGenCase'),
+                weekday = Typograf.getData('ru/weekday'),
+                re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
     
-            return text.replace(re, '$1$2' + '\u2009' + '°$4$5');
+            return text.replace(re, function() {
+                var a = arguments;
+                return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+            });
         }
     });
     
     Typograf.addRule({
-        name: 'common/symbols/copy',
+        name: 'ru/money/currency',
         handler: function(text) {
-            return Typograf._replace(text, [
-                [/\(r\)/gi, '®'],
-                [/(copyright )?\((c|с)\)/gi, '©'],
-                [/\(tm\)/gi, '™']
-            ]);
+            var currency = '([$€¥Ұ£₤₽])',
+                re1 = new RegExp('(^|[\\D]{2})' + currency + ' ?([\\d.,]+([ \u00A0\u2009\u202F]\\d{3})*)', 'g'),
+                re2 = new RegExp('(^|[\\D])([\\d.,]+) ?' + currency, 'g'),
+                newSubstr1 = '$1$3\u00A0$2',
+                newSubstr2 = '$1$2\u00A0$3';
+    
+            return text
+                .replace(re1, newSubstr1)
+                .replace(re2, newSubstr2);
         }
+    });
+    
+    Typograf.addRule({
+        name: 'ru/money/ruble',
+        handler: function(text) {
+            var newSubstr = '$1\u00A0₽',
+                commonPart = '(\\d+)( |\u00A0)?(р|руб)\\.',
+                re1 = new RegExp('^' + commonPart + '$', 'g'),
+                re2 = new RegExp(commonPart + '(?=[!?,:;])', 'g'),
+                re3 = new RegExp(commonPart + '(?=\\s+[A-ЯЁ])', 'g');
+                
+            return text
+                .replace(re1, newSubstr)
+                .replace(re2, newSubstr)
+                .replace(re3, newSubstr + '.');
+        },
+        disabled: true
     });
     
     Typograf.addRule({
@@ -2248,67 +2310,6 @@
         settings: {
             dash: '\u2013' // &ndash;
         }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/date/fromISO',
-        handler: function(text) {
-            var sp1 = '(-|\\.|\\/)',
-                sp2 = '(-|\\/)',
-                re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi'),
-                re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
-    
-            return text
-                .replace(re1, '$1$6.$4.$2$7')
-                .replace(re2, '$1$4.$2.$6$7');
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/date/weekday',
-        handler: function(text) {
-            var space = '( |\u00A0)',
-                monthCase = Typograf.getData('ru/monthGenCase'),
-                weekday = Typograf.getData('ru/weekday'),
-                re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
-    
-            return text.replace(re, function() {
-                var a = arguments;
-                return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
-            });
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/money/currency',
-        handler: function(text) {
-            var currency = '([$€¥Ұ£₤₽])',
-                re1 = new RegExp('(^|[\\D]{2})' + currency + ' ?([\\d.,]+([ \u00A0\u2009\u202F]\\d{3})*)', 'g'),
-                re2 = new RegExp('(^|[\\D])([\\d.,]+) ?' + currency, 'g'),
-                newSubstr1 = '$1$3\u00A0$2',
-                newSubstr2 = '$1$2\u00A0$3';
-    
-            return text
-                .replace(re1, newSubstr1)
-                .replace(re2, newSubstr2);
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/money/ruble',
-        handler: function(text) {
-            var newSubstr = '$1\u00A0₽',
-                commonPart = '(\\d+)( |\u00A0)?(р|руб)\\.',
-                re1 = new RegExp('^' + commonPart + '$', 'g'),
-                re2 = new RegExp(commonPart + '(?=[!?,:;])', 'g'),
-                re3 = new RegExp(commonPart + '(?=\\s+[A-ЯЁ])', 'g');
-                
-            return text
-                .replace(re1, newSubstr)
-                .replace(re2, newSubstr)
-                .replace(re3, newSubstr + '.');
-        },
-        disabled: true
     });
     
     Typograf.addRule({
@@ -2661,6 +2662,43 @@
     })();
     
     Typograf.addRule({
+        name: 'ru/punctuation/ano',
+        handler: function(text) {
+            var re = new RegExp('([^!?,:;\\-‒–—])([ \u00A0\\n])(а|но)(?= |\u00A0|\\n)', 'g');
+            return text.replace(re, '$1,$2$3');
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'ru/punctuation/exclamation',
+        live: false,
+        handler: function(text) {
+            return text
+                .replace(/(^|[^!])!{2}($|[^!])/gm, '$1!$2')
+                .replace(/(^|[^!])!{4}($|[^!])/gm, '$1!!!$2');
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'ru/punctuation/exclamationQuestion',
+        index: '+5',
+        handler: function(text) {
+            var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
+            return text.replace(re, '$1?!$2');
+        }
+    });
+    
+    Typograf.addRule({
+        name: 'ru/punctuation/hellip',
+        handler: function(text) {
+            return text
+                .replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2')
+                .replace(/(^|[^.])(\.\.\.|…),/g, '$1…')
+                .replace(/(\!|\?)(\.\.\.|…)([^.]|$)/g, '$1..$3');
+        }
+    });
+    
+    Typograf.addRule({
         name: 'ru/other/accent',
         handler: function(text) {
             return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
@@ -2820,43 +2858,6 @@
     })();
     
     Typograf.addRule({
-        name: 'ru/punctuation/ano',
-        handler: function(text) {
-            var re = new RegExp('([^!?,:;\\-‒–—])([ \u00A0\\n])(а|но)(?= |\u00A0|\\n)', 'g');
-            return text.replace(re, '$1,$2$3');
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/punctuation/exclamation',
-        live: false,
-        handler: function(text) {
-            return text
-                .replace(/(^|[^!])!{2}($|[^!])/gm, '$1!$2')
-                .replace(/(^|[^!])!{4}($|[^!])/gm, '$1!!!$2');
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/punctuation/exclamationQuestion',
-        index: '+5',
-        handler: function(text) {
-            var re = new RegExp('(^|[^!])!\\?([^?]|$)', 'g');
-            return text.replace(re, '$1?!$2');
-        }
-    });
-    
-    Typograf.addRule({
-        name: 'ru/punctuation/hellip',
-        handler: function(text) {
-            return text
-                .replace(/(^|[^.])\.{3,4}([^.]|$)/g, '$1…$2')
-                .replace(/(^|[^.])(\.\.\.|…),/g, '$1…')
-                .replace(/(\!|\?)(\.\.\.|…)([^.]|$)/g, '$1..$3');
-        }
-    });
-    
-    Typograf.addRule({
         name: 'ru/space/afterHellip',
         handler: function(text) {
             return text
@@ -2986,8 +2987,8 @@ Typograf.titles = {
     "ru": "Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr"
   },
   "common/nbsp/replaceNbsp": {
-    "en-US": "Replacing non-breaking space in the ordinary",
-    "ru": "Замена неразрывного пробела на обычный"
+    "en-US": "Replacing non-breaking space on normal before text correction",
+    "ru": "Замена неразрывного пробела на обычный перед типографированием"
   },
   "common/number/fraction": {
     "common": "1/2 → ½, 1/4 → ¼, 3/4 → ¾"
@@ -3016,7 +3017,7 @@ Typograf.titles = {
   },
   "common/punctuation/quote": {
     "en-US": "Placement of quotation marks in texts",
-    "ru": "Расстановка кавычек в текстах"
+    "ru": "Расстановка кавычек правильного вида"
   },
   "common/punctuation/quoteLink": {
     "en-US": "Removal quotes outside a link",
@@ -3032,7 +3033,7 @@ Typograf.titles = {
   },
   "common/space/bracket": {
     "en-US": "Remove extra spaces after opening and before closing bracket",
-    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобки"
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей скобкой"
   },
   "common/space/delBeforePercent": {
     "en-US": "Remove space before %, ‰ and ‱",
@@ -3064,7 +3065,7 @@ Typograf.titles = {
   },
   "common/space/squareBracket": {
     "en-US": "Remove extra spaces after opening and before closing square bracket",
-    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей квадратной скобки"
+    "ru": "Удаление лишних пробелов после открывающей и перед закрывающей квадратной скобкой"
   },
   "common/space/trimLeft": {
     "en-US": "Remove spaces and line breaks in beginning of text",
@@ -3172,7 +3173,7 @@ Typograf.titles = {
   },
   "ru/nbsp/addr": {
     "en-US": "Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al.",
-    "ru": "Расстановка неразрывного пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
+    "ru": "Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др."
   },
   "ru/nbsp/afterNumberSign": {
     "en-US": "Non-breaking thin space after №",
@@ -3192,7 +3193,7 @@ Typograf.titles = {
   },
   "ru/nbsp/groupNumbers": {
     "en-US": "Replacement space on a narrow non-breaking space in groups of numbers",
-    "ru": "Замена пробела на неразрывный узкий пробел в группах чисел"
+    "ru": "Замена пробела на нераз. узкий пробел в группах чисел"
   },
   "ru/nbsp/initials": {
     "en-US": "Binding of initials to the name",
@@ -3268,8 +3269,8 @@ Typograf.titles = {
     "common": "!? → ?!"
   },
   "ru/punctuation/hellip": {
-    "en-US": "Three points on ellipsis",
-    "ru": "Три точки на многоточие, ?... → ?.. и пр."
+    "en-US": "Replacement of three points by ellipsis",
+    "ru": "Замена трёх точек на многоточие, ?... → ?.. и пр."
   },
   "ru/space/afterHellip": {
     "en-US": "Space after ..., !.. and ?..",

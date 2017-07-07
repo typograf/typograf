@@ -3,7 +3,7 @@
 | № | [Name](./RULES.en.md) | Title | Index ▼ | Queue | On |
 |--:|-----------------------|-------|--------:|:-----:|:--:|
 | 1. | [common/other/delBOM](../src/rules/common/other/delBOM.js) | Delete character BOM (Byte Order Mark) | -1 | start | ✓ |
-| 2. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.js) | Replacing non-breaking space in the ordinary | 510 | utf |  |
+| 2. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.js) | Replacing non-breaking space on normal before text correction | 510 | utf |  |
 | 3. | [common/symbols/copy](../src/rules/common/symbols/copy.js) | (c) → ©, (tm) → ™, (r) → ® | 110 |  | ✓ |
 | 4. | [common/punctuation/quoteLink](../src/rules/common/punctuation/quoteLink.js) | Removal quotes outside a link | 415 | show-safe-tags-html | ✓ |
 | 5. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.js) | Processing HTML attributes | 1210 | hide-safe-tags-own |  |
@@ -46,7 +46,7 @@
 | 42. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.js) | Placement of commas before “а” and “но” | 410 |  | ✓ |
 | 43. | [common/punctuation/apostrophe](../src/rules/common/punctuation/apostrophe.js) | Placement of correct apostrophe | 410 |  | ✓ |
 | 44. | [common/punctuation/delDoublePunctuation](../src/rules/common/punctuation/delDoublePunctuation.js) | Removing double punctuation | 410 |  | ✓ |
-| 45. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Three points on ellipsis | 410 |  | ✓ |
+| 45. | [ru/punctuation/hellip](../src/rules/ru/punctuation/hellip.js) | Replacement of three points by ellipsis | 410 |  | ✓ |
 | 46. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.js) | !! → ! | 410 |  | ✓ |
 | 47. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.js) | !? → ?! | 415 |  | ✓ |
 | 48. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.js) | Non-breaking space between number and month | 510 |  | ✓ |
@@ -89,8 +89,8 @@
 | 85. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.js) | Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts | 1110 |  | ✓ |
 | 86. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.js) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
 | 87. | [common/html/url](../src/rules/common/html/url.js) | Placement of links | 1210 | end |  |
-| 88. | [common/html/p](../src/rules/common/html/p.js) | Placement of paragraph | 1210 | end |  |
-| 89. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1210 | end |  |
-| 90. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on <br/> | 1215 | end |  |
+| 88. | [common/html/e-mail](../src/rules/common/html/e-mail.js) | Placement of links for e-mail | 1210 | end |  |
+| 89. | [common/html/p](../src/rules/common/html/p.js) | Placement of paragraph | 1215 | end |  |
+| 90. | [common/html/nbr](../src/rules/common/html/nbr.js) | Replacement line break on <br/> | 1220 | end |  |
 | 91. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Removing HTML-tags | 1309 | end |  |
 | 92. | [common/html/escape](../src/rules/common/html/escape.js) | Escaping HTML | 1310 | end |  |
