@@ -1,5 +1,14 @@
 tests.push(['common/html/stripTags', [
-    ['123123 12<br/>12312 312 3<p>asdlalsdpa</p>', '123123 1212312 312 3asdlalsdpa'],
-    ['<p', '<p'],
-    ['<p align="center">Hello</p>', 'Hello']
+    [
+        '<p>В апреле 2014 года Kadokawa Corporation объявила о намерении перекупить FromSoftware у компании Transcosmos.<br/>\nСделка была завершена 21 мая 2014 года.</p>',
+        'В апреле 2014 года Kadokawa Corporation объявила о намерении перекупить FromSoftware у компании Transcosmos.\nСделка была завершена 21 мая 2014 года.',
+    ],
+    [
+        '<p',
+        '<p'
+    ],
+    [
+        '<p align="center">Hello</p>',
+        'Hello'
+    ]
 ]]);

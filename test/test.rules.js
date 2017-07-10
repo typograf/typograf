@@ -43,10 +43,13 @@ describe('rules', function() {
         const [name, items, props] = elem;
         it(name, function() {
             items.forEach(function(item) {
-                const [before, after] = item;
-                const itTypograf = new Typograf({disableRule: '*', enableRule: name});
-
+                const [before, after, testSettings] = item;
+                const itTypograf = new Typograf({
+                    disableRule: '*',
+                    enableRule: [].concat(name, testSettings && testSettings.enableRule)
+                });
                 const result = itTypograf.execute(before, {locale: getLocale(name, props)});
+
                 assert.equal(result, after, before + ' → ' + after);
             });
         });
@@ -58,15 +61,18 @@ describe('rules, double execute', function() {
         const [name, items, props] = elem;
         it(name, function() {
             items.forEach(function(item) {
-                const itTypograf = new Typograf({disableRule: '*', enableRule: name});
-                const [before, after] = item;
-                const locale = getLocale(name, props);
+                const [before, after, testSettings] = item;
+                const itTypograf = new Typograf({
+                    disableRule: '*',
+                    enableRule: [].concat(name, testSettings && testSettings.enableRule)
+                });
+                let result = itTypograf.execute(before, {locale: getLocale(name, props)});
 
-                let result = itTypograf.execute(before, {locale: locale});
                 assert.equal(result, after, before + ' → ' + after);
 
                 if (!itTypograf._getRule(name).disabled) {
-                    result = itTypograf.execute(result, {locale: locale});
+                    result = itTypograf.execute(result, {locale: getLocale(name, props)});
+
                     assert.equal(result, after, before + ' → ' + after);
                 }
             });
@@ -138,7 +144,7 @@ describe('common specific tests', function() {
             ]
         }
     ];
-    
+
     tests.forEach(function(t) {
         it(t.enableRule.toString(), function() {
             check(t);

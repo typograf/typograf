@@ -288,8 +288,6 @@ Typograf.HtmlEntities = {
                 context.text = context.text.replace(entity.reName, entity.utf);
             });
         }
-
-        context.text = context.text.replace(/&quot;/g, '"');
     },
     /**
      * Entities in decimal or hexadecimal form to UTF-8.

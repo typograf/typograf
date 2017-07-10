@@ -408,6 +408,8 @@
         },
         _enableByMask: function(rule, enabled) {
             var re;
+            if (!rule) { return; }
+
             if (rule.search(/\*/) !== -1) {
                 re = new RegExp(rule
                     .replace(/\//g, '\\\/')
