@@ -19,6 +19,9 @@
     "en-US": "Processing HTML attributes",
     "ru": "Типографирование HTML-атрибутов"
   },
+  "common/html/quot": {
+    "common": "&quot; → \""
+  },
   "common/html/stripTags": {
     "en-US": "Removing HTML-tags",
     "ru": "Удаление HTML-тегов"
@@ -271,6 +274,10 @@
   "ru/nbsp/m": {
     "en-US": "m2 → м², m3 → м³ and non-breaking space",
     "ru": "м2 → м², м3 → м³ и нераз. пробел"
+  },
+  "ru/nbsp/mln": {
+    "en-US": "Non-breaking space between number and “тыс.”, “млн”, “млрд” and “трлн”",
+    "ru": "Неразр. пробел между числом и «тыс.», «млн», «млрд» и «трлн»"
   },
   "ru/nbsp/ooo": {
     "en-US": "Non-breaking space after “OOO, ОАО, ЗАО, НИИ, ПБОЮЛ”",
