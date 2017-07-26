@@ -32,24 +32,24 @@
     "typograf.d.ts"
   ],
   "devDependencies": {
-    "chai": "~3.5.0",
-    "eslint": "~3.19.0",
+    "chai": "~4.1.0",
+    "eslint": "~4.3.0",
     "gulp": "~3.9.1",
     "gulp-concat": "~2.6.1",
     "gulp-filter": "~5.0.0",
     "gulp-include": "^2.3.1",
     "gulp-jsonlint": "^1.2.0",
     "gulp-rename": "~1.2.0",
-    "gulp-replace": "^0.5.4",
-    "gulp-uglify": "~2.1.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-uglify": "~3.0.0",
     "gulp-util": "~3.0.8",
     "istanbul": "~0.4.4",
     "jscs": "~3.0.7",
-    "mocha": "~3.2.0",
-    "sinon": "^2.1.0",
-    "sort-keys": "~1.1.2",
+    "mocha": "~3.4.2",
+    "sinon": "^2.4.1",
+    "sort-keys": "~2.0.0",
     "through": "~2.3.6",
-    "yaspeller": "~3.1.0"
+    "yaspeller": "~3.2.0"
   },
   "scripts": {
     "benchmark": "node benchmark/test.js",
