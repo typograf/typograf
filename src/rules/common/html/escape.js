@@ -12,7 +12,7 @@ Typograf.addRule({
             '/': '&#x2F;'
         };
 
-        return text.replace(/[&<>"'\/]/g, function(s) {
+        return text.replace(/[&<>"'/]/g, function(s) {
             return entityMap[s];
         });
     },

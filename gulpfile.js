@@ -9,6 +9,7 @@ const jsonlint = require('gulp-jsonlint');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const uglify = require('gulp-uglify');
+const uglifyOptions = {output: {ascii_only: true, comments: 'license'}};
 const gulpJsonRules = require('./gulp/json-rules');
 const typografUtils = require('./gulp/utils');
 const filter = function() { return gulpFilter(['**/*.js', '!**/*.spec.js']); };
@@ -107,20 +108,14 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 gulp.task('min.js', ['js'], function() {
     return gulp.src(buildDir + 'typograf.js')
         .pipe(rename('typograf.min.js'))
-        .pipe(uglify({
-            output: {ascii_only: true},
-            preserveComments: 'license'
-        }))
+        .pipe(uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('all.min.js', ['all.js'], function() {
     return gulp.src(buildDir + 'typograf.all.js')
         .pipe(rename('typograf.all.min.js'))
-        .pipe(uglify({
-            output: {ascii_only: true},
-            preserveComments: 'license'
-        }))
+        .pipe(uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
 

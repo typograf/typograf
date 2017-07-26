@@ -3,7 +3,7 @@ Typograf.addRule({
     index: '+5',
     queue: 'end',
     handler: function(text) {
-        var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\s]'),
+        var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\\s]'),
             separator = '\n\n',
             buffer = text.split(separator);
 

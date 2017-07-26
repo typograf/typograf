@@ -159,7 +159,7 @@
 
             rule._index = index;
         },
-        _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9\/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
+        _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
         _sortRules: function(rules) {
             rules.sort(function(a, b) {
                 return a._index > b._index ? 1 : -1;
@@ -412,7 +412,7 @@
 
             if (rule.search(/\*/) !== -1) {
                 re = new RegExp(rule
-                    .replace(/\//g, '\\\/')
+                    .replace(/\//g, '\\/')
                     .replace(/\*/g, '.*'));
 
                 this._rules.forEach(function(el) {
