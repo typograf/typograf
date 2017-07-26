@@ -116,7 +116,7 @@
     }
 
     function clearPhone(text) {
-        return text.replace(/[^\d\+]/g, '');
+        return text.replace(/[^\d+]/g, '');
     }
 
     Typograf.addRule({
@@ -132,7 +132,7 @@
                     return buf.length === 12 ? $1 + phone(buf) : $0;
                 })
                 .replace(
-                    /(^|[^а-яё])(т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(\:?\s*?)([\+\d\(][\d \u00A0\-\(\)]{3,}\d)/gi,
+                    /(^|[^а-яё])(т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(:?\s*?)([+\d(][\d \u00A0\-()]{3,}\d)/gi,
                     function($0, $1, $2, $3, $4) {
                         var buf = clearPhone($4);
                         if (buf.length >= 5) {
