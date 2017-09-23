@@ -59,6 +59,10 @@ const ruTests = [
         '<div class="t"><p>«<i>Какой-то текст<a href="/">link</a></i>»</p></div>'
     ],
     [
+        "?… !… …,",
+        "?.. !.. …"
+    ],    
+    [
         'https://www.youtube.com/watch?v=C0DPdy98e4c',
         'https://www.youtube.com/watch?v=C0DPdy98e4c'
     ],
