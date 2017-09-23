@@ -38,8 +38,6 @@
 ## Плагины
  + [grunt-typograf](https://github.com/typograf/grunt-typograf)
  + [gulp-typograf](https://github.com/typograf/gulp-typograf)
- + [typograf-loader](https://github.com/exah/typograf-loader)
- + [hexo-typograf](https://github.com/toiletpatrol/hexo-typograf)
  + [TinyMCE](https://habrahabr.ru/post/266337/)
 
 ## Использование
