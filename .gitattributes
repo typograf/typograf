@@ -8,5 +8,3 @@
 *.jst eol=lf
 *.json eol=lf
 *.md eol=lf
-
-test/rules.js -diff
