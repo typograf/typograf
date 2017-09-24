@@ -1,1 +1,1 @@
-Typograf.version = '6.3.1';
+Typograf.version = '6.4.0';
