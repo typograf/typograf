@@ -1,5 +1,9 @@
 # Changelog
 
+# v6.4.0
+- `ru/punctuation/hellip` → `common/punctuation/hellip` и добавлено новое правило `ru/punctuation/hellipQuestion` #251,
+- из репозитория удалены папки `build/` и `dist/` #250.
+
 # v6.3.1
 Доработки в правилах:
 - `ru/money/currency` #243
