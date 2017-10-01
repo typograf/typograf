@@ -60,6 +60,7 @@
     };
 
     Typograf._mix(Typograf, {
+        version: '{{version}}',
         /**
          * Add a rule.
          *
@@ -442,7 +443,6 @@
         }
     };
 
-    //=include version.js
     //=include data.js
     //=include locale.js
     //=include safe-tags.js
