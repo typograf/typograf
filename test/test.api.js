@@ -141,7 +141,7 @@ describe('API', function() {
         const t = new Typograf({locale: 'en-US', live: true});
         assert.equal(t.execute('Test&nbsp;test&nbsp;test.'), 'Test test test.');
     });
-    
+
     it('should execute specific methods before and after a rule', function() {
         const t = new Typograf({locale: 'en-US'});
         t._onBeforeRule = sinon.spy();
@@ -151,4 +151,8 @@ describe('API', function() {
         assert.isOk(t._onBeforeRule.called);
         assert.isOk(t._onAfterRule.called);
     })
+
+    it('should correct version', function() {
+        assert.isOk(Typograf.version.search(/^\d/) > -1);
+    });
 });

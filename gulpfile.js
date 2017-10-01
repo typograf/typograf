@@ -13,10 +13,13 @@ const uglifyOptions = {output: {ascii_only: true, comments: /^!/}};
 const gulpJsonRules = require('./gulp/json-rules');
 const typografUtils = require('./gulp/utils');
 const filter = function() { return gulpFilter(['**/*.js', '!**/*.spec.js']); };
-const version = require('./package.json').version;
+
 const srcDir = './src/';
 const buildDir = './build/';
 const distDir = './dist/';
+
+const version = require('./package.json').version;
+function updateVersion() { return replace(/\{\{version\}\}/, version); }
 
 const paths = {
     build: 'build/typograf.*',
@@ -46,14 +49,6 @@ const paths = {
     ]
 };
 
-gulp.task('version', function() {
-    const file = srcDir + 'version.js';
-
-    return gulp.src(file, {base: './'})
-        .pipe(replace(/'[\d.]+'/, '\'' + version + '\''))
-        .pipe(gulp.dest(''));
-});
-
 gulp.task('rules', function() {
     return gulp.src(paths.jsRules)
         .pipe(filter())
@@ -61,9 +56,10 @@ gulp.task('rules', function() {
         .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('js', ['version', 'rules'], function() {
+gulp.task('js', ['rules'], function() {
     return gulp.src(paths.js)
         .pipe(include())
+        .pipe(updateVersion())
         .pipe(rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -71,6 +67,7 @@ gulp.task('js', ['version', 'rules'], function() {
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
     return gulp.src(paths.allJs)
         .pipe(concat('typograf.all.js'))
+        .pipe(updateVersion())
         .pipe(gulp.dest(buildDir));
 });
 
@@ -108,6 +105,7 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 gulp.task('min.js', ['js'], function() {
     return gulp.src(buildDir + 'typograf.js')
         .pipe(rename('typograf.min.js'))
+        .pipe(updateVersion())
         .pipe(uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
@@ -115,6 +113,7 @@ gulp.task('min.js', ['js'], function() {
 gulp.task('all.min.js', ['all.js'], function() {
     return gulp.src(buildDir + 'typograf.all.js')
         .pipe(rename('typograf.all.min.js'))
+        .pipe(updateVersion())
         .pipe(uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
