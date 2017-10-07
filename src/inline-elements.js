@@ -1,4 +1,4 @@
-Typograf.inlineElements = [
+export default [
     'a',
     'abbr',
     'acronym',

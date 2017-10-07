@@ -1,4 +1,4 @@
-Typograf.HtmlEntities = {
+var HtmlEntities = {
     init: function() {
         // http://www.w3.org/TR/html4/sgml/entities
         var visibleEntities = [
@@ -400,7 +400,9 @@ Typograf.HtmlEntities = {
     }
 };
 
-Typograf.HtmlEntities.init();
+HtmlEntities.init();
+
+export default HtmlEntities;
 
 /**
  * @typedef HtmlEntity

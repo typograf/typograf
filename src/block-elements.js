@@ -1,4 +1,4 @@
-Typograf.blockElements = [
+export default [
     'address',
     'article',
     'aside',

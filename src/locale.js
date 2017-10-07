@@ -1,3 +1,5 @@
+import Typograf from './typograf';
+
 Typograf._mix(Typograf, {
     /**
      * Add a locale.

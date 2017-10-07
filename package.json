@@ -41,6 +41,7 @@
     "gulp-jsonlint": "^1.2.0",
     "gulp-rename": "~1.2.0",
     "gulp-replace": "^0.6.1",
+    "gulp-rollup": "^2.15.0",
     "gulp-uglify": "~3.0.0",
     "gulp-util": "~3.0.8",
     "istanbul": "~0.4.4",
