@@ -8,6 +8,7 @@ const include = require('gulp-include');
 const jsonlint = require('gulp-jsonlint');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
+const rollup = require('gulp-rollup');
 const uglify = require('gulp-uglify');
 const uglifyOptions = {output: {ascii_only: true, comments: /^!/}};
 const gulpJsonRules = require('./gulp/json-rules');
@@ -23,9 +24,8 @@ function updateVersion() { return replace(/\{\{version\}\}/, version); }
 
 const paths = {
     build: 'build/typograf.*',
-    js: [
-        'src/main.js'
-    ],
+    mainJs: 'src/main.js',
+    allJs: 'src/all.js',
     jsRules: [
         'src/rules/**/*.js'
     ],
@@ -34,11 +34,6 @@ const paths = {
     ],
     jsonGroups: [
         'src/groups.json'
-    ],
-    allJs: [
-        'build/typograf.js',
-        'build/typograf.titles.js',
-        'build/typograf.groups.js'
     ],
     css: [
         'src/**/*.css'
@@ -57,8 +52,14 @@ gulp.task('rules', function() {
 });
 
 gulp.task('js', ['rules'], function() {
-    return gulp.src(paths.js)
+    return gulp.src(paths.mainJs)
         .pipe(include())
+        .pipe(rollup({
+            allowRealFiles: true,
+            input: paths.mainJs,
+            format: 'umd',
+            name: 'Typograf'
+        }))
         .pipe(updateVersion())
         .pipe(rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
@@ -66,8 +67,14 @@ gulp.task('js', ['rules'], function() {
 
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
     return gulp.src(paths.allJs)
-        .pipe(concat('typograf.all.js'))
+        .pipe(rollup({
+            allowRealFiles: true,
+            input: paths.allJs,
+            format: 'umd',
+            name: 'Typograf'
+        }))        
         .pipe(updateVersion())
+        .pipe(rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });
 

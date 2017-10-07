@@ -1,3 +1,5 @@
+import Typograf from './typograf';
+
 Typograf._mix(Typograf, {
     /**
      * Get data for use in rules.

@@ -1,4 +1,6 @@
-function SafeTags() {
+import Typograf from './typograf';
+
+export default function SafeTags() {
     var html = [
         ['<!--', '-->'],
         ['<!ENTITY', '>'],

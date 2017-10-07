@@ -13,12 +13,12 @@ const langs = ['ru', 'en-US'];
 module.exports = {
     buildTitles() {
         const txt = fs.readFileSync('build/typograf.titles.json');
-        fs.writeFileSync('build/typograf.titles.js', `Typograf.titles = ${txt};
+        fs.writeFileSync('build/typograf.titles.js', `export default ${txt};
 `);
     },
     buildGroups() {
         const txt = fs.readFileSync('build/typograf.groups.json');
-        fs.writeFileSync('build/typograf.groups.js', `Typograf.groups = ${txt};
+        fs.writeFileSync('build/typograf.groups.js', `export default ${txt};
 `);
     },
     makeMdRules() {

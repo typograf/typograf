@@ -1,4 +1,4 @@
-Typograf.groupIndexes = {
+export default {
     symbols: 110,
     space: 210,
     dash: 310,
