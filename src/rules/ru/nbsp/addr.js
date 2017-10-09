@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/nbsp/addr',
-    handler: function(text) {
+    handler(text) {
         return text
             .replace(/(\s|^)(дом|д\.|кв\.|под\.|п-д) *(\d+)/gi, '$1$2\u00A0$3')
             .replace(/(\s|^)(мкр-н|мк-н|мкр\.|мкрн)\s/gi, '$1$2\u00A0') // микрорайон

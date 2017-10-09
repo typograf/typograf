@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'ru/dash/koe',
-    handler: function(text) {
-        var re = new RegExp(Typograf.getData('ru/dashBefore') +
+    handler(text) {
+        const re = new RegExp(Typograf.getData('ru/dashBefore') +
             '([Кк]о[ей])\\s([а-яё]{3,})' +
             Typograf.getData('ru/dashAfter'), 'g');
 

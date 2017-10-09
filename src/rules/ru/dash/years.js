@@ -1,8 +1,8 @@
 Typograf.addRule({
     name: 'ru/dash/years',
-    handler: function(text, settings) {
-        var dashes = Typograf.getData('common/dash'),
-            re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
+    handler(text, settings) {
+        const dashes = Typograf.getData('common/dash');
+        const re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
                 dashes + ')[ \u00A0]?(\\d{4})(?=[ \u00A0]?г)', 'g');
 
         return text.replace(re, function($0, $1, $2, $3, $4) {

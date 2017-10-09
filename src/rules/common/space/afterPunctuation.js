@@ -1,9 +1,9 @@
 Typograf.addRule({
     name: 'common/space/afterPunctuation',
-    handler: function(text) {
-        var privateLabel = Typograf._privateLabel,
-            reExcl = new RegExp('(!|;|\\?)([^).…!;?\\s[\\])' + privateLabel + Typograf.getData('common/quote') + '])', 'g'),
-            reComma = new RegExp('(\\D)(,|:)([^)",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
+    handler(text) {
+        const privateLabel = Typograf._privateLabel;
+        const reExcl = new RegExp('(!|;|\\?)([^).…!;?\\s[\\])' + privateLabel + Typograf.getData('common/quote') + '])', 'g');
+        const reComma = new RegExp('(\\D)(,|:)([^)",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
 
         return text
             .replace(reExcl, '$1 $2')

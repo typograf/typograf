@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const concat = require('gulp-concat');
+const babel = require('gulp-babel');
 const gulpFilter = require('gulp-filter');
 const include = require('gulp-include');
 const jsonlint = require('gulp-jsonlint');
@@ -61,6 +62,7 @@ gulp.task('js', ['rules'], function() {
             name: 'Typograf'
         }))
         .pipe(updateVersion())
+        .pipe(babel())        
         .pipe(rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -74,6 +76,7 @@ gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
             name: 'Typograf'
         }))        
         .pipe(updateVersion())
+        .pipe(babel())        
         .pipe(rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });

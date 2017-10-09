@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/punctuation/hellipQuestion',
-    handler: function(text) {
+    handler(text) {
         return text
             .replace(/(^|[^.])(\.\.\.|…),/g, '$1…')
             .replace(/(!|\?)(\.\.\.|…)(?=[^.]|$)/g, '$1..');

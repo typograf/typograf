@@ -1,11 +1,11 @@
 Typograf.addRule({
     name: 'ru/nbsp/centuries',
-    handler: function(text) {
-        var dashes = Typograf.getData('common/dash'),
-            before = '(^|\\s)([VIX]+)',
-            after = '(?=[,;:?!"‘“»]|$)',
-            re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm'),
-            re2 = new RegExp(before + '(' + dashes + ')' + '([VIX]+)[ \u00A0]?в\\.?([ \u00A0]?в\\.?)?' + after, 'gm');
+    handler(text) {
+        const dashes = Typograf.getData('common/dash');
+        const before = '(^|\\s)([VIX]+)';
+        const after = '(?=[,;:?!"‘“»]|$)';
+        const re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm');
+        const re2 = new RegExp(before + '(' + dashes + ')' + '([VIX]+)[ \u00A0]?в\\.?([ \u00A0]?в\\.?)?' + after, 'gm');
 
         return text
             .replace(re1, '$1$2\u00A0в.')

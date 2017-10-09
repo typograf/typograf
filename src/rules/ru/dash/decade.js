@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'ru/dash/decade',
-    handler: function(text, settings) {
-        var re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
+    handler(text, settings) {
+        const re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
                 '(' + Typograf.getData('common/dash') + ')' +
                 '(\\d{3}|\\d)0(-е[ \u00A0])' +
                 '(?=г\\.?[ \u00A0]?г|год)', 'g');

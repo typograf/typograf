@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/number/comma',
-    handler: function(text) {
+    handler(text) {
         // \u00A0 - NO-BREAK SPACE
         // \u2009 - THIN SPACE
         // \u202F - NARROW NO-BREAK SPACE

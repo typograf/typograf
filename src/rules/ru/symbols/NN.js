@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/symbols/NN',
-    handler: function(text) {
+    handler(text) {
         return text.replace(/№№/g, '№');
     }
 });

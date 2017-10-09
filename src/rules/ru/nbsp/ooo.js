@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/nbsp/ooo',
-    handler: function(text) {
+    handler(text) {
         return text.replace(/(^|[^a-яёA-ЯЁ])(ООО|ОАО|ЗАО|НИИ|ПБОЮЛ) /g, '$1$2\u00A0');
     }
 });

@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'common/nbsp/afterNumber',
-    handler: function(text, settings, context) {
-        var re = '(^|\\D)(\\d{1,5}) ([' +
+    handler(text, settings, context) {
+        const re = '(^|\\D)(\\d{1,5}) ([' +
             context.getData('char') +
             ']{2,})';
 

@@ -8,8 +8,8 @@ Typograf._mix(Typograf, {
      *
      * @param {string} locale
      */
-    addLocale: function(locale) {
-        var code = (locale || '').split('/')[0];
+    addLocale(locale) {
+        const code = (locale || '').split('/')[0];
         if (code && code !== 'common' && !this.hasLocale(code)) {
             this._locales.push(code);
             this._locales.sort();
@@ -22,7 +22,7 @@ Typograf._mix(Typograf, {
      *
      * @returns {Array}
      */
-    getLocales: function() {
+    getLocales() {
         return this._locales;
     },
     /**
@@ -34,12 +34,12 @@ Typograf._mix(Typograf, {
      *
      * @returns {boolean}
      */
-    hasLocale: function(locale) {
+    hasLocale(locale) {
         return locale === 'common' || this._locales.indexOf(locale) !== -1;
     },
-    _prepareLocale: function(locale1, locale2) {
-        var locale = locale1 || locale2,
-            result = locale;
+    _prepareLocale(locale1, locale2) {
+        const locale = locale1 || locale2;
+        let result = locale;
 
         if (!Array.isArray(locale)) { result = [locale]; }
 

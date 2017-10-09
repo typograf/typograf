@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'ru/other/accent',
-    handler: function(text) {
+    handler(text) {
         return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
             return $1 + $2.toLowerCase() + '\u0301' + $3;
         });

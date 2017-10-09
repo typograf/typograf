@@ -7,7 +7,7 @@
     Typograf.addRule({
         name: 'common/nbsp/nowrap',
         queue: 'end',
-        handler: function(text) {
+        handler(text) {
             return text
                 .replace(/(<nowrap>)(.*?)(<\/nowrap>)/g, replaceNbsp)
                 .replace(/(<nobr>)(.*?)(<\/nobr>)/g, replaceNbsp);

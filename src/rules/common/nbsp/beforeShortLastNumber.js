@@ -1,9 +1,9 @@
 Typograf.addRule({
     name: 'common/nbsp/beforeShortLastNumber',
-    handler: function(text, settings, context) {
-        var ch = context.getData('char'),
-            CH = ch.toUpperCase(),
-            re = new RegExp('([' + ch + CH +
+    handler(text, settings, context) {
+        const ch = context.getData('char');
+        const CH = ch.toUpperCase();
+        const re = new RegExp('([' + ch + CH +
             ']) (?=\\d{1,' + settings.lengthLastNumber +
             '}[-+−%\'"' + context.getData('quote').right + ']?([.!?…]( [' +
             CH + ']|$)|$))', 'gm');
