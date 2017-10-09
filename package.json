@@ -42,6 +42,7 @@
     "gulp-filter": "~5.0.1",
     "gulp-include": "^2.3.1",
     "gulp-jsonlint": "^1.2.0",
+    "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "~1.2.0",
     "gulp-replace": "^0.6.1",
     "gulp-rollup": "^2.15.0",
