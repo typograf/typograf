@@ -2,26 +2,19 @@
 
 const gulp = require('gulp');
 const fs = require('fs');
-const concat = require('gulp-concat');
-const babel = require('gulp-babel');
-const gulpFilter = require('gulp-filter');
-const include = require('gulp-include');
-const jsonlint = require('gulp-jsonlint');
-const rename = require('gulp-rename');
-const replace = require('gulp-replace');
-const rollup = require('gulp-rollup');
-const uglify = require('gulp-uglify');
+const $ = require('gulp-load-plugins')();
+
 const uglifyOptions = {output: {ascii_only: true, comments: /^!/}};
 const gulpJsonRules = require('./gulp/json-rules');
 const typografUtils = require('./gulp/utils');
-const filter = function() { return gulpFilter(['**/*.js', '!**/*.spec.js']); };
+const filter = function() { return $.filter(['**/*.js', '!**/*.spec.js']); };
 
 const srcDir = './src/';
 const buildDir = './build/';
 const distDir = './dist/';
 
 const version = require('./package.json').version;
-function updateVersion() { return replace(/\{\{version\}\}/, version); }
+function updateVersion() { return $.replace(/\{\{version\}\}/, version); }
 
 const paths = {
     build: 'build/typograf.*',
@@ -48,49 +41,49 @@ const paths = {
 gulp.task('rules', function() {
     return gulp.src(paths.jsRules)
         .pipe(filter())
-        .pipe(concat('_rules.js'))
+        .pipe($.concat('_rules.js'))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('js', ['rules'], function() {
     return gulp.src(paths.mainJs)
-        .pipe(include())
-        .pipe(rollup({
+        .pipe($.include())
+        .pipe($.rollup({
             allowRealFiles: true,
             input: paths.mainJs,
             format: 'umd',
             name: 'Typograf'
         }))
         .pipe(updateVersion())
-        .pipe(babel())        
-        .pipe(rename('typograf.js'))
+        .pipe($.babel())
+        .pipe($.rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
     return gulp.src(paths.allJs)
-        .pipe(rollup({
+        .pipe($.rollup({
             allowRealFiles: true,
             input: paths.allJs,
             format: 'umd',
             name: 'Typograf'
-        }))        
+        }))
         .pipe(updateVersion())
-        .pipe(babel())        
-        .pipe(rename('typograf.all.js'))
+        .pipe($.babel())
+        .pipe($.rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('jsonLintRules', function() {
     return gulp.src(paths.jsonRules)
-        .pipe(jsonlint())
-        .pipe(jsonlint.reporter());
+        .pipe($.jsonlint())
+        .pipe($.jsonlint.reporter());
 });
 
 gulp.task('jsonLintGroups', function() {
     return gulp.src(paths.jsonGroups)
-        .pipe(jsonlint())
-        .pipe(jsonlint.reporter());
+        .pipe($.jsonlint())
+        .pipe($.jsonlint.reporter());
 });
 
 gulp.task('jsonRules', ['js', 'jsonLintRules'], function() {
@@ -105,7 +98,7 @@ gulp.task('jsonRules', ['js', 'jsonLintRules'], function() {
 
 gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
     return gulp.src(paths.jsonGroups)
-        .pipe(rename('typograf.groups.json'))
+        .pipe($.rename('typograf.groups.json'))
         .pipe(gulp.dest(buildDir))
         .on('end', function() {
             typografUtils.buildGroups();
@@ -114,29 +107,29 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 
 gulp.task('min.js', ['js'], function() {
     return gulp.src(buildDir + 'typograf.js')
-        .pipe(rename('typograf.min.js'))
+        .pipe($.rename('typograf.min.js'))
         .pipe(updateVersion())
-        .pipe(uglify(uglifyOptions))
+        .pipe($.uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('all.min.js', ['all.js'], function() {
     return gulp.src(buildDir + 'typograf.all.js')
-        .pipe(rename('typograf.all.min.js'))
+        .pipe($.rename('typograf.all.min.js'))
         .pipe(updateVersion())
-        .pipe(uglify(uglifyOptions))
+        .pipe($.uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('css', function() {
     return gulp.src(paths.css)
-        .pipe(concat('typograf.css'))
+        .pipe($.concat('typograf.css'))
         .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('specs', function() {
     return gulp.src(paths.specRules)
-        .pipe(concat('specs.js'))
+        .pipe($.concat('specs.js'))
         .pipe(gulp.dest(buildDir));
 });
 
