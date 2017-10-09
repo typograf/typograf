@@ -1,6 +1,6 @@
 (function() {
 
-    var replacements = {
+    const replacements = {
         A: 'А', // Latin: Russian
         a: 'а',
         B: 'В',
@@ -21,16 +21,16 @@
         x: 'х'
     };
 
-    var keys = Object.keys(replacements).join('');
+    const keys = Object.keys(replacements).join('');
 
     Typograf.addRule({
         name: 'ru/typo/switchingKeyboardLayout',
-        handler: function(text) {
-            var re = new RegExp('([' + keys + ']{1,3})(?=[А-ЯЁа-яё]+?)', 'g');
+        handler(text) {
+            const re = new RegExp('([' + keys + ']{1,3})(?=[А-ЯЁа-яё]+?)', 'g');
 
             return text.replace(re, function(str, $1) {
-                var result = '';
-                for (var i = 0; i < $1.length; i++) {
+                let result = '';
+                for (let i = 0; i < $1.length; i++) {
                     result += replacements[$1[i]];
                 }
 

@@ -2,10 +2,10 @@ Typograf.addRule({
     name: 'common/html/p',
     index: '+5',
     queue: 'end',
-    handler: function(text) {
-        var blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\\s]'),
-            separator = '\n\n',
-            buffer = text.split(separator);
+    handler(text) {
+        const blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\\s]');
+        const separator = '\n\n';
+        const buffer = text.split(separator);
 
         buffer.forEach(function(text, i, data) {
             if (!text.trim()) { return; }

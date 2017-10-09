@@ -1,14 +1,14 @@
 Typograf.addRule({
     name: 'common/punctuation/quote',
-    handler: function(text, commonSettings, context) {
-        var locale = context.prefs.locale[0],
-            localeSettings = commonSettings[locale];
+    handler(text, commonSettings, context) {
+        const locale = context.prefs.locale[0];
+        const localeSettings = commonSettings[locale];
 
         if (!localeSettings) { return text; }
 
-        var lquote = localeSettings.left[0],
-            rquote = localeSettings.right[0],
-            lquote2 = localeSettings.left[1] || lquote;
+        const lquote = localeSettings.left[0];
+        const rquote = localeSettings.right[0];
+        const lquote2 = localeSettings.left[1] || lquote;
 
         text = this._setQuotes(text, localeSettings);
         if (localeSettings.removeDuplicateQuotes && lquote === lquote2) {
@@ -21,8 +21,8 @@ Typograf.addRule({
 
         return text;
     },
-    settings: function() {
-        var settings = {};
+    settings() {
+        const settings = {};
 
         Typograf.getLocales().forEach(function(locale) {
             settings[locale] = Typograf.deepCopy(Typograf.getData(locale + '/quote'));
@@ -33,17 +33,17 @@ Typograf.addRule({
 });
 
 Typograf._mix(Typograf.prototype, {
-    _setQuotes: function(text, settings) {
-        var privateLabel = Typograf._privateLabel,
-            lquote = settings.left[0],
-            rquote = settings.right[0],
-            lquote2 = settings.left[1] || lquote,
-            quotes = '[' + Typograf.getData('common/quote') + ']',
-            reL = new RegExp('(^|[ \\t\\n\u00A0[(])("{1,3})(?=[^ \\t\\n\u00A0])', 'gim'),
-            reR = new RegExp('([^ \\t\\n\u00A0])("{1,3})(?=[!?.:;#*,…)\\s' + privateLabel + ']|$)', 'gim'),
-            reQuotes = new RegExp(quotes, 'g'),
-            reClosingTag = new RegExp('(' + privateLabel + ')"(?=[^ \\t\\n' + privateLabel + ']|$)', 'gm'),
-            count = 0;
+    _setQuotes(text, settings) {
+        const privateLabel = Typograf._privateLabel;
+        const lquote = settings.left[0];
+        const rquote = settings.right[0];
+        const lquote2 = settings.left[1] || lquote;
+        const quotes = '[' + Typograf.getData('common/quote') + ']';
+        const reL = new RegExp('(^|[ \\t\\n\u00A0[(])("{1,3})(?=[^ \\t\\n\u00A0])', 'gim');
+        const reR = new RegExp('([^ \\t\\n\u00A0])("{1,3})(?=[!?.:;#*,…)\\s' + privateLabel + ']|$)', 'gim');
+        const reQuotes = new RegExp(quotes, 'g');
+        const reClosingTag = new RegExp('(' + privateLabel + ')"(?=[^ \\t\\n' + privateLabel + ']|$)', 'gm');
+        let count = 0;
 
         if (settings.spacing) {
             text = this._removeQuoteSpacing(text, settings);
@@ -73,10 +73,10 @@ Typograf._mix(Typograf.prototype, {
 
         return text;
     },
-    _removeQuoteSpacing: function(text, settings) {
-        for (var i = 0, len = settings.left.length; i < len; i++) {
-            var lquote = settings.left[i];
-            var rquote = settings.right[i];
+    _removeQuoteSpacing(text, settings) {
+        for (let i = 0, len = settings.left.length; i < len; i++) {
+            const lquote = settings.left[i];
+            const rquote = settings.right[i];
 
             text = text
                 .replace(new RegExp(lquote + '([ \u202F\u00A0])', 'g'), lquote)
@@ -85,10 +85,10 @@ Typograf._mix(Typograf.prototype, {
 
         return text;
     },
-    _setQuoteSpacing: function(text, settings) {
-        for (var i = 0, len = settings.left.length; i < len; i++) {
-            var lquote = settings.left[i];
-            var rquote = settings.right[i];
+    _setQuoteSpacing(text, settings) {
+        for (let i = 0, len = settings.left.length; i < len; i++) {
+            const lquote = settings.left[i];
+            const rquote = settings.right[i];
 
             text = text
                 .replace(new RegExp(lquote + '([^\u202F])', 'g'), lquote + '\u202F$1')
@@ -97,24 +97,24 @@ Typograf._mix(Typograf.prototype, {
 
         return text;
     },
-    _setInnerQuotes: function(text, settings) {
-        var leftQuotes = [],
-            rightQuotes = [];
+    _setInnerQuotes(text, settings) {
+        const leftQuotes = [];
+        const rightQuotes = [];
 
-        for (var k = 0; k < settings.left.length; k++) {
+        for (let k = 0; k < settings.left.length; k++) {
             leftQuotes.push(settings.left[k]);
             rightQuotes.push(settings.right[k]);
         }
 
-        var lquote = settings.left[0],
-            rquote = settings.right[0],
-            bufText = new Array(text.length),
-            minLevel = -1,
-            maxLevel = leftQuotes.length - 1,
-            level = minLevel;
+        const lquote = settings.left[0];
+        const rquote = settings.right[0];
+        const bufText = new Array(text.length);
+        const minLevel = -1;
+        const maxLevel = leftQuotes.length - 1;
+        let level = minLevel;
 
-        for (var i = 0, len = text.length; i < len; i++) {
-            var letter = text[i];
+        for (let i = 0, len = text.length; i < len; i++) {
+            let letter = text[i];
 
             if (letter === lquote) {
                 level++;

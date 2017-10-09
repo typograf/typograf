@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'ru/dash/daysMonth',
-    handler: function(text, settings) {
-        var re = new RegExp('(^|\\s)([123]?\\d)' +
+    handler(text, settings) {
+        const re = new RegExp('(^|\\s)([123]?\\d)' +
                 '(' + Typograf.getData('common/dash') + ')' +
                 '([123]?\\d)[ \u00A0]' +
                 '(' + Typograf.getData('ru/monthGenCase') + ')', 'g');

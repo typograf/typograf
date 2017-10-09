@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'common/symbols/copy',
-    handler: function(text) {
+    handler(text) {
         return Typograf._replace(text, [
             [/\(r\)/gi, '®'],
             [/(copyright )?\((c|с)\)/gi, '©'],

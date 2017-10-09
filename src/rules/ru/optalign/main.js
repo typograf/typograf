@@ -1,5 +1,5 @@
 Typograf._removeOptAlignTags = function(text, classNames) {
-    var re = new RegExp('<span class="(' + classNames.join('|') + ')">([^]*?)</span>', 'g');
+    const re = new RegExp('<span class="(' + classNames.join('|') + ')">([^]*?)</span>', 'g');
     return text.replace(re, '$2');
 };
 

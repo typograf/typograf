@@ -1,11 +1,11 @@
 Typograf.addRule({
     name: 'common/nbsp/afterShortWord',
-    handler: function(text, settings, context) {
-        var len = settings.lengthShortWord,
-            before = ' \u00A0(' + Typograf._privateLabel + Typograf.getData('common/quote'),
-            subStr = '(^|[' + before + '])([' + context.getData('char') + ']{1,' + len + '}) ',
-            newSubStr = '$1$2\u00A0',
-            re = new RegExp(subStr, 'gim');
+    handler(text, settings, context) {
+        const len = settings.lengthShortWord;
+        const before = ' \u00A0(' + Typograf._privateLabel + Typograf.getData('common/quote');
+        const subStr = '(^|[' + before + '])([' + context.getData('char') + ']{1,' + len + '}) ';
+        const newSubStr = '$1$2\u00A0';
+        const re = new RegExp(subStr, 'gim');
 
         return text
             .replace(re, newSubStr)

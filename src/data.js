@@ -9,7 +9,7 @@ Typograf._mix(Typograf, {
      *
      * @returns {*}
      */
-    getData: function(key) {
+    getData(key) {
         return this._data[key];
     },
     /**
@@ -19,7 +19,7 @@ Typograf._mix(Typograf, {
      * @param {string|Object} key
      * @param {*} [value]
      */
-    setData: function(key, value) {
+    setData(key, value) {
         if (typeof key === 'string') {
             this.addLocale(key);
             this._data[key] = value;

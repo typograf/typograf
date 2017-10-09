@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'common/symbols/arrow',
-    handler: function(text) {
+    handler(text) {
         return Typograf._replace(text, [
             [/(^|[^-])->(?!>)/g, '$1→'],
             [/(^|[^<])<-(?!-)/g, '$1←']

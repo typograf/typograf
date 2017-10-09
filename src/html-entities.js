@@ -1,7 +1,7 @@
-var HtmlEntities = {
-    init: function() {
+class HtmlEntities {
+    constructor() {
         // http://www.w3.org/TR/html4/sgml/entities
-        var visibleEntities = [
+        const visibleEntities = [
             ['iexcl', 161],
             ['cent', 162],
             ['pound', 163],
@@ -245,7 +245,7 @@ var HtmlEntities = {
             ['NestedLessLess', 8810]
         ];
 
-        var invisibleEntities = [
+        const invisibleEntities = [
             ['nbsp', 160],
             ['thinsp', 8201],
             ['ensp', 8194],
@@ -272,13 +272,14 @@ var HtmlEntities = {
         }, this);
 
         this._invisibleEntities = this._prepareEntities(invisibleEntities);
-    },
+    }
+
     /**
      * Entities as name or digit to UTF-8.
      *
      * @param {Object} context
      */
-    toUtf: function(context) {
+    toUtf(context) {
         if (context.text.search(/&#/) !== -1) {
             context.text = this.decHexToUtf(context.text);
         }
@@ -288,14 +289,15 @@ var HtmlEntities = {
                 context.text = context.text.replace(entity.reName, entity.utf);
             });
         }
-    },
+    }
+
     /**
      * Entities in decimal or hexadecimal form to UTF-8.
      *
      * @param {string} text
      * @return {string}
      */
-    decHexToUtf: function(text) {
+    decHexToUtf(text) {
         return text
             .replace(/&#(\d{1,6});/gi, function($0, $1) {
                 return String.fromCharCode(parseInt($1, 10));
@@ -303,16 +305,17 @@ var HtmlEntities = {
             .replace(/&#x([\da-f]{1,6});/gi, function($0, $1) {
                 return String.fromCharCode(parseInt($1, 16));
             });
-    },
+    }
+
     /**
      * Restore HTML entities in text.
      *
      * @param {Object} context
      */
-    restore: function(context) {
-        var params = context.prefs.htmlEntity,
-            type = params.type,
-            entities = this._entities;
+    restore(context) {
+        const params = context.prefs.htmlEntity;
+        const type = params.type;
+        let entities = this._entities;
 
         if (type === 'name' || type === 'digit') {
             if (params.onlyInvisible || params.list) {
@@ -333,7 +336,8 @@ var HtmlEntities = {
                 entities
             );
         }
-    },
+    }
+
     /**
      * Get a entity by utf using the type.
      *
@@ -341,8 +345,8 @@ var HtmlEntities = {
      * @param {string} [type]
      * @returns {string}
      */
-    getByUtf: function(symbol, type) {
-        var result = '';
+    getByUtf(symbol, type) {
+        let result = '';
 
         switch (type) {
             case 'digit':
@@ -357,52 +361,51 @@ var HtmlEntities = {
         }
 
         return result;
-    },
-    _prepareEntities: function(entities) {
-        var result = [];
+    }
+
+    _prepareEntities(entities) {
+        let result = [];
 
         entities.forEach(function(entity) {
-            var name = entity[0],
-                digit = entity[1],
-                utf = String.fromCharCode(digit),
-                item = {
-                    name: name,
-                    nameEntity: '&' + name + ';', // &nbsp;
-                    digitEntity: '&#' + digit + ';', // &#160;
-                    utf: utf, // \u00A0
-                    reName: new RegExp('&' + name + ';', 'g'),
-                    reUtf: new RegExp(utf, 'g')
-                };
+            const [name, digit] = entity;
+            const utf = String.fromCharCode(digit);
 
-            result.push(item);
+            result.push({
+                name,
+                nameEntity: '&' + name + ';', // &nbsp;
+                digitEntity: '&#' + digit + ';', // &#160;
+                utf, // \u00A0
+                reName: new RegExp('&' + name + ';', 'g'),
+                reUtf: new RegExp(utf, 'g')
+            });
         }, this);
 
         return result;
-    },
-    _prepareListParam: function(list) {
-        var result = [];
+    }
+
+    _prepareListParam(list) {
+        let result = [];
 
         list.forEach(function(name) {
-            var entity = this._entitiesByName[name];
+            const entity = this._entitiesByName[name];
             if (entity) {
                 result.push(entity);
             }
         }, this);
 
         return result;
-    },
-    _restoreEntitiesByIndex: function(text, type, entities) {
+    }
+
+    _restoreEntitiesByIndex(text, type, entities) {
         entities.forEach(function(entity) {
             text = text.replace(entity.reUtf, entity[type]);
         });
 
         return text;
     }
-};
+}
 
-HtmlEntities.init();
-
-export default HtmlEntities;
+export default new HtmlEntities();
 
 /**
  * @typedef HtmlEntity

@@ -1,9 +1,9 @@
 Typograf.addRule({
     name: 'ru/nbsp/initials',
-    handler: function(text) {
-        var spaces = '\u00A0\u202F ', // nbsp, thinsp
-            quote = Typograf.getData('ru/quote'),
-            re = new RegExp('(^|[' + spaces +
+    handler(text) {
+        const spaces = '\u00A0\u202F '; // nbsp, thinsp
+        const quote = Typograf.getData('ru/quote');
+        const re = new RegExp('(^|[' + spaces +
                 quote.left +
                 Typograf._privateLabel +
                 '"])([А-ЯЁ])\\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +

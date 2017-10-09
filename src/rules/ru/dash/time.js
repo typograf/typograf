@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'ru/dash/time',
-    handler: function(text, settings) {
-        var re = new RegExp(Typograf.getData('ru/dashBefore') +
+    handler(text, settings) {
+        const re = new RegExp(Typograf.getData('ru/dashBefore') +
             '(\\d?\\d:[0-5]\\d)' +
             Typograf.getData('common/dash') +
             '(\\d?\\d:[0-5]\\d)' +

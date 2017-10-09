@@ -1,7 +1,7 @@
 Typograf.addRule({
     name: 'common/html/url',
     queue: 'end',
-    handler: function(text, settings, context) {
+    handler(text, settings, context) {
         return context.isHTML ? text : text.replace(Typograf._reUrl, function($0, protocol, path) {
             path = path
                 .replace(/([^/]+\/?)(\?|#)$/, '$1') // Remove ending ? and #
@@ -13,9 +13,9 @@ Typograf.addRule({
                 path = path.replace(/^([^/]+)(:443)([^\d]|\/|$)/, '$1$3'); // Remove 443 port
             }
 
-            var url = path,
-                fullUrl = protocol + '://' + path,
-                firstPart = '<a href="' + fullUrl + '">';
+            let url = path;
+            const fullUrl = protocol + '://' + path;
+            const firstPart = '<a href="' + fullUrl + '">';
 
             if (protocol === 'http' || protocol === 'https') {
                 url = url.replace(/^www\./, '');

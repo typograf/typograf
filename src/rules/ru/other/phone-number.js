@@ -1,10 +1,10 @@
 (function() {
 
-    var defaultCityCodeLength = 5,
-        countryCode = '7',
-        exceptions = [],
-        exceptionsMax = 8,
-        exceptionsMin = 2;
+    const defaultCityCodeLength = 5;
+    const countryCode = '7';
+    const exceptions = [];
+    const exceptionsMax = 8;
+    const exceptionsMin = 2;
 
     [
         4162, 416332, 8512, 851111, 4722, 4725, 391379, 8442, 4732,
@@ -22,8 +22,8 @@
         '977-989', '991-997', 999
     ].forEach(function(num) {
         if (typeof num === 'string') {
-            var buf = num.split('-');
-            for (var i = +buf[0]; i <= +buf[1]; i++) {
+            const buf = num.split('-');
+            for (let i = +buf[0]; i <= +buf[1]; i++) {
                 exceptions.push(i);
             }
         } else {
@@ -32,10 +32,10 @@
     });
 
     function phone(num) {
-        var cityCode = '',
-            firstSym = num[0],
-            hasPlusWithCode,
-            hasEight;
+        const firstSym = num[0];
+        let cityCode = '';
+        let hasPlusWithCode;
+        let hasEight;
 
         if (num.length < 8) {
             return phoneBlocks(num);
@@ -56,8 +56,8 @@
             }
         }
 
-        for (var cityCodeLen = exceptionsMax; cityCodeLen >= exceptionsMin; cityCodeLen--) {
-            var code = +num.substr(0, cityCodeLen);
+        for (let cityCodeLen = exceptionsMax; cityCodeLen >= exceptionsMin; cityCodeLen--) {
+            let code = +num.substr(0, cityCodeLen);
             if (exceptions.indexOf(code) > -1) {
                 cityCode = num.substr(0, cityCodeLen);
                 num = num.substr(cityCodeLen);
@@ -77,10 +77,10 @@
     }
 
     function prepareCode(code) {
-        var numCode = +code,
-          len = code.length,
-          result = [code],
-          withoutBrackets = false;
+        const numCode = +code;
+        const len = code.length;
+        let result = [code];
+        let withoutBrackets = false;
 
         if (len > 3) {
             switch (len) {
@@ -105,7 +105,7 @@
     }
 
     function phoneBlocks(num){
-        var add = '';
+        let add = '';
         if (num.length % 2) {
             add = num[0];
             add += num.length <= 5 ? '-': '';
@@ -122,19 +122,19 @@
     Typograf.addRule({
         name: 'ru/other/phone-number',
         live: false,
-        handler: function(text) {
-            var tag = Typograf._privateLabel,
-                re = new RegExp('(^|,| |' + tag + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + tag + '|$)', 'gm');
+        handler(text) {
+            const tag = Typograf._privateLabel;
+            const re = new RegExp('(^|,| |' + tag + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + tag + '|$)', 'gm');
 
             return text
                 .replace(re, function($0, $1, $2) {
-                    var buf = clearPhone($2);
+                    const buf = clearPhone($2);
                     return buf.length === 12 ? $1 + phone(buf) : $0;
                 })
                 .replace(
                     /(^|[^а-яё])(т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(:?\s*?)([+\d(][\d \u00A0\-()]{3,}\d)/gi,
                     function($0, $1, $2, $3, $4) {
-                        var buf = clearPhone($4);
+                        const buf = clearPhone($4);
                         if (buf.length >= 5) {
                             return $1 + $2 + $3 + phone(buf);
                         }

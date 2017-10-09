@@ -1,6 +1,6 @@
 Typograf.addRule({
     name: 'common/number/mathSigns',
-    handler: function(text) {
+    handler(text) {
         return Typograf._replace(text, [
             [/!=/g, '≠'],
             [/<=/g, '≤'],
