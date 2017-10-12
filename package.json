@@ -48,7 +48,6 @@
     "gulp-uglify": "~3.0.0",
     "gulp-util": "~3.0.8",
     "istanbul": "~0.4.4",
-    "jscs": "~3.0.7",
     "mocha": "~4.0.1",
     "rollup-plugin-babel": "^3.0.2",
     "sinon": "^4.0.1",
@@ -59,11 +58,10 @@
   "scripts": {
     "benchmark": "node benchmark/test.js",
     "dist": "gulp dist",
-    "jscs": "jscs .",
     "eslint": "eslint .",
     "prepublish": "npm run dist",
     "rebuild": "gulp",
-    "test": "npm run rebuild && npm run eslint && npm run jscs && npm run unit-test-coverage",
+    "test": "npm run rebuild && npm run eslint && npm run unit-test-coverage",
     "unit-test": "mocha -u bdd -R spec --recursive test",
     "unit-test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
     "yaspeller": "yaspeller ."

@@ -41,7 +41,7 @@ Typograf._mix(Typograf, {
         const locale = locale1 || locale2;
         let result = locale;
 
-        if (!Array.isArray(locale)) { result = [locale]; }
+        if (!Array.isArray(locale)) { result = [ locale ]; }
 
         return result;
     },
