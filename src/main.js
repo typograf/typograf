@@ -1,8 +1,7 @@
-import Typograf from './typograf';
+export {default as default} from './typograf';
+
 import './data';
 import './locale';
 
-//=include data/**/*.js
-//=include ../build/_rules.js
-
-export default Typograf;
+import '../build/data';
+import '../build/rules';

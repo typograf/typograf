@@ -29,7 +29,7 @@ export default class SafeTags {
         this._tags = {
             own: [],
             html: html.map(this._prepareRegExp),
-            url: [Typograf._reUrl]
+            url: [ Typograf._reUrl ]
         };
 
         this._groups = ['own', 'html', 'url'];

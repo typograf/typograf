@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const $ = require('gulp-load-plugins')();
+const babel = require('rollup-plugin-babel');
 
 const uglifyOptions = {output: {ascii_only: true, comments: /^!/}};
 const gulpJsonRules = require('./gulp/json-rules');
@@ -20,7 +21,12 @@ const paths = {
     build: 'build/typograf.*',
     mainJs: 'src/main.js',
     allJs: 'src/all.js',
+    jsData: [
+        'src/build-import.js',
+        'src/data/**/*.js'
+    ],
     jsRules: [
+        'src/build-import.js',
         'src/rules/**/*.js'
     ],
     jsonRules: [
@@ -38,24 +44,29 @@ const paths = {
     ]
 };
 
-gulp.task('rules', function() {
-    return gulp.src(paths.jsRules)
-        .pipe(filter())
-        .pipe($.concat('_rules.js'))
+gulp.task('data', function() {
+    return gulp.src(paths.jsData)
+        .pipe($.concat('data.js'))
         .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('js', ['rules'], function() {
+gulp.task('rules', function() {
+    return gulp.src(paths.jsRules)
+        .pipe(filter())
+        .pipe($.concat('rules.js'))
+        .pipe(gulp.dest(buildDir));
+});
+
+gulp.task('js', ['data', 'rules'], function() {
     return gulp.src(paths.mainJs)
-        .pipe($.include())
         .pipe($.rollup({
             allowRealFiles: true,
             input: paths.mainJs,
             format: 'umd',
-            name: 'Typograf'
+            name: 'Typograf',
+            plugins: [babel()]
         }))
         .pipe(updateVersion())
-        .pipe($.babel())
         .pipe($.rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -66,10 +77,10 @@ gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
             allowRealFiles: true,
             input: paths.allJs,
             format: 'umd',
-            name: 'Typograf'
+            name: 'Typograf',
+            plugins: [babel()]
         }))
         .pipe(updateVersion())
-        .pipe($.babel())
         .pipe($.rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });

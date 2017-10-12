@@ -79,7 +79,7 @@
     function prepareCode(code) {
         const numCode = +code;
         const len = code.length;
-        let result = [code];
+        let result = [ code ];
         let withoutBrackets = false;
 
         if (len > 3) {
@@ -108,7 +108,7 @@
         let add = '';
         if (num.length % 2) {
             add = num[0];
-            add += num.length <= 5 ? '-': '';
+            add += num.length <= 5 ? '-' : '';
             num = num.substr(1, num.length - 1);
         }
 

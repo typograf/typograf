@@ -295,7 +295,7 @@ class HtmlEntities {
      * Entities in decimal or hexadecimal form to UTF-8.
      *
      * @param {string} text
-     * @return {string}
+     * @returns {string}
      */
     decHexToUtf(text) {
         return text
