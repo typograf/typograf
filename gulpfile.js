@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const $ = require('gulp-load-plugins')();
+const babel = require('rollup-plugin-babel');
 
 const uglifyOptions = {output: {ascii_only: true, comments: /^!/}};
 const gulpJsonRules = require('./gulp/json-rules');
@@ -52,10 +53,10 @@ gulp.task('js', ['rules'], function() {
             allowRealFiles: true,
             input: paths.mainJs,
             format: 'umd',
-            name: 'Typograf'
+            name: 'Typograf',
+            plugins: [babel()]
         }))
         .pipe(updateVersion())
-        .pipe($.babel())
         .pipe($.rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -66,10 +67,10 @@ gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
             allowRealFiles: true,
             input: paths.allJs,
             format: 'umd',
-            name: 'Typograf'
+            name: 'Typograf',
+            plugins: [babel()]
         }))
         .pipe(updateVersion())
-        .pipe($.babel())
         .pipe($.rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });
