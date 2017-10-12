@@ -1,42 +1,59 @@
 # HTML-сущности
+
+После обработки текста HTML-сущности преобразуются в один из трёх типов:
+
+|№ |Тип                    |`type`      |Пример           |
+|--|-----------------------|------------|-----------------|
+|1.|Готовые символы (UTF-8)|По умолчанию|`«Я»`            |
+|2.|В виде цифр            |`digit`     |`&#171;Я&#187;`  |
+|3.|В виде имён            |`name`      |`&laquo;Я&raquo;`|
+
+## Примеры
+HTML-сущности готовыми символами, по умолчанию:
 ```js
-// Режим по умолчанию, HTML-сущности, как UTF-8 символы
 var tp = new Typograf({locale: ['ru', 'en-US']});
 tp.execute('12 кг...'); // 12 кг…
+```
 
-// HTML-сущности в виде имён
-var tpName = new Typograf({
+HTML-сущности в виде имён:
+```js
+var tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {type: 'name'}
 });
-tpName.execute('12 кг...'); // 12&nbsp;кг&hellip;
+tp.execute('12 кг...'); // 12&nbsp;кг&hellip;
+```
 
-// HTML-сущности в виде цифр
-var tpDigit = new Typograf({
+HTML-сущности в виде цифр:
+```js
+var tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {type: 'digit'}
 });
-tpDigit.execute('12 кг...'); // 12&#160;кг&#8230;
+tp.execute('12 кг...'); // 12&#160;кг&#8230;
+```
 
-// Все HTML-сущности в UTF-8, а невидимые сущности в виде цифр
-// Невидимые сущности — &nbsp; &thinsp; &ensp; &emsp; &shy; &zwnj; &zwj; &lrm; &rlm;
-var tpNameInvisible = new Typograf({
+Все HTML-сущности готовыми символами, а невидимые сущности — в виде цифр.
+Невидимые сущности — `&nbsp;` `&thinsp;` `&ensp;` `&emsp;` `&shy;` `&zwnj;` `&zwj;` `&lrm;` `&rlm;`.
+```js
+var tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {
         type: 'name',
         onlyInvisible: true
     }
 });
-tpNameInvisible.execute('12 кг...'); // 12&nbsp;кг…
+tp.execute('12 кг...'); // 12&nbsp;кг…
+```
 
-// Все HTML-сущности в UTF-8, а заданные в списке в виде цифр
-var tpDigit = new Typograf({
+Все HTML-сущности готовыми символами, а заданные в списке — в виде цифр:
+```js
+var tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {
         type: 'digit',
         list: ['nbsp', 'shy', 'mdash', 'ndash']
     }
 });
-tpDigit.execute('12 кг...'); // 12&#160;кг…
-
+tp.execute('12 кг...'); // 12&#160;кг…
 ```
