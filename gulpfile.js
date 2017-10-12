@@ -21,7 +21,12 @@ const paths = {
     build: 'build/typograf.*',
     mainJs: 'src/main.js',
     allJs: 'src/all.js',
+    jsData: [
+        'src/build-import.js',
+        'src/data/**/*.js'
+    ],
     jsRules: [
+        'src/build-import.js',
         'src/rules/**/*.js'
     ],
     jsonRules: [
@@ -39,16 +44,21 @@ const paths = {
     ]
 };
 
-gulp.task('rules', function() {
-    return gulp.src(paths.jsRules)
-        .pipe(filter())
-        .pipe($.concat('_rules.js'))
+gulp.task('data', function() {
+    return gulp.src(paths.jsData)
+        .pipe($.concat('data.js'))
         .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('js', ['rules'], function() {
+gulp.task('rules', function() {
+    return gulp.src(paths.jsRules)
+        .pipe(filter())
+        .pipe($.concat('rules.js'))
+        .pipe(gulp.dest(buildDir));
+});
+
+gulp.task('js', ['data', 'rules'], function() {
     return gulp.src(paths.mainJs)
-        .pipe($.include())
         .pipe($.rollup({
             allowRealFiles: true,
             input: paths.mainJs,
