@@ -21,8 +21,8 @@ tests.push(['ru/optalign/quote', [
         'Вот у вас<span class="typograf-oa-sp-lquote">\n</span><span class="typograf-oa-lquote">«</span>Мой спутник».\nВот у вас<span class="typograf-oa-sp-lquote">\n</span><span class="typograf-oa-lquote">«</span>Мой спутник».'
     ],
     [
-        'Вот у вас \uDBFF«Мой спутник».\uDBFF',
-        'Вот у вас \uDBFF<span class="typograf-oa-n-lquote">«</span>Мой спутник».\uDBFF'
+        'Вот у вас \uF000«Мой спутник».\uF000',
+        'Вот у вас \uF000<span class="typograf-oa-n-lquote">«</span>Мой спутник».\uF000'
     ],
     [
         '«что-то», «где-то!»',
