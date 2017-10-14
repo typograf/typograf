@@ -3,7 +3,7 @@
 | № | [Имя](./RULES.ru.md) | Название | Индекс ▼ | Очередь | Вкл. |
 |--:|-------------------|----------|---------:|:-------:|:----:|
 | 1. | [common/symbols/copy](../src/rules/common/symbols/copy.js) | (c) → ©, (tm) → ™, (r) → ® | 110 |  | ✓ |
-| 2. | [common/html/quot](../src/rules/common/html/quot.js) | &quot; → " | 1210 | hide-safe-tags | ✓ |
+| 2. | [common/html/quot](../src/rules/common/html/quot.js) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
 | 3. | [common/other/delBOM](../src/rules/common/other/delBOM.js) | Удаление символа BOM (Byte Order Mark) | -1 | start | ✓ |
 | 4. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.js) | Замена неразрывного пробела на обычный перед типографированием | 510 | utf |  |
 | 5. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.js) | Типографирование HTML-атрибутов | 1210 | hide-safe-tags-own |  |

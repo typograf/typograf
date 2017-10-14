@@ -7,7 +7,7 @@
 | 3. | [common/html/nbr](../src/rules/common/html/nbr.js) | Замена перевода строки на <br/> | 1220 | end |  |
 | 4. | [common/html/p](../src/rules/common/html/p.js) | Расстановка абзацев | 1215 | end |  |
 | 5. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.js) | Типографирование HTML-атрибутов | 1210 | hide-safe-tags-own |  |
-| 6. | [common/html/quot](../src/rules/common/html/quot.js) | &quot; → " | 1210 | hide-safe-tags | ✓ |
+| 6. | [common/html/quot](../src/rules/common/html/quot.js) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
 | 7. | [common/html/stripTags](../src/rules/common/html/stripTags.js) | Удаление HTML-тегов | 1309 | end |  |
 | 8. | [common/html/url](../src/rules/common/html/url.js) | Расстановка ссылок | 1210 | end |  |
 | 9. | [common/nbsp/afterNumber](../src/rules/common/nbsp/afterNumber.js) | Нераз. пробел между числом и словом | 510 |  |  |
