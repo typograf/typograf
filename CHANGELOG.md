@@ -1,5 +1,10 @@
 # Changelog
 
+# v6.5.0
+- Для лучшей расстановки кавычек теги (`p`, `h1-6`, `title` и др.) в HTML обрабатываются по отдельности #254.
+- Кодовая база переведена на ES6 #261.
+- Плагин для [Atom’а](https://github.com/red-typography/atom-red-typography).
+
 # v6.4.0
 - `ru/punctuation/hellip` → `common/punctuation/hellip` и добавлено новое правило `ru/punctuation/hellipQuestion` #251,
 - из репозитория удалены папки `build/` и `dist/` #250.
