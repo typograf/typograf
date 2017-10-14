@@ -31,8 +31,9 @@
   - [Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
   - [Opera и Яндекс.Браузер](https://addons.opera.com/ru/extensions/details/red-typography/)
 - Плагины
-  - [grunt-typograf](https://github.com/typograf/grunt-typograf)
-  - [gulp-typograf](https://github.com/typograf/gulp-typograf)
+  - [Atom](https://atom.io/packages/red-typography)
+  - [Grunt](https://github.com/typograf/grunt-typograf)
+  - [Gulp](https://github.com/typograf/gulp-typograf)
   - [TinyMCE](https://habrahabr.ru/post/266337/)
 - [Поддерживаемые правила](./docs/RULES.ru.md)
 - API
