@@ -155,4 +155,18 @@ describe('API', function() {
     it('should correct version', function() {
         assert.isOk(Typograf.version.search(/^\d/) > -1);
     });
+
+    it('should process separate parts', function() {
+        const t = new Typograf({locale: 'ru'});
+        const result = t.execute('"Я <p> "Я" </p> Я"');
+
+        assert.equal('«Я <p> «Я» </p> Я»', result);
+    });
+
+    it('should process not separate parts', function() {
+        const t = new Typograf({locale: 'ru', processingSeparateParts: false});
+        const result = t.execute('"Я <p> "Я" </p> Я"');
+
+        assert.equal('«Я <p> „Я“ </p> Я»', result);
+    });
 });
