@@ -1,4 +1,5 @@
-export {default as default} from './typograf';
+import Typograf from './main';
+export default Typograf;
 
 import titles from '../build/typograf.titles';
 import groups from '../build/typograf.groups';
