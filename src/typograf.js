@@ -1,7 +1,7 @@
 import blockElements from './block-elements';
 import inlineElements from './inline-elements';
 import groupIndexes from './group-indexes';
-import HtmlEntities from './html-entities';
+import HtmlEntities from './html-entities/index';
 import SafeTags from './safe-tags';
 
 /**
