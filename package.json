@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.5.1",
+  "version": "6.6.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -33,9 +33,9 @@
   ],
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "chai": "~4.1.2",
-    "eslint": "^4.8.0",
+    "eslint": "^4.10.0",
     "gulp": "~3.9.1",
     "gulp-concat": "~2.6.1",
     "gulp-filter": "~5.0.1",
@@ -49,7 +49,7 @@
     "istanbul": "~0.4.4",
     "mocha": "~4.0.1",
     "rollup-plugin-babel": "^3.0.2",
-    "sinon": "^4.0.1",
+    "sinon": "^4.0.2",
     "sort-keys": "~2.0.0",
     "through": "~2.3.6",
     "yaspeller": "~4.0.0"
