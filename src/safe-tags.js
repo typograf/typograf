@@ -1,4 +1,5 @@
 import Typograf from './typograf';
+import inlineElements from './inline-elements';
 
 export default class SafeTags {
     constructor() {
@@ -95,11 +96,104 @@ export default class SafeTags {
         }, this);
     }
 
+    /**
+     * Get previous label.
+     *
+     * @param {string} text
+     * @param {number} position
+     *
+     * @returns {string|false}
+     */
+    getPrevLabel(text, position) {
+        for (let i = position - 1; i >= 0; i--) {
+            if (text[i] === Typograf._privateLabel) {
+                return text.slice(i, position + 1);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get next label.
+     *
+     * @param {string} text
+     * @param {number} position
+     *
+     * @returns {string|false}
+     */
+    getNextLabel(text, position) {
+        for (let i = position + 1; i < text.length; i++) {
+            if (text[i] === Typograf._privateLabel) {
+                return text.slice(position, i + 1);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get a tag by a label.
+     *
+     * @param {Object} context
+     * @param {string} label
+     *
+     * @returns {Object|boolean}
+     */
+    getTagByLabel(context, label) {
+        let result = false;
+        this._groups.some(function(group) {
+            const value = context.safeTags.hidden[group][label];
+            if (typeof value !== 'undefined') {
+                result = {
+                    group,
+                    value
+                };
+            }
+
+            return result;
+        });
+
+        return result;
+    }
+
+    /**
+     * Get info about a tag.
+     *
+     * @param {Object|undefined} tag
+     *
+     * @returns {Object|undefined}
+     */
+    getTagInfo(tag) {
+        if (!tag) {
+            return;
+        }
+
+        const result = { group: tag.group };
+
+        switch (tag.group) {
+            case 'html':
+                result.name = tag.value.split(/[<\s>]/)[1];
+                result.isInline = inlineElements.indexOf(result.name) > -1;
+                result.isClosing = tag.value.search(/^<\//) > -1;
+                break;
+            case 'url':
+                result.isInline = true;
+                break;
+            case 'own':
+                result.isInline = false;
+                break;
+        }
+
+        return result;
+    }
+
     _hide(context, group) {
         function pasteLabel(match) {
-            const key = Typograf._privateLabel + 'tf' + context.safeTags.i + Typograf._privateLabel;
-            context.safeTags.hidden[context.safeTags.group][key] = match;
-            context.safeTags.i++;
+            const safeTags = context.safeTags;
+            const key = Typograf._privateLabel + 'tf' + safeTags.i + Typograf._privateLabel;
+            safeTags.hidden[context.safeTags.group][key] = match;
+            safeTags.i++;
 
             return key;
         }
