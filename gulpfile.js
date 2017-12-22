@@ -14,9 +14,6 @@ const srcDir = './src/';
 const buildDir = './build/';
 const distDir = './dist/';
 
-const version = require('./package.json').version;
-function updateVersion() { return $.replace(/\{\{version\}\}/, version); }
-
 const paths = {
     build: 'build/typograf.*',
     mainJs: 'src/main.js',
@@ -66,7 +63,8 @@ gulp.task('js', ['data', 'rules'], function() {
             name: 'Typograf',
             plugins: [babel()]
         }))
-        .pipe(updateVersion())
+        .pipe(typografUtils.updateVersion())
+        .pipe(typografUtils.addCopyright())
         .pipe($.rename('typograf.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -80,7 +78,8 @@ gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
             name: 'Typograf',
             plugins: [babel()]
         }))
-        .pipe(updateVersion())
+        .pipe(typografUtils.updateVersion())
+        .pipe(typografUtils.addCopyright())
         .pipe($.rename('typograf.all.js'))
         .pipe(gulp.dest(buildDir));
 });
@@ -119,7 +118,6 @@ gulp.task('jsonGroups', ['js', 'jsonLintGroups'], function() {
 gulp.task('min.js', ['js'], function() {
     return gulp.src(buildDir + 'typograf.js')
         .pipe($.rename('typograf.min.js'))
-        .pipe(updateVersion())
         .pipe($.uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });
@@ -127,7 +125,6 @@ gulp.task('min.js', ['js'], function() {
 gulp.task('all.min.js', ['all.js'], function() {
     return gulp.src(buildDir + 'typograf.all.js')
         .pipe($.rename('typograf.all.min.js'))
-        .pipe(updateVersion())
         .pipe($.uglify(uglifyOptions))
         .pipe(gulp.dest(buildDir));
 });

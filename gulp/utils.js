@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const replace = require('gulp-replace');
 const queue = {
     'start': 0,
     'utf': 1,
@@ -9,8 +10,16 @@ const queue = {
     'end': 10
 };
 const langs = ['ru', 'en-US'];
+const version = require('../package.json').version;
+const copyright = '/*! Typograf | © 2018 Denis Seleznev | MIT License | https://github.com/typograf/typograf/ */\n';
 
 module.exports = {
+    updateVersion() {
+        return replace(/\{\{version\}\}/, version);
+    },
+    addCopyright() {
+        return replace(/^/, copyright);
+    },
     buildTitles() {
         const txt = fs.readFileSync('build/typograf.titles.json');
         fs.writeFileSync('build/typograf.titles.js', `export default ${txt};
@@ -25,7 +34,7 @@ module.exports = {
         const Typograf = require('../build/typograf.js');
         const titles = require('../build/typograf.titles.json');
         const rules = Typograf.prototype._rules;
-        
+
         function getRow(rule, i, locale) {
             const title = titles[rule.name][locale] || titles[rule.name].common;
             return '| ' + i + '. | [' +
@@ -35,12 +44,12 @@ module.exports = {
                 (rule.queue || '') + ' | ' +
                 (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
         }
-        
+
         function processTemplate(file, templateFile, text) {
             const template = fs.readFileSync(templateFile).toString();
             fs.writeFileSync(file, template.replace(/{{content}}/, text));
         }
-        
+
         function buildDoc(prefix) {
             langs.forEach(function(locale) {
                 let text = '';
