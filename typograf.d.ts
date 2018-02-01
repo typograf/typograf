@@ -20,7 +20,7 @@ declare namespace typograf {
 	}
 
 	interface Options {
-		locale: string;
+		locale: string | string[];
 		htmlEntity?: HtmlEntity;
 		lineEnding?: LineEnding;
 		live?: boolean;
