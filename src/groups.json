@@ -30,8 +30,8 @@
   {
     "name": "space",
     "title": {
-      "en-US": "Space",
-      "ru": "Пробел"
+      "en-US": "Space and line ending",
+      "ru": "Пробел и окончание строки"
     }
   },
   {
