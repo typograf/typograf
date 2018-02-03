@@ -55,12 +55,13 @@ gulp.task('rules', function() {
 });
 
 gulp.task('js', ['data', 'rules'], function() {
-    return gulp.src(paths.mainJs)
+    return gulp.src(['./src/**/*.js', './build/**/*.js'])
         .pipe($.rollup({
-            allowRealFiles: true,
             input: paths.mainJs,
-            format: 'umd',
-            name: 'Typograf',
+            output: {
+                format: 'umd',
+                name: 'Typograf'
+            },
             plugins: [babel()]
         }))
         .pipe(typografUtils.updateVersion())
@@ -70,12 +71,13 @@ gulp.task('js', ['data', 'rules'], function() {
 });
 
 gulp.task('all.js', ['js', 'jsonRules', 'jsonGroups'], function() {
-    return gulp.src(paths.allJs)
+    return gulp.src(['./src/**/*.js', './build/**/*.js'])
         .pipe($.rollup({
-            allowRealFiles: true,
             input: paths.allJs,
-            format: 'umd',
-            name: 'Typograf',
+            output: {
+                format: 'umd',
+                name: 'Typograf'
+            },
             plugins: [babel()]
         }))
         .pipe(typografUtils.updateVersion())
