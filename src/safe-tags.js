@@ -34,7 +34,6 @@ export default class SafeTags {
         };
 
         this._groups = ['own', 'html', 'url'];
-        this._reservedGroups = [].concat(this._groups).reverse();
     }
 
     /**
@@ -50,50 +49,51 @@ export default class SafeTags {
      * Show safe tags.
      *
      * @param {Object} context
-     * @param {Function} callback
+     * @param {string} group
      */
-    show(context, callback) {
+    show(context, group) {
         const label = Typograf._privateLabel;
         const reReplace = new RegExp(label + 'tf\\d+' + label, 'g');
         const reSearch = new RegExp(label + 'tf\\d');
         const replaceLabel = function(match) {
-            return context.safeTags.hidden[context.safeTags.group][match] || match;
+            return context.safeTags.hidden[group][match] || match;
         };
 
-        this._reservedGroups.forEach(function(group) {
-            context.safeTags.group = group;
-
-            for (let i = 0, len = this._tags[group].length; i < len; i++) {
-                context.text = context.text.replace(reReplace, replaceLabel);
-                if (context.text.search(reSearch) === -1) { break; }
-            }
-
-            callback(context, group);
-        }, this);
-
-        context.safeTags = null;
+        for (let i = 0, len = this._tags[group].length; i < len; i++) {
+            context.text = context.text.replace(reReplace, replaceLabel);
+            if (context.text.search(reSearch) === -1) { break; }
+        }
     }
 
     /**
      * Hide safe tags.
      *
      * @param {Object} context
-     * @param {Function} callback
+     * @param {string} group
      */
-    hide(context, callback) {
-        context.safeTags = {
-            hidden: {},
-            i: 0
-        };
+    hide(context, group) {
+        context.safeTags = context.safeTags || { hidden: {}, i: 0 };
+        context.safeTags.hidden[group] = {};
 
-        this._groups.forEach(function(group) {
-            context.safeTags.hidden[group] = {};
+        const pasteLabel = this._pasteLabel.bind(this, context, group);
+        this._tags[group].forEach(function(tag) {
+            context.text = context.text.replace(this._prepareRegExp(tag), pasteLabel);
         }, this);
+    }
 
-        this._groups.forEach(function(group) {
-            this._hide(context, group);
-            callback(context, group);
-        }, this);
+    /**
+     * Hide HTML tags.
+     *
+     * @param {Object} context
+     */
+    hideHTMLTags(context) {
+        if (context.isHTML) {
+            const pasteLabel = this._pasteLabel.bind(this, context, 'html');
+            context.text = context.text
+                .replace(/<\/?[a-z][^]*?>/gi, pasteLabel) // Tags
+                .replace(/&lt;\/?[a-z][^]*?&gt;/gi, pasteLabel) // Escaping tags
+                .replace(/&[gl]t;/gi, pasteLabel);
+        }
     }
 
     /**
@@ -188,28 +188,13 @@ export default class SafeTags {
         return result;
     }
 
-    _hide(context, group) {
-        function pasteLabel(match) {
-            const safeTags = context.safeTags;
-            const key = Typograf._privateLabel + 'tf' + safeTags.i + Typograf._privateLabel;
-            safeTags.hidden[context.safeTags.group][key] = match;
-            safeTags.i++;
+    _pasteLabel(context, group, match) {
+        const safeTags = context.safeTags;
+        const key = Typograf._privateLabel + 'tf' + safeTags.i + Typograf._privateLabel;
+        safeTags.hidden[group][key] = match;
+        safeTags.i++;
 
-            return key;
-        }
-
-        context.safeTags.group = group;
-
-        this._tags[group].forEach(function(tag) {
-            context.text = context.text.replace(this._prepareRegExp(tag), pasteLabel);
-        }, this);
-
-        if (group === 'html' && context.isHTML) {
-            context.text = context.text
-                .replace(/<\/?[a-z][^]*?>/gi, pasteLabel) // Tags
-                .replace(/&lt;\/?[a-z][^]*?&gt;/gi, pasteLabel) // Escaping tags
-                .replace(/&[gl]t;/gi, pasteLabel);
-        }
+        return key;
     }
 
     _prepareRegExp(tag) {

@@ -33,6 +33,10 @@ const commonTests = [
         '<! - Hello world! →'
     ],
     [
+        '<!-- <h3><a href="index.html">Фотография</a></h3> -->',
+        '<!-- <h3><a href="index.html">Фотография</a></h3> -->'
+    ],
+    [
         '  <a \n href="#hash">  Hello   world!  </a>  ',
         '<a \n href="#hash"> Hello world! </a>'
     ],

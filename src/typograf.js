@@ -191,9 +191,7 @@ export default class Typograf {
 
         this._preparePrefs(context, prefs);
 
-        return !context.isHTML || context.prefs.processingSeparateParts === false ?
-            this._processAll(context) :
-            this._processSeparateParts(context);
+        return this._process(context);
     }
 
     _prepareContext(text) {
@@ -252,6 +250,10 @@ export default class Typograf {
     }
 
     _splitBySeparateParts(context) {
+        if (!context.isHTML || context.prefs.processingSeparateParts === false) {
+            return [ context.text ];
+        }
+        
         const
             text = [],
             label = Typograf._privateSeparateLabel,
@@ -284,62 +286,59 @@ export default class Typograf {
         return text;
     }
 
-    _processSeparateParts(context) {
-        const
-            isHTML = context.isHTML,
-            re = new RegExp(Typograf._privateSeparateLabel, 'g');
-
-        context.text = this._splitBySeparateParts(context)
-            .map(function(item) {
-                context.text = item;
-                context.isHTML = this._isHTML(item);
-
-                this._processStart(context);
-
-                return context.text.replace(re, '');
-            }, this)
-            .join('');
-
-        context.isHTML = isHTML;
-
-        return this._processEnd(context);
-    }
-
-    _processAll(context) {
-        return this._processStart(context)._processEnd(context);
-    }
-
-    _processStart(context) {
+    _process(context) {
         context.text = this._removeCR(context.text);
 
         this._executeRules(context, 'start');
 
-        this._safeTags.hide(context, (item, group) => {
-            this._executeRules(item, 'hide-safe-tags-' + group);
-        });
+        this._safeTags.hide(context, 'own');
+        this._executeRules(context, 'hide-safe-tags-own');
 
-        this._executeRules(context, 'hide-safe-tags');
+        this._safeTags.hide(context, 'html');
+        this._executeRules(context, 'hide-safe-tags-html');
+        
+        const
+            isHTML = context.isHTML,
+            re = new RegExp(Typograf._privateSeparateLabel, 'g');
 
-        Typograf.HtmlEntities.toUtf(context);
+        context.text = this._splitBySeparateParts(context).map(function(item) {
+            context.text = item;
+            context.isHTML = this._isHTML(item);
+            this._safeTags.hideHTMLTags(context);
 
-        if (this._prefs.live) { context.text = Typograf._replaceNbsp(context.text); }
+            this._safeTags.hide(context, 'url');
+            this._executeRules(context, 'hide-safe-tags-url');
 
-        this._executeRules(context, 'utf');
+            this._executeRules(context, 'hide-safe-tags');
 
-        this._executeRules(context);
+            Typograf.HtmlEntities.toUtf(context);
 
-        Typograf.HtmlEntities.restore(context);
+            if (this._prefs.live) {
+                context.text = Typograf._replaceNbsp(context.text);
+            }
 
-        this._executeRules(context, 'html-entities');
+            this._executeRules(context, 'utf');
 
-        this._safeTags.show(context, (item, group) => {
-            this._executeRules(item, 'show-safe-tags-' + group);
-        });
+            this._executeRules(context);
 
-        return this;
-    }
+            Typograf.HtmlEntities.restore(context);
 
-    _processEnd(context) {
+            this._executeRules(context, 'html-entities');
+
+            this._safeTags.show(context, 'url');
+            this._executeRules(context, 'show-safe-tags-url');
+            
+            return context.text.replace(re, '');
+        }, this).join('');
+        
+        context.isHTML = isHTML;
+
+        this._safeTags.show(context, 'html');
+        this._executeRules(context, 'show-safe-tags-html');
+
+        this._safeTags.show(context, 'own');
+        this._executeRules(context, 'show-safe-tags-own');
+
         this._executeRules(context, 'end');
 
         return this._fixLineEnding(context.text, context.prefs.lineEnding);
