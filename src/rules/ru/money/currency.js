@@ -11,5 +11,6 @@ Typograf.addRule({
                 return $1 + $3 + ($6 ? '\u00A0' + $6 : '') + '\u00A0' + $2;
             })
             .replace(re2, '$1$2\u00A0$3');
-    }
+    },
+    disabled: true
 });
