@@ -3,6 +3,7 @@ sudo: false
 node_js:
   - 6
   - 8
+  - stable
 
 after_success:
   - npm i coveralls
