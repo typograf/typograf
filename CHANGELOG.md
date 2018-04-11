@@ -1,5 +1,8 @@
 # Changelog
 
+# v6.7.1
+Исправлена ошибка в правиле `ru/punctuation/ano` #295
+
 # v6.7.0
 - Правило `common/nbsp/afterParagraph` переименовано в `common/nbsp/afterSectionMark`.
 - Добавлено новое правило `common/nbsp/afterParagraphMark`, неразрывный пробел после ¶.
