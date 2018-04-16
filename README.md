@@ -48,7 +48,7 @@
   - [Висячая пунктуация](./docs/api_optalign.md)
   - [Типографика на лету](./docs/api_fly.md)
 - [Сжатие с UglifyJS](./docs/uglifyjs.md)
-- [Разработка](./docs/development)
+- [Разработка](./docs/development.md)
 
 ## [Лицензия](./LICENSE.md)
 MIT License
