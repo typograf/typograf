@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.7.1",
+  "version": "6.7.2",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -59,9 +59,9 @@
     "benchmark": "node benchmark/test.js",
     "dist": "gulp dist",
     "eslint": "eslint .",
-    "prepublish": "npm run dist",
-    "rebuild": "gulp",
-    "test": "npm run rebuild && npm run eslint && npm run unit-test-coverage",
+    "prepare": "npm run dist",
+    "build": "gulp",
+    "test": "npm run build && npm run eslint && npm run unit-test-coverage",
     "unit-test": "mocha -u bdd -R spec --recursive test",
     "unit-test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u bdd -R spec --recursive test",
     "yaspeller": "yaspeller ."
