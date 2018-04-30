@@ -117,7 +117,7 @@ gulp.task('all.js', gulp.series('js', 'jsonRules', 'jsonGroups', function allJs(
         .pipe(gulp.dest(buildDir));
 }));
 
-gulp.task('min.js', gulp.series('js', function js() {
+gulp.task('min.js', gulp.series('js', function minJs() {
     return gulp.src(buildDir + 'typograf.js')
         .pipe($.rename('typograf.min.js'))
         .pipe($.uglify(uglifyOptions))
@@ -150,4 +150,6 @@ gulp.task('dist', gulp.series(
     'jsonRules',
     'jsonGroups',
     'all.min.js'
-, () => gulp.src(paths.build).pipe(gulp.dest(distDir))));
+, function dist() {
+    return gulp.src(paths.build).pipe(gulp.dest(distDir));
+}));
