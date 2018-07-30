@@ -31,6 +31,7 @@
   - [Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
   - [Opera и Яндекс.Браузер](https://addons.opera.com/ru/extensions/details/red-typography/)
 - Плагины
+  - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
   - [Atom](https://atom.io/packages/red-typography)
   - [Grunt](https://github.com/typograf/grunt-typograf)
   - [Gulp](https://github.com/typograf/gulp-typograf)
