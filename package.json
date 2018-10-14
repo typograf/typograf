@@ -35,6 +35,7 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "chai": "^4.2.0",
+    "del": "^3.0.0",
     "eslint": "^5.7.0",
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",

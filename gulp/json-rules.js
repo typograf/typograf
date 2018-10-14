@@ -53,7 +53,7 @@ module.exports = function(file) {
             joinedFile = firstFile;
         }
 
-        joinedFile.contents = new Buffer(JSON.stringify(sortKeys(rules, {deep: true}), null, '  '), 'utf8');
+        joinedFile.contents = Buffer.from(JSON.stringify(sortKeys(rules, {deep: true}), null, '  '), 'utf8');
 
         this.emit('data', joinedFile);
         this.emit('end');
