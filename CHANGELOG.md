@@ -1,5 +1,11 @@
 # Changelog
 
+# v6.7.3
+Мелкие доработки и исправление ошибок в правилах:
+- `common/nbsp/afterNumber.js`#306
+- `ru/nbsp/groupNumbers.js` #307
+- `common/html/e-mail.js`
+
 # v6.7.2
 - Правки по сборке.
 
