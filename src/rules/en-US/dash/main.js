@@ -7,8 +7,8 @@ Typograf.addRule({
         const emDash = '\u2014';
         const spaceBefore = `[ ${nonBreakingSpace}]`; // white space or a non-breaking space
         const spaceAfter = `[ ${nonBreakingSpace}\n]`; // same as spaceBefore, but includes line break
-        const re = new RegExp(`(${spaceBefore})(${dashes})(${spaceAfter})`, 'g');
+        const re = new RegExp(`${spaceBefore}(${dashes})(${spaceAfter})`, 'g');
 
-        return text.replace(re, `${nonBreakingSpace}${emDash}$3`);
+        return text.replace(re, `${nonBreakingSpace}${emDash}$2`);
     }
 });
