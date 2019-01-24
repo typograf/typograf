@@ -30,7 +30,7 @@ const commonTests = [
     ],
     [
         '  <!-  Hello   world!  ->  ',
-        '<! - Hello world! →'
+        '<! — Hello world! →'
     ],
     [
         '<!-- <h3><a href="index.html">Фотография</a></h3> -->',
