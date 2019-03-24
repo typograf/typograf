@@ -1,9 +1,8 @@
 'use strict';
 
-const gutil = require('gulp-util');
-const GFile = gutil.File;
+const Vinyl = require('vinyl');
 const path = require('path');
-const PluginError = gutil.PluginError;
+const PluginError = require('plugin-error');
 const sortKeys = require('sort-keys');
 const through = require('through');
 
@@ -22,7 +21,7 @@ module.exports = function(file) {
 
     if (typeof file !== 'string') {
         if (typeof file.path === 'string') {
-            firstFile = new GFile(file);
+            firstFile = new Vinyl(file);
         } else {
             throw new PluginError('gulp-json-rules', 'Missing path in file options for gulp-json-rules');
         }
