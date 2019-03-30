@@ -7,3 +7,4 @@ test/before/*.tmp
 npm-debug.log
 benchmark/*.txt
 benchmark/*.html
+.DS_Store

@@ -68,13 +68,7 @@ function makeMdRules() {
         });
     }
 
-    rules.sort(function(a, b) {
-        if (a.name > b.name) {
-            return 1;
-        } else {
-            return -1;
-        }
-    });
+    rules.sort((a, b) => a.name > b.name ? 1 : -1);
 
     buildDoc('');
 
@@ -82,7 +76,10 @@ function makeMdRules() {
         const queueA = queue[a.queue || 'default'];
         const queueB = queue[b.queue || 'default'];
 
-        if (queueA === queueB) {
+        const queueIndexA = getQueueIndex(queueA);
+        const queueIndexB = getQueueIndex(queueB);
+
+        if (queueIndexA === queueIndexB) {
             if (a._index > b._index) {
                 return 1;
             } else if (a._index < b._index) {
@@ -90,14 +87,31 @@ function makeMdRules() {
             } else {
                 return 0;
             }
-        } else if (queueA > queueB) {
-            return 1;
-        } else {
+        } else if (queueIndexA > queueIndexB) {
             return -1;
+        } else {
+            return 1;
         }
     });
 
     buildDoc('_SORTED');
+}
+
+function getQueueIndex(name) {
+    return [
+        'start',
+        'hide-safe-tags-own',
+        'hide-safe-tags-html',
+        'hide-safe-tags-url',
+        'hide-safe-tags',
+        'utf',
+        'default',
+        'html-entities',
+        'show-safe-tags-url',
+        'show-safe-tags-html',
+        'show-safe-tags-own',
+        'end'
+    ].indexOf(name);
 }
 
 module.exports = jsonRules;
