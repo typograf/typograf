@@ -2,6 +2,11 @@ Typograf.addRule({
     name: 'ru/nbsp/abbr',
     handler(text) {
         function abbr($0, $1, $2, $3) {
+            // дд.мм.гггг
+            if ($2 === 'дд' && $3 === 'мм') {
+                return $0;
+            }
+
             // Являются ли сокращения ссылкой
             if (['рф', 'ру', 'рус', 'орг', 'укр', 'бг', 'срб'].indexOf($3) > -1) {
                 return $0;
