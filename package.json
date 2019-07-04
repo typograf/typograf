@@ -59,11 +59,16 @@
     "benchmark": "node benchmark/test.js",
     "dist": "gulp dist",
     "eslint": "eslint .",
-    "prepare": "npm run dist",
+    "prepare": "npm run snyk-protect; npm run dist",
     "build": "gulp",
     "test": "npm run build && npm run eslint && npm run unit-test",
     "unit-test": "nyc mocha -u bdd -R spec --recursive test",
-    "yaspeller": "yaspeller ."
+    "yaspeller": "yaspeller .",
+    "snyk-protect": "snyk protect"
   },
-  "typings": "./typograf.d.ts"
+  "typings": "./typograf.d.ts",
+  "snyk": true,
+  "dependencies": {
+    "snyk": "^1.189.0"
+  }
 }
