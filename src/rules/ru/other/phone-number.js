@@ -132,6 +132,7 @@
                     return buf.length === 12 ? $1 + phone(buf) : $0;
                 })
                 .replace(
+                    // eslint-disable-next-line no-misleading-character-class
                     /(^|[^а-яё])([☎☏✆📠📞📱]|т\.|тел\.|ф\.|моб\.|факс|сотовый|мобильный|телефон)(:?\s*?)([+\d(][\d \u00A0\-()]{3,}\d)/gi,
                     function($0, $1, $2, $3, $4) {
                         const buf = clearPhone($4);
