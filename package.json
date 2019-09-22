@@ -50,10 +50,10 @@
     "plugin-error": "^1.0.1",
     "rollup-plugin-babel": "^4.3.3",
     "sinon": "^7.3.2",
-    "sort-keys": "^3.0.0",
+    "sort-keys": "^4.0.0",
     "through": "^2.3.6",
     "vinyl": "^2.2.0",
-    "yaspeller": "^5.1.0"
+    "yaspeller": "^6.0.0"
   },
   "scripts": {
     "benchmark": "node benchmark/test.js",
