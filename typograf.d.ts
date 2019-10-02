@@ -4,7 +4,7 @@ declare namespace typograf {
 
 	interface HtmlEntity {
 		type: Mode;
-		onlyInvisible?: string;
+		onlyInvisible?: boolean;
 		list?: string[];
 	}
 
