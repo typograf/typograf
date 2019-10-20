@@ -1,5 +1,8 @@
 # Changelog
 
+# v6.9.0
+- Для правила `common/space/delRepeatN` добавлена настройка #336 @tplk.
+
 # v6.8.3
 - Доработки тайпингов для TypeScript #334 @tplk.
 - Обновлены зависимости в package.json.
