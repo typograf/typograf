@@ -1,7 +1,8 @@
 export {default as default} from './typograf';
 
-import './data';
 import './locale';
 
-import '../build/data';
+import './data';
+import './data/index';
+
 import '../build/rules';
