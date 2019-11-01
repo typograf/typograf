@@ -10,6 +10,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/typograf/typograf.svg?style=flat)](https://coveralls.io/r/typograf/typograf)
 [![Dependency Status](https://img.shields.io/david/typograf/typograf.svg?style=flat)](https://david-dm.org/typograf/typograf)
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/typograf)](https://bundlephobia.com/result?p=typograf)
+[![Gitter](https://badges.gitter.im/typograf/community.svg)](https://gitter.im/typograf/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
 Помогает автоматически расставить неразрывные пробелы, исправить мелкие опечатки, привести кавычки к правильному виду, заменить дефисы на тире в нужных местах и многое другое.
