@@ -35,11 +35,12 @@
   - [Mozilla Firefox](https://addons.mozilla.org/ru/firefox/addon/typografy/)
   - [Opera и Яндекс.Браузер](https://addons.opera.com/ru/extensions/details/red-typography/)
 - Плагины
-  - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
+  - [Alfred](https://github.com/vandesign/alfred-detoxit)
   - [Atom](https://atom.io/packages/red-typography)
   - [Grunt](https://github.com/typograf/grunt-typograf)
   - [Gulp](https://github.com/typograf/gulp-typograf)
   - [TinyMCE](https://habrahabr.ru/post/266337/)
+  - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
 - [Поддерживаемые правила](./docs/RULES.ru.md)
 - API
   - [Включить или отключить правила](./docs/api_rules.md)
