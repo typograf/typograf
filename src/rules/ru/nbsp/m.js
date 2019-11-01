@@ -3,8 +3,8 @@ Typograf.addRule({
     index: '+5',
     handler(text) {
         const label = Typograf._privateLabel;
-        const re = new RegExp('(^|[\\s,.' + label + '])' +
-                '(\\d+)[ \u00A0]?(мм?|см|км|дм|гм|mm?|km|cm|dm)([23²³])?([\\s.!?,;' +
+        const re = new RegExp('(^|[\\s,.\\(' + label + '])' +
+                '(\\d+)[ \u00A0]?(мм?|см|км|дм|гм|mm?|km|cm|dm)([23²³])?([\\s\\).!?,;' +
                 label + ']|$)', 'gm');
 
         return text.replace(re, function($0, $1, $2, $3, $4, $5) {
