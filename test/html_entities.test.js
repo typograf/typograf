@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const rules = require('../build/specs');
+const rules = require('../build/tests');
 const Typograf = require('../build/typograf');
 
 describe('HTML Entities', function() {

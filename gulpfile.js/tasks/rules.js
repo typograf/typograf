@@ -3,7 +3,7 @@
 const { dest, src } = require('gulp');
 const gulpFilter = require('gulp-filter');
 const gulpConcat = require('gulp-concat');
-const fileFilter = () => gulpFilter(['**/*.js', '!**/*.spec.js']);
+const fileFilter = () => gulpFilter(['**/*.js', '!**/*.test.js']);
 const paths = require('../paths');
 
 function rules() {

@@ -24,8 +24,8 @@ module.exports = {
     css: [
         'src/**/*.css'
     ],
-    specs: [
-        'src/main.spec.js',
-        'src/rules/**/*.spec.js'
+    tests: [
+        'src/main.test.js',
+        'src/rules/**/*.test.js'
     ]
 };
