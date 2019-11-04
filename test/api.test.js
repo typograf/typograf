@@ -2,7 +2,6 @@
 
 const assert = require('chai').assert;
 const sinon = require('sinon');
-const rules = require('../build/tests');
 const Typograf = require('../build/typograf');
 const t = new Typograf({locale: 'en-US'});
 
