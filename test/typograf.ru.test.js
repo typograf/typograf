@@ -222,4 +222,11 @@ const ruTests = [
     ]*/
 ];
 
-helpers.doubleTest('typograf.ru, double execute', ruTests, {locale: ['ru', 'en-US']});
+helpers.doubleTest(
+    'typograf.ru, double execute',
+    ruTests,
+    {
+        enableRule: ['common/number/digitGrouping'],
+        locale: ['ru', 'en-US']
+    }
+);
