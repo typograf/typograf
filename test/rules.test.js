@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const r = require('../build/specs');
+const r = require('../build/tests');
 const tests = r.tests;
 const innerTests = r.innerTests;
 const Typograf = require('../build/typograf');
