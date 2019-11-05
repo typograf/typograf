@@ -1,5 +1,17 @@
 # Changelog
 
+# v6.10.0
+
+- Добавлены правила:
+    - `common/number/digitGrouping` для разбития чисел по разрядам, по умолчанию отключено, @golmakov #331, #350.
+    - `common/space/insertFinalNewline` для вставки новой строки в конце текста, по умолчанию отключено, #346.
+- Удалено правило `ru/nbsp/numberGroup` в пользу нового правила `common/number/digitGrouping`.
+- Доработки в правилах:
+    - Удаление пробелов в первой строке текста в правиле `common/space/delLeadingBlanks` #345.
+    - Поддержка скобок для правила `ru/nbsp/m` #344.
+- В README.md добавлен бейдж на Gitter и ссылки на плагины к Alfred (MacOS) и Figma.
+- Мелкие правки тестов и сборочных скриптов.
+
 # v6.9.0
 - Для правила `common/space/delRepeatN` добавлена настройка #336 @tplk.
 
