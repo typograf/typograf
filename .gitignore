@@ -3,7 +3,7 @@ build/
 node_modules/
 .nyc_output/
 coverage/
-test/before/*.tmp
+test/fixtures/before/*.tmp
 npm-debug.log
 benchmark/*.txt
 benchmark/*.html
