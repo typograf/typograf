@@ -1,8 +1,7 @@
-'use strict';
+import { typografTest } from './helpers';
 
 // https://www.dokuwiki.org/ru:wiki:syntax
-const helpers = require('./lib/helpers');
-const dwTests = [
+const tests = [
     /*[
         '«Докувики» поддерживает выделение текста **жирным шрифтом**, //курсивом//, __подчёркнутый текст__ и вывод текста \'\'моноширинным шрифтом\'\'.\nВсе эти конструкции можно **__//\'\'объединить\'\'//__**.',
         '«Докувики» поддерживает выделение текста **жирным шрифтом**, //курсивом//, __подчёркнутый текст__ и\u00A0вывод текста \'\'моноширинным шрифтом\'\'.\nВсе эти конструкции можно **__//\'\'объединить\'\'//__**.'
@@ -61,4 +60,4 @@ const dwTests = [
     ]*/
 ];
 
-helpers.doubleTest('docuwiki, double execute', dwTests);
+typografTest('docuwiki, double execute', tests);

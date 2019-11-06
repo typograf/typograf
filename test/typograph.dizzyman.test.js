@@ -1,8 +1,6 @@
-'use strict';
+import { typografTest } from  './helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-dizzyman.dat
-
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         'Текст  с    множеством пробелов 			и табов.',
@@ -46,4 +44,4 @@ const ruTests = [
     ]*/
 ];
 
-helpers.doubleTest('typograph dizzyman, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('typograph dizzyman, double execute', ruTests, {locale: ['ru', 'en-US']});

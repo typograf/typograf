@@ -1,28 +1,9 @@
-'use strict';
+import { assert } from 'chai';
+import { tests, innerTests } from '../build/tests';
+import Typograf from '../build/typograf';
+import { getLocale, executeInnerRule } from './helpers';
 
-const assert = require('chai').assert;
-const r = require('../build/tests');
-const tests = r.tests;
-const innerTests = r.innerTests;
-const Typograf = require('../build/typograf');
-const locale = 'ru';
-const t = new Typograf({locale: locale});
-
-function executeInnerRule(name, text) {
-    const rules = t._innerRules;
-
-    rules.forEach(function(f) {
-        if (f.name === name) {
-            text = f.handler.call(t, text, t._settings[f.name]);
-        }
-    });
-
-    return text;
-}
-
-function getLocale(name, props) {
-    return props ? props.locale : name.split(/\//)[0];
-}
+const t = new Typograf({locale: 'ru'});
 
 describe('inner rules', function() {
     innerTests.forEach(function(elem) {

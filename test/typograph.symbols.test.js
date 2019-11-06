@@ -1,8 +1,6 @@
-'use strict';
+import { typografTest } from './helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-symbols.dat
-
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         '1/2 3/4 1/4',
@@ -114,4 +112,4 @@ const ruTests = [
     ]
 ];
 
-helpers.doubleTest('typograph symbols, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('typograph symbols, double execute', ruTests, {locale: ['ru', 'en-US']});

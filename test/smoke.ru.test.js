@@ -1,6 +1,5 @@
-'use strict';
+import { typografTest } from './helpers';
 
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         '    Мир - мой мир!    ',
@@ -90,5 +89,4 @@ const ruTests = [
     ]
 ];
 
-helpers.test('ru smoke', ruTests, {locale: ['ru', 'en-US']});
-helpers.doubleTest('ru smoke, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('ru smoke, double execute', ruTests, {locale: ['ru', 'en-US']});

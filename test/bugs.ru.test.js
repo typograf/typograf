@@ -1,6 +1,5 @@
-'use strict';
+import { typografTest } from './helpers';
 
-const helpers = require('./lib/helpers');
 const tests = [
     [
         '<p>"<strong>Hello</strong> World!"</p>',
@@ -16,4 +15,4 @@ const tests = [
     ]
 ];
 
-helpers.doubleTest('github bugs, double execute', tests, { locale: ['ru', 'en-US'] });
+typografTest('github bugs, double execute', tests, { locale: ['ru', 'en-US'] });

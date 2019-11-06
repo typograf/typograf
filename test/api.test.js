@@ -1,8 +1,7 @@
-'use strict';
+import { assert } from 'chai';
+import sinon from 'sinon';
+import Typograf from '../build/typograf';
 
-const assert = require('chai').assert;
-const sinon = require('sinon');
-const Typograf = require('../build/typograf');
 const t = new Typograf({locale: 'en-US'});
 
 describe('API', function() {

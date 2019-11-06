@@ -1,8 +1,6 @@
-'use strict';
+import { typografTest } from './helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-quotes.dat
-
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         'рассказы "Сердце", "Эвакуация" и "Майский жук".',
@@ -50,4 +48,4 @@ const ruTests = [
     ]
 ];
 
-helpers.doubleTest('typograph quotes, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('typograph quotes, double execute', ruTests, {locale: ['ru', 'en-US']});

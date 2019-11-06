@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.7.0",
     "chai": "^4.2.0",
     "del": "^5.1.0",
     "eslint": "^6.5.1",
@@ -62,7 +63,7 @@
     "prepare": "npm run dist",
     "build": "gulp",
     "test": "npm run build && npm run eslint && npm run unit-test",
-    "unit-test": "nyc mocha -u bdd -R spec --recursive test",
+    "unit-test": "nyc mocha --require @babel/register -u bdd -R spec --recursive test",
     "yaspeller": "yaspeller ."
   },
   "typings": "./typograf.d.ts"

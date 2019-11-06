@@ -1,6 +1,5 @@
-'use strict';
+import { typografTest } from './helpers';
 
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         'В	этом   тексте  много пробелов.',
@@ -222,7 +221,7 @@ const ruTests = [
     ]*/
 ];
 
-helpers.doubleTest(
+typografTest(
     'typograf.ru, double execute',
     ruTests,
     {
