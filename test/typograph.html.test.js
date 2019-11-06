@@ -1,8 +1,6 @@
-'use strict';
+import { typografTest } from './helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-html.dat
-
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         '<i>О проекте программы "О космической деятельности". </i>',
@@ -102,4 +100,4 @@ const ruTests = [
     ]
 ];
 
-helpers.doubleTest('typograph html, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('typograph html', ruTests, {locale: ['ru', 'en-US']});

@@ -1,7 +1,6 @@
-'use strict';
+import { assert } from 'chai';
+import Typograf from '../build/typograf';
 
-const assert = require('chai').assert;
-const Typograf = require('../build/typograf');
 const t = new Typograf({locale: 'en-US'});
 const commonTests = [
     [

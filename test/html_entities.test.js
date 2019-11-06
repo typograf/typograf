@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('chai').assert;
-const Typograf = require('../build/typograf');
+import { assert } from 'chai';
+import Typograf from '../build/typograf';
 
 describe('HTML Entities', function() {
     it('should get entities as name or digit', function() {

@@ -1,9 +1,7 @@
-'use strict';
+import { assert, default as chai } from 'chai';
+import fs from 'fs';
+import Typograf from '../build/typograf';
 
-const chai = require('chai');
-const fs = require('fs');
-const assert = chai.assert;
-const Typograf = require('../build/typograf');
 const t = new Typograf({locale: 'ru', htmlEntity: {type: 'digit'}});
     
 chai.config.showDiff = true;

@@ -1,8 +1,6 @@
-'use strict';
+import { typografTest } from  './helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-basic.dat
-
-const helpers = require('./lib/helpers');
 const ruTests = [
     [
         'я хочу',
@@ -306,4 +304,4 @@ const ruTests = [
     ]*/
 ];
 
-helpers.doubleTest('typograph basic, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest('typograph basic, double execute', ruTests, {locale: ['ru', 'en-US']});
