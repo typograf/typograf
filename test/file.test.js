@@ -7,8 +7,10 @@ const t = new Typograf({locale: 'ru', htmlEntity: {type: 'digit'}});
 chai.config.showDiff = true;
 
 describe('Test before-after files', function() {
-    const dirBefore = './test/before/';
-    const dirAfter = './test/after/';
+    const dir = './test/fixtures';
+    const dirBefore = `${dir}/before/`;
+    const dirAfter = `${dir}/after/`;
+
     const files = fs.readdirSync(dirBefore);
 
     files.forEach(function(el) {

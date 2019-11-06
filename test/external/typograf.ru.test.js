@@ -1,4 +1,4 @@
-import { typografTest } from './helpers';
+import { typografTest } from '../helpers';
 
 const ruTests = [
     [

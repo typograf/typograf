@@ -1,4 +1,4 @@
-import { typografTest } from  './helpers';
+import { typografTest } from  '../helpers';
 
 // https://github.com/samdark/Typograph/blob/master/tests/_test.typo-dizzyman.dat
 const ruTests = [
