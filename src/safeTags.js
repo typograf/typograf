@@ -1,5 +1,5 @@
 import Typograf from './typograf';
-import inlineElements from './inline-elements';
+import inlineElements from './htmlTags/inline';
 
 export default class SafeTags {
     constructor() {

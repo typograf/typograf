@@ -1,8 +1,8 @@
-import blockElements from './block-elements';
-import inlineElements from './inline-elements';
-import groupIndexes from './group-indexes';
-import HtmlEntities from './html-entities/index';
-import SafeTags from './safe-tags';
+import blockElements from './htmlTags/block';
+import inlineElements from './htmlTags/inline';
+import groupIndexes from './groupIndexes';
+import HtmlEntities from './htmlEntities/index';
+import SafeTags from './safeTags';
 
 /**
  * @constructor
