@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/symbols/copy',
     handler(text) {
         return Typograf._replace(text, [
@@ -7,4 +9,4 @@ Typograf.addRule({
             [/\(tm\)/gi, '™']
         ]);
     }
-});
+};

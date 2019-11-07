@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/number/digitGrouping',
     index: '310',
     disabled: true,
@@ -26,4 +28,4 @@ Typograf.addRule({
     settings: {
         space: '\u202F'
     }
-});
+};

@@ -1,3 +1,5 @@
+import Typograf from '../../../typograf';
+
 const Quote = {
     bufferQuotes: {
         left: '\uF005\uF006\uF007',
@@ -263,7 +265,7 @@ const Quote = {
     }
 };
 
-Typograf.addRule({
+export default {
     name: 'common/punctuation/quote',
     handler(text, commonSettings, context) {
         const locale = context.prefs.locale[0];
@@ -286,4 +288,4 @@ Typograf.addRule({
 
         return settings;
     }
-});
+};

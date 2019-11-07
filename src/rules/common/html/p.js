@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/html/p',
     index: '+5',
     queue: 'end',
@@ -19,4 +21,4 @@ Typograf.addRule({
     },
     disabled: true,
     htmlAttrs: false
-});
+};

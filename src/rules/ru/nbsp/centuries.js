@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/nbsp/centuries',
     handler(text) {
         const dashes = Typograf.getData('common/dash');
@@ -11,4 +13,4 @@ Typograf.addRule({
             .replace(re1, '$1$2\u00A0в.')
             .replace(re2, '$1$2$3$4\u00A0вв.');
     }
-});
+};

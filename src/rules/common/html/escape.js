@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/html/escape',
     index: '+100',
     queue: 'end',
@@ -17,4 +17,4 @@ Typograf.addRule({
         });
     },
     disabled: true
-});
+};

@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/nbsp/years',
     index: '+5',
     handler(text) {
@@ -8,4 +10,4 @@ Typograf.addRule({
 
         return text.replace(re, '$1$2$3$4\u00A0гг.');
     }
-});
+};

@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/space/delRepeatN',
     index: '-1',
     handler(text, settings) {
@@ -11,4 +13,4 @@ Typograf.addRule({
     settings: {
         maxConsecutiveLineBreaks: 2
     }
-});
+};

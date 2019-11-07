@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/money/currency',
     handler(text) {
         const currency = '([$€¥Ұ£₤₽])';
@@ -13,4 +13,4 @@ Typograf.addRule({
             .replace(re2, '$1$2\u00A0$3');
     },
     disabled: true
-});
+};

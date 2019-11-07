@@ -5,4 +5,4 @@ import './locale';
 import './data';
 import './data/index';
 
-import '../build/rules';
+import './rules/index';

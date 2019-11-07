@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/punctuation/exclamationQuestion',
     index: '+5',
     handler(text) {
@@ -6,4 +6,4 @@ Typograf.addRule({
 
         return text.replace(re, '$1?!$2');
     }
-});
+};

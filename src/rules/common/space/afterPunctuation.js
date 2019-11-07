@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/space/afterPunctuation',
     handler(text) {
         const privateLabel = Typograf._privateLabel;
@@ -9,4 +11,4 @@ Typograf.addRule({
             .replace(reExcl, '$1 $2')
             .replace(reComma, '$1$2 $3');
     }
-});
+};

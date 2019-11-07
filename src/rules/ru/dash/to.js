@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/to',
     handler(text) {
         const words = [
@@ -13,4 +15,4 @@ Typograf.addRule({
 
         return text.replace(re, '$1-$3');
     }
-});
+};

@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/nbsp/abbr',
     handler(text) {
         function abbr($0, $1, $2, $3) {
@@ -22,4 +24,4 @@ Typograf.addRule({
             // Для тройных сокращений - а.е.м.
             .replace(re, abbr);
     }
-});
+};

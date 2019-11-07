@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/nbsp/beforeShortLastWord',
     handler(text, settings, context) {
         const ch = context.getData('char');
@@ -12,4 +12,4 @@ Typograf.addRule({
     settings: {
         lengthLastWord: 3
     }
-});
+};

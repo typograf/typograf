@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/punctuation/quoteLink',
     queue: 'show-safe-tags-html',
     index: '+5',
@@ -19,4 +21,4 @@ Typograf.addRule({
 
         return text.replace(re, '$2$1$3$5$4');
     }
-});
+};

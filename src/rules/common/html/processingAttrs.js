@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/html/processingAttrs',
     queue: 'hide-safe-tags-own', // After "hide-safe-tags-own", before "hide-safe-tags-html".
     handler(text, settings, context) {
@@ -27,4 +29,4 @@ Typograf.addRule({
     },
     disabled: true,
     htmlAttrs: false
-});
+};

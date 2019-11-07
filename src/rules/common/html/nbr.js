@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/html/nbr',
     index: '+10',
     queue: 'end',
@@ -7,4 +7,4 @@ Typograf.addRule({
     },
     disabled: true,
     htmlAttrs: false
-});
+};

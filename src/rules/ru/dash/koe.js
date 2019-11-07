@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/koe',
     handler(text) {
         const re = new RegExp(Typograf.getData('ru/dashBefore') +
@@ -7,4 +9,4 @@ Typograf.addRule({
 
         return text.replace(re, '$1$2-$3');
     }
-});
+};

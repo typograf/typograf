@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/directSpeech',
     handler(text) {
         const dashes = Typograf.getData('common/dash');
@@ -11,4 +13,4 @@ Typograf.addRule({
             .replace(re2, '$1\u2014\u00A0')
             .replace(re3, '$1 \u2014\u00A0');
     }
-});
+};

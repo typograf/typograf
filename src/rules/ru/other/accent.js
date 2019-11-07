@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/other/accent',
     handler(text) {
         return text.replace(/([а-яё])([АЕЁИОУЫЭЮЯ])([^А-ЯЁ\w]|$)/g, function($0, $1, $2, $3) {
@@ -6,4 +6,4 @@ Typograf.addRule({
         });
     },
     disabled: true
-});
+};

@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/number/mathSigns',
     handler(text) {
         return Typograf._replace(text, [
@@ -12,4 +14,4 @@ Typograf.addRule({
             [/(^|[^+])\+-/g, '$1±']
         ]);
     }
-});
+};

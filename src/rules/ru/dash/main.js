@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/main',
     index: '-5',
     handler(text) {
@@ -7,4 +9,4 @@ Typograf.addRule({
 
         return text.replace(re, '\u00A0\u2014$3');
     }
-});
+};
