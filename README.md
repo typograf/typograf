@@ -37,6 +37,7 @@
 - Плагины
   - [Alfred](https://github.com/vandesign/alfred-detoxit)
   - [Atom](https://atom.io/packages/red-typography)
+  - [Babel](https://github.com/vrizo/babel-plugin-transform-typograf)
   - [Figma](https://github.com/golmakov/figma-typograf-plugin)
   - [Grunt](https://github.com/typograf/grunt-typograf)
   - [Gulp](https://github.com/typograf/gulp-typograf)
