@@ -76,9 +76,7 @@
     },
     "globals": {
         "Typograf": true,
-        "define": true,
-        "tests": true,
-        "innerTests": true
+        "define": true
     },
     "extends": "eslint:recommended"
 }

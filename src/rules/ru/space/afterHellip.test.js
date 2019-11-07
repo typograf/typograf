@@ -1,4 +1,6 @@
-tests.push(['ru/space/afterHellip', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/space/afterHellip', [
     [
         'Простите, государь!..Стоять я не могу...',
         'Простите, государь!.. Стоять я не могу...'

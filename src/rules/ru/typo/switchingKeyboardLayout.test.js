@@ -1,4 +1,6 @@
-tests.push(['ru/typo/switchingKeyboardLayout', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/typo/switchingKeyboardLayout', [
     [
         'Cпокойствие', // C - latin letter
         'Спокойствие' // C - russian letter

@@ -1,4 +1,6 @@
-tests.push(['ru/space/year', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/space/year', [
     [
         'В 2002году',
         'В 2002 году'

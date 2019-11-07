@@ -1,4 +1,6 @@
-tests.push(['common/space/delBeforePunctuation', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/space/delBeforePunctuation', [
     [
         'В неполном предложении отсутствует один или несколько членов , значение которых понятно из контекста или из ситуации .',
         'В неполном предложении отсутствует один или несколько членов, значение которых понятно из контекста или из ситуации.'

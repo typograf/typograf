@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/hellip', [
         [
             'The ... fox jumped ...',

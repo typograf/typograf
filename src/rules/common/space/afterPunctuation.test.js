@@ -1,4 +1,6 @@
-tests.push(['common/space/afterPunctuation', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/space/afterPunctuation', [
     [
         'Солнце садилось за горизонт,и поднялся ветер. Вот.',
         'Солнце садилось за горизонт, и поднялся ветер. Вот.'

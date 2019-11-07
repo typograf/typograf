@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/nbsp/beforeShortLastWord', [
         [
             'Fedora, SuSE, Gentoo, Mandrake, or PLD.',

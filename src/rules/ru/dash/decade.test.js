@@ -1,4 +1,6 @@
-tests.push(['ru/dash/decade', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/decade', [
     [
         '80-90-е годы',
         '80–90-е годы'

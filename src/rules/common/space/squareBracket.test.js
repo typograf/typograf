@@ -1,4 +1,6 @@
-tests.push(['common/space/squareBracket', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/space/squareBracket', [
     [
         ' [ ] ',
         ' [] '

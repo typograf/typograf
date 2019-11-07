@@ -1,4 +1,6 @@
-tests.push(['ru/punctuation/ano', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/punctuation/ano', [
     [
         'Его лодка скользнула вниз но бедняга держался по-прежнему стойко.',
         'Его лодка скользнула вниз, но бедняга держался по-прежнему стойко.'

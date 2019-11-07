@@ -1,4 +1,6 @@
-tests.push(['common/other/delBOM', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/other/delBOM', [
     [
         '\uFEFFunicorn',
         'unicorn'

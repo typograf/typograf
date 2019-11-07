@@ -1,4 +1,6 @@
-tests.push(['ru/number/comma', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/number/comma', [
     ['123.456.789', '123.456.789'],
     ['123.4A', '123.4A'],
     ['1.1%', '1,1%'],

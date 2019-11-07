@@ -1,4 +1,6 @@
-tests.push(['ru/dash/koe', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/koe', [
     ['Завелись кое какие деньжонки.', 'Завелись кое-какие деньжонки.'],
     ['Кое какие деньжонки.', 'Кое-какие деньжонки.'],
     ['Кое как', 'Кое-как'],

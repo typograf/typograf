@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/apostrophe', [
         [
             'Жанна д\'Арк, О\'Коннор, д\'Артаньян',
@@ -32,7 +34,7 @@ tests.push([
     {locale: ['ru', 'en-US']}
 ]);
 
-tests.push([
+typografRuleTest([
     'common/punctuation/apostrophe', [
         [
             'Yesterday I saw Jack\'s dog',

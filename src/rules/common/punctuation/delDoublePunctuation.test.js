@@ -1,4 +1,6 @@
-tests.push(['common/punctuation/delDoublePunctuation', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/punctuation/delDoublePunctuation', [
     [
         'У меня была только синяя краска;; но,, несмотря на это,, я затеял нарисовать охоту.',
         'У меня была только синяя краска; но, несмотря на это, я затеял нарисовать охоту.'

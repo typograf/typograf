@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/rubleKopek', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/rubleKopek', [
     [
         '10руб.',
         '10\u00A0руб.'

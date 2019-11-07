@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'ru/punctuation/hellipQuestion', [
         [
             'Простите, государь!…',

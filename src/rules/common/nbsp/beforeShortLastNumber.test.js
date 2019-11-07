@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/nbsp/beforeShortLastNumber', [
         [
             'Сегодня я получил 5. И очень рад.',

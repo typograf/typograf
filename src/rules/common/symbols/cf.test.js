@@ -1,4 +1,6 @@
-tests.push(['common/symbols/cf', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/symbols/cf', [
     [' 200 C', ' 200 °C'],
     ['200 C', '200 °C'],
     ['&minus;20 C', '−20 °C'],

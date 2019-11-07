@@ -1,4 +1,6 @@
-tests.push(['common/number/times', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/number/times', [
     ['100 x 2', '100×2'],
     ['100 x 2\n100 х2\n100 x 2\n100x\u00A02', '100×2\n100×2\n100×2\n100×2'],
     ['Пример: 30x3=90', 'Пример: 30×3=90'],

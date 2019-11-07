@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/quote', [
         [
             '"L’ouvreuse m’a dit: "Donnez-moi votre ticket." Je le lui ai donné."',

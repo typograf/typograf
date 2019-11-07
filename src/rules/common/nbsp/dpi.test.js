@@ -1,4 +1,6 @@
-tests.push(['common/nbsp/dpi', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/nbsp/dpi', [
     ['Значение 10 lpi.', 'Значение 10\u00A0lpi.'],
     ['Значение 10 lpi', 'Значение 10\u00A0lpi'],
     ['Значение 10 lpii', 'Значение 10 lpii'],

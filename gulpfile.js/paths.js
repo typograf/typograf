@@ -23,9 +23,5 @@ module.exports = {
     },
     css: [
         'src/**/*.css'
-    ],
-    tests: [
-        'src/main.test.js',
-        'src/rules/**/*.test.js'
     ]
 };

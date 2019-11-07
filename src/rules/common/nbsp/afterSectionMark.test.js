@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/nbsp/afterSectionMark', [
         [' § 123', ' §\u202F123'],
         [' § 123\n§ 456', ' §\u202F123\n§\u202F456'],
@@ -8,7 +10,7 @@ tests.push([
     {locale: 'ru'}
 ]);
 
-tests.push([
+typografRuleTest([
     'common/nbsp/afterSectionMark', [
         [' § 123', ' §\u00A0123'],
         [' § 123\n§ 456', ' §\u00A0123\n§\u00A0456'],

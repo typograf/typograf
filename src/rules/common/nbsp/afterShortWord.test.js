@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/nbsp/afterShortWord', [
         [
             'Повторять, пока процесс не свернётся в навык.',
@@ -36,7 +38,7 @@ tests.push([
     {locale: 'ru'}
 ]);
 
-tests.push([
+typografRuleTest([
     'common/nbsp/afterShortWord', [
         [
             'Apply non-breaking spaces to all frames of the current page.',

@@ -1,4 +1,6 @@
-tests.push(['ru/dash/month', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/month', [
     [
         'Март-декабрь',
         'Март–декабрь'

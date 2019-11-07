@@ -6,7 +6,6 @@ const paths = require('./paths');
 const taskClean = require('./tasks/clean');
 const taskCss = require('./tasks/css');
 const taskRules = require('./tasks/rules');
-const taskTests = require('./tasks/tests');
 
 const taskJsonLintRules = require('./tasks/jsonLintRules');
 const taskJsonLintGroups = require('./tasks/jsonLintGroups');
@@ -23,7 +22,6 @@ gulp.task('default', gulp.series(
     taskClean,
     gulp.parallel(
         taskCss,
-        taskTests,
         taskRules,
         taskJsonLintRules,
         taskJsonLintGroups,

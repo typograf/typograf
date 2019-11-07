@@ -1,4 +1,6 @@
-tests.push(['ru/other/phone-number', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/other/phone-number', [
     [' тел.: +74957397000', ' тел.: +7\u00A0495\u00A0739-70-00'],
     [' ГОСТ 22222 ', ' ГОСТ 22222 '],
     ['тел.: 812 5551234', 'тел.: (812)\u00A0555-12-34'],

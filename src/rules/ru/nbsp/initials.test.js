@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/initials', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/initials', [
     [
         'А.С. Пушкин',
         'А.\u00A0С.\u00A0Пушкин'

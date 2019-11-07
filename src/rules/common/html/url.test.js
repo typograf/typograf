@@ -1,4 +1,6 @@
-tests.push(['common/html/url', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/html/url', [
     ['Ссылка ftp://example.com', 'Ссылка <a href="ftp://example.com">ftp://example.com</a>'],
     ['Ссылка https://example.com', 'Ссылка <a href="https://example.com">https://example.com</a>'],
     ['Ссылка http://example.com/path/', 'Ссылка <a href="http://example.com/path/">example.com/path/</a>'],
