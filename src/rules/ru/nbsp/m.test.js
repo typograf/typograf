@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/m', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/m', [
     [' 2 м ', ' 2\u00A0м '],
     [' 2м ', ' 2\u00A0м '],
     [' 2 м2 ', ' 2\u00A0м² '],

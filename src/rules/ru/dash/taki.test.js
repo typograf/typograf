@@ -1,4 +1,6 @@
-tests.push(['ru/dash/taki', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/taki', [
     ['верно таки', 'верно-таки'],
     ['довольно таки', 'довольно-таки'],
     ['опять таки', 'опять-таки'],

@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/ooo', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/ooo', [
     ['ООО "Пример"', 'ООО\u00A0"Пример"'],
     ['ОАО "Пример"', 'ОАО\u00A0"Пример"'],
     ['НИИ "Пример"', 'НИИ\u00A0"Пример"'],

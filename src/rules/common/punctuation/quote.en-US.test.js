@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/quote', [
         [
             'One of the most famous phrases is "to be or not to be".',

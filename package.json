@@ -63,7 +63,7 @@
     "prepare": "npm run dist",
     "build": "gulp",
     "test": "npm run build && npm run eslint && npm run unit-test",
-    "unit-test": "nyc mocha --require @babel/register -u bdd -R spec --recursive test",
+    "unit-test": "nyc mocha --require @babel/register -u bdd -R spec --recursive src/rules/**/*.test.js --recursive test",
     "yaspeller": "yaspeller ."
   },
   "typings": "./typograf.d.ts"

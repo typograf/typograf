@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/hellip', [
         [
             'Дубровский молчал... Вдруг он поднял голову, глаза его засверкали, он топнул ногою, оттолкнул секретаря...',

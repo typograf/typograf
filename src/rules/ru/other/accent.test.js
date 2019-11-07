@@ -1,4 +1,6 @@
-tests.push(['ru/other/accent', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/other/accent', [
     ['ногА', 'нога́'],
     ['(ногА)', '(нога́)'],
     [' АлексИй ', ' Алекси́й '],

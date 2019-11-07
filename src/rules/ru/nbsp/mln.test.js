@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/mln', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/mln', [
     [
         '10тыс. р\n5тыс руб',
         '10\u00a0тыс. р\n5\u00a0тыс руб'

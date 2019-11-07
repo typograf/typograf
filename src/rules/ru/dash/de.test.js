@@ -1,4 +1,6 @@
-tests.push(['ru/dash/de', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/de', [
     [
         ' А коль увижу де, что казнь ему мала, повешу тут же всех судей вокруг стола',
         ' А коль увижу-де, что казнь ему мала, повешу тут же всех судей вокруг стола'

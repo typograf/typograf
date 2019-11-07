@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/punctuation/quote', [
         [
             'Вот у вас "Мой спутник" – это не сочинение, это хорошо, потому что не выдумано.',

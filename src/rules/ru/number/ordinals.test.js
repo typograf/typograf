@@ -1,4 +1,6 @@
-tests.push(['ru/number/ordinals', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/number/ordinals', [
     ['5-ая', '5-я'],
     ['5-ый', '5-й'],
     ['3%-ый', '3%-й'],

@@ -1,4 +1,6 @@
-tests.push(['ru/dash/ka', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/ka', [
     [
         'скажите ка  на ка? на-кась!',
         'скажите-ка  на-ка? на-кась!'

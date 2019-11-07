@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/abbr', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/abbr', [
     ['т.д.', 'т.\u00A0д.'],
     ['т.п.', 'т.\u00A0п.'],
     ['т.е.', 'т.\u00A0е.'],

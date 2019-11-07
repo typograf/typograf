@@ -1,4 +1,6 @@
-tests.push(['ru/money/ruble', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/money/ruble', [
     ['100 руб.', '100\u00A0₽'],
     ['100руб.', '100\u00A0₽'],
     ['100р.', '100\u00A0₽'],

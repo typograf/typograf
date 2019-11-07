@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/page', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/page', [
     ['На стр. 22', 'На стр.\u00A022'],
     ['На стр.22', 'На стр.\u00A022'],
     ['\nстр.22', '\nстр.\u00A022'],

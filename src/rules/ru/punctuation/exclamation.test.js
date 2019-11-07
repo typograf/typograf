@@ -1,4 +1,6 @@
-tests.push(['ru/punctuation/exclamation', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/punctuation/exclamation', [
     [
         '!!',
         '!'

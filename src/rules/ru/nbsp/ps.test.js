@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/ps', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/ps', [
     [
         'p.s.: текст',
         'P.\u00A0S. текст'

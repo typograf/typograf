@@ -1,4 +1,6 @@
-tests.push(['ru/optalign/quote', [
+import { typografInnerRuleTest, typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/optalign/quote', [
     [
         'Вот у вас «Мой спутник».',
         'Вот у вас<span class="typograf-oa-sp-lquote"> </span><span class="typograf-oa-lquote">«</span>Мой спутник».'
@@ -42,7 +44,7 @@ tests.push(['ru/optalign/quote', [
     ]
 ]]);
 
-innerTests.push(['ru/optalign/quote', [
+typografInnerRuleTest(['ru/optalign/quote', [
     ['<span class="typograf-oa-sp-lquote">\n</span>', '\n'],
     ['<span class="typograf-oa-sp-lquote"> </span>', ' '],
     ['<span class="typograf-oa-lquote">«</span>', '«'],

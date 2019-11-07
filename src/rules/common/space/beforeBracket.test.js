@@ -1,4 +1,6 @@
-tests.push([
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest([
     'common/space/beforeBracket', [
         [
             '2*(3+100)/13',
@@ -7,7 +9,7 @@ tests.push([
     ]
 ]);
 
-tests.push([
+typografRuleTest([
     'common/space/beforeBracket', [
         [
             'На половине перегона лес кончился, и с(боков) открылись елани(поля)...(Л. Толстой).',

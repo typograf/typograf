@@ -1,4 +1,6 @@
-tests.push(['common/space/insertFinalNewline', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/space/insertFinalNewline', [
     [
         'Hello world!',
         'Hello world!\n'

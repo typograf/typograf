@@ -1,4 +1,6 @@
-tests.push(['ru/dash/years', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/years', [
     ['2012-2015 г.', '2012–2015 г.'],
     [' 2012-2015 г. ', ' 2012–2015 г. '],
     ['\n2012-2015 г.', '\n2012–2015 г.'],

@@ -1,4 +1,6 @@
-tests.push(['ru/dash/to', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/dash/to', [
     ['когда то', 'когда-то'],
     ['Какой либо', 'Какой-либо'],
     ['откуда либо', 'откуда-либо'],

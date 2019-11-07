@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/centuries', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/centuries', [
     ['XXв.', 'XX\u00A0в.'],
     ['XX век', 'XX век'],
     ['XX век\nXX век', 'XX век\nXX век'],

@@ -1,4 +1,6 @@
-tests.push(['common/number/fraction', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/number/fraction', [
     ['1/2', '½'],
     [' 1/2 ', ' ½ '],
     ['1/4', '¼'],

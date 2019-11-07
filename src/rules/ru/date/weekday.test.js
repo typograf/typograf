@@ -1,4 +1,6 @@
-tests.push(['ru/date/weekday', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/date/weekday', [
     ['25 Мая, Понедельник', '25 мая, понедельник'],
     ['25 Мая, Понедельник', '25 мая, понедельник'],
     ['25 Мая, понедельник', '25 мая, понедельник'],

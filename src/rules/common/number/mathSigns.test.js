@@ -1,4 +1,6 @@
-tests.push(['common/number/mathSigns', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['common/number/mathSigns', [
     ['4 <= 2', '4 ≤ 2'],
     ['1 != 0', '1 ≠ 0'],
     ['5 >= 3', '5 ≥ 3'],

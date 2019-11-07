@@ -1,4 +1,6 @@
-tests.push(['ru/nbsp/addr', [
+import { typografRuleTest } from '../../../../test/helpers';
+
+typografRuleTest(['ru/nbsp/addr', [
     [
         'г.Москва, ул. Тверская, д.  12',
         'г.\u00A0Москва, ул.\u00A0Тверская, д.\u00A012',
