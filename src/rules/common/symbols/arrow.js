@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/symbols/arrow',
     handler(text) {
         return Typograf._replace(text, [
@@ -6,4 +8,4 @@ Typograf.addRule({
             [/(^|[^<])<-(?!-)/g, '$1←']
         ]);
     }
-});
+};

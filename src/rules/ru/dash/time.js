@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/time',
     handler(text, settings) {
         const re = new RegExp(Typograf.getData('ru/dashBefore') +
@@ -12,4 +14,4 @@ Typograf.addRule({
     settings: {
         dash: '\u2013' // &ndash;
     }
-});
+};

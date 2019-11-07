@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/nbsp/addr',
     handler(text) {
         return text
@@ -17,4 +17,4 @@ Typograf.addRule({
             // город
             .replace(/(\D[ \u00A0]|^)г\. ?([А-ЯЁ])/gm, '$1г.\u00A0$2');
     }
-});
+};

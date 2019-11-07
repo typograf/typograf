@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/punctuation/ano',
     handler(text) {
         const re = new RegExp('([^!?,:;\\-‒–—\\s])(\\s+)(а|но)(?= |\u00A0|\\n)', 'g');
@@ -7,4 +7,4 @@ Typograf.addRule({
     },
     // Запятая может идти после ссылки.
     queue: 'hide-safe-tags-html'
-});
+};

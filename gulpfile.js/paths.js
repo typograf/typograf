@@ -7,11 +7,7 @@ module.exports = {
     },
     js: {
         main: 'src/main.js',
-        all: 'src/all.js',
-        rules: [
-            'src/build-import.js',
-            'src/rules/**/*.js'
-        ]
+        all: 'src/all.js'
     },
     json: {
         rules: [

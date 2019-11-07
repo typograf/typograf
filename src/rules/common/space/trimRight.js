@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/space/trimRight',
     index: '-3',
     live: false,
@@ -6,4 +6,4 @@ Typograf.addRule({
         (text) => text.trimRight() :
         /* istanbul ignore next */
         (text) => text.replace(/[\s\uFEFF\xA0]+$/g, '')
-});
+};

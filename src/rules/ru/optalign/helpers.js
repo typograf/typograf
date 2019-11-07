@@ -1,10 +1,10 @@
-Typograf._removeOptAlignTags = function(text, classNames) {
+export function removeOptAlignTags(text, classNames) {
     const re = new RegExp('<span class="(' + classNames.join('|') + ')">([^]*?)</span>', 'g');
     return text.replace(re, '$2');
-};
+}
 
-Typograf._removeOptAlignTagsFromTitle = function(text, classNames) {
+export function removeOptAlignTagsFromTitle(text, classNames) {
     return text.replace(/<title>[^]*?<\/title>/i, function(text) {
-        return Typograf._removeOptAlignTags(text, classNames);
+        return removeOptAlignTags(text, classNames);
     });
-};
+}

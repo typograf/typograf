@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/nbsp/afterShortWord',
     handler(text, settings, context) {
         const len = settings.lengthShortWord;
@@ -14,4 +16,4 @@ Typograf.addRule({
     settings: {
         lengthShortWord: 2
     }
-});
+};

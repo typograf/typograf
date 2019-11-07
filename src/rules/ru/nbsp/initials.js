@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/nbsp/initials',
     handler(text) {
         const spaces = '\u00A0\u202F '; // nbsp, thinsp
@@ -11,4 +13,4 @@ Typograf.addRule({
 
         return text.replace(re, '$1$2.\u00A0$3.\u00A0$4');
     }
-});
+};

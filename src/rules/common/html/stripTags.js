@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/html/stripTags',
     index: '+99',
     queue: 'end',
@@ -6,4 +6,4 @@ Typograf.addRule({
         return text.replace(/<[^>]+>/g, '');
     },
     disabled: true
-});
+};

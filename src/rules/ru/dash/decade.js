@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/decade',
     handler(text, settings) {
         const re = new RegExp('(^|\\s)(\\d{3}|\\d)0' +
@@ -11,4 +13,4 @@ Typograf.addRule({
     settings: {
         dash: '\u2013' // &ndash;
     }
-});
+};

@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/number/ordinals',
     handler(text, settings, context) {
         const re = new RegExp('(\\d[%‰]?)-(ый|ой|ая|ое|ые|ым|ом|ых|ого|ому|ыми)(?![' + context.getData('char') + '])', 'g');
@@ -21,4 +21,4 @@ Typograf.addRule({
             return $1 + '-' + parts[$2];
         });
     }
-});
+};

@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'en-US/dash/main',
     index: '-5',
     handler(text) {
@@ -11,4 +13,4 @@ Typograf.addRule({
 
         return text.replace(re, `${nonBreakingSpace}${emDash}$2`);
     }
-});
+};

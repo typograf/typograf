@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'common/other/repeatWord',
     handler(text, settings, context) {
         const punc = '[;:,.?! \n' + Typograf.getData('common/quote') + ']';
@@ -10,4 +12,4 @@ Typograf.addRule({
     },
     settings: {min: 2},
     disabled: true
-});
+};

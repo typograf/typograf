@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/nbsp/m',
     index: '+5',
     handler(text) {
@@ -19,4 +21,4 @@ Typograf.addRule({
             return $1 + $2 + '\u00A0' + $3 + pow + ($5 === '\u00A0' ? ' ' : $5);
         });
     }
-});
+};

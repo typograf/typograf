@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/html/e-mail',
     queue: 'end',
     handler(text, settings, context) {
@@ -9,4 +9,4 @@ Typograf.addRule({
     },
     disabled: true,
     htmlAttrs: false
-});
+};

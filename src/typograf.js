@@ -58,13 +58,7 @@ export default class Typograf {
      * Add a rule.
      *
      * @static
-     * @param {Object} rule
-     * @param {string} rule.name Name of rule
-     * @param {Function} rule.handler Processing function
-     * @param {number} [rule.index] Sorting index for rule
-     * @param {boolean} [rule.disabled] Rule is disabled by default
-     * @param {boolean} [rule.live] Live mode
-     * @param {Object} [rule.settings] Settings for rule
+     * @param {TypografRule} rule
      *
      * @returns {Typograf} this
      */
@@ -88,13 +82,27 @@ export default class Typograf {
     }
 
     /**
+     * Add rules.
+     *
+     * @static
+     * @param {TypografRule[]} rules
+     * 
+     * @returns {Typograf} this
+     */
+    static addRules(rules) {
+        rules.forEach((item) => {
+            this.addRule(item);
+        });
+
+        return this;
+    }
+
+    /**
      * Add internal rule.
      * Internal rules are executed before main.
      *
      * @static
-     * @param {Object} rule
-     * @param {string} rule.name Name of rule
-     * @param {Function} rule.handler Processing function
+     * @param {TypografRule} rule
      *
      * @returns {Typograf} this
      */
@@ -102,6 +110,23 @@ export default class Typograf {
         this.prototype._innerRules.push(rule);
 
         rule._locale = rule.name.split('/')[0];
+
+        return this;
+    }
+
+    /**
+     * Add internal rules.
+     * Internal rules are executed before main.
+     *
+     * @static
+     * @param {TypografRule[]} rules
+     *
+     * @returns {Typograf} this
+     */
+    static addInnerRules(rules) {
+        rules.forEach((item) => {
+            this.addInnerRule(item);
+        });
 
         return this;
     }
@@ -563,3 +588,15 @@ Typograf._mix(Typograf.prototype, {
     _rules: [],
     _innerRules: []
 });
+
+/**
+ * @typedef TypografRule
+ * @type {object}
+ * 
+ * @property {string} name Name of rule
+ * @property {Function} handler Processing function
+ * @property {number} [index] Sorting index for rule
+ * @property {boolean} [disabled] Rule is disabled by default
+ * @property {boolean} [live] Live mode
+ * @property {Object} [settings] Settings for rule
+ */

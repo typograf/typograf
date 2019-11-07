@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/weekday',
     handler(text, settings) {
         const part = '(' + Typograf.getData('ru/weekday') + ')';
@@ -9,4 +11,4 @@ Typograf.addRule({
     settings: {
         dash: '\u2013' // &ndash;
     }
-});
+};

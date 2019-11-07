@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/date/weekday',
     handler(text) {
         const space = '( |\u00A0)';
@@ -11,4 +13,4 @@ Typograf.addRule({
             return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
         });
     }
-});
+};

@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/date/fromISO',
     handler(text) {
         const sp1 = '(-|\\.|\\/)';
@@ -10,4 +10,4 @@ Typograf.addRule({
             .replace(re1, '$1$6.$4.$2$7')
             .replace(re2, '$1$4.$2.$6$7');
     }
-});
+};

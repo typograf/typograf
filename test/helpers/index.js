@@ -66,7 +66,8 @@ export function typografRuleTest(data) {
 
             assert.equal(result, after, before + ' → ' + after);
 
-            if (!itTypograf._getRule(name).disabled) {
+            const rule = itTypograf._getRule(name);
+            if (rule && !rule.disabled) {
                 result = itTypograf.execute(result, {locale: getLocale(name, props)});
 
                 assert.equal(result, after, before + ' → ' + after);

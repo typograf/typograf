@@ -1,4 +1,6 @@
-Typograf.addRule({
+import Typograf from '../../../typograf';
+
+export default {
     name: 'ru/dash/centuries',
     handler(text, settings) {
         const dashes = '(' + Typograf.getData('common/dash') + ')';
@@ -9,4 +11,4 @@ Typograf.addRule({
     settings: {
         dash: '\u2013' // &ndash;
     }
-});
+};

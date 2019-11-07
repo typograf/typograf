@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'ru/nbsp/beforeParticle',
     index: '+5',
     handler(text) {
@@ -10,4 +10,4 @@ Typograf.addRule({
             .replace(re1, '$1\u00A0$2')
             .replace(re2, '$1\u00A0$2 ');
     }
-});
+};

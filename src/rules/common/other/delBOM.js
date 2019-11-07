@@ -1,4 +1,4 @@
-Typograf.addRule({
+export default {
     name: 'common/other/delBOM',
     queue: 'start',
     index: -1,
@@ -9,4 +9,4 @@ Typograf.addRule({
 
         return text;
     }
-});
+};
