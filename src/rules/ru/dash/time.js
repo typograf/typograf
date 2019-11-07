@@ -1,13 +1,13 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/time',
     handler(text, settings) {
-        const re = new RegExp(Typograf.getData('ru/dashBefore') +
+        const re = new RegExp(getData('ru/dashBefore') +
             '(\\d?\\d:[0-5]\\d)' +
-            Typograf.getData('common/dash') +
+            getData('common/dash') +
             '(\\d?\\d:[0-5]\\d)' +
-            Typograf.getData('ru/dashAfter'), 'g');
+            getData('ru/dashAfter'), 'g');
 
         return text.replace(re, '$1$2' + settings.dash + '$3');
     },

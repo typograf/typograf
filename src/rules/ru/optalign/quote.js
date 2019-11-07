@@ -1,5 +1,4 @@
-import Typograf from '../../../typograf';
-
+import { privateLabel } from '../../../consts';
 import { removeOptAlignTags, removeOptAlignTagsFromTitle } from './helpers';
 
 const classNames = [
@@ -14,8 +13,8 @@ export const quote = {
     handler(text) {
         const quote = this.getSetting('common/punctuation/quote', 'ru');
         const lquotes = '([' + quote.left[0] + (quote.left[1] || '') + '])';
-        const reNewLine = new RegExp('(^|\n\n|' + Typograf._privateLabel + ')(' + lquotes + ')', 'g');
-        const reInside = new RegExp('([^\n' + Typograf._privateLabel + '])([ \u00A0\n])(' + lquotes + ')', 'gi');
+        const reNewLine = new RegExp('(^|\n\n|' + privateLabel + ')(' + lquotes + ')', 'g');
+        const reInside = new RegExp('([^\n' + privateLabel + '])([ \u00A0\n])(' + lquotes + ')', 'gi');
 
         return text
             .replace(reNewLine, '$1<span class="typograf-oa-n-lquote">$2</span>')

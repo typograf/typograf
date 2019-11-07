@@ -1,4 +1,4 @@
-import Typograf from './main';
+import Typograf from './index';
 export default Typograf;
 
 import titles from '../build/typograf.titles';

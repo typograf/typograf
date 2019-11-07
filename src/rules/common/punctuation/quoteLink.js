@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import HtmlEntities from '../../../htmlEntities/index';
 
 export default {
     name: 'common/punctuation/quoteLink',
@@ -8,11 +8,10 @@ export default {
         const quotes = this.getSetting('common/punctuation/quote', context.prefs.locale[0]);
 
         if (!quotes) { return text; }
-        const entities = Typograf.HtmlEntities;
-        const lquote1 = entities.getByUtf(quotes.left[0]);
-        const rquote1 = entities.getByUtf(quotes.right[0]);
-        let lquote2 = entities.getByUtf(quotes.left[1]);
-        let rquote2 = entities.getByUtf(quotes.right[1]);
+        const lquote1 = HtmlEntities.getByUtf(quotes.left[0]);
+        const rquote1 = HtmlEntities.getByUtf(quotes.right[0]);
+        let lquote2 = HtmlEntities.getByUtf(quotes.left[1]);
+        let rquote2 = HtmlEntities.getByUtf(quotes.right[1]);
 
         lquote2 = lquote2 ? ('|' + lquote2) : '';
         rquote2 = rquote2 ? ('|' + rquote2) : '';

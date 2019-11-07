@@ -1,4 +1,4 @@
-import Typograf from '../typograf';
+import { setData } from '../data';
 
 import common from './common';
 
@@ -63,4 +63,4 @@ const data = [
     uk
 ];
 
-data.forEach(item => Typograf.setData(item));
+data.forEach(item => setData(item));

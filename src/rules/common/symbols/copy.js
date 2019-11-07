@@ -1,9 +1,9 @@
-import Typograf from '../../../typograf';
+import { replace } from '../../../helpers/string';
 
 export default {
     name: 'common/symbols/copy',
     handler(text) {
-        return Typograf._replace(text, [
+        return replace(text, [
             [/\(r\)/gi, '®'],
             [/(copyright )?\((c|с)\)/gi, '©'],
             [/\(tm\)/gi, '™']

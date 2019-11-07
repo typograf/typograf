@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { deepCopy } from '../../../helpers/object';
 
 export default {
     name: 'common/html/processingAttrs',
@@ -6,7 +6,7 @@ export default {
     handler(text, settings, context) {
         const that = this;
         const reAttrs = new RegExp('(^|\\s)(' + settings.attrs.join('|') + ')=("[^"]*?"|\'[^\']*?\')', 'gi');
-        const prefs = Typograf.deepCopy(context.prefs);
+        const prefs = deepCopy(context.prefs);
 
         prefs.ruleFilter = function(rule) {
             return rule.htmlAttrs !== false;

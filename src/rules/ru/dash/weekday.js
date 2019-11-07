@@ -1,10 +1,10 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/weekday',
     handler(text, settings) {
-        const part = '(' + Typograf.getData('ru/weekday') + ')';
-        const re = new RegExp(part + ' ?(' + Typograf.getData('common/dash') + ') ?' + part, 'gi');
+        const part = '(' + getData('ru/weekday') + ')';
+        const re = new RegExp(part + ' ?(' + getData('common/dash') + ') ?' + part, 'gi');
 
         return text.replace(re, '$1' + settings.dash + '$3');
     },

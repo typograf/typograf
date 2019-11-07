@@ -6,8 +6,8 @@ module.exports = {
         dist: './dist/'
     },
     js: {
-        main: 'src/main.js',
-        all: 'src/all.js'
+        index: 'src/index.js',
+        all: 'src/index_all.js'
     },
     json: {
         rules: [

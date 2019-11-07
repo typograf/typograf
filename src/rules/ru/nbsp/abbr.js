@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { privateLabel } from '../../../consts';
 
 export default {
     name: 'ru/nbsp/abbr',
@@ -17,7 +17,7 @@ export default {
             return $1 + $2 + '.' + '\u00A0' + $3 + '.';
         }
 
-        const re = new RegExp('(^|\\s|' + Typograf._privateLabel + ')([а-яё]{1,3})\\. ?([а-яё]{1,3})\\.', 'g');
+        const re = new RegExp(`(^|\\s|${privateLabel})([а-яё]{1,3})\\. ?([а-яё]{1,3})\\.`, 'g');
 
         return text
             .replace(re, abbr)

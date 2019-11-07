@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { repeat } from '../../../helpers/string';
 
 export default {
     name: 'common/space/delRepeatN',
@@ -6,7 +6,7 @@ export default {
     handler(text, settings) {
         const maxConsecutiveLineBreaks = settings.maxConsecutiveLineBreaks;
         const consecutiveLineBreaksRegex = new RegExp(`\n{${maxConsecutiveLineBreaks + 1},}`, 'g');
-        const replaceValue = Typograf._repeat('\n', maxConsecutiveLineBreaks);
+        const replaceValue = repeat('\n', maxConsecutiveLineBreaks);
 
         return text.replace(consecutiveLineBreaksRegex, replaceValue);
     },

@@ -1,11 +1,11 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/month',
     handler(text, settings) {
-        const months = '(' + Typograf.getData('ru/month') + ')';
-        const monthsPre = '(' + Typograf.getData('ru/monthPreCase') + ')';
-        const dashes = Typograf.getData('common/dash');
+        const months = '(' + getData('ru/month') + ')';
+        const monthsPre = '(' + getData('ru/monthPreCase') + ')';
+        const dashes = getData('common/dash');
         const re = new RegExp(months + ' ?(' + dashes + ') ?' + months, 'gi');
         const rePre = new RegExp(monthsPre + ' ?(' + dashes + ') ?' + monthsPre, 'gi');
         const newSubStr = '$1' + settings.dash + '$3';

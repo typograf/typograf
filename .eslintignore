@@ -4,5 +4,4 @@ coverage/**
 build/**
 dist/**
 node_modules/**
-src/main.spec.js
 test/**

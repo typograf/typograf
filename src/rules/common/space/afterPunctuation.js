@@ -1,10 +1,10 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
+import { privateLabel } from '../../../consts';
 
 export default {
     name: 'common/space/afterPunctuation',
     handler(text) {
-        const privateLabel = Typograf._privateLabel;
-        const reExcl = new RegExp('(!|;|\\?)([^).…!;?\\s[\\])' + privateLabel + Typograf.getData('common/quote') + '])', 'g');
+        const reExcl = new RegExp('(!|;|\\?)([^).…!;?\\s[\\])' + privateLabel + getData('common/quote') + '])', 'g');
         const reComma = new RegExp('(\\D)(,|:)([^)",:.?\\s\\/\\\\' + privateLabel + '])', 'g');
 
         return text

@@ -1,9 +1,9 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/nbsp/centuries',
     handler(text) {
-        const dashes = Typograf.getData('common/dash');
+        const dashes = getData('common/dash');
         const before = '(^|\\s)([VIX]+)';
         const after = '(?=[,;:?!"‘“»]|$)';
         const re1 = new RegExp(before + '[ \u00A0]?в\\.?' + after, 'gm');

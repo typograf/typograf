@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/to',
@@ -11,7 +11,7 @@ export default {
             'кто', 'кого', 'кому', 'кем'
         ];
         const re = new RegExp('(' + words.join('|') + ')( | -|- )(то|либо|нибудь)' +
-                Typograf.getData('ru/dashAfter'), 'gi');
+                getData('ru/dashAfter'), 'gi');
 
         return text.replace(re, '$1-$3');
     }
