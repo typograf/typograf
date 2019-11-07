@@ -1,13 +1,14 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
+import { privateLabel } from '../../../consts';
 
 export default {
     name: 'ru/nbsp/initials',
     handler(text) {
         const spaces = '\u00A0\u202F '; // nbsp, thinsp
-        const quote = Typograf.getData('ru/quote');
+        const quote = getData('ru/quote');
         const re = new RegExp('(^|[' + spaces +
                 quote.left +
-                Typograf._privateLabel +
+                privateLabel +
                 '"])([А-ЯЁ])\\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +
                 ']?([А-ЯЁ][а-яё]+)(?=[\\s.,;:?!"' + quote.right + ']|$)', 'gm');
 

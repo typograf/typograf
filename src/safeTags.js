@@ -1,5 +1,6 @@
-import Typograf from './typograf';
 import inlineElements from './htmlTags/inline';
+import { regExpUrl } from './helpers/regExp';
+import { privateLabel } from './consts';
 
 export default class SafeTags {
     constructor() {
@@ -30,7 +31,7 @@ export default class SafeTags {
         this._tags = {
             own: [],
             html: html.map(this._prepareRegExp),
-            url: [ Typograf._reUrl ]
+            url: [ regExpUrl ]
         };
 
         this._groups = ['own', 'html', 'url'];
@@ -52,9 +53,8 @@ export default class SafeTags {
      * @param {string} group
      */
     show(context, group) {
-        const label = Typograf._privateLabel;
-        const reReplace = new RegExp(label + 'tf\\d+' + label, 'g');
-        const reSearch = new RegExp(label + 'tf\\d');
+        const reReplace = new RegExp(privateLabel + 'tf\\d+' + privateLabel, 'g');
+        const reSearch = new RegExp(privateLabel + 'tf\\d');
         const replaceLabel = function(match) {
             return context.safeTags.hidden[group][match] || match;
         };
@@ -106,7 +106,7 @@ export default class SafeTags {
      */
     getPrevLabel(text, position) {
         for (let i = position - 1; i >= 0; i--) {
-            if (text[i] === Typograf._privateLabel) {
+            if (text[i] === privateLabel) {
                 return text.slice(i, position + 1);
             }
         }
@@ -124,7 +124,7 @@ export default class SafeTags {
      */
     getNextLabel(text, position) {
         for (let i = position + 1; i < text.length; i++) {
-            if (text[i] === Typograf._privateLabel) {
+            if (text[i] === privateLabel) {
                 return text.slice(position, i + 1);
             }
         }
@@ -190,7 +190,7 @@ export default class SafeTags {
 
     _pasteLabel(context, group, match) {
         const safeTags = context.safeTags;
-        const key = Typograf._privateLabel + 'tf' + safeTags.i + Typograf._privateLabel;
+        const key = privateLabel + 'tf' + safeTags.i + privateLabel;
         safeTags.hidden[group][key] = match;
         safeTags.i++;
 

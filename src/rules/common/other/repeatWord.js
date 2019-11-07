@@ -1,9 +1,9 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'common/other/repeatWord',
     handler(text, settings, context) {
-        const punc = '[;:,.?! \n' + Typograf.getData('common/quote') + ']';
+        const punc = '[;:,.?! \n' + getData('common/quote') + ']';
         const re = new RegExp('(' + punc + '|^)' +
             '([' + context.getData('char') + ']{' + settings.min + ',}) ' +
             '\\2(' + punc + '|$)', 'gi');

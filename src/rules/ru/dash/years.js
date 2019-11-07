@@ -1,9 +1,9 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/years',
     handler(text, settings) {
-        const dashes = Typograf.getData('common/dash');
+        const dashes = getData('common/dash');
         const re = new RegExp('(\\D|^)(\\d{4})[ \u00A0]?(' +
                 dashes + ')[ \u00A0]?(\\d{4})(?=[ \u00A0]?г)', 'g');
 

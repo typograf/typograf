@@ -1,34 +1,32 @@
-import Typograf from './typograf';
+import { addLocale } from './locale';
 
-Typograf._mix(Typograf, {
-    /**
-     * Get data for use in rules.
-     *
-     * @static
-     * @param {string} key
-     *
-     * @returns {*}
-     */
-    getData(key) {
-        return this._data[key];
-    },
-    /**
-     * Set data for use in rules.
-     *
-     * @static
-     * @param {string|Object} key
-     * @param {*} [value]
-     */
-    setData(key, value) {
-        if (typeof key === 'string') {
-            this.addLocale(key);
-            this._data[key] = value;
-        } else if (typeof key === 'object') {
-            Object.keys(key).forEach(function(k) {
-                this.addLocale(k);
-                this._data[k] = key[k];
-            }, this);
-        }
-    },
-    _data: {}
-});
+const data = {};
+
+/**
+ * Get data for use in rules.
+ *
+ * @param {string} key
+ *
+ * @returns {*}
+ */
+export function getData(key) {
+    return data[key];
+}
+
+/**
+ * Set data for use in rules.
+ *
+ * @param {string|Object} key
+ * @param {*} [value]
+ */
+export function setData(key, value) {
+    if (typeof key === 'string') {
+        addLocale(key);
+        data[key] = value;
+    } else if (typeof key === 'object') {
+        Object.keys(key).forEach((k) => {
+            addLocale(k);
+            data[k] = key[k];
+        });
+    }
+}

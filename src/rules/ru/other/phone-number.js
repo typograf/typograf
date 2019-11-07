@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { privateLabel } from '../../../consts';
 
 const defaultCityCodeLength = 5;
 const countryCode = '7';
@@ -123,8 +123,7 @@ export default {
     name: 'ru/other/phone-number',
     live: false,
     handler(text) {
-        const tag = Typograf._privateLabel;
-        const re = new RegExp('(^|,| |' + tag + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + tag + '|$)', 'gm');
+        const re = new RegExp('(^|,| |' + privateLabel + ')(\\+7[\\d\\(\\) \u00A0-]{10,18})(?=,|;|' + privateLabel + '|$)', 'gm');
 
         return text
             .replace(re, function($0, $1, $2) {

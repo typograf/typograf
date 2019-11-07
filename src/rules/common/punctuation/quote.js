@@ -1,4 +1,8 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
+import { getLocales } from '../../../locale';
+import { deepCopy } from '../../../helpers/object';
+import { repeat } from '../../../helpers/string';
+import { privateLabel } from '../../../consts';
 
 const Quote = {
     bufferQuotes: {
@@ -20,7 +24,7 @@ const Quote = {
         const isEqualQuotes = params.settings.left[0] === params.settings.right[0];
         // For SW, FI
         if (isEqualQuotes) {
-            params.settings = Typograf.deepCopy(params.settings);
+            params.settings = deepCopy(params.settings);
             params.settings.left = this.bufferQuotes.left.slice(0, params.settings.left.length);
             params.settings.right = this.bufferQuotes.right.slice(0, params.settings.right.length);
         }
@@ -63,7 +67,7 @@ const Quote = {
     },
     count(text) {
         const count = {total: 0};
-        text.replace(new RegExp('[' + Typograf.getData('common/quote') + ']', 'g'), function(quote) {
+        text.replace(new RegExp('[' + getData('common/quote') + ']', 'g'), function(quote) {
             if (!count[quote]) {
                 count[quote] = 0;
             }
@@ -116,8 +120,7 @@ const Quote = {
         return text;
     },
     set(text, params) {
-        const privateLabel = Typograf._privateLabel;
-        const quotes = Typograf.getData('common/quote');
+        const quotes = getData('common/quote');
 
         const lquote = params.settings.left[0];
         const lquote2 = params.settings.left[1] || lquote;
@@ -127,8 +130,8 @@ const Quote = {
         const reR = new RegExp('([^\\s' + privateLabel + '])([' + quotes + ']{1,' + this.maxLevel + '})(?=[' + this.afterRight + ']|$)', 'gim');
 
         text = text
-            .replace(reL, function($0, $1, $2) { return $1 + Typograf._repeat(lquote, $2.length); })
-            .replace(reR, function($0, $1, $2) { return $1 + Typograf._repeat(rquote, $2.length); });
+            .replace(reL, function($0, $1, $2) { return $1 + repeat(lquote, $2.length); })
+            .replace(reR, function($0, $1, $2) { return $1 + repeat(rquote, $2.length); });
 
         text = this.setAboveTags(text, params);
 
@@ -139,8 +142,7 @@ const Quote = {
         return text;
     },
     setAboveTags(text, params) {
-        const privateLabel = Typograf._privateLabel;
-        const quotes = Typograf.getData('common/quote');
+        const quotes = getData('common/quote');
 
         const lquote = params.settings.left[0];
         const rquote = params.settings.right[0];
@@ -282,8 +284,8 @@ export default {
     settings() {
         const settings = {};
 
-        Typograf.getLocales().forEach(function(locale) {
-            settings[locale] = Typograf.deepCopy(Typograf.getData(locale + '/quote'));
+        getLocales().forEach(function(locale) {
+            settings[locale] = deepCopy(getData(locale + '/quote'));
         });
 
         return settings;

@@ -12,7 +12,7 @@ const version = require('../utils/version');
 function js() {
     return src(['./src/**/*.js', './build/**/*.js'])
         .pipe(gulpRollup({
-            input: paths.js.main,
+            input: paths.js.index,
             output: {
                 format: 'umd',
                 name: 'Typograf'

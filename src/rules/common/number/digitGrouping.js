@@ -1,4 +1,4 @@
-import Typograf from '../../../typograf';
+import { privateLabel } from '../../../consts';
 
 export default {
     name: 'common/number/digitGrouping',
@@ -7,7 +7,7 @@ export default {
     handler(text, settings) {
         return text
             .replace(
-                new RegExp(`(^ ?|\\D |${Typograf._privateLabel})(\\d{1,3}([ \u00A0\u202F\u2009]\\d{3})+)(?! ?[\\d-])`, 'gm'),
+                new RegExp(`(^ ?|\\D |${privateLabel})(\\d{1,3}([ \u00A0\u202F\u2009]\\d{3})+)(?! ?[\\d-])`, 'gm'),
                 ($0, $1, $2) => $1 + $2.replace(/\s/g, settings.space)
             )
             // https://www.bipm.org/utils/common/pdf/si-brochure/SI-Brochure-9-EN.pdf #5.4.4

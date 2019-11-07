@@ -1,13 +1,12 @@
-import Typograf from '../../../typograf';
+import { privateLabel } from '../../../consts';
 
 export default {
     name: 'ru/nbsp/m',
     index: '+5',
     handler(text) {
-        const label = Typograf._privateLabel;
-        const re = new RegExp('(^|[\\s,.\\(' + label + '])' +
+        const re = new RegExp('(^|[\\s,.\\(' + privateLabel + '])' +
                 '(\\d+)[ \u00A0]?(мм?|см|км|дм|гм|mm?|km|cm|dm)([23²³])?([\\s\\).!?,;' +
-                label + ']|$)', 'gm');
+                privateLabel + ']|$)', 'gm');
 
         return text.replace(re, function($0, $1, $2, $3, $4, $5) {
             const pow = {

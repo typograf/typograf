@@ -1,12 +1,12 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'ru/dash/daysMonth',
     handler(text, settings) {
         const re = new RegExp('(^|\\s)([123]?\\d)' +
-                '(' + Typograf.getData('common/dash') + ')' +
+                '(' + getData('common/dash') + ')' +
                 '([123]?\\d)[ \u00A0]' +
-                '(' + Typograf.getData('ru/monthGenCase') + ')', 'g');
+                '(' + getData('ru/monthGenCase') + ')', 'g');
 
         return text.replace(re, '$1$2' + settings.dash + '$4\u00A0$5');
     },

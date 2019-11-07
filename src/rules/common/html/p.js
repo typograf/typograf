@@ -1,11 +1,11 @@
-import Typograf from '../../../typograf';
+import blockElements from '../../../htmlTags/block';
 
 export default {
     name: 'common/html/p',
     index: '+5',
     queue: 'end',
     handler(text) {
-        const blockRe = new RegExp('<(' + Typograf.blockElements.join('|') + ')[>\\s]');
+        const blockRe = new RegExp('<(' + blockElements.join('|') + ')[>\\s]');
         const separator = '\n\n';
         const buffer = text.split(separator);
 

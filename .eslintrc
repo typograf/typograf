@@ -75,7 +75,6 @@
         "mocha": true
     },
     "globals": {
-        "Typograf": true,
         "define": true
     },
     "extends": "eslint:recommended"

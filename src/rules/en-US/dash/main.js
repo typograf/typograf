@@ -1,10 +1,10 @@
-import Typograf from '../../../typograf';
+import { getData } from '../../../data';
 
 export default {
     name: 'en-US/dash/main',
     index: '-5',
     handler(text) {
-        const dashes = Typograf.getData('common/dash');
+        const dashes = getData('common/dash');
         const nonBreakingSpace = '\u00A0';
         const emDash = '\u2014';
         const spaceBefore = `[ ${nonBreakingSpace}]`; // white space or a non-breaking space

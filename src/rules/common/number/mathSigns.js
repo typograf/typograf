@@ -1,9 +1,9 @@
-import Typograf from '../../../typograf';
+import { replace } from '../../../helpers/string';
 
 export default {
     name: 'common/number/mathSigns',
     handler(text) {
-        return Typograf._replace(text, [
+        return replace(text, [
             [/!=/g, '≠'],
             [/<=/g, '≤'],
             [/(^|[^=])>=/g, '$1≥'],

@@ -1,8 +1,12 @@
-import blockElements from './htmlTags/block';
-import inlineElements from './htmlTags/inline';
 import groupIndexes from './groupIndexes';
 import HtmlEntities from './htmlEntities/index';
+import { addLocale, hasLocale, getLocales, prepareLocale } from './locale';
+import { getData, setData } from './data';
 import SafeTags from './safeTags';
+
+import { replaceNbsp, isHTML, removeCR, fixLineEnding } from './helpers/string';
+import { deepCopy } from './helpers/object';
+import { privateSeparateLabel } from './consts';
 
 /**
  * @constructor
@@ -17,7 +21,7 @@ import SafeTags from './safeTags';
 export default class Typograf {
     constructor(prefs) {
         this._prefs = typeof prefs === 'object' ? prefs : {};
-        this._prefs.locale = Typograf._prepareLocale(this._prefs.locale);
+        this._prefs.locale = prepareLocale(this._prefs.locale);
         this._prefs.live = this._prefs.live || false;
 
         this._safeTags = new SafeTags();
@@ -131,54 +135,15 @@ export default class Typograf {
         return this;
     }
 
-    /**
-     * Get a deep copy of a object.
-     *
-     * @param {*} obj
-     *
-     * @returns {*}
-     */
-    static deepCopy(obj) {
-        return typeof obj === 'object' ? JSON.parse(JSON.stringify(obj)) : obj;
-    }
-
-    static _repeat(symbol, count) {
-        let result = '';
-        for (; ;) {
-            if ((count & 1) === 1) {
-                result += symbol;
-            }
-            count >>>= 1;
-            if (count === 0) {
-                break;
-            }
-            symbol += symbol;
-        }
-
-        return result;
-    }
-
-    static _replace(text, re) {
-        for (let i = 0; i < re.length; i++) {
-            text = text.replace(re[i][0], re[i][1]);
-        }
-
-        return text;
-    }
-
-    static _replaceNbsp(text) {
-        return text.replace(/\u00A0/g, ' ');
-    }
-
     static _setIndex(rule) {
         let index = rule.index;
         const t = typeof index;
-        const groupIndex = this.groupIndexes[rule._group];
+        const groupIndex = groupIndexes[rule._group];
 
         if (t === 'undefined') {
             index = groupIndex;
         } else if (t === 'string') {
-            index = groupIndex + parseInt(rule.index, 10);
+            index = (groupIndex || 0) + parseInt(rule.index, 10);
         }
 
         rule._index = index;
@@ -187,12 +152,6 @@ export default class Typograf {
     static _sortRules(rules) {
         rules.sort(function(a, b) {
             return a._index > b._index ? 1 : -1;
-        });
-    }
-
-    static _mix(dest, props) {
-        Object.keys(props).forEach(function(key) {
-            dest[key] = props[key];
         });
     }
 
@@ -222,15 +181,15 @@ export default class Typograf {
     _prepareContext(text) {
         return {
             text,
-            isHTML: this._isHTML(text),
-            prefs: Typograf.deepCopy(this._prefs),
+            isHTML: isHTML(text),
+            prefs: deepCopy(this._prefs),
             getData: function(key) {
                 if (key === 'char') {
                     return this.prefs.locale.map(function(item) {
-                        return Typograf.getData(item + '/' + key);
+                        return getData(item + '/' + key);
                     }).join('');
                 } else {
-                    return Typograf.getData(this.prefs.locale[0] + '/' + key);
+                    return getData(this.prefs.locale[0] + '/' + key);
                 }
             }
         };
@@ -256,7 +215,7 @@ export default class Typograf {
 
         contextPrefs.htmlEntity = contextPrefs.htmlEntity || {};
 
-        contextPrefs.locale = Typograf._prepareLocale(prefs.locale, this._prefs.locale);
+        contextPrefs.locale = prepareLocale(prefs.locale, this._prefs.locale);
 
         const locale = contextPrefs.locale;
         const locale0 = locale[0];
@@ -265,13 +224,9 @@ export default class Typograf {
             throw Error('Not defined the property "locale".');
         }
 
-        if (!Typograf.hasLocale(locale0)) {
+        if (!hasLocale(locale0)) {
             throw Error('"' + locale0 + '" is not supported locale.');
         }
-    }
-
-    _isHTML(text) {
-        return text.search(/(<\/?[a-z]|<!|&[lg]t;)/i) !== -1;
     }
 
     _splitBySeparateParts(context) {
@@ -281,7 +236,6 @@ export default class Typograf {
         
         const
             text = [],
-            label = Typograf._privateSeparateLabel,
             reTags = new RegExp('<(' + this._separatePartsTags.join('|') + ')(\\s[^>]*?)?>[^]*?</\\1>', 'gi');
 
         let position = 0;
@@ -289,9 +243,9 @@ export default class Typograf {
         context.text.replace(reTags, function($0, $1, $2, itemPosition) {
             if (position !== itemPosition) {
                 text.push(
-                    (position ? label : '') +
+                    (position ? privateSeparateLabel : '') +
                     context.text.slice(position, itemPosition) +
-                    label
+                    privateSeparateLabel
                 );
             }
 
@@ -304,7 +258,7 @@ export default class Typograf {
 
         text.push(
             position ?
-                (label + context.text.slice(position, context.text.length)) :
+                (privateSeparateLabel + context.text.slice(position, context.text.length)) :
                 context.text
         );
 
@@ -312,7 +266,7 @@ export default class Typograf {
     }
 
     _process(context) {
-        context.text = this._removeCR(context.text);
+        context.text = removeCR(context.text);
 
         this._executeRules(context, 'start');
 
@@ -323,12 +277,12 @@ export default class Typograf {
         this._executeRules(context, 'hide-safe-tags-html');
         
         const
-            isHTML = context.isHTML,
-            re = new RegExp(Typograf._privateSeparateLabel, 'g');
+            isRootHTML = context.isHTML,
+            re = new RegExp(privateSeparateLabel, 'g');
 
-        context.text = this._splitBySeparateParts(context).map(function(item) {
+        context.text = this._splitBySeparateParts(context).map((item) => {
             context.text = item;
-            context.isHTML = this._isHTML(item);
+            context.isHTML = isHTML(item);
             this._safeTags.hideHTMLTags(context);
 
             this._safeTags.hide(context, 'url');
@@ -336,17 +290,17 @@ export default class Typograf {
 
             this._executeRules(context, 'hide-safe-tags');
 
-            Typograf.HtmlEntities.toUtf(context);
+            HtmlEntities.toUtf(context);
 
             if (this._prefs.live) {
-                context.text = Typograf._replaceNbsp(context.text);
+                context.text = replaceNbsp(context.text);
             }
 
             this._executeRules(context, 'utf');
 
             this._executeRules(context);
 
-            Typograf.HtmlEntities.restore(context);
+            HtmlEntities.restore(context);
 
             this._executeRules(context, 'html-entities');
 
@@ -354,9 +308,9 @@ export default class Typograf {
             this._executeRules(context, 'show-safe-tags-url');
             
             return context.text.replace(re, '');
-        }, this).join('');
+        }).join('');
         
-        context.isHTML = isHTML;
+        context.isHTML = isRootHTML;
 
         this._safeTags.show(context, 'html');
         this._executeRules(context, 'show-safe-tags-html');
@@ -366,7 +320,7 @@ export default class Typograf {
 
         this._executeRules(context, 'end');
 
-        return this._fixLineEnding(context.text, context.prefs.lineEnding);
+        return fixLineEnding(context.text, context.prefs.lineEnding);
     }
 
     /**
@@ -498,27 +452,13 @@ export default class Typograf {
         }
     }
 
-    _removeCR(text) {
-        return text.replace(/\r\n?/g, '\n');
-    }
-
-    _fixLineEnding(text, type) {
-        if (type === 'CRLF') { // Windows
-            return text.replace(/\n/g, '\r\n');
-        } else if (type === 'CR') { // Mac
-            return text.replace(/\n/g, '\r');
-        }
-
-        return text;
-    }
-
     _prepareRule(rule) {
         const name = rule.name;
         const t = typeof rule.settings;
         let settings = {};
 
         if (t === 'object') {
-            settings = Typograf.deepCopy(rule.settings);
+            settings = deepCopy(rule.settings);
         } else if (t === 'function') {
             settings = rule.settings(rule);
         }
@@ -573,21 +513,20 @@ export default class Typograf {
     }
 }
 
-Typograf._mix(Typograf, {
-    version: '{{version}}',
-    inlineElements,
-    blockElements,
-    groupIndexes,
-    HtmlEntities,
-    _reUrl: new RegExp('(https?|file|ftp)://([a-zA-Z0-9/+-=%&:_.~?]+[a-zA-Z0-9#+]*)', 'g'),
-    _privateLabel: '\uF000',
-    _privateSeparateLabel: '\uF001'
-});
+Typograf.version = '{{version}}';
 
-Typograf._mix(Typograf.prototype, {
-    _rules: [],
-    _innerRules: []
-});
+Typograf.addLocale = addLocale;
+Typograf.getLocales = getLocales;
+Typograf.hasLocale = hasLocale;
+
+Typograf.setData = setData;
+Typograf.getData = getData;
+
+// @deprecated
+Typograf.deepCopy = deepCopy;
+
+Typograf.prototype._rules = [];
+Typograf.prototype._innerRules = [];
 
 /**
  * @typedef TypografRule
