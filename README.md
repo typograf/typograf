@@ -2,7 +2,7 @@
 ======================
 <img align="right" width="200" src="https://avatars0.githubusercontent.com/u/10176019" />
 
-[![NPM version](https://img.shields.io/npm/v/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
+[![Financial Contributors on Open Collective](https://opencollective.com/typograf/all/badge.svg?label=financial+contributors)](https://opencollective.com/typograf) [![NPM version](https://img.shields.io/npm/v/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
 [![NPM downloads](https://img.shields.io/npm/dm/typograf.svg?style=flat)](https://www.npmjs.com/package/typograf)
 [![Build Status](https://img.shields.io/travis/typograf/typograf.svg?style=flat)](https://travis-ci.org/typograf/typograf)
 [![Build Status](https://img.shields.io/appveyor/ci/hcodes/typograf/dev.svg?style=flat)](https://ci.appveyor.com/project/hcodes/typograf)
@@ -57,6 +57,36 @@
   - [Типографика на лету](./docs/api_fly.md)
 - [Сжатие с UglifyJS](./docs/uglifyjs.md)
 - [Разработка](./docs/development.md)
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/typograf/typograf/graphs/contributors"><img src="https://opencollective.com/typograf/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/typograf/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/typograf"><img src="https://opencollective.com/typograf/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/typograf/contribute)]
+
+<a href="https://opencollective.com/typograf/organization/0/website"><img src="https://opencollective.com/typograf/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/1/website"><img src="https://opencollective.com/typograf/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/2/website"><img src="https://opencollective.com/typograf/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/3/website"><img src="https://opencollective.com/typograf/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/4/website"><img src="https://opencollective.com/typograf/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/5/website"><img src="https://opencollective.com/typograf/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/6/website"><img src="https://opencollective.com/typograf/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/7/website"><img src="https://opencollective.com/typograf/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/8/website"><img src="https://opencollective.com/typograf/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/typograf/organization/9/website"><img src="https://opencollective.com/typograf/organization/9/avatar.svg"></a>
 
 ## [Лицензия](./LICENSE.md)
 MIT License
