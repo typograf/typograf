@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.10.0",
+  "version": "6.11.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -47,10 +47,10 @@
     "gulp-rollup": "^2.16.2",
     "gulp-uglify": "^3.0.2",
     "mocha": "^6.2.1",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "plugin-error": "^1.0.1",
     "rollup-plugin-babel": "^4.3.3",
-    "sinon": "^7.5.0",
+    "sinon": "^8.0.2",
     "sort-keys": "^4.0.0",
     "through": "^2.3.8",
     "vinyl": "^2.2.0",
