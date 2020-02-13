@@ -5,7 +5,7 @@ export default {
         const CH = ch.toUpperCase();
         const re = new RegExp('([' + ch + CH +
             ']) (?=\\d{1,' + settings.lengthLastNumber +
-            '}[-+−%\'"' + context.getData('quote').right + ']?([.!?…]( [' +
+            '}[-+−%\'"' + context.getData('quote').right + ')]?([.!?…]( [' +
             CH + ']|$)|$))', 'gm');
 
         return text.replace(re, '$1\u00A0');
