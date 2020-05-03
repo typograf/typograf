@@ -39,6 +39,7 @@
   - [Figma](https://github.com/golmakov/figma-typograf-plugin)
   - [Grunt](https://github.com/typograf/grunt-typograf)
   - [Gulp](https://github.com/typograf/gulp-typograf)
+  - [Remark](https://github.com/Mavrin/remark-typograf)
   - [TinyMCE](https://habrahabr.ru/post/266337/)
   - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
 - [Поддерживаемые правила](./docs/RULES.ru.md)
