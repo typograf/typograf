@@ -22,6 +22,23 @@ export default class Typograf {
     constructor(prefs) {
         this._prefs = typeof prefs === 'object' ? prefs : {};
         this._prefs.locale = prepareLocale(this._prefs.locale);
+        if (this._prefs.locale && !this._prefs.mainLocale) {
+            console.warn('Warning: Main locale not set. locale[0] is used as main locale');
+        }
+        this._prefs.locale = prepareLocale(this._prefs.locale);
+        if (this._prefs.mainLocale) {
+            let index = this._prefs.locale.indexOf(this._prefs.mainLocale);
+            switch (index) {
+                case 0:
+                    break;
+                case -1:
+                    this._prefs.locale = [ this._prefs.mainLocale ].concat(this._prefs.locale);
+                    break;
+                default:
+                    this._prefs.locale.splice(index);
+                    this._prefs.locale = [ this._prefs.mainLocale ].concat(this._prefs.locale);
+            }
+        }
         this._prefs.live = this._prefs.live || false;
 
         this._safeTags = new SafeTags();
@@ -90,7 +107,7 @@ export default class Typograf {
      *
      * @static
      * @param {TypografRule[]} rules
-     * 
+     *
      * @returns {Typograf} this
      */
     static addRules(rules) {
@@ -233,7 +250,7 @@ export default class Typograf {
         if (!context.isHTML || context.prefs.processingSeparateParts === false) {
             return [ context.text ];
         }
-        
+
         const
             text = [],
             reTags = new RegExp('<(' + this._separatePartsTags.join('|') + ')(\\s[^>]*?)?>[^]*?</\\1>', 'gi');
@@ -275,7 +292,7 @@ export default class Typograf {
 
         this._safeTags.hide(context, 'html');
         this._executeRules(context, 'hide-safe-tags-html');
-        
+
         const
             isRootHTML = context.isHTML,
             re = new RegExp(privateSeparateLabel, 'g');
@@ -306,10 +323,10 @@ export default class Typograf {
 
             this._safeTags.show(context, 'url');
             this._executeRules(context, 'show-safe-tags-url');
-            
+
             return context.text.replace(re, '');
         }).join('');
-        
+
         context.isHTML = isRootHTML;
 
         this._safeTags.show(context, 'html');
@@ -531,7 +548,7 @@ Typograf.prototype._innerRules = [];
 /**
  * @typedef TypografRule
  * @type {object}
- * 
+ *
  * @property {string} name Name of rule
  * @property {Function} handler Processing function
  * @property {number} [index] Sorting index for rule
