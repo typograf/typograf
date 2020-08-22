@@ -62,8 +62,9 @@
     "eslint": "eslint .",
     "prepare": "npm run dist",
     "build": "gulp",
-    "test": "npm run build && npm run eslint && npm run unit-test",
+    "test": "npm run build && npm run eslint && npm run unit-test && npm run unit-test-coverage",
     "unit-test": "nyc mocha --require @babel/register -u bdd -R spec --recursive src/rules/**/*.test.js --recursive test",
+    "unit-test-coverage": "nyc --reporter=lcov --reporter=text-summary mocha",
     "yaspeller": "yaspeller ."
   },
   "typings": "./typograf.d.ts"
