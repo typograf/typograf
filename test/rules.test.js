@@ -1,4 +1,3 @@
-import { assert } from 'chai';
 import Typograf from '../build/typograf';
 
 describe('common specific tests', function() {
@@ -6,7 +5,7 @@ describe('common specific tests', function() {
         const tp = new Typograf({locale: data.locale || 'en-US', enableRule: data.enableRule});
 
         data.tests.forEach(function(item) {
-            assert.equal(tp.execute(item[0]), item[1]);
+            expect(tp.execute(item[0])).toEqual(item[1]);
         });
     }
 
@@ -112,7 +111,7 @@ describe('russian specific tests', function() {
 
         quoteTests.forEach(function(item) {
             const [before, after] = item;
-            assert.equal(tp.execute(before), after);
+            expect(tp.execute(before)).toEqual(after);
         });
     });
 
@@ -142,7 +141,7 @@ describe('russian specific tests', function() {
                 '<html><head><title>Большие бинари в\u00A0моем Rust? (Why is\u00A0a\u00A0Rust executable large?) | Ржавый ящик</title></head><body></body></html>'
             ]
         ].forEach(function(item) {
-            assert.equal(tp.execute(item[0]), item[1]);
+            expect(tp.execute(item[0])).toEqual(item[1]);
         });
     });
 
@@ -155,7 +154,7 @@ describe('russian specific tests', function() {
             '<span class="typograf-oa-comma">,</span>',
             '<span class="typograf-oa-sp-lbracket"> </span>'
         ].forEach(function(item) {
-            assert.equal(tp.execute(item), item);
+            expect(tp.execute(item)).toEqual(item);
         });
     });
 });

@@ -1,10 +1,7 @@
-import { assert, default as chai } from 'chai';
 import fs from 'fs';
 import Typograf from '../build/typograf';
 
 const t = new Typograf({locale: 'ru', htmlEntity: {type: 'digit'}});
-    
-chai.config.showDiff = true;
 
 describe('Test before-after files', function() {
     const dir = './test/fixtures';
@@ -25,7 +22,7 @@ describe('Test before-after files', function() {
             const res = t.execute(before);
             fs.writeFileSync(fileBefore + '.tmp', res);
             it(fileBefore + ' == ' + fileAfter, function() {
-                assert.equal(res, after);
+                expect(res).toEqual(after);
             });
         }
     });
