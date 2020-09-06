@@ -1,4 +1,3 @@
-import { assert } from 'chai';
 import Typograf from '../build/typograf';
 
 const t = new Typograf({locale: 'en-US'});
@@ -77,7 +76,7 @@ const commonTests = [
 describe('common/smoke', function() {
     commonTests.forEach(function(item) {
         it(String(item[0]), function() {
-            assert.equal(t.execute(item[0]), item[1]);
+            expect(t.execute(item[0])).toEqual(item[1]);
         });
     });
 });
@@ -86,7 +85,7 @@ describe('common/smoke double execute', function() {
     commonTests.forEach(function(item) {
         it(String(item[0]), function() {
             const result = t.execute(item[0]);
-            assert.equal(t.execute(result), item[1]);
+            expect(t.execute(result)).toEqual(item[1]);
         });
     });
 });
@@ -101,6 +100,6 @@ it('enable common/html/escape', function() {
     ];
 
     escapeTests.forEach(function(el) {
-        assert.equal(tp.execute(el[0]), el[1]);
+        expect(tp.execute(el[0])).toEqual(el[1]);
     });
 });

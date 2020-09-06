@@ -1,4 +1,3 @@
-import { assert } from 'chai';
 import Typograf from '../../build/typograf';
 
 const t = new Typograf({locale: 'ru'});
@@ -16,10 +15,10 @@ export function typografTest(name, tests, mainPrefs) {
 
                 const tp = new Typograf(prefs);
                 const result = tp.execute(before, prefs);
-                assert.equal(result, after, 'first step');
+                expect(result).toEqual(after);
 
                 const result2 = tp.execute(result, prefs);
-                assert.equal(result2, after, 'second step');
+                expect(result2).toEqual(after);
             });
         });
     });
@@ -48,7 +47,7 @@ export function typografInnerRuleTest(data) {
             const [before, after] = item;
 
             t.enableRule(name);
-            assert.equal(executeInnerRule(name, before), after, before + ' → ' + after);
+            expect(executeInnerRule(name, before)).toEqual(after);
         });
     });
 }
@@ -64,13 +63,13 @@ export function typografRuleTest(data) {
             });
             let result = itTypograf.execute(before, {locale: getLocale(name, props)});
 
-            assert.equal(result, after, before + ' → ' + after);
+            expect(result).toEqual(after);
 
             const rule = itTypograf._getRule(name);
             if (rule && !rule.disabled) {
                 result = itTypograf.execute(result, {locale: getLocale(name, props)});
 
-                assert.equal(result, after, before + ' → ' + after);
+                expect(result).toEqual(after);
             }
         });
     });
