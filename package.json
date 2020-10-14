@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.11.1",
+  "version": "6.11.2",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -36,8 +36,8 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/register": "^7.11.5",
     "chai": "^4.2.0",
-    "del": "^5.1.0",
-    "eslint": "^7.8.1",
+    "del": "^6.0.0",
+    "eslint": "^7.11.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-filter": "^6.0.0",
@@ -46,12 +46,12 @@
     "gulp-replace": "^1.0.0",
     "gulp-rollup": "^2.17.0",
     "gulp-uglify": "^3.0.2",
-    "jest": "^26.4.2",
+    "jest": "^26.5.3",
     "plugin-error": "^1.0.1",
     "rollup-plugin-babel": "^4.4.0",
-    "sort-keys": "^4.0.0",
+    "sort-keys": "^4.1.0",
     "through": "^2.3.8",
-    "vinyl": "^2.2.0",
+    "vinyl": "^2.2.1",
     "yaspeller": "^7.0.0"
   },
   "scripts": {
