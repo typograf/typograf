@@ -1,13 +1,14 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.11.2",
+  "version": "7.0.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
     "url": "https://github.com/typograf/typograf"
   },
   "main": "dist/typograf.js",
+  "module": "dist/typograf.esm.js",
   "homepage": "https://github.com/typograf",
   "license": "MIT",
   "repository": {
@@ -22,7 +23,7 @@
     "typography"
   ],
   "engines": {
-    "node": ">= 4"
+    "node": ">= 12"
   },
   "files": [
     "dist",
@@ -32,12 +33,15 @@
     "typograf.d.ts"
   ],
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/register": "^7.11.5",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
+    "@rollup/plugin-replace": "^2.3.4",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
     "chai": "^4.2.0",
     "del": "^6.0.0",
-    "eslint": "^7.11.0",
+    "eslint": "^7.12.1",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-filter": "^6.0.0",
@@ -46,11 +50,15 @@
     "gulp-replace": "^1.0.0",
     "gulp-rollup": "^2.17.0",
     "gulp-uglify": "^3.0.2",
-    "jest": "^26.5.3",
+    "jest": "^26.6.1",
     "plugin-error": "^1.0.1",
+    "rollup": "^2.33.0",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-typescript": "^1.0.1",
     "sort-keys": "^4.1.0",
     "through": "^2.3.8",
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.5",
     "vinyl": "^2.2.1",
     "yaspeller": "^7.0.0"
   },

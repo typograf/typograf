@@ -58,9 +58,9 @@ const ruTests = [
         '<div class="t"><p>«<i>Какой-то текст<a href="/">link</a></i>»</p></div>'
     ],
     [
-        "?… !… …,",
-        "?.. !.. …"
-    ],    
+        '?… !… …,',
+        '?.. !.. …'
+    ],
     [
         'https://www.youtube.com/watch?v=C0DPdy98e4c',
         'https://www.youtube.com/watch?v=C0DPdy98e4c'
@@ -73,7 +73,7 @@ const ruTests = [
         'https://lenta.ru/news/2016/04/12/notes/ 2010-12-11',
         'https://lenta.ru/news/2016/04/12/notes/ 11.12.2010',
         {
-            enable: ['ru/date/fromISO']
+            enable: [ 'ru/date/fromISO' ]
         }
     ],
     [
@@ -84,7 +84,7 @@ const ruTests = [
 «<a href="https://pascalhertleif.de/artikel/good-practices-for-writing-rust-libraries">Good Practices for Writing Rust Libraries</a>»\n\
 (24.10.2015).</p>',
         {
-            enable: ['ru/optalign/*']
+            enable: [ 'ru/optalign/*' ]
         }
     ]
 ];

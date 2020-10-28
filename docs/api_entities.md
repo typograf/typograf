@@ -11,13 +11,13 @@
 ## Примеры
 HTML-сущности готовыми символами, по умолчанию:
 ```js
-var tp = new Typograf({locale: ['ru', 'en-US']});
+const tp = new Typograf({locale: ['ru', 'en-US']});
 tp.execute('12 кг...'); // 12 кг…
 ```
 
 HTML-сущности в виде имён:
 ```js
-var tp = new Typograf({
+const tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {type: 'name'}
 });
@@ -26,7 +26,7 @@ tp.execute('12 кг...'); // 12&nbsp;кг&hellip;
 
 HTML-сущности в виде цифр:
 ```js
-var tp = new Typograf({
+const tp = new Typograf({
     locale: ['ru', 'en-US'],
     htmlEntity: {type: 'digit'}
 });

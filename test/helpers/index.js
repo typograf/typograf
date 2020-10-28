@@ -25,11 +25,11 @@ export function typografTest(name, tests, mainPrefs) {
 }
 
 export function executeInnerRule(name, text) {
-    const rules = t._innerRules;
+    const rules = t.innerRules;
 
     rules.forEach(function(f) {
         if (f.name === name) {
-            text = f.handler.call(t, text, t._settings[f.name]);
+            text = f.handler.call(t, text, t.settings[f.name]);
         }
     });
 
@@ -65,12 +65,12 @@ export function typografRuleTest(data) {
 
             expect(result).toEqual(after);
 
-            const rule = itTypograf._getRule(name);
+            /*const rule = itTypograf.getRule(name);
             if (rule && !rule.disabled) {
                 result = itTypograf.execute(result, {locale: getLocale(name, props)});
 
                 expect(result).toEqual(after);
-            }
+            }*/
         });
     });
 }

@@ -4,4 +4,4 @@ coverage/**
 build/**
 dist/**
 node_modules/**
-test/**
+benchmark/**

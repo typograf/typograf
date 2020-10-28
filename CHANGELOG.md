@@ -1,5 +1,10 @@
 # Changelog
 
+# v7.0.0
+- Кодовая база переписана на TypeScript.
+- Поддержка ES Modules, `dist/typograf.esm.js` и `dist/typograf.all.esm.js`.
+- Удалена поддержка старых версий Node.js < 12.
+
 # v6.11.2
 Исправлена ошибка в правиле `ru/punctuation/ano` #373.
 

@@ -1,4 +1,8 @@
 {
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module"
@@ -57,25 +61,15 @@
           {
             "SwitchCase": 1
           }
-        ],
-        "valid-jsdoc": [
-          2,
-          {
-            "prefer": {
-              "return": "returns"
-            },
-            "requireParamDescription": false,
-            "requireReturnDescription": false,
-            "requireReturn": false
-          }
         ]
     },
     "env": {
         "node": true,
-        "mocha": true
+        "jest": true
     },
-    "globals": {
-        "define": true
-    },
-    "extends": "eslint:recommended"
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ]
 }

@@ -9,14 +9,14 @@ const ruTests = [
         'При при проверке текста обнаружились обнаружились повторяющиеся слова слова. Слова убраны.',
         'При проверке текста обнаружились повторяющиеся слова. Слова убраны.',
         {
-            enableRule: ['common/other/repeatWord']
+            enableRule: [ 'common/other/repeatWord' ]
         }
     ],
     [
         'Возьми ка детка молока.  А коль увижу де, что казнь ему мала, повешу тут же всех судей вокруг стола. Поди кась так.',
         'Возьми-ка детка молока. А\u00A0коль увижу-де, что казнь ему мала, повешу тут\u00A0же всех судей вокруг стола. Поди-кась\u00A0так.',
         {
-            enableRule: ['ru/dash/de']
+            enableRule: [ 'ru/dash/de' ]
         }
     ],
     [
@@ -225,7 +225,7 @@ typografTest(
     'typograf.ru, double execute',
     ruTests,
     {
-        enableRule: ['common/number/digitGrouping'],
+        enableRule: [ 'common/number/digitGrouping' ],
         locale: ['ru', 'en-US']
     }
 );

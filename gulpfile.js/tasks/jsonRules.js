@@ -27,29 +27,32 @@ function jsonRules() {
 
 function buildTitles() {
     const txt = fs.readFileSync(`${paths.dir.build}typograf.titles.json`);
-    fs.writeFileSync(`${paths.dir.build}typograf.titles.js`, `export default ${txt};
+
+    fs.writeFileSync(`${paths.dir.build}typograf.titles.ts`, `export default ${txt};
 `);
 }
 
 function getRow(titles, rule, i, locale) {
     const title = titles[rule.name][locale] || titles[rule.name].common;
+
     return '| ' + i + '. | [' +
-        rule.name + '](../src/rules/' + rule.name + '.js) | ' +
+        rule.name + '](../src/rules/' + rule.name + '.ts) | ' +
         title + ' | ' +
-        rule._index + ' | ' +
-        (rule.queue || '') + ' | ' +
+        rule.index + ' | ' +
+        rule.queue + ' | ' +
         (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
 }
 
 function processTemplate(file, templateFile, text) {
     const template = fs.readFileSync(templateFile).toString();
+
     fs.writeFileSync(file, template.replace(/{{content}}/, text));
 }
 
 function makeMdRules() {
     const Typograf = require('../../build/typograf.js');
     const titles = require('../../build/typograf.titles.json');
-    const rules = Typograf.prototype._rules;
+    const rules = Typograf.rules;
 
     function buildDoc(prefix) {
         langs.forEach(function(locale) {
@@ -72,17 +75,14 @@ function makeMdRules() {
 
     buildDoc('');
 
-    rules.sort(function(a, b) {
-        const queueA = queue[a.queue || 'default'];
-        const queueB = queue[b.queue || 'default'];
-
-        const queueIndexA = getQueueIndex(queueA);
-        const queueIndexB = getQueueIndex(queueB);
+    rules.sort((a, b) => {
+        const queueIndexA = getQueueIndex(queue[a.queue]);
+        const queueIndexB = getQueueIndex(queue[b.queue]);
 
         if (queueIndexA === queueIndexB) {
-            if (a._index > b._index) {
+            if (a.index > b.index) {
                 return 1;
-            } else if (a._index < b._index) {
+            } else if (a.index < b.index) {
                 return -1;
             } else {
                 return 0;

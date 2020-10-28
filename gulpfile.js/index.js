@@ -11,10 +11,12 @@ const taskJsonLintGroups = require('./tasks/jsonLintGroups');
 const taskJsonGroups = require('./tasks/jsonGroups');
 const taskJsonRules = require('./tasks/jsonRules');
 
-const taskJs = require('./tasks/js');
+const taskTs = require('./tasks/ts');
+const taskTsES6 = require('./tasks/ts.es');
 const taskMinJs = require('./tasks/minJs');
 
-const taskAllJs = require('./tasks/allJs');
+const taskAllTs = require('./tasks/allTs');
+const taskAllTsES6 = require('./tasks/allTs.es');
 const taskAllMinJs = require('./tasks/allMinJs');
 
 gulp.task('default', gulp.series(
@@ -25,7 +27,10 @@ gulp.task('default', gulp.series(
         taskJsonLintGroups,
         taskJsonGroups
     ),
-    taskJs,
+    gulp.parallel(
+        taskTs,
+        taskTsES6
+    ),
     gulp.parallel(
         taskJsonRules,
         taskMinJs
@@ -35,7 +40,10 @@ gulp.task('default', gulp.series(
 gulp.task('dist',
     gulp.series(
         'default',
-        taskAllJs,
+        gulp.parallel(
+            taskAllTs,
+            taskAllTsES6,
+        ),
         taskAllMinJs,
         function dist() {
             return gulp.src(`${paths.dir.build}typograf.*`)

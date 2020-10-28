@@ -1,6 +1,7 @@
 ## Включить или отключить правила
 ```js
-var tp = new Typograf({locale: ['ru', 'en-US']});
+const tp = new Typograf({locale: ['ru', 'en-US']});
+
 tp.enableRule('ru/money/ruble'); // Включить правило
 tp.enableRule('ru/money/*'); // Включить все правила в группе
 tp.enableRule('*'); // Включить все правила
@@ -12,7 +13,7 @@ tp.disableRule('*'); // Отключить все правила
 
 ## Изменить настройку у правила
 ```js
-var tp = new Typograf({locale: ['ru', 'en-US']});
+const tp = new Typograf({locale: ['ru', 'en-US']});
 
 // Название правила, название настройки, значение
 
@@ -31,7 +32,7 @@ tp.setSetting('common/nbsp/afterShortWord', 'lengthShortWord', 3);
 // Типографический смайлик
 Typograf.addRule({
     name: 'common/other/typographicSmiley',
-    handler: function (text) {
+    handler: text => {
         return text.replace(/:-\)/g, ':—)');
     }
 });

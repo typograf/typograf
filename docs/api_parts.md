@@ -1,6 +1,6 @@
 # Отключение типографирования в участках текста
 ```js
-var tp = new Typograf({locale: ['ru', 'en-US']});
+const tp = new Typograf({locale: ['ru', 'en-US']});
 
 // Отключить типографирование внутри тега <no-typography>
 tp.addSafeTag('<no-typography>', '</no-typography>');

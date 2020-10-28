@@ -68,38 +68,41 @@ const commonTests = [
     ],
     ['1\r\n2\r\n3', '1\n2\n3'], // Windows
     [0, '0'],
-    [null, 'null'],
+    [null, ''],
+    [NaN, ''],
     ['', ''],
-    [undefined, 'undefined']
+    [undefined, '']
 ];
 
-describe('common/smoke', function() {
-    commonTests.forEach(function(item) {
-        it(String(item[0]), function() {
+describe('common/smoke', () => {
+    commonTests.forEach(item => {
+        it(String(item[0]), () => {
             expect(t.execute(item[0])).toEqual(item[1]);
         });
     });
 });
 
-describe('common/smoke double execute', function() {
-    commonTests.forEach(function(item) {
-        it(String(item[0]), function() {
+describe('common/smoke double execute', () => {
+    commonTests.forEach(item => {
+        it(String(item[0]), () => {
             const result = t.execute(item[0]);
             expect(t.execute(result)).toEqual(item[1]);
         });
     });
 });
 
-it('enable common/html/escape', function() {
+it('enable common/html/escape', () => {
     const tp = new Typograf({locale: 'en-US'});
     tp.enableRule('common/html/escape');
 
     const escapeTests = [
-        ['<p align="center">\nHello world!\n</p>',
-        '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
+        [
+            '<p align="center">\nHello world!\n</p>',
+            '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;'
+        ]
     ];
 
-    escapeTests.forEach(function(el) {
+    escapeTests.forEach(el => {
         expect(tp.execute(el[0])).toEqual(el[1]);
     });
 });

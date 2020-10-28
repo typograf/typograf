@@ -12,7 +12,7 @@ function jsonGroups() {
         .on('end', () => {
             const dir = paths.dir.build;
             const txt = fs.readFileSync(`${dir}typograf.groups.json`);
-            fs.writeFileSync(`${dir}typograf.groups.js`, `export default ${txt};
+            fs.writeFileSync(`${dir}typograf.groups.ts`, `export default ${txt};
 `);
         });
 }

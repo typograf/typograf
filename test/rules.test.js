@@ -1,10 +1,10 @@
 import Typograf from '../build/typograf';
 
-describe('common specific tests', function() {
+describe('common specific tests', () => {
     function check(data) {
         const tp = new Typograf({locale: data.locale || 'en-US', enableRule: data.enableRule});
 
-        data.tests.forEach(function(item) {
+        data.tests.forEach(item => {
             expect(tp.execute(item[0])).toEqual(item[1]);
         });
     }
@@ -65,15 +65,15 @@ describe('common specific tests', function() {
         }
     ];
 
-    tests.forEach(function(t) {
-        it(t.enableRule.toString(), function() {
+    tests.forEach(t => {
+        it(t.enableRule.toString(), () => {
             check(t);
         });
     });
 });
 
-describe('russian specific tests', function() {
-    it('quotes lquote = lquote2 and rquote = rquote2', function() {
+describe('russian specific tests', () => {
+    it('quotes lquote = lquote2 and rquote = rquote2', () => {
         const name = 'common/punctuation/quote';
         const tp = new Typograf({locale: 'ru', disableRule: '*', enableRule: name});
         const quoteTests = [
@@ -109,13 +109,13 @@ describe('russian specific tests', function() {
             removeDuplicateQuotes: true
         });
 
-        quoteTests.forEach(function(item) {
+        quoteTests.forEach(item => {
             const [before, after] = item;
             expect(tp.execute(before)).toEqual(after);
         });
     });
 
-    it('ru/optalign', function() {
+    it('ru/optalign', () => {
         const tp = new Typograf({locale: ['ru', 'en-US']});
         tp.enableRule('ru/optalign/*');
 
@@ -140,12 +140,12 @@ describe('russian specific tests', function() {
                 '<html><head><title>Большие бинари в моем Rust?<span class="typograf-oa-sp-lbracket"> </span><span class="typograf-oa-lbracket">(</span>Why is a Rust executable large?) | Ржавый ящик</title></head><body></body></html>',
                 '<html><head><title>Большие бинари в\u00A0моем Rust? (Why is\u00A0a\u00A0Rust executable large?) | Ржавый ящик</title></head><body></body></html>'
             ]
-        ].forEach(function(item) {
+        ].forEach(item => {
             expect(tp.execute(item[0])).toEqual(item[1]);
         });
     });
 
-    it('should disable ru/optalign', function() {
+    it('should disable ru/optalign', () => {
         const tp = new Typograf({locale: 'ru', disableRule: '*'});
 
         [
@@ -153,7 +153,7 @@ describe('russian specific tests', function() {
             '<span class="typograf-oa-lquot">«</span>',
             '<span class="typograf-oa-comma">,</span>',
             '<span class="typograf-oa-sp-lbracket"> </span>'
-        ].forEach(function(item) {
+        ].forEach(item => {
             expect(tp.execute(item)).toEqual(item);
         });
     });

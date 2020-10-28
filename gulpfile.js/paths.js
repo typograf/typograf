@@ -5,9 +5,9 @@ module.exports = {
         build: './build/',
         dist: './dist/'
     },
-    js: {
-        index: 'src/index.js',
-        all: 'src/index_all.js'
+    ts: {
+        index: 'src/index.ts',
+        all: 'src/index.all.ts'
     },
     json: {
         rules: [
