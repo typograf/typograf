@@ -11,7 +11,7 @@ const Quote = {
     },
     maxLevel: 3,
     beforeLeft: ' \n\t\u00a0[(',
-    afterRight: ' \n\t\u00a0!?.:;#*,…)',
+    afterRight: ' \n\t\u00a0!?.:;#*,…)\\]',
     process(params) {
         let text = params.context.text;
         const count = this.count(text);

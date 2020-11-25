@@ -1,5 +1,8 @@
 # Changelog
 
+# v6.11.3
+Исправлена ошибка в правиле `common/punctuation/quotes` #375.
+
 # v6.11.2
 Исправлена ошибка в правиле `ru/punctuation/ano` #373.
 
