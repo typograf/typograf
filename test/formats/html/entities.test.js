@@ -1,4 +1,4 @@
-import Typograf from '../build/typograf';
+import Typograf from '../../../build/typograf';
 
 describe('HTML Entities', function() {
     it('should get entities as name or digit', function() {

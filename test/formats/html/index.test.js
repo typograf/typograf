@@ -1,4 +1,4 @@
-import Typograf from '../build/typograf';
+import Typograf from '../../../build/typograf';
 
 const t = new Typograf({locale: 'en-US'});
 const commonTests = [
@@ -66,7 +66,6 @@ const commonTests = [
         '<div>    Text  &lt;br/&gt;     Text  &lt;br/&gt;  </div>',
         '<div> Text &lt;br/&gt; Text &lt;br/&gt; </div>'
     ],
-    ['1\r\n2\r\n3', '1\n2\n3'], // Windows
     [0, '0'],
     [null, 'null'],
     ['', ''],
