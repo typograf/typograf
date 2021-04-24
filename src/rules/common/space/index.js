@@ -5,6 +5,7 @@ import beforeBracket from './beforeBracket';
 import bracket from './bracket';
 import delBeforePercent from './delBeforePercent';
 import delBeforePunctuation from './delBeforePunctuation';
+import delBetweenExclamationMarks from './delBetweenExclamationMarks';
 import delLeadingBlanks from './delLeadingBlanks';
 import delRepeatN from './delRepeatN';
 import delRepeatSpace from './delRepeatSpace';
@@ -21,6 +22,7 @@ Typograf.addRules([
     bracket,
     delBeforePercent,
     delBeforePunctuation,
+    delBetweenExclamationMarks,
     delLeadingBlanks,
     delRepeatN,
     delRepeatSpace,
