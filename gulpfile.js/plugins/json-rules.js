@@ -40,7 +40,11 @@ module.exports = function(file) {
             firstFile = file;
         }
 
-        rules[getRulePath(file.relative)] = JSON.parse(file.contents);
+        try {
+            rules[getRulePath(file.relative)] = JSON.parse(file.contents);
+        } catch(e) {
+            console.error(`JSON error at ${file.relative}`);
+        }
     }
 
     function endStream() {

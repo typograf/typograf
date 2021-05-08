@@ -11,7 +11,16 @@ function jsonGroups() {
         .pipe(dest(paths.dir.build))
         .on('end', () => {
             const dir = paths.dir.build;
-            const txt = fs.readFileSync(`${dir}typograf.groups.json`);
+            const path = `${dir}typograf.groups.json`;
+            const txt = fs.readFileSync(path);
+
+            try {
+                JSON.parse(txt);
+            } catch(e) {
+                console.error(`Error at ${path}`);
+                process.exit(1);
+            }
+
             fs.writeFileSync(`${dir}typograf.groups.js`, `export default ${txt};
 `);
         });
