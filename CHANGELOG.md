@@ -1,5 +1,9 @@
 # Changelog
 
+# v6.12.0
+- Добавлено отдельное правило для удаления пробела перед точкой `common/space/delBeforeDot`.
+- Добавлено правило для удаления пробелов между знаками восклицания `common/space/delBetweenExclamationMarks`.
+
 # v6.11.3
 Исправлена ошибка в правиле `common/punctuation/quotes` #375.
 
