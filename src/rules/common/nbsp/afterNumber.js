@@ -1,7 +1,7 @@
 export default {
     name: 'common/nbsp/afterNumber',
     handler(text, settings, context) {
-        const re = '(^|\\D)(\\d{1,5}) ([' +
+        const re = '(^|\\s)(\\d{1,5}) ([' +
             context.getData('char') +
             ']+)';
 
