@@ -1,5 +1,11 @@
 # Changelog
 
+# v6.12.1
+Доработки в правилах:
+- `common/nbsp/afterNumber`
+- `ru/nbsp/initials`
+#386, #387 @lbeschastny
+
 # v6.12.0
 - Добавлено отдельное правило для удаления пробела перед точкой `common/space/delBeforeDot`.
 - Добавлено правило для удаления пробелов между знаками восклицания `common/space/delBetweenExclamationMarks`.
