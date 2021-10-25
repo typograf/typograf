@@ -4,14 +4,13 @@ import { deepCopy } from '../../../helpers/object';
 import { repeat } from '../../../helpers/string';
 import { privateLabel } from '../../../consts';
 
-const MAX_LEVEL_WITH_ERRORS = 1;
+const MAX_LEVEL_WITH_ERRORS = 2;
 
 const Quote = {
     bufferQuotes: {
         left: '\uF005\uF006\uF007',
         right: '\uF008\uF009\uF0A0'
     },
-    maxLevel: 3,
     beforeLeft: ' \n\t\u00a0[(',
     afterRight: ' \n\t\u00a0!?.:;#*,…)\\]',
     process(params) {
@@ -128,8 +127,8 @@ const Quote = {
         const lquote2 = params.settings.left[1] || lquote;
         const rquote = params.settings.right[0];
 
-        const reL = new RegExp('(^|[' + this.beforeLeft + '])([' + quotes + ']{1,' + this.maxLevel + '})(?=[^\\s' + privateLabel + '])', 'gim');
-        const reR = new RegExp('([^\\s' + privateLabel + '])([' + quotes + ']{1,' + this.maxLevel + '})(?=[' + this.afterRight + ']|$)', 'gim');
+        const reL = new RegExp('(^|[' + this.beforeLeft + '])([' + quotes + ']+)(?=[^\\s' + privateLabel + '])', 'gim');
+        const reR = new RegExp('([^\\s' + privateLabel + '])([' + quotes + ']+)(?=[' + this.afterRight + ']|$)', 'gim');
 
         text = text
             .replace(reL, function($0, $1, $2) { return $1 + repeat(lquote, $2.length); })
@@ -221,40 +220,31 @@ const Quote = {
         return null;
     },
     setInner(text, settings) {
-        const leftQuotes = [];
-        const rightQuotes = [];
-
-        for (let k = 0; k < settings.left.length; k++) {
-            leftQuotes.push(settings.left[k]);
-            rightQuotes.push(settings.right[k]);
-        }
-
         const lquote = settings.left[0];
         const rquote = settings.right[0];
-        const minLevel = -1;
-        const maxLevel = this.getMaxLevel(text, settings);
+        const minLevel = 0;
+        const maxLevel = this.getMaxLevel(text, lquote, rquote, settings.left.length);
         let level = minLevel;
         let result = '';
 
         for (let i = 0, len = text.length; i < len; i++) {
             let letter = text[i];
             if (letter === lquote) {
+                result += settings.left[level > maxLevel - 1 ? maxLevel - 1 : level];
+
                 level++;
+
                 if (level > maxLevel) {
                     level = maxLevel;
                 }
-                result += leftQuotes[level];
             } else if (letter === rquote) {
-                if (level <= minLevel) {
-                    level = 0;
-                    result += rightQuotes[level];
-                } else {
-                    result += rightQuotes[level];
-                    level--;
-                    if (level < minLevel) {
-                        level = minLevel;
-                    }
+                level--;
+
+                if (level < minLevel) {
+                    level = minLevel;
                 }
+
+                result += settings.right[level];
             } else {
                 if (letter === '"') {
                     level = minLevel;
@@ -266,14 +256,12 @@ const Quote = {
 
         return result;
     },
-    getMaxLevel(text, settings) {
-        const count = this.count(text, settings);
-        const leftQuotesCount = count[settings.left[0]] || 0;
-        const rightQuotesCount = count[settings.right[0]] || 0;
+    getMaxLevel(text, leftQuote, rightQuote, length) {
+        const count = this.count(text);
 
-        return leftQuotesCount === rightQuotesCount ?
-            settings.left.length - 1 :
-            Math.min(settings.left.length - 1, MAX_LEVEL_WITH_ERRORS);
+        return count[leftQuote] === count[rightQuote] ?
+            length :
+            Math.min(length, MAX_LEVEL_WITH_ERRORS);
     }
 };
 
