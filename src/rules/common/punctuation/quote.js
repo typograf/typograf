@@ -4,6 +4,8 @@ import { deepCopy } from '../../../helpers/object';
 import { repeat } from '../../../helpers/string';
 import { privateLabel } from '../../../consts';
 
+const MAX_LEVEL_WITH_ERRORS = 1;
+
 const Quote = {
     bufferQuotes: {
         left: '\uF005\uF006\uF007',
@@ -230,7 +232,7 @@ const Quote = {
         const lquote = settings.left[0];
         const rquote = settings.right[0];
         const minLevel = -1;
-        const maxLevel = leftQuotes.length - 1;
+        const maxLevel = this.getMaxLevel(text, settings);
         let level = minLevel;
         let result = '';
 
@@ -262,8 +264,16 @@ const Quote = {
             }
         }
 
-        const count = this.count(result, settings);
-        return count[lquote] !== count[rquote] ? text : result;
+        return result;
+    },
+    getMaxLevel(text, settings) {
+        const count = this.count(text, settings);
+        const leftQuotesCount = count[settings.left[0]] || 0;
+        const rightQuotesCount = count[settings.right[0]] || 0;
+
+        return leftQuotesCount === rightQuotesCount ?
+            settings.left.length - 1 :
+            Math.min(settings.left.length - 1, MAX_LEVEL_WITH_ERRORS);
     }
 };
 
