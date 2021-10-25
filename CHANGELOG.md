@@ -1,5 +1,8 @@
 # Changelog
 
+# v6.12.2
+Доработки правила `ru/punctuation/ano` #389.
+
 # v6.12.1
 Доработки в правилах:
 - `common/nbsp/afterNumber`
