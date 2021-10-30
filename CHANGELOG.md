@@ -1,6 +1,7 @@
 # Changelog
 
 # v6.14.0
+- Доработки по растановке кавычек при ошибках #396.
 - Пробел после запятой не всегда исправляется #397.
 - Правило `common/space/afterPunctuation` разбито на пять отдельных правил: `common/space/afterComma`, `common/space/afterExclamationMark`, `common/space/afterQuestionMark`, `common/space/afterColon` и `common/space/afterSemicolon`.
 
