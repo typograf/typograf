@@ -18,7 +18,7 @@
  + кроссплатформенность;
  + кроссбраузерность;
  + поддержка Node.js;
- + поддержка HTML;
+ + поддержка HTML и XML;
  + [типографирование на лету](https://github.com/typograf/jquery-typograf);
  + TDD.
 
