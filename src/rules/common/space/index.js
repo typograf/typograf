@@ -1,6 +1,5 @@
 import Typograf from '../../../typograf';
 
-import afterPunctuation from './afterPunctuation';
 import beforeBracket from './beforeBracket';
 import bracket from './bracket';
 import delBeforePercent from './delBeforePercent';
@@ -16,9 +15,18 @@ import replaceTab from './replaceTab';
 import squareBracket from './squareBracket';
 import trimLeft from './trimLeft';
 import trimRight from './trimRight';
+import afterColon from './afterColon';
+import afterComma from './afterComma';
+import afterQuestionMark from './afterQuestionMark';
+import afterExclamationMark from './afterExclamationMark';
+import afterSemicolon from './afterSemicolon';
 
 Typograf.addRules([
-    afterPunctuation,
+    afterColon,
+    afterComma,
+    afterQuestionMark,
+    afterExclamationMark,
+    afterSemicolon,
     beforeBracket,
     bracket,
     delBeforeDot,
