@@ -10,7 +10,8 @@ export default {
                 quote.left +
                 privateLabel +
                 '"])([А-ЯЁ])\\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +
-                ']?([А-ЯЁ][а-яё]+)(?=[\\s.,;:?!"' + quote.right + privateLabel + ']|$)', 'gm');
+                ']?([А-ЯЁ][а-яё]+(?:-[А-ЯЁ][а-яё]+)?)(?=[\\s.,;:?!"' +
+                quote.right + privateLabel + ']|$)', 'gm');
 
         return text.replace(re, '$1$2.\u00A0$3.\u00A0$4');
     }
