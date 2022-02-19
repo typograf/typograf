@@ -15,6 +15,7 @@ import surname from './surname';
 import taki from './taki';
 import time from './time';
 import to from './to';
+import kakto from './kakto';
 import weekday from './weekday';
 import years from './years';
 
@@ -34,6 +35,7 @@ Typograf.addRules([
     taki,
     time,
     to,
+    kakto,
     weekday,
     years
 ]);
