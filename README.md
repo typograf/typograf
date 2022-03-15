@@ -38,6 +38,7 @@
   - [Remark](https://github.com/Mavrin/remark-typograf)
   - [TinyMCE](https://habrahabr.ru/post/266337/)
   - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
+  - [Bitrix](https://github.com/ilimurzin/bitrix-typograf)
 - [Поддерживаемые правила](./docs/RULES.ru.md)
 - API
   - [Включить или отключить правила](./docs/api_rules.md)
