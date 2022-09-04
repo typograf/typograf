@@ -21,7 +21,8 @@ gulp.task('default', gulp.series(
         taskCss,
         taskJsonGroups
     ),
-    taskJs,
+    taskJs("umd"),
+    taskJs("es"),
     gulp.parallel(
         taskJsonRules,
         taskMinJs

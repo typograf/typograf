@@ -9,20 +9,24 @@ const babel = require('rollup-plugin-babel');
 const copyright = require('../utils/copyright');
 const version = require('../utils/version');
 
-function js() {
-    return src(['./src/**/*.js', './build/**/*.js'])
-        .pipe(gulpRollup({
-            input: paths.js.index,
-            output: {
-                format: 'umd',
-                name: 'Typograf'
-            },
-            plugins: [babel()]
-        }))
-        .pipe(version())
-        .pipe(copyright())
-        .pipe(gulpRename('typograf.js'))
-        .pipe(dest(paths.dir.build));
+const formatPrefix = { umd: "", es: ".es" };
+
+function jsTask(format) {
+    return function js() {
+        return src(['./src/**/*.js', './build/**/*.js'])
+            .pipe(gulpRollup({
+                input: paths.js.index,
+                output: {
+                    format: format,
+                    name: 'Typograf'
+                },
+                plugins: [babel()]
+            }))
+            .pipe(version())
+            .pipe(copyright())
+            .pipe(gulpRename(`typograf${formatPrefix[format]}.js`))
+            .pipe(dest(paths.dir.build));
+    }
 }
 
-module.exports = js;
+module.exports = jsTask;
