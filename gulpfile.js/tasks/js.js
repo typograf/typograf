@@ -10,6 +10,7 @@ const copyright = require('../utils/copyright');
 const version = require('../utils/version');
 
 const formatPrefix = { umd: "", es: ".es" };
+const formatExtension = { umd: ".js", es: ".mjs" };
 
 function jsTask(format) {
     return function js() {
@@ -24,7 +25,7 @@ function jsTask(format) {
             }))
             .pipe(version())
             .pipe(copyright())
-            .pipe(gulpRename(`typograf${formatPrefix[format]}.js`))
+            .pipe(gulpRename(`typograf${formatPrefix[format]}${formatExtension[format]}`))
             .pipe(dest(paths.dir.build));
     }
 }
