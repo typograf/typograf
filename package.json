@@ -8,10 +8,10 @@
     "url": "https://github.com/typograf/typograf"
   },
   "main": "dist/typograf.js",
-  "module": "dist/typograf.es.js",
+  "module": "dist/typograf.es.mjs",
   "exports": {
-    "require": "dist/typograf.js",
-    "import": "dist/typograf.es.js"
+    "require": "./dist/typograf.js",
+    "import": "./dist/typograf.es.mjs"
   },
   "homepage": "https://github.com/typograf",
   "license": "MIT",
