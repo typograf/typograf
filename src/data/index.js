@@ -5,6 +5,7 @@ import common from './common';
 import be from './be';
 import bg from './bg';
 import ca from './ca';
+import cs from './cs';
 import da from './da';
 import de from './de';
 import el from './el';
@@ -36,6 +37,7 @@ const data = [
     be,
     bg,
     ca,
+    cs,
     da,
     de,
     el,
