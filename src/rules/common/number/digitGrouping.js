@@ -15,10 +15,12 @@ export default {
                 /(\d{5,}([.,]\d+)?)/g,
                 ($0, $1) => {
                     const decimalMarker = $1.match(/[.,]/);
-            
-                    let [integerPart, fractionalPart] = decimalMarker ? $1.split(decimalMarker) : [ $1 ];
+
+                    const parts = decimalMarker ? $1.split(decimalMarker) : [ $1 ];
+                    let integerPart = parts[0];
+                    const fractionalPart = parts[1];
                     integerPart = integerPart.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1' + settings.space);
-            
+
                     return decimalMarker ?
                         integerPart + decimalMarker + fractionalPart :
                         integerPart;

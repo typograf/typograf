@@ -203,7 +203,9 @@ export default class SafeTags {
         if (tag instanceof RegExp) {
             re = tag;
         } else {
-            let [startTag, endTag, middle] = tag;
+            const startTag = tag[0];
+            const endTag = tag[1];
+            let middle = tag[2];
             if (typeof middle === 'undefined') {
                 middle = '[^]*?';
             }
