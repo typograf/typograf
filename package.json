@@ -39,7 +39,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
-    "del": "^6.1.1",
+    "del-cli": "^5.0.0",
     "eslint": "^8.31.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
@@ -56,11 +56,12 @@
     "vinyl": "^2.2.1"
   },
   "scripts": {
+    "clean": "del-cli dist/* build/*",
     "benchmark": "node benchmark/test.js",
     "dist": "gulp dist",
     "eslint": "eslint .",
     "prepare": "npm run dist",
-    "build": "gulp",
+    "build": "npm run clean && gulp",
     "test": "npm run build && npm run eslint && npm run unit-test",
     "unit-test": "jest ."
   },
