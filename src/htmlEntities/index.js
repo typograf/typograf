@@ -116,7 +116,8 @@ class HtmlEntities {
         let result = [];
 
         entities.forEach(function(entity) {
-            const [name, digit] = entity;
+            const name = entity[0];
+            const digit = entity[1];
             const utf = String.fromCharCode(digit);
 
             result.push({

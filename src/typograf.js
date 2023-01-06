@@ -67,7 +67,10 @@ export default class Typograf {
      * @returns {Typograf} this
      */
     static addRule(rule) {
-        const [locale, group, name] = rule.name.split('/');
+        const parts = rule.name.split('/');
+        const locale = parts[0];
+        const group = parts[1];
+        const name = parts[2];
 
         rule._enabled = rule.disabled === true ? false : true;
         rule._locale = locale;
@@ -90,7 +93,7 @@ export default class Typograf {
      *
      * @static
      * @param {TypografRule[]} rules
-     * 
+     *
      * @returns {Typograf} this
      */
     static addRules(rules) {
@@ -233,7 +236,7 @@ export default class Typograf {
         if (!context.isHTML || context.prefs.processingSeparateParts === false) {
             return [ context.text ];
         }
-        
+
         const
             text = [],
             reTags = new RegExp('<(' + this._separatePartsTags.join('|') + ')(\\s[^>]*?)?>[^]*?</\\1>', 'gi');
@@ -275,7 +278,7 @@ export default class Typograf {
 
         this._safeTags.hide(context, 'html');
         this._executeRules(context, 'hide-safe-tags-html');
-        
+
         const
             isRootHTML = context.isHTML,
             re = new RegExp(privateSeparateLabel, 'g');
@@ -306,10 +309,10 @@ export default class Typograf {
 
             this._safeTags.show(context, 'url');
             this._executeRules(context, 'show-safe-tags-url');
-            
+
             return context.text.replace(re, '');
         }).join('');
-        
+
         context.isHTML = isRootHTML;
 
         this._safeTags.show(context, 'html');
@@ -531,7 +534,7 @@ Typograf.prototype._innerRules = [];
 /**
  * @typedef TypografRule
  * @type {object}
- * 
+ *
  * @property {string} name Name of rule
  * @property {Function} handler Processing function
  * @property {number} [index] Sorting index for rule
