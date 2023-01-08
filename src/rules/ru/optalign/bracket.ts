@@ -25,6 +25,7 @@ export const innerStartBracketRule: TypografRule = {
     handler(text) {
         return removeOptAlignTags(text, classNames);
     },
+    htmlAttrs: false,
 };
 
 export const innerEndBracketRule: TypografRule = {
@@ -33,4 +34,5 @@ export const innerEndBracketRule: TypografRule = {
     handler(text) {
         return removeOptAlignTagsFromTitle(text, classNames);
     },
+    htmlAttrs: false,
 };

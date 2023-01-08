@@ -4,8 +4,8 @@ import { prepareLocale } from './locale';
 export function prepareHtmlEntity(htmlEntity?: Partial<TypografPrefsInternal['htmlEntity']>): TypografPrefsInternal['htmlEntity'] {
     const result = {
         type: htmlEntity?.type || 'default',
-        list:  htmlEntity?.list,
-        onlyInvisible: htmlEntity?.onlyInvisible === false ? false : true,
+        list: htmlEntity?.list,
+        onlyInvisible: Boolean(htmlEntity?.onlyInvisible),
     };
 
     return result;
@@ -27,7 +27,7 @@ export function preparePrefs(prefs: TypografPrefs): TypografPrefsInternal {
         ruleFilter: prefs.ruleFilter,
         enableRule: prefs.enableRule,
         disableRule: prefs.disableRule,
-        processingSeparateParts: prepareProcessingSeparateParts(prefs.processingSeparateParts),
+        processingSeparateParts: prefs.processingSeparateParts,
         htmlEntity: prepareHtmlEntity(prefs.htmlEntity),
     };
 
@@ -56,7 +56,7 @@ export function prepareContextPrefs(prefs: TypografPrefsInternal, executePrefs?:
     }
 
     if ('processingSeparateParts' in executePrefs) {
-        result.processingSeparateParts = prepareProcessingSeparateParts(executePrefs.processingSeparateParts);
+        result.processingSeparateParts = executePrefs.processingSeparateParts;
     }
 
     if ('ruleFilter' in executePrefs) {

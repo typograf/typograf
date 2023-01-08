@@ -25,6 +25,7 @@ export const innerStartCommaRule: TypografRule = {
     handler(text) {
         return removeOptAlignTags(text, classNames);
     },
+    htmlAttrs: false,
 };
 
 export const innerEndCommaRule: TypografRule = {
@@ -33,4 +34,5 @@ export const innerEndCommaRule: TypografRule = {
     handler(text) {
         return removeOptAlignTagsFromTitle(text, classNames);
     },
+    htmlAttrs: false,
 };

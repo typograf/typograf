@@ -5,7 +5,7 @@ import { SafeTags } from './safeTags';
 import { replaceNbsp, isHTML, removeCR, fixLineEnding } from './helpers/string';
 import { deepCopy } from './helpers/object';
 import { privateSeparateLabel } from './consts';
-import { addInnerRule, addRule, getInnerRules, getRules } from './rule';
+import { addInnerRule, addRule, getInnerRules, getRules, DEFAULT_QUEUE_NAME } from './rule';
 import { PACKAGE_VERSION } from './version';
 import { prepareContextPrefs, preparePrefs } from './prefs';
 
@@ -83,18 +83,16 @@ export interface TypografRuleInternal {
 }
 
 export class Typograf {
+    public safeTags: SafeTags;
+    public onBeforeRule?: (ruleName: string, context: TypografContext) => void;
+    public onAfterRule?: (ruleName: string, context: TypografContext) => void;
+
     private prefs: TypografPrefsInternal;
     private rules: TypografRuleInternal[] = [];
     private innerRules: TypografRuleInternal[] = [];
     private rulesByQueues: Record<string, TypografRuleInternal[]> = {};
     private innerRulesByQueues: Record<string, TypografRuleInternal[]> = {};
     private enabledRules: Record<string, boolean>;
-
-    public safeTags: SafeTags;
-
-    public onBeforeRule?: (ruleName: string, context: TypografContext) => void;
-    public onAfterRule?: (ruleName: string, context: TypografContext) => void;
-
     private settings: Record<string, Record<string, unknown>>;
 
     private separatePartsTags = [
@@ -134,11 +132,11 @@ export class Typograf {
         this.prefs.enableRule && this.enableRule(this.prefs.enableRule)
     }
 
-    static addRule(rule: TypografRule) {
+    static addRule(rule: TypografRule): void {
         addRule(rule);
     }
 
-    static addRules(rules: TypografRule[]) {
+    static addRules(rules: TypografRule[]): void {
         rules.forEach((item) => {
             this.addRule(item);
         });
@@ -146,13 +144,13 @@ export class Typograf {
 
     /**
      * Add internal rule.
-     * Internal rules are executed before main.
+     * Internal rules are executed before main rules.
      */
-    static addInnerRule(rule: TypografRule) {
+    static addInnerRule(rule: TypografRule): void {
         addInnerRule(rule);
     }
 
-    static addInnerRules(rules: TypografRule[]) {
+    static addInnerRules(rules: TypografRule[]): void{
         rules.forEach((item) => {
             this.addInnerRule(item);
         });
@@ -161,6 +159,7 @@ export class Typograf {
     static getRule(ruleName: string): TypografRuleInternal | null {
         let rule = null;
         const rules = getRules();
+
         rules.some(item => {
             if (item.name === ruleName) {
                 rule = item;
@@ -181,6 +180,30 @@ export class Typograf {
         return getInnerRules();
     }
 
+    static getLocales(): string[] {
+        return getLocales();
+    }
+
+    static addLocale(locale: string): void {
+        addLocale(locale);
+    }
+
+    static hasLocale(locale: string): boolean {
+        return hasLocale(locale);
+    }
+
+    static setData(data: Record<string, unknown>): void {
+        setData(data);
+    }
+
+    static getData(key: string): unknown {
+        return getData(key);
+    }
+
+    static groups: { name: string; title: Record<string, string>}[] = [];
+    static titles: Record<string, Record<string, string>> = {};
+    static version = PACKAGE_VERSION;
+
     /**
      * Execute typographical rules for text.
      */
@@ -195,6 +218,46 @@ export class Typograf {
         const context = this.prepareContext(text, contextPrefs);
 
         return this.process(context);
+    }
+
+    public getSetting(ruleName: string, setting: string): unknown {
+        return this.settings[ruleName] && this.settings[ruleName][setting];
+    }
+
+    public setSetting(ruleName: string, setting: string, value: unknown): void {
+        this.settings[ruleName] = this.settings[ruleName] || {};
+        this.settings[ruleName][setting] = value;
+    }
+
+    public isEnabledRule(ruleName: string): boolean {
+        return this.enabledRules[ruleName] !== false;
+    }
+
+    public isDisabledRule(ruleName: string): boolean {
+        return !this.enabledRules[ruleName];
+    }
+
+    public enableRule(ruleName: string | string[]): void {
+        return this.enable(ruleName, true);
+    }
+
+    public disableRule(ruleName: string | string[]): void {
+        return this.enable(ruleName, false);
+    }
+
+    /**
+     * Add safe tag.
+     *
+     * @example
+     * // const typograf = new Typograf({ locale: 'ru' });
+     * // typograf.addSafeTag('<mytag>', '</mytag>');
+     * // typograf.addSafeTag('<mytag>', '</mytag>', '.*?');
+     * // typograf.addSafeTag(/<mytag>.*?</mytag>/gi);
+    */
+    public addSafeTag(startTag: string | RegExp, endTag?: string, middle?: string): void {
+        const tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
+
+        this.safeTags.add(tag);
     }
 
     private prepareContext(text: string, prefs: TypografPrefsInternal) {
@@ -243,10 +306,9 @@ export class Typograf {
             return $0;
         });
 
-        text.push(
-            position ?
-                (privateSeparateLabel + context.text.slice(position, context.text.length)) :
-                context.text
+        text.push(position ?
+            (privateSeparateLabel + context.text.slice(position, context.text.length)) :
+            context.text
         );
 
         return text;
@@ -269,6 +331,7 @@ export class Typograf {
         context.text = this.splitBySeparateParts(context).map((item) => {
             context.text = item;
             context.isHTML = isHTML(item);
+
             this.safeTags.hideHTMLTags(context);
 
             this.safeTags.hide(context, 'url');
@@ -278,7 +341,7 @@ export class Typograf {
 
             htmlEntities.toUtf(context);
 
-            if (this.prefs.live) {
+            if (context.prefs.live) {
                 context.text = replaceNbsp(context.text);
             }
 
@@ -309,49 +372,7 @@ export class Typograf {
         return fixLineEnding(context.text, context.prefs.lineEnding);
     }
 
-    public getSetting(ruleName: string, setting: string) {
-        return this.settings[ruleName] && this.settings[ruleName][setting];
-    }
-
-    setSetting(ruleName: string, setting: string, value: unknown) {
-        this.settings[ruleName] = this.settings[ruleName] || {};
-        this.settings[ruleName][setting] = value;
-    }
-
-    public isEnabledRule(ruleName: string) {
-        return Boolean(this.enabledRules[ruleName]);
-    }
-
-    public isDisabledRule(ruleName: string): boolean {
-        return !this.enabledRules[ruleName];
-    }
-
-    public enableRule(ruleName: string | string[]) {
-        return this.enable(ruleName, true);
-    }
-
-    public disableRule(ruleName: string | string[]) {
-        return this.enable(ruleName, false);
-    }
-
-    /**
-     * Add safe tag.
-     *
-     * @example
-     * // var t = new Typograf({locale: 'ru'});
-     * // t.addSafeTag('<mytag>', '</mytag>');
-     * // t.addSafeTag('<mytag>', '</mytag>', '.*?');
-     * // t.addSafeTag(/<mytag>.*?</mytag>/gi);
-    */
-    public addSafeTag(startTag: string | RegExp, endTag?: string, middle?: string) {
-        const tag = startTag instanceof RegExp ? startTag : [startTag, endTag, middle];
-
-        this.safeTags.add(tag);
-    }
-
-    private executeRules(context: TypografContext, queue?: string) {
-        queue = queue || 'default';
-
+    private executeRules(context: TypografContext, queue = DEFAULT_QUEUE_NAME) {
         const rules = this.rulesByQueues[queue];
         const innerRules = this.innerRulesByQueues[queue];
 
@@ -365,14 +386,11 @@ export class Typograf {
     }
 
     private ruleIterator(context: TypografContext, rule: TypografRuleInternal) {
-        const rlocale = rule.locale;
-        const live = this.prefs.live;
-
-        if ((live === true && rule.live === false) || (live === false && rule.live === true)) {
+        if ((context.prefs.live === true && rule.live === false) || (context.prefs.live === false && rule.live === true)) {
             return;
         }
 
-        if ((rlocale === 'common' || rlocale === context.prefs.locale[0]) && this.isEnabledRule(rule.name)) {
+        if ((rule.locale === 'common' || rule.locale === context.prefs.locale[0]) && this.isEnabledRule(rule.name)) {
             if (context.prefs.ruleFilter && !context.prefs.ruleFilter(rule)) {
                 return;
             }
@@ -390,8 +408,8 @@ export class Typograf {
 
     private enable(ruleName: string | string[], enabled: boolean) {
         if (Array.isArray(ruleName)) {
-            ruleName.forEach(el => {
-                this.enableByMask(el, enabled);
+            ruleName.forEach(item => {
+                this.enableByMask(item, enabled);
             });
         } else {
             this.enableByMask(ruleName, enabled);
@@ -416,29 +434,4 @@ export class Typograf {
             this.enabledRules[ruleName] = enabled;
         }
     }
-
-    static getLocales() {
-        return getLocales();
-    }
-
-    static addLocale(locale: string) {
-        addLocale(locale);
-    }
-
-    static hasLocale() {
-        return hasLocale;
-    }
-
-    static version = PACKAGE_VERSION;
-
-    static setData(data: Record<string, unknown>) {
-        setData(data);
-    }
-
-    static getData(key: string) {
-        return getData(key);
-    }
-
-    static groups: { name: string; title: Record<string, string>}[] = [];
-    static titles: Record<string, Record<string, string>> = {};
 }

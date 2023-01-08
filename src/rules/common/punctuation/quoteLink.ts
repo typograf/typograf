@@ -9,8 +9,6 @@ export const quoteLinkRule: TypografRule = {
     index: '+5',
     handler(text, _settings, context) {
         const quotes = this.getSetting('common/punctuation/quote', context.prefs.locale[0]) as QuoteSettings;
-
-        if (!quotes) { return text; }
         const lquote1 = htmlEntities.getByUtf(quotes.left[0]);
         const rquote1 = htmlEntities.getByUtf(quotes.right[0]);
         let lquote2 = htmlEntities.getByUtf(quotes.left[1]);

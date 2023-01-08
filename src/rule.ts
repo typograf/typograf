@@ -2,8 +2,8 @@ import { groupIndexes } from './groupIndexes';
 import { addLocale } from './locale';
 import { TypografRule, TypografRuleInternal } from './main';
 
-const DEFAULT_RULE_INDEX = 0;
-const DEFAULT_QUEUE_NAME = 'default';
+export const DEFAULT_RULE_INDEX = 0;
+export const DEFAULT_QUEUE_NAME = 'default';
 
 const rules: TypografRuleInternal[] = [];
 const innerRules: TypografRuleInternal[] = [];
@@ -68,8 +68,8 @@ export function prepareRule(rule: TypografRule): TypografRuleInternal {
         group,
         index: getRuleIndex(rule),
         settings: rule.settings,
-        live: Boolean(rule.live),
-        htmlAttrs: Boolean(rule.htmlAttrs),
+        live: rule.live,
+        htmlAttrs: rule.htmlAttrs,
     };
 
     return preparedRule;
