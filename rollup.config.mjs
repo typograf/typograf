@@ -1,25 +1,23 @@
-import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
+
+const plugins = [ typescript({ tsconfig: './tsconfig.json' }) ];
 
 export default [
     {
-        input: 'src/index.js',
+        input: 'src/typograf.ts',
         output: {
             format: 'umd',
             name: 'Typograf',
             file: './build/typograf.js'
         },
-        plugins: [
-            babel({
-                presets: [ '@babel/preset-env' ],
-                babelHelpers: 'bundled'
-            })
-        ]
+        plugins,
     },
     {
-        input: 'src/index.js',
+        input: 'src/typograf.ts',
         output: {
             format: 'es',
             file: './build/typograf.es.mjs'
-        }
+        },
+        plugins,
     }
 ];

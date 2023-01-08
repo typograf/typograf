@@ -1,7 +1,7 @@
 {
   "name": "typograf",
   "description": "The client and server typography",
-  "version": "6.15.1",
+  "version": "7.0.0",
   "author": {
     "name": "Denis Seleznev",
     "email": "hcodes@yandex.ru",
@@ -40,6 +40,8 @@
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-typescript": "^10.0.1",
+    "@types/jest": "^29.2.5",
     "cpy-cli": "^4.2.0",
     "del-cli": "^5.0.0",
     "eslint": "^8.31.0",
@@ -50,28 +52,32 @@
     "postcss-import-ext-glob": "^2.1.1",
     "rollup": "^3.9.1",
     "sort-keys": "^5.0.0",
+    "ts-jest": "^29.0.3",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4",
     "uglify-js": "^3.17.4"
   },
   "scripts": {
+    "version": "node -p \"'export const PACKAGE_VERSION = \\'' + require('./package.json').version + '\\';'\" > src/version.ts",
     "prepare": "npm run dist",
     "clean": "del-cli dist/* build/*",
-    "benchmark": "node benchmark/test.js",
-    "build": "npm run clean && npm run build:css && npm run build:groups && npm run build:js && npm run build:titles && npm run build:md && npm run build:all-js && npm run build:version && npm run build:copyright",
+    "benchmark": "node benchmark/test.mjs",
+    "build": "npm run clean && npm run version && npm run build:css && npm run build:groups && npm run build:titles && npm run build:js && npm run build:all-js && npm run build:copyright",
     "build:css": "postcss --no-map src/typograf.css -o ../build/typograf.css",
     "build:js": "rollup --config rollup.config.mjs",
     "build:all-js": "rollup --config rollup.config.all.mjs",
     "build:groups": "cpy --rename=typograf.{{basename}} --flat src/groups.json build/ && node tools/groups.mjs",
     "build:titles": "node tools/titles.mjs",
     "build:md": "node tools/md.mjs",
-    "build:version": "node tools/version.mjs build/typograf.js build/typograf.es.mjs build/typograf.all.js",
     "build:copyright": "node tools/copyright.mjs build/typograf.js build/typograf.es.mjs build/typograf.all.js",
     "minimize:js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.js -o ./build/typograf.min.js",
     "minimize:all-js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.all.js -o ./build/typograf.all.min.js",
-    "dist": "npm run build && npm run minimize:js && npm run minimize:all-js && npm run dist:copy",
+    "dist": "npm run build && npm run minimize:js && npm run minimize:all-js && npm run build:md && npm run dist:copy",
     "dist:copy": "cpy 'build/typograf.*' dist/",
     "test": "npm run build && npm run eslint && npm run unit-test",
     "eslint": "eslint .",
-    "unit-test": "jest ."
+    "unit-test": "jest .",
+    "typecheck": "tsc --noEmit"
   },
   "typings": "./typograf.d.ts"
 }

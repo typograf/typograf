@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Typograf from '../build/typograf.js';
 
-const rules = Typograf.prototype._rules;
+const rules = Typograf.getRules();
 
 const titles = JSON.parse(
     fs.readFileSync('./build/typograf.titles.json', 'utf-8')
