@@ -37,7 +37,7 @@ function getQueueIndex(name) {
 function getRow(titles, rule, i, locale) {
     const title = titles[rule.name][locale] || titles[rule.name].common;
     return '| ' + i + '. | [' +
-        rule.name + '](../src/rules/' + rule.name + '.js) | ' +
+        rule.name + '](../src/rules/' + rule.name + '.ts) | ' +
         title + ' | ' +
         rule.index + ' | ' +
         (rule.queue || '') + ' | ' +
