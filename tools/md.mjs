@@ -39,7 +39,7 @@ function getRow(titles, rule, i, locale) {
     return '| ' + i + '. | [' +
         rule.name + '](../src/rules/' + rule.name + '.js) | ' +
         title + ' | ' +
-        rule._index + ' | ' +
+        rule.index + ' | ' +
         (rule.queue || '') + ' | ' +
         (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
 }
@@ -78,9 +78,9 @@ rules.sort((a, b) => {
     const queueIndexB = getQueueIndex(queueB);
 
     if (queueIndexA === queueIndexB) {
-        if (a._index > b._index) {
+        if (a.index > b.index) {
             return 1;
-        } else if (a._index < b._index) {
+        } else if (a.index < b.index) {
             return -1;
         } else {
             return 0;
