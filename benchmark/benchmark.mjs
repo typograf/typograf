@@ -18,6 +18,10 @@ function now() {
     return (hrtime[0] * 1000000 + hrtime[1] / 1000) / 1000;
 }
 
+function formatNumber(num) {
+    return num.toFixed(3);
+}
+
 function calcTimes() {
     const times = [];
     let total = 0;
@@ -56,15 +60,12 @@ const startTime = now();
 const output = typograf.execute(text);
 
 const totalTime = now() - startTime;
-console.log(`Total time: ${totalTime.toFixed(1)} ms`);
+console.log(`Total time: ${formatNumber(totalTime)} ms`);
 
 const result = calcTimes();
-console.log(`\nTime in rules: ${result.total.toFixed(1)} ms`);
+console.log(`\nTime in rules: ${formatNumber(result.total)} ms`);
 result.times.forEach((item, i) => {
-    const time = Math.floor(item.time * 1000) / 1000;
-    if (item.time) {
-        console.log(`${i + 1}. ${item.name}: ${time} ms`);
-    }
+    console.log(`${i + 1}. ${item.name}: ${formatNumber(item.time)} ms`);
 });
 
 fs.writeFileSync('./benchmark/output.html', output);
