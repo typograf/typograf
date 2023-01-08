@@ -5,7 +5,8 @@ node_modules/
 coverage/
 test/fixtures/before/*.tmp
 npm-debug.log
-benchmark/*.txt
 benchmark/*.html
+benchmark/books/*.html
+src/version.ts
 .DS_Store
 .vscode

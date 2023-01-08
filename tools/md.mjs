@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Typograf from '../build/typograf.js';
 
-const rules = Typograf.prototype._rules;
+const rules = Typograf.getRules();
 
 const titles = JSON.parse(
     fs.readFileSync('./build/typograf.titles.json', 'utf-8')
@@ -37,9 +37,9 @@ function getQueueIndex(name) {
 function getRow(titles, rule, i, locale) {
     const title = titles[rule.name][locale] || titles[rule.name].common;
     return '| ' + i + '. | [' +
-        rule.name + '](../src/rules/' + rule.name + '.js) | ' +
+        rule.name + '](../src/rules/' + rule.name + '.ts) | ' +
         title + ' | ' +
-        rule._index + ' | ' +
+        rule.index + ' | ' +
         (rule.queue || '') + ' | ' +
         (rule.enabled === false || rule.disabled === true ? '' : '✓') + ' |\n';
 }
@@ -78,9 +78,9 @@ rules.sort((a, b) => {
     const queueIndexB = getQueueIndex(queueB);
 
     if (queueIndexA === queueIndexB) {
-        if (a._index > b._index) {
+        if (a.index > b.index) {
             return 1;
-        } else if (a._index < b._index) {
+        } else if (a.index < b.index) {
             return -1;
         } else {
             return 0;

@@ -1,0 +1,20 @@
+{
+  "exclude": ["dist", "tools", "benchmark", "coverage"],
+  "compilerOptions": {
+    "outDir": "./build/",
+    "module": "es6",
+    "target": "es5",
+    "declaration": true,
+    "declarationDir": ".",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "lib": [
+        "es6",
+        "dom"
+    ],
+    "moduleResolution": "node",
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  }
+}
