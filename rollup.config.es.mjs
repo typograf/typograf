@@ -4,9 +4,8 @@ export default [
     {
         input: 'src/typograf.ts',
         output: {
-            format: 'umd',
-            name: 'Typograf',
-            file: './build/typograf.js'
+            format: 'es',
+            file: './build/typograf.es.mjs'
         },
         plugins: [ typescript({ tsconfig: './tsconfig.json' }) ],
     }
