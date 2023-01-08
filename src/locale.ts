@@ -25,3 +25,16 @@ export function prepareLocale(locale1?: string | string[], locale2?: string | st
 
     return Array.isArray(locale) ? locale : [ locale ];
 }
+
+
+export function checkLocales(locales: string[]) {
+    if (!locales.length) {
+        throw Error('Not defined the property "locale".');
+    }
+
+    locales.forEach(locale => {
+        if (!hasLocale(locale)) {
+            throw Error(`"${locale}" is not supported locale.`);
+        }
+    });
+}

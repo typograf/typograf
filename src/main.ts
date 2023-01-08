@@ -1,5 +1,5 @@
-import { htmlEntities, HTMLEntityType } from './htmlEntities/index';
-import { addLocale, hasLocale, getLocales, prepareLocale } from './locale';
+import { htmlEntities, TypografHtmlEntityType } from './htmlEntities/index';
+import { addLocale, hasLocale, getLocales, checkLocales } from './locale';
 import { getData, setData } from './data';
 import { SafeTags } from './safeTags';
 import { replaceNbsp, isHTML, removeCR, fixLineEnding } from './helpers/string';
@@ -7,45 +7,46 @@ import { deepCopy } from './helpers/object';
 import { privateSeparateLabel } from './consts';
 import { addInnerRule, addRule, getInnerRules, getRules } from './rule';
 import { PACKAGE_VERSION } from './version';
+import { prepareContextPrefs, preparePrefs } from './prefs';
 
-export type LineEnding = 'LF' | 'CR' | 'CRLF';
+export type TypografLineEnding = 'LF' | 'CR' | 'CRLF';
 
-export interface HtmlEntity {
-    type: HTMLEntityType;
+export interface TypografHtmlEntity {
+    type: TypografHtmlEntityType;
     onlyInvisible: boolean;
-    list: string[];
+    list?: string[];
 }
 
-export type RuleFilter = (rule: TypografRuleInternal) => boolean;
+export type TypofrafRuleFilter = (rule: TypografRuleInternal) => boolean;
 
 export interface TypografPrefs {
     locale: string | string[];
-    lineEnding?: LineEnding;
-    htmlEntity?: Partial<HtmlEntity>;
+    lineEnding?: TypografLineEnding;
+    htmlEntity?: Partial<TypografHtmlEntity>;
     live?: boolean;
     enableRule?: string | string[];
     disableRule?: string | string[];
     processingSeparateParts?: boolean;
-    ruleFilter?: RuleFilter;
+    ruleFilter?: TypofrafRuleFilter;
 }
 
 export interface TypografExecutePrefs {
     locale?: string | string[];
-    lineEnding?: LineEnding;
-    htmlEntity?: Partial<HtmlEntity>;
+    lineEnding?: TypografLineEnding;
+    htmlEntity?: Partial<TypografHtmlEntity>;
     processingSeparateParts?: boolean;
-    ruleFilter?: RuleFilter;
+    ruleFilter?: TypofrafRuleFilter;
 }
 
 export interface TypografPrefsInternal {
     locale: string[];
-    lineEnding: LineEnding;
-    htmlEntity: HtmlEntity;
+    lineEnding: TypografLineEnding;
+    htmlEntity: TypografHtmlEntity;
     live: boolean;
     enableRule: string | string[];
     disableRule: string | string[];
     processingSeparateParts: boolean;
-    ruleFilter: RuleFilter;
+    ruleFilter: TypofrafRuleFilter;
 }
 
 export interface TypografContext {
@@ -105,10 +106,8 @@ export class Typograf {
     ];
 
     constructor(prefs: TypografPrefs) {
-        // @ts-ignore
-        this.prefs = typeof prefs === 'object' ? prefs : {};
-        this.prefs.locale = prepareLocale(this.prefs.locale);
-        this.prefs.live = this.prefs.live || false;
+        this.prefs = preparePrefs(prefs);
+        checkLocales(this.prefs.locale);
 
         this.safeTags = new SafeTags();
 
@@ -190,69 +189,32 @@ export class Typograf {
 
         if (!text) { return ''; }
 
-        const context = this.prepareContext(text);
+        const contextPrefs = prepareContextPrefs(this.prefs, prefs);
+        checkLocales(contextPrefs.locale);
 
-        this.preparePrefs(context, prefs);
+        const context = this.prepareContext(text, contextPrefs);
 
         return this.process(context);
     }
 
-    private prepareContext(text: string) {
+    private prepareContext(text: string, prefs: TypografPrefsInternal) {
         const context: TypografContext = {
             text,
             isHTML: isHTML(text),
-            prefs: deepCopy(this.prefs),
+            prefs,
             getData: (key: string) => {
                 if (key === 'char') {
-                    return this.prefs.locale.map(item => {
+                    return prefs.locale.map(item => {
                         return getData(item + '/' + key);
                     }).join('');
                 } else {
-                    return getData(this.prefs.locale[0] + '/' + key);
+                    return getData(prefs.locale[0] + '/' + key);
                 }
             },
             safeTags: this.safeTags,
         };
 
         return context;
-    }
-
-    private preparePrefs(context: TypografContext, prefs: TypografExecutePrefs) {
-        prefs = prefs || {};
-
-        const contextPrefs = context.prefs;
-
-        ([
-            'htmlEntity',
-            'lineEnding',
-            'processingSeparateParts',
-            'ruleFilter'
-        ] as const).forEach(name => {
-            if (name in prefs) {
-                // @ts-ignore
-                contextPrefs[name] = prefs[name];
-            } else if (name in this.prefs) {
-                // @ts-ignore
-                contextPrefs[name] = this.prefs[name];
-            }
-        });
-
-        // @ts-ignore
-        contextPrefs.htmlEntity = contextPrefs.htmlEntity || {};
-
-        contextPrefs.locale = prepareLocale(prefs.locale, this.prefs.locale);
-
-        const locales = contextPrefs.locale;
-
-        if (!locales.length) {
-            throw Error('Not defined the property "locale".');
-        }
-
-        locales.forEach(locale => {
-            if (!hasLocale(locale)) {
-                throw Error(`"${locale}" is not supported locale.`);
-            }
-        });
     }
 
     private splitBySeparateParts(context: TypografContext) {

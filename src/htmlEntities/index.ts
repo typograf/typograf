@@ -4,9 +4,9 @@ import { invisibleEntities } from './invisible';
 
 export type Entity = [string, number];
 
-export type HTMLEntityType = 'name' | 'digit' | 'default';
+export type TypografHtmlEntityType = 'name' | 'digit' | 'default';
 
-interface HTMLEntityInfo {
+interface HtmlEntityInfo {
     name: string;
     nameEntity: string;
     digitEntity: string;
@@ -16,13 +16,13 @@ interface HTMLEntityInfo {
 }
 
 class HtmlEntities {
-    private entities: HTMLEntityInfo[];
-    private invisibleEntities: HTMLEntityInfo[];
+    private entities: HtmlEntityInfo[];
+    private invisibleEntities: HtmlEntityInfo[];
 
-    private entitiesByName: Record<string, HTMLEntityInfo>;
-    private entitiesByNameEntity: Record<string, HTMLEntityInfo>;
-    private entitiesByDigitEntity: Record<string, HTMLEntityInfo>;
-    private entitiesByUtf: Record<string, HTMLEntityInfo>;
+    private entitiesByName: Record<string, HtmlEntityInfo>;
+    private entitiesByNameEntity: Record<string, HtmlEntityInfo>;
+    private entitiesByDigitEntity: Record<string, HtmlEntityInfo>;
+    private entitiesByUtf: Record<string, HtmlEntityInfo>;
 
     constructor() {
         this.entities = this.prepareEntities([...visibleEntities, ...invisibleEntities]);
@@ -106,8 +106,8 @@ class HtmlEntities {
     /**
      * Get a entity by utf using the type.
      */
-    public getByUtf(symbol: string, type?: HTMLEntityType): HTMLEntityInfo | string | undefined {
-        let result: HTMLEntityInfo | string | undefined;
+    public getByUtf(symbol: string, type?: TypografHtmlEntityType): HtmlEntityInfo | string | undefined {
+        let result: HtmlEntityInfo | string | undefined;
 
         switch (type) {
             case 'digit':
@@ -124,8 +124,8 @@ class HtmlEntities {
         return result;
     }
 
-    private prepareEntities(entities: [string, number][]): HTMLEntityInfo[] {
-        const result: HTMLEntityInfo[] = [];
+    private prepareEntities(entities: [string, number][]): HtmlEntityInfo[] {
+        const result: HtmlEntityInfo[] = [];
 
         entities.forEach(entity => {
             const [name, digit] = entity;
@@ -145,7 +145,7 @@ class HtmlEntities {
     }
 
     private prepareListParam(list: string[]) {
-        const result: HTMLEntityInfo[] = [];
+        const result: HtmlEntityInfo[] = [];
 
         list.forEach(name => {
             const entity = this.entitiesByName[name];
@@ -157,7 +157,7 @@ class HtmlEntities {
         return result;
     }
 
-    private restoreEntitiesByIndex(text: string, type: 'nameEntity' | 'digitEntity', entities: HTMLEntityInfo[]) {
+    private restoreEntitiesByIndex(text: string, type: 'nameEntity' | 'digitEntity', entities: HtmlEntityInfo[]) {
         entities.forEach(entity => {
             text = text.replace(entity.reUtf, entity[type]);
         });
