@@ -61,7 +61,7 @@
     "version": "node -p \"'export const PACKAGE_VERSION = \\'' + require('./package.json').version + '\\';'\" > src/version.ts",
     "prepare": "npm run dist",
     "clean": "del-cli dist/* build/*",
-    "benchmark": "node benchmark/test.mjs",
+    "benchmark": "node benchmark/benchmark.mjs",
     "build": "npm run clean && npm run version && npm run build:css && npm run build:groups && npm run build:titles && npm run build:js && npm run build:all-js && npm run build:copyright",
     "build:css": "postcss --no-map src/typograf.css -o ../build/typograf.css",
     "build:js": "rollup --config rollup.config.mjs",
