@@ -63,7 +63,7 @@
     "benchmark": "node benchmark/benchmark.mjs",
     "build": "npm run build:part1 && npm run build:part2",
     "build:part1": "npm run clean && npm run version && npm run build:groups && npm run build:titles && npm run build:js",
-    "build:part2": "npm run build:es-js && npm run build:all-js && npm run build:copyright && && npm run build:css",
+    "build:part2": "npm run build:es-js && npm run build:all-js && npm run build:copyright && npm run build:css",
     "build:css": "postcss --no-map src/typograf.css -o ./build/typograf.css",
     "build:js": "rollup --config rollup.config.mjs",
     "build:es-js": "rollup --config rollup.config.es.mjs",
