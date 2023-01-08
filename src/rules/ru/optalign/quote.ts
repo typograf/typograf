@@ -32,6 +32,7 @@ export const innerStartQuoteRule: TypografRule = {
     handler(text) {
         return removeOptAlignTags(text, classNames);
     },
+    htmlAttrs: false,
 };
 
 export const innerEndQuoteRule: TypografRule = {
@@ -40,4 +41,5 @@ export const innerEndQuoteRule: TypografRule = {
     handler(text) {
         return removeOptAlignTagsFromTitle(text, classNames);
     },
+    htmlAttrs: false,
 };
