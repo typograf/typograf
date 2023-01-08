@@ -180,16 +180,16 @@ class Quote {
             }
 
             if (prev === privateLabel) {
-                let hasRight = this.afterRight.indexOf(next) > -1;
-                let prevInfo = params.safeTags.getPrevTagInfo(params.context, text, pos - 1);
+                const hasRight = this.afterRight.indexOf(next) > -1;
+                const prevInfo = params.safeTags.getPrevTagInfo(params.context, text, pos - 1);
                 if (hasRight && prevInfo && prevInfo.group === 'html') {
                     return prev + (prevInfo.isClosing ? rquote : lquote) + next;
                 }
 
                 return prev + (!next || hasRight ? rquote : lquote) + next;
             } else {
-                let hasLeft = this.beforeLeft.indexOf(prev) > -1;
-                let nextInfo = params.safeTags.getNextTagInfo(params.context, text, pos + 1);
+                const hasLeft = this.beforeLeft.indexOf(prev) > -1;
+                const nextInfo = params.safeTags.getNextTagInfo(params.context, text, pos + 1);
                 if (hasLeft && nextInfo && nextInfo.group === 'html') {
                     return prev + (nextInfo.isClosing ? rquote : lquote) + next;
                 }
@@ -226,7 +226,7 @@ class Quote {
         let result = '';
 
         for (let i = 0, len = text.length; i < len; i++) {
-            let letter = text[i];
+            const letter = text[i];
             if (letter === lquote) {
                 result += settings.left[level > maxLevel - 1 ? maxLevel - 1 : level];
 
@@ -262,7 +262,7 @@ class Quote {
             length :
             Math.min(length, MAX_LEVEL_WITH_ERRORS);
     }
-};
+}
 
 const quote = new Quote();
 

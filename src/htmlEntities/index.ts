@@ -125,7 +125,7 @@ class HtmlEntities {
     }
 
     private prepareEntities(entities: [string, number][]): HTMLEntityInfo[] {
-        let result: HTMLEntityInfo[] = [];
+        const result: HTMLEntityInfo[] = [];
 
         entities.forEach(entity => {
             const [name, digit] = entity;

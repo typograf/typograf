@@ -9,9 +9,8 @@ export const weekdayRule: TypografRule = {
         const weekday = getData('ru/weekday');
         const re = new RegExp('(\\d)' + space + '(' + monthCase + '),' + space + '(' + weekday + ')', 'gi');
 
-        return text.replace(re, function() {
-            const a = arguments;
-            return a[1] + a[2] + a[3].toLowerCase() + ',' + a[4] + a[5].toLowerCase();
+        return text.replace(re, (_, $1, $2, $3, $4, $5) => {
+            return $1 + $2 + $3.toLowerCase() + ',' + $4 + $5.toLowerCase();
         });
     },
 };

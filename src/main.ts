@@ -56,7 +56,7 @@ export interface TypografContext {
     getData: (key: string) => unknown;
 }
 
-export interface TypografRule<T = {}> {
+export interface TypografRule<T = Record<string, unknown>> {
     name: string;
     handler: (this: Typograf, text: string, settings: T, context: TypografContext) => string;
     queue?: string;

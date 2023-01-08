@@ -58,7 +58,7 @@ function phone(num: string) {
     }
 
     for (let cityCodeLen = exceptionsMax; cityCodeLen >= exceptionsMin; cityCodeLen--) {
-        let code = +num.substr(0, cityCodeLen);
+        const code = +num.substr(0, cityCodeLen);
         if (exceptions.indexOf(code) > -1) {
             cityCode = num.substr(0, cityCodeLen);
             num = num.substr(cityCodeLen);

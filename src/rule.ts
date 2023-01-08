@@ -41,7 +41,7 @@ function getRuleIndex(rule: TypografRule) {
         return rule.index;
     }
 
-    const [_, group] = rule.name.split('/');
+    const [, group] = rule.name.split('/');
 
     let groupIndex = groupIndexes[group];
     if (typeof groupIndex === 'undefined') {
