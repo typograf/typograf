@@ -1,4 +1,4 @@
-import { TypografPrefs } from '../../src/main';
+import { TypografExecutePrefs, TypografPrefs } from '../../src/main';
 import Typograf from '../../src/typograf';
 
 const mainTypograf = new Typograf({ locale: 'ru' });
@@ -18,10 +18,10 @@ export function typografTest(name: string, tests: TypografTest[], mainPrefs?: Ty
                 }
 
                 const localTypograf = new Typograf(prefs);
-                const result = localTypograf.execute(before, prefs);
+                const result = localTypograf.execute(before);
                 expect(result).toEqual(after);
 
-                const result2 = localTypograf.execute(result, prefs);
+                const result2 = localTypograf.execute(result);
                 expect(result2).toEqual(after);
             });
         });
