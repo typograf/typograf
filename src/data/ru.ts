@@ -11,8 +11,8 @@ export default {
     'ru/quote': {
         left: '«„‚',
         right: '»“‘',
-        removeDuplicateQuotes: true
-    },    
+        removeDuplicateQuotes: true,
+    },
     'ru/shortMonth': 'янв|фев|мар|апр|ма[ейя]|июн|июл|авг|сен|окт|ноя|дек',
-    'ru/weekday': 'понедельник|вторник|среда|четверг|пятница|суббота|воскресенье'
+    'ru/weekday': 'понедельник|вторник|среда|четверг|пятница|суббота|воскресенье',
 };

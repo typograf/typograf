@@ -3,6 +3,6 @@ export default {
     'fr/quote': {
         left: '«‹',
         right: '»›',
-        spacing: true
-    }    
+        spacing: true,
+    }
 };
