@@ -23,7 +23,7 @@
 | 19. | [common/number/fraction](../src/rules/common/number/fraction.js) | 1/2 → ½, 1/4 → ¼, 3/4 → ¾ | 150 | default | ✓ |
 | 20. | [common/number/mathSigns](../src/rules/common/number/mathSigns.js) | != → ≠, <= → ≤, >= → ≥, ~= → ≅, +- → ± | 150 | default | ✓ |
 | 21. | [common/number/times](../src/rules/common/number/times.js) | x → × (10 x 5 → 10×5) | 150 | default | ✓ |
-| 22. | [common/other/delBOM](../src/rules/common/other/delBOM.js) | Delete character BOM (Byte Order Mark) | 909 | start | ✓ |
+| 22. | [common/other/delBOM](../src/rules/common/other/delBOM.js) | Delete character BOM (Byte Order Mark) | -1 | start | ✓ |
 | 23. | [common/other/repeatWord](../src/rules/common/other/repeatWord.js) | Removing repeat words | 910 | default |  |
 | 24. | [common/punctuation/apostrophe](../src/rules/common/punctuation/apostrophe.js) | Placement of correct apostrophe | 410 | default | ✓ |
 | 25. | [common/punctuation/delDoublePunctuation](../src/rules/common/punctuation/delDoublePunctuation.js) | Removing double punctuation | 410 | default | ✓ |

@@ -1,4 +1,4 @@
-Типограф на JavaScript
+Типограф
 ======================
 <img align="right" width="200" src="https://avatars0.githubusercontent.com/u/10176019" />
 
