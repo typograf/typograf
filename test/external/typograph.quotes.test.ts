@@ -48,4 +48,8 @@ const ruTests: TypografTest[] = [
     ]
 ];
 
-typografTest('typograph quotes, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest(
+    'typograph quotes, double execute',
+    ruTests,
+    { locale: ['ru', 'en-US'] },
+);

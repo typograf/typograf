@@ -116,4 +116,8 @@ const ruTests: TypografTest[] = [
     ]
 ];
 
-typografTest('typograph symbols, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest(
+    'typograph symbols, double execute',
+    ruTests,
+    { locale: ['ru', 'en-US'] },
+);

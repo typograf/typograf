@@ -44,4 +44,8 @@ const ruTests: TypografTest[] = [
     ]*/
 ];
 
-typografTest('typograph dizzyman, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest(
+    'typograph dizzyman, double execute',
+    ruTests,
+    { locale: ['ru', 'en-US'] },
+);

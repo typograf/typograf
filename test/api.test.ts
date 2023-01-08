@@ -1,6 +1,6 @@
 import Typograf from '../src/typograf';
 
-const mainTypograf = new Typograf({locale: 'en-US'});
+const mainTypograf = new Typograf({ locale: 'en-US' });
 
 describe('API', () => {
     it('should disable rule', () => {
@@ -11,7 +11,7 @@ describe('API', () => {
     });
 
     it('should disable rule from constructor', () => {
-        const localTypograf = new Typograf({locale: 'ru', disableRule: '*'});
+        const localTypograf = new Typograf({ locale: 'ru', disableRule: '*' });
         expect(localTypograf.isDisabledRule('common/punctuation/quote')).toBeTruthy();
     });
 
@@ -35,7 +35,7 @@ describe('API', () => {
     });
 
     it('should enable rule from constructor', () => {
-        const localTypograf = new Typograf({locale: 'ru', enableRule: '*'});
+        const localTypograf = new Typograf({ locale: 'ru', enableRule: '*' });
         expect(localTypograf.isEnabledRule('common/html/p')).toBeTruthy();
     });
 
@@ -66,7 +66,7 @@ describe('API', () => {
     });
 
     it('should add safe tag', () => {
-        const localTypograf = new Typograf({locale: 'en-US'});
+        const localTypograf = new Typograf({ locale: 'en-US' });
         localTypograf.addSafeTag('<myTag>', '</myTag>');
 
         expect(localTypograf.execute('  <myTag>  Hello world!!  </myTag>  ')).toEqual('<myTag>  Hello world!!  </myTag>');
@@ -83,7 +83,8 @@ describe('API', () => {
             name: 'common/example',
             handler: text => text.replace(/inner_example/, ''),
         });
-        const localTypograf = new Typograf({locale: 'en-US'});
+
+        const localTypograf = new Typograf({ locale: 'en-US' });
 
         expect(localTypograf.execute('rule abc inner_example')).toEqual('abc');
     });
@@ -98,7 +99,7 @@ describe('API', () => {
     it('should throw error with unknown locale', () => {
         expect(() => {
             const localTypograf = new Typograf({ locale: 'ru' });
-            localTypograf.execute('text', {locale: 'unknow'});
+            localTypograf.execute('text', { locale: 'unknow' });
         }).toThrow(/not supported/);
     });
 
@@ -110,7 +111,10 @@ describe('API', () => {
     });
 
     it('should change line endings', () => {
-        const localTypograf = new Typograf({locale: 'en-US', lineEnding: 'CRLF'});
+        const localTypograf = new Typograf({
+            locale: 'en-US',
+            lineEnding: 'CRLF',
+        });
 
         expect(localTypograf.execute('Line1\rLine2\rLine3')).toEqual('Line1\r\nLine2\r\nLine3');
 
@@ -120,12 +124,12 @@ describe('API', () => {
     });
 
     it('should remove unnecessary nbsp for live mode', () => {
-        const localTypograf = new Typograf({locale: 'en-US', live: true});
+        const localTypograf = new Typograf({ locale: 'en-US', live: true });
         expect(localTypograf.execute('Test&nbsp;test&nbsp;test.')).toEqual('Test test test.');
     });
 
     it('should execute specific methods before and after a rule', () => {
-        const localTypograf = new Typograf({locale: 'en-US'});
+        const localTypograf = new Typograf({ locale: 'en-US' });
         localTypograf.onBeforeRule = jest.fn();
         localTypograf.onAfterRule = jest.fn();
         localTypograf.execute('test');
@@ -139,14 +143,18 @@ describe('API', () => {
     });
 
     it('should process separate parts', () => {
-        const localTypograf = new Typograf({locale: 'ru'});
+        const localTypograf = new Typograf({ locale: 'ru' });
         const result = localTypograf.execute('"Я <p> "Я" </p> Я"');
 
         expect('«Я <p> «Я» </p> Я»').toEqual(result);
     });
 
     it('should process not separate parts', () => {
-        const localTypograf = new Typograf({locale: 'ru', processingSeparateParts: false});
+        const localTypograf = new Typograf({
+            locale: 'ru',
+            processingSeparateParts: false,
+        });
+
         const result = localTypograf.execute('"Я <p> "Я" </p> Я"');
 
         expect('«Я <p> „Я“ </p> Я»').toEqual(result);

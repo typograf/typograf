@@ -1,6 +1,6 @@
 import Typograf from '../../../src/typograf';
 
-const t = new Typograf({locale: 'en-US'});
+const typograf = new Typograf({ locale: 'en-US' });
 const commonTests = [
     [
         '  start  <script>  var a = 10;  \n\n\n</script>  end  ',
@@ -72,33 +72,37 @@ const commonTests = [
     [undefined, 'undefined']
 ];
 
-describe('common/smoke', function() {
-    commonTests.forEach(function(item) {
-        it(String(item[0]), function() {
-            expect(t.execute(item[0])).toEqual(item[1]);
+describe('common/smoke', () => {
+    commonTests.forEach(item => {
+        const [input, expected] = item;
+        it(String(input), () => {
+            expect(typograf.execute(input)).toEqual(expected);
         });
     });
 });
 
-describe('common/smoke double execute', function() {
-    commonTests.forEach(function(item) {
-        it(String(item[0]), function() {
-            const result = t.execute(item[0]);
-            expect(t.execute(result)).toEqual(item[1]);
+describe('common/smoke double execute', () => {
+    commonTests.forEach(item => {
+        const [input, expected] = item;
+        it(String(input), () => {
+            const result = typograf.execute(input);
+            expect(typograf.execute(result)).toEqual(expected);
         });
     });
 });
 
-it('enable common/html/escape', function() {
-    const tp = new Typograf({locale: 'en-US'});
-    tp.enableRule('common/html/escape');
+it('enable common/html/escape', () => {
+    const localTypograf = new Typograf({ locale: 'en-US' });
+    localTypograf.enableRule('common/html/escape');
 
     const escapeTests = [
         ['<p align="center">\nHello world!\n</p>',
         '&lt;p align=&quot;center&quot;&gt;\nHello world!\n&lt;&#x2F;p&gt;']
     ];
 
-    escapeTests.forEach(function(el) {
-        expect(tp.execute(el[0])).toEqual(el[1]);
+    escapeTests.forEach(item => {
+        const [input, expected] = item;
+
+        expect(localTypograf.execute(input)).toEqual(expected);
     });
 });

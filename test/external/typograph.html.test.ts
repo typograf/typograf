@@ -100,4 +100,8 @@ const ruTests: TypografTest[] = [
     ]
 ];
 
-typografTest('typograph html', ruTests, {locale: ['ru', 'en-US']});
+typografTest(
+    'typograph html',
+    ruTests,
+    { locale: ['ru', 'en-US'] },
+);

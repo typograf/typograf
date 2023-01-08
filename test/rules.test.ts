@@ -42,7 +42,7 @@ describe('common specific tests', () => {
             enableRule: 'common/html/processingAttrs',
             tests: [
                 [
-                    '<p title="    Hello world!!    " placeholder="    Hello world!!    ">     Hello world!!     </p>',
+                    '<p title="   Hello world!!    " placeholder="    Hello world!!    ">     Hello world!!     </p>',
                     '<p title="Hello world!" placeholder="Hello world!"> Hello world! </p>'
                 ],
                 [
@@ -59,10 +59,14 @@ describe('common specific tests', () => {
 
     tests.forEach(item => {
         it(item.enableRule.toString(), () => {
-            const tp = new Typograf({locale: item.locale || 'en-US', enableRule: item.enableRule});
+
+            const typograf = new Typograf({
+                locale: item.locale || 'en-US',
+                enableRule: item.enableRule,
+            });
 
             item.tests.forEach(subitem => {
-                expect(tp.execute(subitem[0])).toEqual(subitem[1]);
+                expect(typograf.execute(subitem[0])).toEqual(subitem[1]);
             });
 
         });
@@ -72,7 +76,11 @@ describe('common specific tests', () => {
 describe('russian specific tests', () => {
     it('quotes lquote = lquote2 and rquote = rquote2', () => {
         const name = 'common/punctuation/quote';
-        const tp = new Typograf({locale: 'ru', disableRule: '*', enableRule: name});
+        const typograf = new Typograf({
+            locale: 'ru',
+            disableRule: '*',
+            enableRule: name,
+        });
         const quoteTests = [
             [
                 '"Триллер “Закрытая школа” на СТС"',
@@ -100,21 +108,24 @@ describe('russian specific tests', () => {
             ]
         ];
 
-        tp.setSetting(name, 'ru', {
+        typograf.setSetting(name, 'ru', {
             left: '«',
             right: '»',
             removeDuplicateQuotes: true
         });
 
-        quoteTests.forEach(function(item) {
+        quoteTests.forEach(item => {
             const [before, after] = item;
-            expect(tp.execute(before)).toEqual(after);
+            expect(typograf.execute(before)).toEqual(after);
         });
     });
 
-    it('ru/optalign', function() {
-        const tp = new Typograf({locale: ['ru', 'en-US']});
-        tp.enableRule('ru/optalign/*');
+    it('ru/optalign', () => {
+        const typograf = new Typograf({
+            locale: ['ru', 'en-US'],
+        });
+
+        typograf.enableRule('ru/optalign/*');
 
         [
             [
@@ -138,12 +149,15 @@ describe('russian specific tests', () => {
                 '<html><head><title>Большие бинари в\u00A0моем Rust? (Why is\u00A0a\u00A0Rust executable large?) | Ржавый ящик</title></head><body></body></html>'
             ]
         ].forEach(item => {
-            expect(tp.execute(item[0])).toEqual(item[1]);
+            expect(typograf.execute(item[0])).toEqual(item[1]);
         });
     });
 
     it('should disable ru/optalign', () => {
-        const tp = new Typograf({locale: 'ru', disableRule: '*'});
+        const localTypograf = new Typograf({
+            locale: 'ru',
+            disableRule: '*',
+        });
 
         [
             '<span class="typograf-oa-sp-lquot"> </span>',
@@ -151,7 +165,7 @@ describe('russian specific tests', () => {
             '<span class="typograf-oa-comma">,</span>',
             '<span class="typograf-oa-sp-lbracket"> </span>'
         ].forEach(item => {
-            expect(tp.execute(item)).toEqual(item);
+            expect(localTypograf.execute(item)).toEqual(item);
         });
     });
 });

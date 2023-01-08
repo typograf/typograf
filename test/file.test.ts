@@ -1,5 +1,4 @@
 import fs from 'fs';
-import fi from '../src/data/fi';
 import Typograf from '../src/typograf';
 
 const mainTypograf = new Typograf({

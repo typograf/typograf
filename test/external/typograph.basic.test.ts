@@ -305,4 +305,8 @@ const ruTests: TypografTest[] = [
     ],*/
 ];
 
-typografTest('typograph basic, double execute', ruTests, {locale: ['ru', 'en-US']});
+typografTest(
+    'typograph basic, double execute',
+    ruTests,
+    { locale: ['ru', 'en-US'] },
+);
