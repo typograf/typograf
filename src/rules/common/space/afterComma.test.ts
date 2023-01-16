@@ -28,5 +28,21 @@ typografRuleTest(['common/space/afterComma', [
     [
         '2,A',
         '2, A'
+    ],
+    [
+        '«Hello world,» said Michael.',
+        '«Hello world,» said Michael.'
     ]
 ]]);
+typografRuleTest(['common/space/afterComma', [
+    [
+        '‘Hello world,’ said Michael.',
+        '‘Hello world,’ said Michael.'
+    ]
+], { locale: 'en-GB' }]);
+typografRuleTest(['common/space/afterComma', [
+    [
+        '“Hello world,” said Michael.',
+        '“Hello world,” said Michael.'
+    ]
+], { locale: 'en-US' }]);
