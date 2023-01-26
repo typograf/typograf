@@ -75,7 +75,7 @@
     "minimize:js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.js -o ./build/typograf.min.js",
     "minimize:all-js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.all.js -o ./build/typograf.all.min.js",
     "dist": "npm run build && npm run minimize:js && npm run minimize:all-js && npm run build:md && npm run dist:copy",
-    "dist:copy": "cpy 'build/typograf.*' dist/",
+    "dist:copy": "cpy build/typograf.* dist/",
     "test": "npm run build:part1 && npm run eslint && npm run unit-test",
     "eslint": "eslint .",
     "unit-test": "jest .",
