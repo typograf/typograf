@@ -74,12 +74,13 @@
     "build:copyright": "node tools/copyright.mjs build/typograf.js build/typograf.es.mjs build/typograf.all.js",
     "minimize:js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.js -o ./build/typograf.min.js",
     "minimize:all-js": "uglifyjs -c -m --comments '/^!/' -O ascii_only ./build/typograf.all.js -o ./build/typograf.all.min.js",
-    "dist": "npm run build && npm run minimize:js && npm run minimize:all-js && npm run build:md && npm run dist:copy",
+    "dist": "npm run build && npm run minimize:js && npm run minimize:all-js && npm run build:md && npm run dist:copy && npm run dist:typings",
     "dist:copy": "cpy 'build/typograf.*' dist/",
+    "dist:typings": "cpy 'build/src/**/*.d.ts' dist/",
     "test": "npm run build:part1 && npm run eslint && npm run unit-test",
     "eslint": "eslint .",
     "unit-test": "jest .",
     "typecheck": "tsc --noEmit"
   },
-  "typings": "./build/typograf.d.ts"
+  "typings": "./dist/typograf.d.ts"
 }
