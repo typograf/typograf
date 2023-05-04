@@ -17,7 +17,7 @@ export interface TypografHtmlEntity {
     list?: string[];
 }
 
-export type TypofrafRuleFilter = (rule: TypografRuleInternal) => boolean;
+export type TypografRuleFilter = (rule: TypografRuleInternal) => boolean;
 
 export interface TypografPrefs {
     locale: string | string[];
@@ -27,7 +27,7 @@ export interface TypografPrefs {
     enableRule?: string | string[];
     disableRule?: string | string[];
     processingSeparateParts?: boolean;
-    ruleFilter?: TypofrafRuleFilter;
+    ruleFilter?: TypografRuleFilter;
 }
 
 export interface TypografExecutePrefs {
@@ -35,7 +35,7 @@ export interface TypografExecutePrefs {
     lineEnding?: TypografLineEnding;
     htmlEntity?: Partial<TypografHtmlEntity>;
     processingSeparateParts?: boolean;
-    ruleFilter?: TypofrafRuleFilter;
+    ruleFilter?: TypografRuleFilter;
 }
 
 export interface TypografPrefsInternal {
@@ -46,7 +46,7 @@ export interface TypografPrefsInternal {
     enableRule: string | string[];
     disableRule: string | string[];
     processingSeparateParts: boolean;
-    ruleFilter: TypofrafRuleFilter;
+    ruleFilter: TypografRuleFilter;
 }
 
 export interface TypografContext {
