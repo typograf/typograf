@@ -58,5 +58,6 @@
 MIT License
 
 ## Ссылки
++ Канал в Телеграмме: [@webtypograf](https://t.me/webtypograf)
 + [Средство поиска опечаток в текстах](https://github.com/hcodes/yaspeller)
 + [Восстановление буквы «ё» в русских текстах](https://github.com/hcodes/eyo)
