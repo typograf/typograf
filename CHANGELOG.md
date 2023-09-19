@@ -1,5 +1,8 @@
 # Changelog
 
+# v7.2.0
+- Добавлена опция `useShortWordList` в правило `common/nbsp/afterShortWord`  #435 @vintagentleman.
+
 # v7.1.0
 - Обновлены dev-зависимости в package.json.
 - Добавлен экспорт некоторых типов Типографа.
