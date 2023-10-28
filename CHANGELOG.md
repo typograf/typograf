@@ -1,5 +1,9 @@
 # Changelog
 
+# v7.3.0
+- Обновлены dev-зависимости в package.json.
+- Добавлено поле `exports/types` в package.json.
+
 # v7.2.0
 - Добавлена опция `useShortWordList` в правило `common/nbsp/afterShortWord`  #435 @vintagentleman.
 
