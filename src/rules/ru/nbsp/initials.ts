@@ -7,7 +7,7 @@ export const initialsRule: TypografRule = {
     handler(text) {
         const spaces = '\u00A0\u202F '; // nbsp, thinsp
         const quote = getData('ru/quote') as DataQuote;
-        const re = new RegExp('(^|[' + spaces +
+        const re = new RegExp('(^|[(' + spaces +
                 quote.left +
                 privateLabel +
                 '"])([А-ЯЁ])\\.[' + spaces + ']?([А-ЯЁ])\\.[' + spaces +
