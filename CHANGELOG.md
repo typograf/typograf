@@ -1,5 +1,9 @@
 # Changelog
 
+# v7.4.0
+- Исправлена некорректная вставка запятой между `ну`, `а` и `но` #447 @denis-bosiy
+- Обновлены dev-зависимости в package.json.
+
 # v7.3.0
 - Обновлены dev-зависимости в package.json.
 - Добавлено поле `exports/types` в package.json.
