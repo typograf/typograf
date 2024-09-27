@@ -6,7 +6,7 @@ const json = fs.readFileSync(input);
 
 try {
     JSON.parse(json);
-} catch (e) {
+} catch {
     console.error(`Error at ${input}`);
     process.exit(1);
 }

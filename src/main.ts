@@ -128,8 +128,13 @@ export class Typograf {
             this.rulesByQueues[rule.queue].push(rule);
         });
 
-        this.prefs.disableRule && this.disableRule(this.prefs.disableRule);
-        this.prefs.enableRule && this.enableRule(this.prefs.enableRule)
+        if (this.prefs.disableRule) {
+            this.disableRule(this.prefs.disableRule);
+        }
+
+        if (this.prefs.enableRule) {
+            this.enableRule(this.prefs.enableRule);
+        }
     }
 
     static addRule(rule: TypografRule): void {
@@ -376,13 +381,17 @@ export class Typograf {
         const rules = this.rulesByQueues[queue];
         const innerRules = this.innerRulesByQueues[queue];
 
-        innerRules && innerRules.forEach(rule => {
-            this.ruleIterator(context, rule);
-        });
+        if (innerRules) {
+            innerRules.forEach(rule => {
+                this.ruleIterator(context, rule);
+            });
+        }
 
-        rules && rules.forEach(rule => {
-            this.ruleIterator(context, rule);
-        });
+        if (rules) {
+            rules.forEach(rule => {
+                this.ruleIterator(context, rule);
+            });
+        }
     }
 
     private ruleIterator(context: TypografContext, rule: TypografRuleInternal) {
@@ -395,9 +404,15 @@ export class Typograf {
                 return;
             }
 
-            this.onBeforeRule && this.onBeforeRule(rule.name, context);
+            if (this.onBeforeRule) {
+                this.onBeforeRule(rule.name, context);
+            }
+
             context.text = rule.handler.call(this, context.text, this.settings[rule.name], context);
-            this.onAfterRule && this.onAfterRule(rule.name, context);
+
+            if (this.onAfterRule) {
+                this.onAfterRule(rule.name, context);
+            }
         }
     }
 
