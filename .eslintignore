@@ -1,7 +1,0 @@
-.*
-coverage/**
-build/**
-dist/**
-node_modules/**
-test/**
-*.config.js
