@@ -181,7 +181,7 @@ class Quote {
 
             if (prev === privateLabel) {
                 const hasRight = this.afterRight.indexOf(next) > -1;
-                const prevInfo = params.safeTags.getPrevTagInfo(params.context, text, pos - 1);
+                const prevInfo = params.safeTags.getPrevTagInfo(params.context, text, pos + 1);
                 if (hasRight && prevInfo && prevInfo.group === 'html') {
                     return prev + (prevInfo.isClosing ? rquote : lquote) + next;
                 }
