@@ -1,5 +1,9 @@
 # Changelog
 
+# v7.4.2
+- Исправлена расстановка кавычек рядом с троеточием #452.
+- Обновлены dev-зависимости в package.json.
+
 # v7.4.1
 Откат #447 из-за js-ошибки SyntaxError: Invalid regular expression: invalid group specifier name.
 
