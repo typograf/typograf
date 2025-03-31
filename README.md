@@ -39,6 +39,7 @@
   - [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=rusnasonov.vscode-typograf)
   - [Bitrix](https://github.com/ilimurzin/bitrix-typograf)
   - [Markdown-it-typograf](https://github.com/ceigh/markdown-it-typograf)
+  - [Marked-typograf](https://github.com/laidrivm/marked-typograf)
 - [Поддерживаемые правила](./docs/RULES.ru.md)
 - API
   - [Включить или отключить правила](./docs/api_rules.md)
