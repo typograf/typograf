@@ -97,7 +97,7 @@ function prepareCode(code: string) {
         }
     } else {
         // Мобильные и московские номера без скобок
-        withoutBrackets = (numCode > 900 && numCode <= 999) || numCode === 495 || numCode === 499;
+        withoutBrackets = (numCode > 900 && numCode <= 999) || numCode === 495 || numCode === 499 || numCode === 800;
     }
 
     const str = result.join('-');
