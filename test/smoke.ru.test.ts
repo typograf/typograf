@@ -2,6 +2,14 @@ import { typografTest, TypografTest } from './helpers';
 
 const ruTests: TypografTest[] = [
     [
+        'тел.: 88001004888',
+        'тел.: 8\u00A0800\u00A0100-48-88'
+    ],
+    [
+        '+74951004888',
+        '+7\u00A0495\u00A0100-48-88'
+    ],
+    [
         '    Мир - мой мир!    ',
         'Мир\u00A0— мой\u00A0мир!'
     ],
