@@ -4,7 +4,7 @@ import Typograf from '../../src/typograf';
 const mainTypograf = new Typograf({ locale: 'ru' });
 
 export type TypografTest = [string, string, Partial<TypografPrefs>?];
-export type TypografRuleSuit = [string, TypografTest[], Partial<TypografPrefs>?];
+export type TypografRuleSuit = [string, TypografTest[], Partial<TypografPrefs>?, Array<[string, unknown]>?];
 
 export function typografTest(name: string, tests: TypografTest[], mainPrefs?: TypografPrefs) {
     describe(name, () => {
@@ -61,7 +61,7 @@ export function typografInnerRuleTest(data: TypografRuleSuit) {
 }
 
 export function typografRuleTest(data: TypografRuleSuit) {
-    const [name, items, props] = data;
+    const [name, items, props, ruleSettings] = data;
     it(name, () => {
         items.forEach(item => {
             const [before, after, testSettings] = item;

@@ -2,26 +2,20 @@ import type { TypografRule } from '../../../main';
 import { DataChar, DataCommonQuote, getData } from '../../../data';
 import { privateLabel } from '../../../consts';
 
-export const afterShortWordRule: TypografRule<{
+export const afterShortWordByListRule: TypografRule<{
     lengthShortWord: number;
 }> = {
-    name: 'common/nbsp/afterShortWord',
-    handler(text, settings, context) {
-        const { lengthShortWord } = settings;
-
+    name: 'common/nbsp/afterShortWordByList',
+    handler(text, _, context) {
         const quote = getData('common/quote') as DataCommonQuote;
-        const char = context.getData('char') as DataChar;
+        const shortWord = context.getData('shortWord') as DataChar | undefined;
         const before = ' \u00A0(' + privateLabel + quote;
-        const subStr = '(^|[' + before + '])([' + char + ']{1,' + lengthShortWord + '}) ';
-
+        const subStr = '(^|[' + before + '])(' + shortWord + ') ';
         const newSubStr = '$1$2\u00A0';
         const re = new RegExp(subStr, 'gim');
 
         return text
             .replace(re, newSubStr)
             .replace(re, newSubStr);
-    },
-    settings: {
-        lengthShortWord: 2,
     },
 };

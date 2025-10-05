@@ -4,6 +4,7 @@ import { afterNumberRule } from './afterNumber';
 import { afterParagraphMarkRule } from './afterParagraphMark';
 import { afterSectionMarkRule } from './afterSectionMark';
 import { afterShortWordRule } from './afterShortWord';
+import { afterShortWordByListRule } from './afterShortWordByList';
 import { beforeShortLastNumberRule } from './beforeShortLastNumber';
 import { beforeShortLastWordRule } from './beforeShortLastWord';
 import { dpiRule } from './dpi';
@@ -15,6 +16,7 @@ Typograf.addRules([
     afterParagraphMarkRule,
     afterSectionMarkRule,
     afterShortWordRule,
+    afterShortWordByListRule,
     beforeShortLastNumberRule,
     beforeShortLastWordRule,
     dpiRule,
