@@ -67,43 +67,44 @@
 | 63. | [common/nbsp/afterParagraphMark](../src/rules/common/nbsp/afterParagraphMark.ts) | Нераз. пробел после ¶ | 510 | default | ✓ |
 | 64. | [common/nbsp/afterSectionMark](../src/rules/common/nbsp/afterSectionMark.ts) | Нераз. узкий пробел после § | 510 | default | ✓ |
 | 65. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.ts) | Нераз. пробел после короткого слова | 510 | default | ✓ |
-| 66. | [common/nbsp/beforeShortLastNumber](../src/rules/common/nbsp/beforeShortLastNumber.ts) | Нераз. пробел перед числом (не более 2 цифр) в конце предложения | 510 | default | ✓ |
-| 67. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.ts) | Нераз. пробел перед последним коротким словом в предложении | 510 | default | ✓ |
-| 68. | [common/nbsp/dpi](../src/rules/common/nbsp/dpi.ts) | Нераз. пробел перед lpi и dpi | 510 | default | ✓ |
-| 69. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.ts) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 510 | end | ✓ |
-| 70. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.ts) | Замена неразрывного пробела на обычный перед типографированием | 510 | utf |  |
-| 71. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Нераз. пробел в сокращениях, например, в «т. д.» | 510 | default | ✓ |
-| 72. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др. | 510 | default | ✓ |
-| 73. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Нераз. узкий пробел после № | 510 | default | ✓ |
-| 74. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Удаление пробелов и лишних точек в «вв.» | 510 | default | ✓ |
-| 75. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Нераз. пробел между числом и месяцем | 510 | default | ✓ |
-| 76. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Привязка инициалов к фамилии | 510 | default | ✓ |
-| 77. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Неразр. пробел между числом и «тыс.», «млн», «млрд» и «трлн» | 510 | default | ✓ |
-| 78. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 510 | default | ✓ |
-| 79. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Нераз. пробел после «стр.», «гл.», «рис.», «илл.» | 510 | default | ✓ |
-| 80. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Нераз. пробел в P. S. и P. P. S. | 510 | default | ✓ |
-| 81. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Нераз. пробел перед «руб.» и «коп.» | 510 | default | ✓ |
-| 82. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Нераз. пробел после сокращений «см.» и «им.» | 510 | default | ✓ |
-| 83. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Нераз. пробел после XXXX г. (2012 г.) | 510 | default | ✓ |
-| 84. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Нераз. пробел перед «ли», «ль», «же», «бы», «б» | 515 | default | ✓ |
-| 85. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | м2 → м², м3 → м³ и нераз. пробел | 515 | default | ✓ |
-| 86. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. и нераз. пробел | 515 | default | ✓ |
-| 87. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Символ валюты ($, €, ¥, Ұ, £ и ₤) после числа, $100 → 100 $ | 710 | default |  |
-| 88. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
-| 89. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY | 810 | default | ✓ |
-| 90. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
-| 91. | [common/other/repeatWord](../src/rules/common/other/repeatWord.ts) | Удаление повтора слова | 910 | default |  |
-| 92. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Замена заглавной буквы на строчную с добавлением ударения | 910 | default |  |
-| 93. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Форматирование телефонных номеров | 910 | default | ✓ |
-| 94. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | для открывающей скобки | 1010 | default |  |
-| 95. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | для запятой | 1010 | default |  |
-| 96. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | для открывающей кавычки | 1010 | default |  |
-| 97. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки | 1110 | default | ✓ |
-| 98. | [common/html/e-mail](../src/rules/common/html/e-mail.ts) | Расстановка ссылок для эл. почты | 1210 | end |  |
-| 99. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.ts) | Типографирование HTML-атрибутов | 1210 | hide-safe-tags-own |  |
-| 100. | [common/html/quot](../src/rules/common/html/quot.ts) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
-| 101. | [common/html/url](../src/rules/common/html/url.ts) | Расстановка ссылок | 1210 | end |  |
-| 102. | [common/html/p](../src/rules/common/html/p.ts) | Расстановка абзацев | 1215 | end |  |
-| 103. | [common/html/nbr](../src/rules/common/html/nbr.ts) | Замена перевода строки на <br/> | 1220 | end |  |
-| 104. | [common/html/stripTags](../src/rules/common/html/stripTags.ts) | Удаление HTML-тегов | 1309 | end |  |
-| 105. | [common/html/escape](../src/rules/common/html/escape.ts) | Экранирование HTML | 1310 | end |  |
+| 66. | [common/nbsp/afterShortWordByList](../src/rules/common/nbsp/afterShortWordByList.ts) | Нераз. пробел после союзов, артиклей и предлогов | 510 | default | ✓ |
+| 67. | [common/nbsp/beforeShortLastNumber](../src/rules/common/nbsp/beforeShortLastNumber.ts) | Нераз. пробел перед числом (не более 2 цифр) в конце предложения | 510 | default | ✓ |
+| 68. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.ts) | Нераз. пробел перед последним коротким словом в предложении | 510 | default | ✓ |
+| 69. | [common/nbsp/dpi](../src/rules/common/nbsp/dpi.ts) | Нераз. пробел перед lpi и dpi | 510 | default | ✓ |
+| 70. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.ts) | Заменять нераз. пробел на обычный пробел в тегах nowrap и nobr | 510 | end | ✓ |
+| 71. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.ts) | Замена неразрывного пробела на обычный перед типографированием | 510 | utf |  |
+| 72. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Нераз. пробел в сокращениях, например, в «т. д.» | 510 | default | ✓ |
+| 73. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др. | 510 | default | ✓ |
+| 74. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Нераз. узкий пробел после № | 510 | default | ✓ |
+| 75. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Удаление пробелов и лишних точек в «вв.» | 510 | default | ✓ |
+| 76. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Нераз. пробел между числом и месяцем | 510 | default | ✓ |
+| 77. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Привязка инициалов к фамилии | 510 | default | ✓ |
+| 78. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Неразр. пробел между числом и «тыс.», «млн», «млрд» и «трлн» | 510 | default | ✓ |
+| 79. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 510 | default | ✓ |
+| 80. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Нераз. пробел после «стр.», «гл.», «рис.», «илл.» | 510 | default | ✓ |
+| 81. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Нераз. пробел в P. S. и P. P. S. | 510 | default | ✓ |
+| 82. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Нераз. пробел перед «руб.» и «коп.» | 510 | default | ✓ |
+| 83. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Нераз. пробел после сокращений «см.» и «им.» | 510 | default | ✓ |
+| 84. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Нераз. пробел после XXXX г. (2012 г.) | 510 | default | ✓ |
+| 85. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Нераз. пробел перед «ли», «ль», «же», «бы», «б» | 515 | default | ✓ |
+| 86. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | м2 → м², м3 → м³ и нераз. пробел | 515 | default | ✓ |
+| 87. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. и нераз. пробел | 515 | default | ✓ |
+| 88. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Символ валюты ($, €, ¥, Ұ, £ и ₤) после числа, $100 → 100 $ | 710 | default |  |
+| 89. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
+| 90. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY | 810 | default | ✓ |
+| 91. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
+| 92. | [common/other/repeatWord](../src/rules/common/other/repeatWord.ts) | Удаление повтора слова | 910 | default |  |
+| 93. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Замена заглавной буквы на строчную с добавлением ударения | 910 | default |  |
+| 94. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Форматирование телефонных номеров | 910 | default | ✓ |
+| 95. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | для открывающей скобки | 1010 | default |  |
+| 96. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | для запятой | 1010 | default |  |
+| 97. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | для открывающей кавычки | 1010 | default |  |
+| 98. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки | 1110 | default | ✓ |
+| 99. | [common/html/e-mail](../src/rules/common/html/e-mail.ts) | Расстановка ссылок для эл. почты | 1210 | end |  |
+| 100. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.ts) | Типографирование HTML-атрибутов | 1210 | hide-safe-tags-own |  |
+| 101. | [common/html/quot](../src/rules/common/html/quot.ts) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
+| 102. | [common/html/url](../src/rules/common/html/url.ts) | Расстановка ссылок | 1210 | end |  |
+| 103. | [common/html/p](../src/rules/common/html/p.ts) | Расстановка абзацев | 1215 | end |  |
+| 104. | [common/html/nbr](../src/rules/common/html/nbr.ts) | Замена перевода строки на <br/> | 1220 | end |  |
+| 105. | [common/html/stripTags](../src/rules/common/html/stripTags.ts) | Удаление HTML-тегов | 1309 | end |  |
+| 106. | [common/html/escape](../src/rules/common/html/escape.ts) | Экранирование HTML | 1310 | end |  |

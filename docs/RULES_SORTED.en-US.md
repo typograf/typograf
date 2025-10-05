@@ -67,43 +67,44 @@
 | 63. | [common/nbsp/afterParagraphMark](../src/rules/common/nbsp/afterParagraphMark.ts) | Non-breaking space after ¶ | 510 | default | ✓ |
 | 64. | [common/nbsp/afterSectionMark](../src/rules/common/nbsp/afterSectionMark.ts) | Non-breaking space after § | 510 | default | ✓ |
 | 65. | [common/nbsp/afterShortWord](../src/rules/common/nbsp/afterShortWord.ts) | Non-breaking space after short word | 510 | default | ✓ |
-| 66. | [common/nbsp/beforeShortLastNumber](../src/rules/common/nbsp/beforeShortLastNumber.ts) | Non-breaking space before number (maximum 2 digits) at end of sentence | 510 | default | ✓ |
-| 67. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.ts) | Non-breaking space before last short word in sentence | 510 | default | ✓ |
-| 68. | [common/nbsp/dpi](../src/rules/common/nbsp/dpi.ts) | Non-breaking space before lpi and dpi | 510 | default | ✓ |
-| 69. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.ts) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
-| 70. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.ts) | Replacing non-breaking space on normal before text correction | 510 | utf |  |
-| 71. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Non-breaking space in abbreviations, e.g. “т. д.” | 510 | default | ✓ |
-| 72. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al. | 510 | default | ✓ |
-| 73. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Non-breaking thin space after № | 510 | default | ✓ |
-| 74. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Remove spaces and extra points in “вв.” | 510 | default | ✓ |
-| 75. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Non-breaking space between number and month | 510 | default | ✓ |
-| 76. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Binding of initials to the name | 510 | default | ✓ |
-| 77. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Non-breaking space between number and “тыс.”, “млн”, “млрд” and “трлн” | 510 | default | ✓ |
-| 78. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Non-breaking space after “OOO, ОАО, ЗАО, НИИ, ПБОЮЛ” | 510 | default | ✓ |
-| 79. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Non-breaking space after “стр.”, “гл.”, “рис.”, “илл.” | 510 | default | ✓ |
-| 80. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Non-breaking space in P. S. and P. P. S. | 510 | default | ✓ |
-| 81. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Not once. space before the “rub” and “cop.” | 510 | default | ✓ |
-| 82. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Non-breaking space after abbreviation «см.» and «им.» | 510 | default | ✓ |
-| 83. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Non-breaking space before XXXX г. (2012 г.) | 510 | default | ✓ |
-| 84. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Non-breaking space before “ли”, “ль”, “же”, “бы”, “б” | 515 | default | ✓ |
-| 85. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | m2 → м², m3 → м³ and non-breaking space | 515 | default | ✓ |
-| 86. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. and non-breaking space | 515 | default | ✓ |
-| 87. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Currency symbol ($, €, ¥, Ұ, £ and ₤) after the number, $100 → 100 $ | 710 | default |  |
-| 88. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
-| 89. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Converting dates YYYY-MM-DD type DD.MM.YYYY | 810 | default | ✓ |
-| 90. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
-| 91. | [common/other/repeatWord](../src/rules/common/other/repeatWord.ts) | Removing repeat words | 910 | default |  |
-| 92. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Replacement capital letters to lowercase with addition of accent | 910 | default |  |
-| 93. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Formatting phone numbers | 910 | default | ✓ |
-| 94. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | for opening bracket | 1010 | default |  |
-| 95. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | for comma | 1010 | default |  |
-| 96. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | for opening quotation marks | 1010 | default |  |
-| 97. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts | 1110 | default | ✓ |
-| 98. | [common/html/e-mail](../src/rules/common/html/e-mail.ts) | Placement of links for e-mail | 1210 | end |  |
-| 99. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.ts) | Processing HTML attributes | 1210 | hide-safe-tags-own |  |
-| 100. | [common/html/quot](../src/rules/common/html/quot.ts) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
-| 101. | [common/html/url](../src/rules/common/html/url.ts) | Placement of links | 1210 | end |  |
-| 102. | [common/html/p](../src/rules/common/html/p.ts) | Placement of paragraph | 1215 | end |  |
-| 103. | [common/html/nbr](../src/rules/common/html/nbr.ts) | Replacement line break on <br/> | 1220 | end |  |
-| 104. | [common/html/stripTags](../src/rules/common/html/stripTags.ts) | Removing HTML-tags | 1309 | end |  |
-| 105. | [common/html/escape](../src/rules/common/html/escape.ts) | Escaping HTML | 1310 | end |  |
+| 66. | [common/nbsp/afterShortWordByList](../src/rules/common/nbsp/afterShortWordByList.ts) | Non-breaking space after conjunctions, articles and prepositions | 510 | default | ✓ |
+| 67. | [common/nbsp/beforeShortLastNumber](../src/rules/common/nbsp/beforeShortLastNumber.ts) | Non-breaking space before number (maximum 2 digits) at end of sentence | 510 | default | ✓ |
+| 68. | [common/nbsp/beforeShortLastWord](../src/rules/common/nbsp/beforeShortLastWord.ts) | Non-breaking space before last short word in sentence | 510 | default | ✓ |
+| 69. | [common/nbsp/dpi](../src/rules/common/nbsp/dpi.ts) | Non-breaking space before lpi and dpi | 510 | default | ✓ |
+| 70. | [common/nbsp/nowrap](../src/rules/common/nbsp/nowrap.ts) | Replace non-breaking space to normal space in tags nowrap and nobr | 510 | end | ✓ |
+| 71. | [common/nbsp/replaceNbsp](../src/rules/common/nbsp/replaceNbsp.ts) | Replacing non-breaking space on normal before text correction | 510 | utf |  |
+| 72. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Non-breaking space in abbreviations, e.g. “т. д.” | 510 | default | ✓ |
+| 73. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Placement of non-breaking space after “г.”, “обл.”, “ул.”, “пр.”, “кв.” et al. | 510 | default | ✓ |
+| 74. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Non-breaking thin space after № | 510 | default | ✓ |
+| 75. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Remove spaces and extra points in “вв.” | 510 | default | ✓ |
+| 76. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Non-breaking space between number and month | 510 | default | ✓ |
+| 77. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Binding of initials to the name | 510 | default | ✓ |
+| 78. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Non-breaking space between number and “тыс.”, “млн”, “млрд” and “трлн” | 510 | default | ✓ |
+| 79. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Non-breaking space after “OOO, ОАО, ЗАО, НИИ, ПБОЮЛ” | 510 | default | ✓ |
+| 80. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Non-breaking space after “стр.”, “гл.”, “рис.”, “илл.” | 510 | default | ✓ |
+| 81. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Non-breaking space in P. S. and P. P. S. | 510 | default | ✓ |
+| 82. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Not once. space before the “rub” and “cop.” | 510 | default | ✓ |
+| 83. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Non-breaking space after abbreviation «см.» and «им.» | 510 | default | ✓ |
+| 84. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Non-breaking space before XXXX г. (2012 г.) | 510 | default | ✓ |
+| 85. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Non-breaking space before “ли”, “ль”, “же”, “бы”, “б” | 515 | default | ✓ |
+| 86. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | m2 → м², m3 → м³ and non-breaking space | 515 | default | ✓ |
+| 87. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. and non-breaking space | 515 | default | ✓ |
+| 88. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Currency symbol ($, €, ¥, Ұ, £ and ₤) after the number, $100 → 100 $ | 710 | default |  |
+| 89. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
+| 90. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Converting dates YYYY-MM-DD type DD.MM.YYYY | 810 | default | ✓ |
+| 91. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
+| 92. | [common/other/repeatWord](../src/rules/common/other/repeatWord.ts) | Removing repeat words | 910 | default |  |
+| 93. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Replacement capital letters to lowercase with addition of accent | 910 | default |  |
+| 94. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Formatting phone numbers | 910 | default | ✓ |
+| 95. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | for opening bracket | 1010 | default |  |
+| 96. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | for comma | 1010 | default |  |
+| 97. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | for opening quotation marks | 1010 | default |  |
+| 98. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Replacement of Latin letters in Russian. Typos occur when you switch keyboard layouts | 1110 | default | ✓ |
+| 99. | [common/html/e-mail](../src/rules/common/html/e-mail.ts) | Placement of links for e-mail | 1210 | end |  |
+| 100. | [common/html/processingAttrs](../src/rules/common/html/processingAttrs.ts) | Processing HTML attributes | 1210 | hide-safe-tags-own |  |
+| 101. | [common/html/quot](../src/rules/common/html/quot.ts) | &⁠quot; → " | 1210 | hide-safe-tags | ✓ |
+| 102. | [common/html/url](../src/rules/common/html/url.ts) | Placement of links | 1210 | end |  |
+| 103. | [common/html/p](../src/rules/common/html/p.ts) | Placement of paragraph | 1215 | end |  |
+| 104. | [common/html/nbr](../src/rules/common/html/nbr.ts) | Replacement line break on <br/> | 1220 | end |  |
+| 105. | [common/html/stripTags](../src/rules/common/html/stripTags.ts) | Removing HTML-tags | 1309 | end |  |
+| 106. | [common/html/escape](../src/rules/common/html/escape.ts) | Escaping HTML | 1310 | end |  |
