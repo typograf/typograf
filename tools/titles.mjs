@@ -1,6 +1,6 @@
 import fs from 'fs';
 import sortKeys from 'sort-keys';
-import glob from 'glob';
+import { glob } from 'glob';
 
 const buffer = {};
 
