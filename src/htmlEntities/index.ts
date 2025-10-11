@@ -4,15 +4,17 @@ import { invisibleEntities } from './invisible';
 
 export type Entity = [string, number];
 
-export type TypografHtmlEntityType = 'name' | 'digit' | 'default';
+export type TypografHtmlEntityType = 'name' | 'digit' | 'js' | 'default';
 
 interface HtmlEntityInfo {
     name: string;
-    nameEntity: string;
-    digitEntity: string;
     utf: string;
-    reName: RegExp;
     reUtf: RegExp;
+    type: {
+        name: string;
+        digit: string;
+        js: string;
+    };
 }
 
 class HtmlEntities {
@@ -21,6 +23,7 @@ class HtmlEntities {
 
     private entitiesByName: Record<string, HtmlEntityInfo>;
     private entitiesByNameEntity: Record<string, HtmlEntityInfo>;
+    private entitiesByJsEntity: Record<string, HtmlEntityInfo>;
     private entitiesByDigitEntity: Record<string, HtmlEntityInfo>;
     private entitiesByUtf: Record<string, HtmlEntityInfo>;
 
@@ -30,12 +33,14 @@ class HtmlEntities {
         this.entitiesByName = {};
         this.entitiesByNameEntity = {};
         this.entitiesByDigitEntity = {};
+        this.entitiesByJsEntity = {};
         this.entitiesByUtf = {};
 
         this.entities.forEach(entity => {
             this.entitiesByName[entity.name] = entity;
-            this.entitiesByNameEntity[entity.nameEntity] = entity;
-            this.entitiesByDigitEntity[entity.digitEntity] = entity;
+            this.entitiesByNameEntity[entity.type.name] = entity;
+            this.entitiesByDigitEntity[entity.type.digit] = entity;
+            this.entitiesByJsEntity[entity.type.js] = entity;
             this.entitiesByUtf[entity.utf] = entity;
         });
 
@@ -46,15 +51,25 @@ class HtmlEntities {
      * Entities as name or digit to UTF-8.
      */
     public toUtf(context: TypografContext) {
+        // &#160;
         if (context.text.search(/&#/) !== -1) {
             context.text = this.decHexToUtf(context.text);
         }
 
+        // &nbsp;
         if (context.text.search(/&[a-z]/i) !== -1) {
             // 2 - min length of entity without & and ;. Example: &DD;
             // 31 - max length of entity without & and ;. Example: &CounterClockwiseContourIntegral;
             context.text = context.text.replace(/&[a-z\d]{2,31};/gi, (key: string) => {
                 const entity = this.entitiesByNameEntity[key];
+                return entity ? entity.utf : key;
+            });
+        }
+
+        // \u00a0
+        if (context.text.search(/\\u[\da-f]/i) !== -1) {
+            context.text = context.text.replace(/\\u[\da-f]{4};/gi, (key: string) => {
+                const entity = this.entitiesByJsEntity[key.toLowerCase()];
                 return entity ? entity.utf : key;
             });
         }
@@ -79,49 +94,46 @@ class HtmlEntities {
     public restore(context: TypografContext) {
         const params = context.prefs.htmlEntity;
         const type = params.type;
+
+        if (type === 'default') {
+            return;
+        }
+
         let entities = this.entities;
 
-        if (type === 'name' || type === 'digit') {
-            if (params.onlyInvisible || params.list) {
-                entities = [];
+        if (params.onlyInvisible || params.list) {
+            entities = [];
 
-                if (params.onlyInvisible) {
-                    entities = entities.concat(this.invisibleEntities);
-                }
-
-                if (params.list) {
-                    entities = entities.concat(this.prepareListParam(params.list));
-                }
+            if (params.onlyInvisible) {
+                entities = entities.concat(this.invisibleEntities);
             }
 
-            const entityType = type === 'name' ? 'nameEntity' : 'digitEntity';
-            context.text = this.restoreEntitiesByIndex(
-                context.text,
-                entityType,
-                entities
-            );
+            if (params.list) {
+                entities = entities.concat(this.prepareListParam(params.list));
+            }
         }
+
+        context.text = this.restoreEntitiesByIndex(
+            context.text,
+            type,
+            entities
+        );
     }
 
     /**
      * Get a entity by utf using the type.
      */
     public getByUtf(symbol: string, type?: TypografHtmlEntityType): HtmlEntityInfo | string | undefined {
-        let result: HtmlEntityInfo | string | undefined;
-
         switch (type) {
             case 'digit':
-                result = this.entitiesByDigitEntity[symbol];
-                break;
+                return this.entitiesByDigitEntity[symbol];
             case 'name':
-                result = this.entitiesByNameEntity[symbol];
-                break;
-            default:
-                result = symbol;
-                break;
+                return this.entitiesByNameEntity[symbol];
+            case 'js':
+                return this.entitiesByJsEntity[symbol];
         }
 
-        return result;
+        return symbol;
     }
 
     private prepareEntities(entities: [string, number][]): HtmlEntityInfo[] {
@@ -133,11 +145,13 @@ class HtmlEntities {
 
             result.push({
                 name,
-                nameEntity: '&' + name + ';', // &nbsp;
-                digitEntity: '&#' + digit + ';', // &#160;
-                utf, // \u00A0
-                reName: new RegExp('&' + name + ';', 'g'),
-                reUtf: new RegExp(utf, 'g')
+                utf, // \u00a0
+                reUtf: new RegExp(utf, 'g'),
+                type: {
+                    name: '&' + name + ';', // &nbsp;
+                    digit: '&#' + digit + ';', // &#160;
+                    js: '\\u' + ('0000' + digit.toString(16)).slice(-4), // \u00a0
+                },
             });
         });
 
@@ -157,9 +171,9 @@ class HtmlEntities {
         return result;
     }
 
-    private restoreEntitiesByIndex(text: string, type: 'nameEntity' | 'digitEntity', entities: HtmlEntityInfo[]) {
+    private restoreEntitiesByIndex(text: string, type: TypografHtmlEntityType, entities: HtmlEntityInfo[]) {
         entities.forEach(entity => {
-            text = text.replace(entity.reUtf, entity[type]);
+            text = text.replace(entity.reUtf, entity.type[type]);
         });
 
         return text;

@@ -6,15 +6,15 @@
 // Выполняются правила "common/*" и "ru/*".
 // Кавычки русские.
 // Расстановка неразрывных пробелов только между русскими словами.
-var tpRu = new Typograf({locale: 'ru'});
+const tpRu = new Typograf({locale: 'ru'});
 
 // Выполняются правила "common/*" и "ru/*".
 // Кавычки русские.
 // Расстановка неразрывных пробелов между русскими и английскими словами.
-var tpRuEn = new Typograf({locale: ['ru', 'en-US']});
+const tpRuEn = new Typograf({locale: ['ru', 'en-US']});
 
 // Выполняются правила "common/*" и "en-US/*".
 // Кавычки английские.
 // Расстановка неразрывных пробелов между русскими и английскими словами.
-var tpEnRu = new Typograf({locale: ['en-US', 'ru']});
+const tpEnRu = new Typograf({locale: ['en-US', 'ru']});
 ```
