@@ -1,5 +1,13 @@
 # Changelog
 
+# v7.6.0
+Добавлен новый тип HTML-сущностей `js`. У Типографа появилась возможность корректно обрабатывать строки с `\uXXXX` в коде JavaScript и TypeScript.
+
+```js
+const tp = new Typograf({ locale: 'ru', htmlEntity: { type: 'js', onlyInvisible: true }});
+console.log(tp.execute('1м²')); // '1\\u00a0м²'
+```
+
 # v7.5.0
 Добавлено правило `afterShortWordByList` для расстановки неразрывного пробела после союзов, артиклей, предлогов и пр.
 

@@ -3,7 +3,7 @@
 
 Для включения необходимо подключить правила `ru/optalign/*`:
 ```js
-var Typograf = require('typograf'),
+const Typograf = require('typograf'),
     tp = new Typograf({locale: ['ru', 'en-US']});
 
 tp.enableRule('ru/optalign/*');

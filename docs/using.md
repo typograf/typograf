@@ -11,7 +11,7 @@ npm install typograf
 ```HTML
 <script src="./node_modules/typograf/dist/typograf.min.js"></script>
 <script>
-    var tp = new Typograf({locale: ['ru', 'en-US']});
+    const tp = new Typograf({locale: ['ru', 'en-US']});
     alert(tp.execute('     Мир - мой мир!!      '));
 </script>
 ```
@@ -35,8 +35,8 @@ npm install typograf
 <script src="./node_modules/typograf/dist/typograf.min.js"></script>
 <script>
 (function() {
-    var tp = new Typograf({locale: ['ru', 'en-US']});
-    var elem = document.querySelector('input.my-text');
+    const tp = new Typograf({locale: ['ru', 'en-US']});
+    const elem = document.querySelector('input.my-text');
     document.querySelector('button.do').addEventListener('click', function() {
         elem.value = tp.execute(elem.value);
     }, false);
@@ -45,6 +45,15 @@ npm install typograf
 ```
 
 ## Node.js
+ESM:
+```js
+import Typograf from 'typograf';
+const tp = new Typograf({locale: ['ru', 'en-US']});
+
+console.log(tp.execute(' Мир - мой мир!!   '));
+```
+
+Common.js:
 ```js
 const Typograf = require('typograf');
 const tp = new Typograf({locale: ['ru', 'en-US']});

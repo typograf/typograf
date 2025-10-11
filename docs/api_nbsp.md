@@ -1,7 +1,7 @@
 # Неразрывные пробелы
 По умолчанию типограф не заменяет неразрывные пробелы на обычные, чтобы не удалить ранее проставленные неразрывные пробелы. Если в тексте неправильно расставлены неразрывные пробелы, включите правило `common/nbsp/replaceNbsp`.
 ```js
-var tp = new Typograf({locale: ['ru', 'en-US']});
+const tp = new Typograf({locale: ['ru', 'en-US']});
 tp.enableRule('common/nbsp/replaceNbsp');
 ```
 
