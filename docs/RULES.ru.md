@@ -54,57 +54,58 @@
 | 50. | [common/symbols/arrow](../src/rules/common/symbols/arrow.ts) | -> → →, <- → ← | 110 | default | ✓ |
 | 51. | [common/symbols/cf](../src/rules/common/symbols/cf.ts) | Добавление ° к C и F | 110 | default | ✓ |
 | 52. | [common/symbols/copy](../src/rules/common/symbols/copy.ts) | (c) → ©, (tm) → ™, (r) → ® | 110 | default | ✓ |
-| 53. | [en-US/dash/main](../src/rules/en-US/dash/main.ts) | Замена дефиса на длинное тире | 305 | default | ✓ |
-| 54. | [ru/dash/centuries](../src/rules/ru/dash/centuries.ts) | Замена дефиса на тире в веках | 310 | default | ✓ |
-| 55. | [ru/dash/daysMonth](../src/rules/ru/dash/daysMonth.ts) | Тире между днями одного месяца | 310 | default | ✓ |
-| 56. | [ru/dash/de](../src/rules/ru/dash/de.ts) | Дефис перед «де» | 310 | default |  |
-| 57. | [ru/dash/decade](../src/rules/ru/dash/decade.ts) | Тире в десятилетиях, 80—90-е гг. | 310 | default | ✓ |
-| 58. | [ru/dash/directSpeech](../src/rules/ru/dash/directSpeech.ts) | Тире в прямой речи | 310 | default | ✓ |
-| 59. | [ru/dash/izpod](../src/rules/ru/dash/izpod.ts) | Дефис между «из-под» | 310 | default | ✓ |
-| 60. | [ru/dash/izza](../src/rules/ru/dash/izza.ts) | Дефис между «из-за» | 310 | default | ✓ |
-| 61. | [ru/dash/ka](../src/rules/ru/dash/ka.ts) | Дефис перед «ка» и «кась» | 310 | default | ✓ |
-| 62. | [ru/dash/kakto](../src/rules/ru/dash/kakto.ts) | Дефис для «как то» | 310 | default | ✓ |
-| 63. | [ru/dash/koe](../src/rules/ru/dash/koe.ts) | Дефис после «кое» и «кой» | 310 | default | ✓ |
-| 64. | [ru/dash/main](../src/rules/ru/dash/main.ts) | Замена дефиса на тире | 305 | default | ✓ |
-| 65. | [ru/dash/month](../src/rules/ru/dash/month.ts) | Тире между месяцами | 310 | default | ✓ |
-| 66. | [ru/dash/surname](../src/rules/ru/dash/surname.ts) | Сокращения с помощью тире | 310 | default | ✓ |
-| 67. | [ru/dash/taki](../src/rules/ru/dash/taki.ts) | Дефис между «верно-таки» и т. д. | 310 | default | ✓ |
-| 68. | [ru/dash/time](../src/rules/ru/dash/time.ts) | Тире в интервалах времени | 310 | default | ✓ |
-| 69. | [ru/dash/to](../src/rules/ru/dash/to.ts) | Дефис перед «то», «либо», «нибудь» | 310 | default | ✓ |
-| 70. | [ru/dash/weekday](../src/rules/ru/dash/weekday.ts) | Тире между днями недели | 310 | default | ✓ |
-| 71. | [ru/dash/years](../src/rules/ru/dash/years.ts) | Замена дефиса на тире в годах | 310 | default | ✓ |
-| 72. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY | 810 | default | ✓ |
-| 73. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
-| 74. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Символ валюты ($, €, ¥, Ұ, £ и ₤) после числа, $100 → 100 $ | 710 | default |  |
-| 75. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
-| 76. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Нераз. пробел в сокращениях, например, в «т. д.» | 510 | default | ✓ |
-| 77. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др. | 510 | default | ✓ |
-| 78. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Нераз. узкий пробел после № | 510 | default | ✓ |
-| 79. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Нераз. пробел перед «ли», «ль», «же», «бы», «б» | 515 | default | ✓ |
-| 80. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Удаление пробелов и лишних точек в «вв.» | 510 | default | ✓ |
-| 81. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Нераз. пробел между числом и месяцем | 510 | default | ✓ |
-| 82. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Привязка инициалов к фамилии | 510 | default | ✓ |
-| 83. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | м2 → м², м3 → м³ и нераз. пробел | 515 | default | ✓ |
-| 84. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Неразр. пробел между числом и «тыс.», «млн», «млрд» и «трлн» | 510 | default | ✓ |
-| 85. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 510 | default | ✓ |
-| 86. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Нераз. пробел после «стр.», «гл.», «рис.», «илл.» | 510 | default | ✓ |
-| 87. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Нераз. пробел в P. S. и P. P. S. | 510 | default | ✓ |
-| 88. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Нераз. пробел перед «руб.» и «коп.» | 510 | default | ✓ |
-| 89. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Нераз. пробел после сокращений «см.» и «им.» | 510 | default | ✓ |
-| 90. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Нераз. пробел после XXXX г. (2012 г.) | 510 | default | ✓ |
-| 91. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. и нераз. пробел | 515 | default | ✓ |
-| 92. | [ru/number/comma](../src/rules/ru/number/comma.ts) | Замена точки на запятую в числах | 150 | default | ✓ |
-| 93. | [ru/number/ordinals](../src/rules/ru/number/ordinals.ts) | N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й) | 150 | default | ✓ |
-| 94. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | для открывающей скобки | 1010 | default |  |
-| 95. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | для запятой | 1010 | default |  |
-| 96. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | для открывающей кавычки | 1010 | default |  |
-| 97. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Замена заглавной буквы на строчную с добавлением ударения | 910 | default |  |
-| 98. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Форматирование телефонных номеров | 910 | default | ✓ |
-| 99. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.ts) | Расстановка запятых перед «а» и «но» | 410 | default | ✓ |
-| 100. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.ts) | !! → ! | 410 | default | ✓ |
-| 101. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.ts) | !? → ?! | 415 | default | ✓ |
-| 102. | [ru/punctuation/hellipQuestion](../src/rules/ru/punctuation/hellipQuestion.ts) | «?…» → «?..», «!…» → «!..», «…,» → «…» | 410 | default | ✓ |
-| 103. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.ts) | Пробел после «...», «!..» и «?..» | 210 | default | ✓ |
-| 104. | [ru/space/year](../src/rules/ru/space/year.ts) | Пробел между числом и словом «год» | 210 | default | ✓ |
-| 105. | [ru/symbols/NN](../src/rules/ru/symbols/NN.ts) | №№ → № | 110 | default | ✓ |
-| 106. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки | 1110 | default | ✓ |
+| 53. | [en-GB/dash/main](../src/rules/en-GB/dash/main.ts) | Замена дефиса на длинное тире | 305 | default | ✓ |
+| 54. | [en-US/dash/main](../src/rules/en-US/dash/main.ts) | Замена дефиса на длинное тире | 305 | default | ✓ |
+| 55. | [ru/dash/centuries](../src/rules/ru/dash/centuries.ts) | Замена дефиса на тире в веках | 310 | default | ✓ |
+| 56. | [ru/dash/daysMonth](../src/rules/ru/dash/daysMonth.ts) | Тире между днями одного месяца | 310 | default | ✓ |
+| 57. | [ru/dash/de](../src/rules/ru/dash/de.ts) | Дефис перед «де» | 310 | default |  |
+| 58. | [ru/dash/decade](../src/rules/ru/dash/decade.ts) | Тире в десятилетиях, 80—90-е гг. | 310 | default | ✓ |
+| 59. | [ru/dash/directSpeech](../src/rules/ru/dash/directSpeech.ts) | Тире в прямой речи | 310 | default | ✓ |
+| 60. | [ru/dash/izpod](../src/rules/ru/dash/izpod.ts) | Дефис между «из-под» | 310 | default | ✓ |
+| 61. | [ru/dash/izza](../src/rules/ru/dash/izza.ts) | Дефис между «из-за» | 310 | default | ✓ |
+| 62. | [ru/dash/ka](../src/rules/ru/dash/ka.ts) | Дефис перед «ка» и «кась» | 310 | default | ✓ |
+| 63. | [ru/dash/kakto](../src/rules/ru/dash/kakto.ts) | Дефис для «как то» | 310 | default | ✓ |
+| 64. | [ru/dash/koe](../src/rules/ru/dash/koe.ts) | Дефис после «кое» и «кой» | 310 | default | ✓ |
+| 65. | [ru/dash/main](../src/rules/ru/dash/main.ts) | Замена дефиса на тире | 305 | default | ✓ |
+| 66. | [ru/dash/month](../src/rules/ru/dash/month.ts) | Тире между месяцами | 310 | default | ✓ |
+| 67. | [ru/dash/surname](../src/rules/ru/dash/surname.ts) | Сокращения с помощью тире | 310 | default | ✓ |
+| 68. | [ru/dash/taki](../src/rules/ru/dash/taki.ts) | Дефис между «верно-таки» и т. д. | 310 | default | ✓ |
+| 69. | [ru/dash/time](../src/rules/ru/dash/time.ts) | Тире в интервалах времени | 310 | default | ✓ |
+| 70. | [ru/dash/to](../src/rules/ru/dash/to.ts) | Дефис перед «то», «либо», «нибудь» | 310 | default | ✓ |
+| 71. | [ru/dash/weekday](../src/rules/ru/dash/weekday.ts) | Тире между днями недели | 310 | default | ✓ |
+| 72. | [ru/dash/years](../src/rules/ru/dash/years.ts) | Замена дефиса на тире в годах | 310 | default | ✓ |
+| 73. | [ru/date/fromISO](../src/rules/ru/date/fromISO.ts) | Преобразование дат YYYY-MM-DD к виду DD.MM.YYYY | 810 | default | ✓ |
+| 74. | [ru/date/weekday](../src/rules/ru/date/weekday.ts) | 2 Мая, Понедельник → 2 мая, понедельник | 810 | default | ✓ |
+| 75. | [ru/money/currency](../src/rules/ru/money/currency.ts) | Символ валюты ($, €, ¥, Ұ, £ и ₤) после числа, $100 → 100 $ | 710 | default |  |
+| 76. | [ru/money/ruble](../src/rules/ru/money/ruble.ts) | 1 руб. → 1 ₽ | 710 | default |  |
+| 77. | [ru/nbsp/abbr](../src/rules/ru/nbsp/abbr.ts) | Нераз. пробел в сокращениях, например, в «т. д.» | 510 | default | ✓ |
+| 78. | [ru/nbsp/addr](../src/rules/ru/nbsp/addr.ts) | Расстановка нераз. пробела после «г.», «обл.», «ул.», «пр.», «кв.» и др. | 510 | default | ✓ |
+| 79. | [ru/nbsp/afterNumberSign](../src/rules/ru/nbsp/afterNumberSign.ts) | Нераз. узкий пробел после № | 510 | default | ✓ |
+| 80. | [ru/nbsp/beforeParticle](../src/rules/ru/nbsp/beforeParticle.ts) | Нераз. пробел перед «ли», «ль», «же», «бы», «б» | 515 | default | ✓ |
+| 81. | [ru/nbsp/centuries](../src/rules/ru/nbsp/centuries.ts) | Удаление пробелов и лишних точек в «вв.» | 510 | default | ✓ |
+| 82. | [ru/nbsp/dayMonth](../src/rules/ru/nbsp/dayMonth.ts) | Нераз. пробел между числом и месяцем | 510 | default | ✓ |
+| 83. | [ru/nbsp/initials](../src/rules/ru/nbsp/initials.ts) | Привязка инициалов к фамилии | 510 | default | ✓ |
+| 84. | [ru/nbsp/m](../src/rules/ru/nbsp/m.ts) | м2 → м², м3 → м³ и нераз. пробел | 515 | default | ✓ |
+| 85. | [ru/nbsp/mln](../src/rules/ru/nbsp/mln.ts) | Неразр. пробел между числом и «тыс.», «млн», «млрд» и «трлн» | 510 | default | ✓ |
+| 86. | [ru/nbsp/ooo](../src/rules/ru/nbsp/ooo.ts) | Нераз. пробел после OOO, ОАО, ЗАО, НИИ и ПБОЮЛ | 510 | default | ✓ |
+| 87. | [ru/nbsp/page](../src/rules/ru/nbsp/page.ts) | Нераз. пробел после «стр.», «гл.», «рис.», «илл.» | 510 | default | ✓ |
+| 88. | [ru/nbsp/ps](../src/rules/ru/nbsp/ps.ts) | Нераз. пробел в P. S. и P. P. S. | 510 | default | ✓ |
+| 89. | [ru/nbsp/rubleKopek](../src/rules/ru/nbsp/rubleKopek.ts) | Нераз. пробел перед «руб.» и «коп.» | 510 | default | ✓ |
+| 90. | [ru/nbsp/see](../src/rules/ru/nbsp/see.ts) | Нераз. пробел после сокращений «см.» и «им.» | 510 | default | ✓ |
+| 91. | [ru/nbsp/year](../src/rules/ru/nbsp/year.ts) | Нераз. пробел после XXXX г. (2012 г.) | 510 | default | ✓ |
+| 92. | [ru/nbsp/years](../src/rules/ru/nbsp/years.ts) | г.г. → гг. и нераз. пробел | 515 | default | ✓ |
+| 93. | [ru/number/comma](../src/rules/ru/number/comma.ts) | Замена точки на запятую в числах | 150 | default | ✓ |
+| 94. | [ru/number/ordinals](../src/rules/ru/number/ordinals.ts) | N-ый, -ой, -ая, -ое, -ые, -ым, -ом, -ых → N-й, -я, -е, -м, -х (25-й) | 150 | default | ✓ |
+| 95. | [ru/optalign/bracket](../src/rules/ru/optalign/bracket.ts) | для открывающей скобки | 1010 | default |  |
+| 96. | [ru/optalign/comma](../src/rules/ru/optalign/comma.ts) | для запятой | 1010 | default |  |
+| 97. | [ru/optalign/quote](../src/rules/ru/optalign/quote.ts) | для открывающей кавычки | 1010 | default |  |
+| 98. | [ru/other/accent](../src/rules/ru/other/accent.ts) | Замена заглавной буквы на строчную с добавлением ударения | 910 | default |  |
+| 99. | [ru/other/phone-number](../src/rules/ru/other/phone-number.ts) | Форматирование телефонных номеров | 910 | default | ✓ |
+| 100. | [ru/punctuation/ano](../src/rules/ru/punctuation/ano.ts) | Расстановка запятых перед «а» и «но» | 410 | default | ✓ |
+| 101. | [ru/punctuation/exclamation](../src/rules/ru/punctuation/exclamation.ts) | !! → ! | 410 | default | ✓ |
+| 102. | [ru/punctuation/exclamationQuestion](../src/rules/ru/punctuation/exclamationQuestion.ts) | !? → ?! | 415 | default | ✓ |
+| 103. | [ru/punctuation/hellipQuestion](../src/rules/ru/punctuation/hellipQuestion.ts) | «?…» → «?..», «!…» → «!..», «…,» → «…» | 410 | default | ✓ |
+| 104. | [ru/space/afterHellip](../src/rules/ru/space/afterHellip.ts) | Пробел после «...», «!..» и «?..» | 210 | default | ✓ |
+| 105. | [ru/space/year](../src/rules/ru/space/year.ts) | Пробел между числом и словом «год» | 210 | default | ✓ |
+| 106. | [ru/symbols/NN](../src/rules/ru/symbols/NN.ts) | №№ → № | 110 | default | ✓ |
+| 107. | [ru/typo/switchingKeyboardLayout](../src/rules/ru/typo/switchingKeyboardLayout.ts) | Замена латинских букв на русские. Опечатки, возникающие при переключении клавиатурной раскладки | 1110 | default | ✓ |
