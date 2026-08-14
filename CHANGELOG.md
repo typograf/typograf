@@ -1,5 +1,8 @@
 # Changelog
 
+# v7.8.0
+Добавлена поддержка немецкой локали в правиле `common/nbsp/afterShortWordByList`.
+
 # v7.7.0
 Добавлено правило `en-GB/dash/main`, аналогичное `en-US/dash/main`.
 

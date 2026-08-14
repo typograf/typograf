@@ -66,4 +66,20 @@ typografRuleTest([
     {locale: 'it'},
 ]);
 
-
+typografRuleTest([
+    'common/nbsp/afterShortWordByList', [
+        [
+            'Ich fahre mit dem Zug über Hamburg nach Berlin.',
+            'Ich fahre mit\u00A0dem\u00A0Zug über\u00A0Hamburg nach\u00A0Berlin.'
+        ],
+        [
+            'Das ist ein Test für die deutsche Sprache.',
+            'Das\u00A0ist ein\u00A0Test für\u00A0die\u00A0deutsche Sprache.'
+        ],
+        [
+            'Er fährt heute schnell.',
+            'Er fährt heute schnell.'
+        ]
+    ],
+    {locale: 'de'},
+]);
