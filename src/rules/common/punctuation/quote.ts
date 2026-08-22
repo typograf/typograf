@@ -20,12 +20,12 @@ class Quote {
         right: '\uF008\uF009\uF0A0',
     };
 
-    private beforeLeft = ' \n\t\u00a0[(';
-    private afterRight = ' \n\t\u00a0!?.:;#*,…)\\]';
+    private beforeLeft = ' \n\t\u00a0\u202f[(';
+    private afterRight = ' \n\t\u00a0\u202f!?.:;#*,…)\\]';
 
     public process(params: QuoteParams): string {
         let text = params.context.text;
-        const count = this.count(text);
+        const count = this.count(text, params.settings);
 
         if (!count.total) {
             return text;
@@ -78,10 +78,14 @@ class Quote {
         });
     }
 
-    private count(text: string) {
+    private getQuotes(settings?: DataQuote): string {
+        return String(getData('common/quote')) + (settings ? settings.left + settings.right : '');
+    }
+
+    private count(text: string, settings?: DataQuote) {
         const count: Record<string, number> = { total: 0 };
 
-        text.replace(new RegExp('[' + getData('common/quote') + ']', 'g'), function(quote) {
+        text.replace(new RegExp('[' + this.getQuotes(settings) + ']', 'g'), function(quote) {
             if (!count[quote]) {
                 count[quote] = 0;
             }
@@ -125,7 +129,9 @@ class Quote {
     }
 
     private setSpacing(text: string, settings: DataQuote): string {
-        for (let i = 0, len = settings.left.length; i < len; i++) {
+        const len = settings.spacing === true ? settings.left.length : Number(settings.spacing);
+
+        for (let i = 0; i < len; i++) {
             const lquote = settings.left[i];
             const rquote = settings.right[i];
 
@@ -138,7 +144,7 @@ class Quote {
     }
 
     private set(text: string, params: QuoteParams): string {
-        const quotes = getData('common/quote');
+        const quotes = this.getQuotes(params.settings);
 
         const lquote = params.settings.left[0];
         const lquote2 = params.settings.left[1] || lquote;
@@ -161,7 +167,7 @@ class Quote {
     }
 
     private setAboveTags(text: string, params: QuoteParams): string {
-        const quotes = getData('common/quote');
+        const quotes = this.getQuotes(params.settings);
 
         const lquote = params.settings.left[0];
         const rquote = params.settings.right[0];
@@ -221,28 +227,25 @@ class Quote {
         const lquote = settings.left[0];
         const rquote = settings.right[0];
         const minLevel = 0;
-        const maxLevel = this.getMaxLevel(text, lquote, rquote, settings.left.length);
+        const levelInfo = this.getLevelInfo(text, settings);
+        const maxLevel = levelInfo.maxLevel;
         let level = minLevel;
         let result = '';
 
         for (let i = 0, len = text.length; i < len; i++) {
             const letter = text[i];
             if (letter === lquote) {
-                result += settings.left[level > maxLevel - 1 ? maxLevel - 1 : level];
+                result += settings.left[Math.min(level, maxLevel - 1)];
 
                 level++;
 
-                if (level > maxLevel) {
+                if (levelInfo.hasErrors && level > maxLevel) {
                     level = maxLevel;
                 }
             } else if (letter === rquote) {
-                level--;
+                level = Math.max(minLevel, level - 1);
 
-                if (level < minLevel) {
-                    level = minLevel;
-                }
-
-                result += settings.right[level];
+                result += settings.right[Math.min(level, maxLevel - 1)];
             } else {
                 if (letter === '"') {
                     level = minLevel;
@@ -255,12 +258,17 @@ class Quote {
         return result;
     }
 
-    private getMaxLevel(text: string, leftQuote: string, rightQuote: string, length: number): number {
-        const count = this.count(text);
+    private getLevelInfo(text: string, settings: DataQuote) {
+        const count = this.count(text, settings);
+        const leftQuote = settings.left[0];
+        const rightQuote = settings.right[0];
+        const length = settings.left.length;
+        const hasErrors = count[leftQuote] !== count[rightQuote];
 
-        return count[leftQuote] === count[rightQuote] ?
-            length :
-            Math.min(length, MAX_LEVEL_WITH_ERRORS);
+        return {
+            hasErrors,
+            maxLevel: hasErrors ? Math.min(length, MAX_LEVEL_WITH_ERRORS) : length,
+        };
     }
 }
 

@@ -24,6 +24,6 @@ export type DataCommonQuote = string;
 export type DataQuote = {
     left: string;
     right: string;
-    spacing?: boolean;
+    spacing?: boolean | number;
     removeDuplicateQuotes?: true;
 };

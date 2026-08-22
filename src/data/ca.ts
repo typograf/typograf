@@ -1,7 +1,7 @@
 export default {
-    'ca/char': 'abcdefghijlmnopqrstuvxyzàçèéíïòóúü',
+    'ca/char': 'a-zàçèéíïòóúü',
     'ca/quote': {
-        left: '«“',
-        right: '»”',
+        left: '«“‘',
+        right: '»”’',
     }
 };

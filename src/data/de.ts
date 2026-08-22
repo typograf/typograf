@@ -1,5 +1,5 @@
 export default {
-    'de/char': 'a-zßäöü',
+    'de/char': 'a-zßẞäöü',
     'de/quote': {
         left: '„‚',
         right: '“‘',

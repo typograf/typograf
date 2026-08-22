@@ -1,7 +1,7 @@
 export default {
-    'et/char': 'abdefghijklmnoprstuvzäõöüšž',
+    'et/char': 'a-zäõöüšž',
     'et/quote': {
-        left: '„«',
-        right: '“»',
+        left: '„',
+        right: '“',
     }
 };

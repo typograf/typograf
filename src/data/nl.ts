@@ -1,7 +1,7 @@
 export default {
-    'nl/char': 'a-zäçèéêëîïñöûü',
+    'nl/char': 'a-záäçèéêëíîïñóöúûü',
     'nl/quote': {
-        left: '‘“',
-        right: '’”',
+        left: '‘“‘',
+        right: '’”’',
     }
 };

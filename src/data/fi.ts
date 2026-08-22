@@ -1,5 +1,5 @@
 export default {
-    'fi/char': 'abcdefghijklmnopqrstuvyöäå',
+    'fi/char': 'a-zšžåäö',
     'fi/quote': {
         left: '”’',
         right: '”’',

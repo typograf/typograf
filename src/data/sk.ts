@@ -1,7 +1,7 @@
 export default {
-    'sk/char': 'abcdefghijklmnoprstuvwxyzáäéíóôúýčďľňŕšťž',
+    'sk/char': 'a-záäéíóôúýčďĺľňŕšťž',
     'sk/quote': {
-        left: '„‚',
-        right: '“‘',
+        left: '„‚»',
+        right: '“‘«',
     }
 };

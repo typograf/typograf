@@ -1,7 +1,7 @@
 export default {
-    'ro/char': 'abcdefghijklmnoprstuvxzîășț',
+    'ro/char': 'a-zăâîșț',
     'ro/quote': {
-        left: '„«',
-        right: '”»',
+        left: '„«„',
+        right: '”»”',
     }
 };

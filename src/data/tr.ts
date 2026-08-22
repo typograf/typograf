@@ -1,7 +1,7 @@
 export default {
-    'tr/char': 'abcdefghijklmnoprstuvyzâçîöûüğış',
+    'tr/char': 'abcdefghijklmnoprstuvyzâçîöûüİğış',
     'tr/quote': {
-        left: '“‘',
-        right: '”’',
+        left: '“‘“',
+        right: '”’”',
     }
 };

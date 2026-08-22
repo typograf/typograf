@@ -1,7 +1,7 @@
 export default {
-    'no/char': 'a-zåæèéêòóôø',
+    'no/char': 'a-zàåæèéêòóôø',
     'no/quote': {
-        left: '«’',
-        right: '»’',
+        left: '«‘«',
+        right: '»’»',
     }
 };

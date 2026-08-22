@@ -1,7 +1,7 @@
 export default {
-    'lv/char': 'abcdefghijklmnopqrstuvxzæœ',
+    'lv/char': 'a-zāčēģīķļņšūž',
     'lv/quote': {
-        left: '«„',
-        right: '»“',
+        left: '“',
+        right: '”',
     }
 };
