@@ -1,5 +1,8 @@
 # Changelog
 
+# v7.9.0
+Добавлена поддержка французской локали в правиле `common/nbsp/afterShortWordByList`.
+
 # v7.8.0
 Добавлена поддержка немецкой локали в правиле `common/nbsp/afterShortWordByList`.
 

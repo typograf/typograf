@@ -83,3 +83,21 @@ typografRuleTest([
     ],
     {locale: 'de'},
 ]);
+
+typografRuleTest([
+    'common/nbsp/afterShortWordByList', [
+        [
+            'Le pain et le fromage sont sur la table.',
+            'Le\u00A0pain et\u00A0le\u00A0fromage sont sur\u00A0la\u00A0table.'
+        ],
+        [
+            'Je vais au marché avec ma sœur.',
+            'Je vais au\u00A0marché avec\u00A0ma sœur.'
+        ],
+        [
+            'Elle arrive demain.',
+            'Elle arrive demain.'
+        ]
+    ],
+    {locale: 'fr'},
+]);
