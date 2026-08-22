@@ -3,5 +3,6 @@ export default {
     'hu/quote': {
         left: '„»’',
         right: '”«’',
-    }
+    },
+    'hu/shortWord': 'a|az',
 };

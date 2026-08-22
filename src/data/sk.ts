@@ -3,5 +3,6 @@ export default {
     'sk/quote': {
         left: '„‚»',
         right: '“‘«',
-    }
+    },
+    'sk/shortWord': 'k|o|s|u|v|z',
 };

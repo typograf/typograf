@@ -101,3 +101,42 @@ typografRuleTest([
     ],
     {locale: 'fr'},
 ]);
+
+const localeTests: Array<[string, Array<[string, string]>]> = [
+    ['bg', [
+        ['Хляб и сирене', 'Хляб и\u00A0сирене'],
+        ['Хляб със сирене', 'Хляб със сирене'],
+    ]],
+    ['cs', [
+        ['Jsme v Praze', 'Jsme v\u00A0Praze'],
+        ['Chléb a sýr', 'Chléb a sýr'],
+    ]],
+    ['hu', [
+        ['A kenyér és az sajt', 'A\u00A0kenyér és az\u00A0sajt'],
+        ['Kenyér és sajt', 'Kenyér és sajt'],
+    ]],
+    ['pl', [
+        ['Chleb i ser', 'Chleb i\u00A0ser'],
+        ['Chleb oraz ser', 'Chleb oraz ser'],
+    ]],
+    ['sk', [
+        ['Idem v meste', 'Idem v\u00A0meste'],
+        ['Chlieb a syr', 'Chlieb a syr'],
+    ]],
+    ['uk', [
+        ['Хліб і сир', 'Хліб і\u00A0сир'],
+        ['Ми зі школи', 'Ми зі\u00A0школи'],
+        ['Не натискайте', 'Не\u00A0натискайте'],
+        ['Ми біля школи', 'Ми біля школи'],
+    ]],
+];
+
+localeTests.forEach(([locale, tests]) => {
+    describe(locale, () => {
+        typografRuleTest([
+            'common/nbsp/afterShortWordByList',
+            tests,
+            {locale},
+        ]);
+    });
+});

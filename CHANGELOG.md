@@ -1,7 +1,7 @@
 # Changelog
 
 # v7.9.0
-Добавлена поддержка французской локали в правиле `common/nbsp/afterShortWordByList`.
+Добавлена поддержка локалей `bg`, `cs`, `fr`, `hu`, `pl`, `sk` и `uk` в правиле `common/nbsp/afterShortWordByList` с учетом локальных правил набора.
 
 # v7.8.0
 Добавлена поддержка немецкой локали в правиле `common/nbsp/afterShortWordByList`.

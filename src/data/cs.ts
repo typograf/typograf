@@ -3,5 +3,6 @@ export default {
     'cs/quote': {
         left: '„‚»',
         right: '“‘«',
-    }
+    },
+    'cs/shortWord': 'k|s|v|z',
 };
