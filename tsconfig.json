@@ -1,18 +1,21 @@
 {
-  "exclude": ["dist", "tools", "benchmark", "coverage"],
+  "exclude": ["build", "dist", "tools", "benchmark", "coverage"],
   "compilerOptions": {
     "outDir": "./build/",
     "module": "es6",
     "target": "es5",
+    "strict": false,
     "declaration": true,
     "declarationDir": "./build/",
     "allowJs": true,
+    "types": ["jest", "node"],
     "esModuleInterop": true,
     "lib": [
         "es6",
         "dom"
     ],
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
