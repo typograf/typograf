@@ -1,14 +1,31 @@
 import type { TypografRule } from '../../../main';
-const sp1 = '(-|\\.|\\/)';
-const sp2 = '(-|\\/)';
-const re1 = new RegExp('(^|\\D)(\\d{4})' + sp1 + '(\\d{2})' + sp1 + '(\\d{2})(\\D|$)', 'gi');
-const re2 = new RegExp('(^|\\D)(\\d{2})' + sp2 + '(\\d{2})' + sp2 + '(\\d{4})(\\D|$)', 'gi');
+
+// Match dotted dates as a whole so their year cannot start another match in a range.
+const date = /(^|\D)(?:(\d{2}\.\d{2}\.\d{4})|(\d{4})[-./](\d{2})[-./](\d{2})|(\d{2})[-/](\d{2})[-/](\d{4}))(?!\d)/g;
+
+function isValidDate(year: string, month: string, day: string): boolean {
+    const monthIndex = Number(month) - 1;
+    const dayOfMonth = Number(day);
+    const calendarDate = new Date(0);
+    // setUTCFullYear preserves years 0000–0099.
+    calendarDate.setUTCFullYear(Number(year), monthIndex, dayOfMonth);
+
+    return calendarDate.getUTCMonth() === monthIndex && calendarDate.getUTCDate() === dayOfMonth;
+}
 
 export const fromISORule: TypografRule = {
     name: 'ru/date/fromISO',
     handler(text) {
-        return text
-            .replace(re1, '$1$6.$4.$2$7')
-            .replace(re2, '$1$4.$2.$6$7');
+        return text.replace(date, (match, prefix, dotted, isoYear, isoMonth, isoDay, usMonth, usDay, usYear) => {
+            if (dotted) {
+                return match;
+            }
+
+            const year = isoYear || usYear;
+            const month = isoMonth || usMonth;
+            const day = isoDay || usDay;
+
+            return isValidDate(year, month, day) ? `${prefix}${day}.${month}.${year}` : match;
+        });
     },
 };
