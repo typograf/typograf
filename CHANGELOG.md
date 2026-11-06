@@ -1,5 +1,11 @@
 # Changelog
 
+# v7.9.1
+- Правило `common/number/digitGrouping` сохраняет шестнадцатеричные коды цветов, например `#000000`. Закрывает [#409](https://github.com/typograf/typograf/issues/409).
+- Правило `ru/date/fromISO` корректно обрабатывает диапазоны дат и преобразует только допустимые календарные даты с учётом високосных лет. Закрывает [#456](https://github.com/typograf/typograf/issues/456).
+- Правило `ru/punctuation/ano` больше не вставляет запятую в сочетании «ну а». Закрывает [#462](https://github.com/typograf/typograf/issues/462).
+- Правило `common/punctuation/quote` заменяет прямую кавычку на двойной штрих `″` в обозначениях дюймов, например `19"` → `19″`. Закрывает [#402](https://github.com/typograf/typograf/issues/402).
+
 # v7.9.0
 - Добавлена поддержка локалей `bg`, `cs`, `fr`, `hu`, `pl`, `sk` и `uk` в правиле `common/nbsp/afterShortWordByList` с учетом локальных правил набора.
 - Исправлены кавычки разных уровней для поддерживаемых локалей и обработка глубокой вложенности в правиле `common/punctuation/quote`.
