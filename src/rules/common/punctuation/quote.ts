@@ -153,17 +153,41 @@ class Quote {
         const reL = new RegExp('(^|[' + this.beforeLeft + '])([' + quotes + ']+)(?=[^\\s' + privateLabel + '])', 'gim');
         const reR = new RegExp('([^\\s' + privateLabel + '])([' + quotes + ']+)(?=[' + this.afterRight + ']|$)', 'gim');
 
-        text = text
-            .replace(reL, function($0, $1, $2) { return $1 + repeat(lquote, $2.length); })
-            .replace(reR, function($0, $1, $2) { return $1 + repeat(rquote, $2.length); });
+        const source = text.replace(reL, function($0, $1, $2) { return $1 + repeat(lquote, $2.length); });
+        text = source.replace(reR, function($0, $1, $2) { return $1 + repeat(rquote, $2.length); });
 
         text = this.setAboveTags(text, params);
+
+        if (/\d"/.test(source)) {
+            text = this.normalizeInchMarks(text, source, lquote, rquote);
+        }
 
         if (lquote !== lquote2) {
             text = this.setInner(text, params.settings);
         }
 
         return text;
+    }
+
+    private normalizeInchMarks(text: string, source: string, lquote: string, rquote: string): string {
+        let level = 0;
+
+        // Quote replacements keep character positions in sync with the source.
+        return text.replace(new RegExp('[' + lquote + rquote + '"]', 'g'), (quote, pos) => {
+            if (quote === lquote) {
+                level++;
+            } else if (quote === rquote) {
+                if (level > 0) {
+                    level--;
+                } else if (source[pos] === '"' && /\d/.test(source.charAt(pos - 1))) {
+                    return '″';
+                }
+            } else {
+                level = 0;
+            }
+
+            return quote;
+        });
     }
 
     private setAboveTags(text: string, params: QuoteParams): string {

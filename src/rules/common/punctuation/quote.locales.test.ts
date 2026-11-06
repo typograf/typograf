@@ -49,6 +49,24 @@ describe('common/punctuation/quote locales', () => {
         expect(tp.execute(result)).toBe(expected);
     });
 
+    it.each([
+        ['en-US', 'The 19" display is called "Studio 24".', 'The 19″ display is called “Studio 24”.'],
+        ['en-GB', 'The "Studio 24" monitor has a screen size of 19".', 'The ‘Studio 24’ monitor has a screen size of 19″.'],
+        ['de', 'Der Monitor "Studio 24" hat eine Diagonale von 19".', 'Der Monitor „Studio 24“ hat eine Diagonale von 19″.'],
+        ['es', 'El monitor "Estudio 24" tiene una diagonal de 19".', 'El monitor «Estudio 24» tiene una diagonal de 19″.'],
+        ['fi', 'Mallin "Studio 24" näytön koko on 19".', 'Mallin ”Studio 24” näytön koko on 19″.'],
+        ['fr', 'L’écran de 15,6" est vendu sous le nom "Studio 24".', 'L’écran de 15,6″ est vendu sous le nom «\u202FStudio 24\u202F».'],
+        ['pl', 'Monitor "Studio 24" ma przekątną 19".', 'Monitor „Studio 24” ma przekątną 19″.'],
+        ['sv', 'Skärmen "Studio 24" är 19".', 'Skärmen ”Studio 24” är 19″.'],
+        ['uk', 'Монітор "Студія 24" має діагональ 19".', 'Монітор «Студія 24» має діагональ 19″.'],
+    ])('%s: distinguishes inch marks from quotation marks', (locale, input, expected) => {
+        const tp = createTypograf(locale);
+        const result = tp.execute(input);
+
+        expect(result).toBe(expected);
+        expect(tp.execute(result)).toBe(expected);
+    });
+
     it('keeps levels balanced after the configured depth', () => {
         const tp = createTypograf('en-US');
 
