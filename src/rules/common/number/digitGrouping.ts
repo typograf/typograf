@@ -13,8 +13,12 @@ export const digitGroupingRule: TypografRule<{ space: string; }> = {
             )
             // https://www.bipm.org/utils/common/pdf/si-brochure/SI-Brochure-9-EN.pdf #5.4.4
             .replace(
-                /(\d{5,}([.,]\d+)?)/g,
+                /(#[\da-fA-F]+|\d{5,}([.,]\d+)?)/g,
                 ($0, $1) => {
+                    if ($1[0] === '#') {
+                        return $0;
+                    }
+
                     const decimalMarker = $1.match(/[.,]/);
 
                     const parts = decimalMarker ? $1.split(decimalMarker) : [ $1 ];
